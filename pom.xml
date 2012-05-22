@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.ssps</groupId>
+	<artifactId>ssps-frontend</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<cxf.version>2.6.0</cxf.version>
+	</properties>
+
+	<dependencies>
+		<!-- Internal project dependencies -->
+		<dependency>
+			<groupId>net.orpiske</groupId>
+			<artifactId>ssps-wsdl</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.orpiske</groupId>
+			<artifactId>ssps-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+	
+		<!-- Apache CXF -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+	</dependencies>
+
+		<build>
+		<sourceDirectory>src</sourceDirectory>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				
+				<configuration>
+					
+					<configuration>
+					</configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib</classpathPrefix>
+							<mainClass>org.ssps.frontend.main.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+
+
+
+	</build>
+
+	<profiles>
+		<profile>
+			<id>Delivery</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>
+									src/main/assembly/frontend-assembly.xml
+								</descriptor>
+							</descriptors>
+							<appendAssemblyId>true</appendAssemblyId>
+
+
+						</configuration>
+
+						<executions>
+							<execution>
+								<id>wsdl-files</id>
+								<phase>package</phase>
+								<goals>
+									<goal>assembly</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+
+			</build>
+
+		</profile>
+
+	</profiles>
+</project>
