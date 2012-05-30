@@ -31,17 +31,12 @@ import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.beanutils.WrapDynaBean;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-
+import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.db.DatabaseManager;
 import org.ssps.common.db.exceptions.DatabaseException;
 import org.ssps.common.discovery.Discovery;
-import org.ssps.common.discovery.exceptions.InvalidBeanType;
-import org.ssps.common.configuration.ConfigurationWrapper;
 
 public class CassandraManager implements DatabaseManager {
     private static final Logger logger = Logger
