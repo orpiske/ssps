@@ -38,6 +38,9 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
 import org.ssps.common.db.DatabaseManager;
+import org.ssps.common.db.exceptions.DatabaseException;
+import org.ssps.common.discovery.Discovery;
+import org.ssps.common.discovery.exceptions.InvalidBeanType;
 import org.ssps.common.configuration.ConfigurationWrapper;
 
 public class CassandraManager implements DatabaseManager {
@@ -114,26 +117,43 @@ public class CassandraManager implements DatabaseManager {
     }
     
     
+   
+    
     /**
      * Gets data from the database using 'key'
      * @param key The key
      * @param cf The column family
      * @param column The column name
      * @param data The data
+     * @throws DatabaseException 
      */
-    public void runGet(final String key, final Object object) {
+    public void runGet(final String key, final Object object) throws DatabaseException {
 	try {
 	    ColumnFamilyResult<String, String> res = template.queryColumns(key);
 	    
 	    Collection<String> collection = res.getColumnNames();
 	    
-	    for (String s : collection) {
+	    for (String column : collection) {
+		String data = res.getString(column);
+		String propertyName = Discovery.getNameWithoutUnderscore(column);
+	
+		try {
+		    PropertyUtils.setProperty(object, propertyName, data);
+		} catch (IllegalAccessException e) {
+		    throw new DatabaseException(
+			    "Unauthorized to access bean method", e);
+		} catch (InvocationTargetException e) {
+		    throw new DatabaseException(
+			    "Unable to access bean method", e);
+		} catch (NoSuchMethodException e) {
+		    throw new DatabaseException(
+			    "The bean method does not exist", e);
+		}
 		
 		
-		//PropertyUtils.get
 	    }
 	} catch (HectorException e) {
-	    // do something ...
+	    throw new DatabaseException("Unable to read from the database", e);
 	}
     }
     
