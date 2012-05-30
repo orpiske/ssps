@@ -81,7 +81,7 @@ public class Discovery {
      * @param name The property name
      * @return The property name without underscore
      */
-    private static String getNameWithoutUnderscore(String name) {
+    public static String getNameWithoutUnderscore(String name) {
 	int pos = name.indexOf('_');
 
 	if (pos > -1) {
