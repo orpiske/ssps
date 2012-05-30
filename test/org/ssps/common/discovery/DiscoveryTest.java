@@ -120,5 +120,45 @@ public class DiscoveryTest {
 	
 	assertEquals("getWithUnderscore", name);
     }
+    
+    
+    @Test
+    public void testWriteMethodName() throws InvalidBeanType {
+	SampleBean sampleBean = new SampleBean();
+	
+	String name = Discovery.getWriteMethodName(sampleBean, "first");
+	
+	assertEquals("setFirst", name);
+    }
+    
+    @Test
+    public void testWriteMethodNameCamelCase() throws InvalidBeanType {
+	SampleBean sampleBean = new SampleBean();
+	
+	String name = Discovery.getWriteMethodName(sampleBean, "camelCase");
+	
+	assertEquals("setCamelCase", name);
+    }
+    
+    @Test
+    public void testWriteMethodNameCamelCaseLower() throws InvalidBeanType {
+	SampleBean sampleBean = new SampleBean();
+	
+	/*
+	 * Checks if camelcase != camelCase
+	 */
+	String name = Discovery.getWriteMethodName(sampleBean, "camelcase");
+	
+	assertNull(name);
+    }
+    
+    @Test
+    public void testWriteMethodNameWithUnderscore() throws InvalidBeanType {
+	SampleBean sampleBean = new SampleBean();
+	
+	String name = Discovery.getWriteMethodName(sampleBean, "with_underscore");
+	
+	assertEquals("setWithUnderscore", name);
+    }
 
 }

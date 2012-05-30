@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+package org.ssps.common.discovery;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -99,8 +100,6 @@ public class Discovery {
 
 	    String newName = strBuilder.toString();
 
-	    System.out.println("New name = " + newName);
-
 	    if (newName.indexOf('_') > -1) {
 		return getNameWithoutUnderscore(newName);
 	    }
@@ -115,7 +114,7 @@ public class Discovery {
      * Gets the read method name for a given property
      * @param object The object to lookup the read method
      * @param propertyName The name of the property
-     * @return The read method name or null if not existant
+     * @return The read method name or null if not existent
      * @throws InvalidBeanType If the 
      */
     public static String getReadMethodName(final Object object,
@@ -142,6 +141,50 @@ public class Discovery {
 		String newPropertyName = getNameWithoutUnderscore(propertyName);
 
 		return getReadMethodName(object, newPropertyName);
+	    }
+	} catch (IllegalAccessException e) {
+	    throw new InvalidBeanType("Unauthorized to access the method", e);
+	} catch (InvocationTargetException e) {
+	    throw new InvalidBeanType("Unable to access method", e);
+	} catch (NoSuchMethodException e) {
+	    throw new InvalidBeanType("The method does not exist", e);
+	}
+
+	return null;
+    }
+    
+    
+    /**
+     * Gets the write method name for a given property
+     * @param object The object to lookup the write method
+     * @param propertyName The name of the property
+     * @return The read method name or null if not existent
+     * @throws InvalidBeanType If the 
+     */
+    public static String getWriteMethodName(final Object object,
+	    final String propertyName) throws InvalidBeanType {
+	PropertyDescriptor p;
+
+	try {
+	    p = PropertyUtils.getPropertyDescriptor(object, propertyName);
+
+	    if (p != null) {
+		Method method = p.getWriteMethod();
+
+		return method.getName();
+	    }
+
+	    /*
+	     * It may be possible that the property name has an underscore so
+	     * we perform a small hack to remove it and search again 
+	     */
+	    int pos = propertyName.indexOf('_');
+
+	    if (pos > -1) {
+
+		String newPropertyName = getNameWithoutUnderscore(propertyName);
+
+		return getWriteMethodName(object, newPropertyName);
 	    }
 	} catch (IllegalAccessException e) {
 	    throw new InvalidBeanType("Unauthorized to access the method", e);
