@@ -10,4 +10,8 @@ public class SspsException extends Exception {
 	public SspsException(final String message) {
 		super(message);
 	}
+	
+	public SspsException(final String message, final Throwable t) {
+		super(message, t);
+	}
 }
