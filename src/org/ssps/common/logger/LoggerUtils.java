@@ -13,9 +13,7 @@ public class LoggerUtils {
 	 * log configuration directory
 	 * @throws FileNotFoundException if the configuration file cannot be found
 	 */
-	public static void initLogger(final String propertyName) throws FileNotFoundException {
-		String configDir = System.getProperty(propertyName);
-		
+	public static void initLogger(final String configDir) throws FileNotFoundException {
 		if (configDir == null) {
 			throw new FileNotFoundException("The configuration dir was not found");
 		}

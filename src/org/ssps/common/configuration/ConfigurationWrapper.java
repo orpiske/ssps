@@ -32,11 +32,9 @@ public class ConfigurationWrapper {
 	 * @throws FileNotFoundException
 	 * @throws ConfigurationException
 	 */
-	public static void initConfiguration(final String propertyName, 
+	public static void initConfiguration(final String configDir, 
 			final String fileName) throws FileNotFoundException, ConfigurationException 
 	{	
-		String configDir = System.getProperty(propertyName);
-		
 		if (configDir == null) {
 			throw new FileNotFoundException("The configuration dir was not found");
 		}
