@@ -19,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.compress.archivers.ArchiveException;
+import org.ssps.common.archive.exceptions.SspsArchiveException;
+import org.ssps.common.exceptions.SspsException;
 
 
 /**
@@ -37,7 +39,7 @@ public interface SspsArchive {
 	 * @throws ArchiveException 
 	 * @throws IOException 
 	 */
-	long pack(final String destination, final String source) throws FileNotFoundException, ArchiveException, IOException;
+	long pack(final String source, final String destination) throws SspsArchiveException;
 	
 	
 	/**
@@ -47,7 +49,8 @@ public interface SspsArchive {
 	 * @return The number of bytes unpacked
 	 * @throws IOException 
 	 * @throws ArchiveException 
+	 * @throws SspsException 
 	 */
-	long unpack(final String file, final String source) throws ArchiveException, IOException;
+	long unpack(final String source, final String destination) throws SspsArchiveException;
 	
 }
