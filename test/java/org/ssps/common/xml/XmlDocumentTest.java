@@ -15,14 +15,10 @@
  */
 package org.ssps.common.xml;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>

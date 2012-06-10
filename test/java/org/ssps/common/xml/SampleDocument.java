@@ -20,6 +20,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
@@ -33,11 +34,10 @@ public class SampleDocument extends XmlDocument {
     /**
      * @param input
      * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @throws XmlDocumentException 
      */
     public SampleDocument()
-	    throws ParserConfigurationException, SAXException, IOException {
+	    throws ParserConfigurationException, SAXException, IOException, XmlDocumentException {
 	
 	InputStream stream = getClass().getResourceAsStream("sample.xml");
 	
@@ -63,7 +63,7 @@ public class SampleDocument extends XmlDocument {
 	Element element = super.find("//second", root);
 	
 	if (element != null) {
-	    return element.getNodeValue();
+	    return element.getTextContent();
 	}
 	
 	return null;
@@ -74,7 +74,7 @@ public class SampleDocument extends XmlDocument {
 	Element element = super.find("//third/fourth", root);
 	
 	if (element != null) {
-	    return element.getNodeValue();
+	    return element.getTextContent();
 	}
 	
 	return null;
