@@ -27,6 +27,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
+import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,11 +56,12 @@ public abstract class XmlDocument {
     /** 
      * Creates a new XML document from the input
      * @param input A input stream associated with the XML document
+     * @throws XmlDocumentException 
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      */
-    public XmlDocument (final InputStream input) throws ParserConfigurationException, SAXException, IOException {
+    public XmlDocument (final InputStream input) throws XmlDocumentException  {
 	openDocument(input);
     }
     
@@ -67,15 +69,28 @@ public abstract class XmlDocument {
     /**
      * Opens the document
      * @param input A input stream associated with the XML document
+     * @throws XmlDocumentException 
      * @throws SAXException
      * @throws IOException
      * @throws ParserConfigurationException
      */
-    protected void openDocument(final InputStream input) throws SAXException, IOException, ParserConfigurationException {
+    protected void openDocument(final InputStream input) throws XmlDocumentException {
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	DocumentBuilder builder = factory.newDocumentBuilder();
+	DocumentBuilder builder;
+	try {
+	    builder = factory.newDocumentBuilder();
+	    setDocument(builder.parse(input));
+	} catch (ParserConfigurationException e) {
+	   throw new XmlDocumentException("Unable to open document", e);
+	} catch (SAXException e) {
+	    throw new XmlDocumentException(
+		    "Unable to open document (Invalid document?)", e);
+	} catch (IOException e) {
+	    throw new XmlDocumentException(
+		    "Unhandled I/O exception", e);
+	}
 	
-	setDocument(builder.parse(input));
+	
     }
     
     
