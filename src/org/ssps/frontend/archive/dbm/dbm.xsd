@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.orpiske.net/ssps/dbm" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/ssps/dbm">
+
+    <element name="dbm" type="tns:Dbm"></element>
+    
+    <complexType name="Dbm">
+    	<sequence>
+            <element name="project" type="tns:Project"></element>
+            <element name="build" type="tns:Build"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Build">
+    	<sequence>
+    		<element name="sourceDirectory" type="string"></element>
+            <element name="outputDirectory" type="string"></element>
+            <element name="artifactPath" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Project">
+    	<sequence>
+    		<element name="name" type="string"></element>
+    		<element name="version" type="string"></element>
+    	</sequence>
+    </complexType>
+</schema>
