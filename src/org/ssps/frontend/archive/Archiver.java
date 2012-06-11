@@ -19,15 +19,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.usa.UsaArchive;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.frontend.archive.dbm.DbmDocument;
 import org.ssps.frontend.archive.dbm.DbmException;
-
-import com.sun.xml.txw2.Document;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>

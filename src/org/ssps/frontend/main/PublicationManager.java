@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.ssps.common.configuration.ConfigurationWrapper;
