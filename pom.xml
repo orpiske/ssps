@@ -5,10 +5,6 @@
 	<artifactId>spm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<properties>
-		<cxf.version>2.6.0</cxf.version>
-	</properties>
-
 	<repositories>
 		<repository>
 			<id>sardine-google-svn-repo</id>
