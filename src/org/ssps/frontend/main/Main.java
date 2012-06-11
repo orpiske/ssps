@@ -16,11 +16,6 @@
 package org.ssps.frontend.main;
 
 import java.io.FileNotFoundException;
-import java.net.URL;
-
-import net.orpiske.ssps.common.Artifact;
-import net.orpiske.ssps.publish.Publish;
-import net.orpiske.ssps.publish.PublishRequest;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -29,10 +24,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.cxf.binding.soap.SoapFault;
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
 import org.ssps.frontend.archive.Archiver;
