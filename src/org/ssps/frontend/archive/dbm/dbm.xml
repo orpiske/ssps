@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
   <project>
+    <name>org.mygroup</name>
     <name>sample</name>
     <version>1.0.0</version>
   </project>

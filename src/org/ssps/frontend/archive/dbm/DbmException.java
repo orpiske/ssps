@@ -19,7 +19,7 @@ import org.ssps.common.exceptions.SspsException;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class DbmException extends SspsException {

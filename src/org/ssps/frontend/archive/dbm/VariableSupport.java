@@ -23,25 +23,25 @@ import org.apache.velocity.app.Velocity;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class VariableSupport {
-    
+
     public static String parse(final String input, final DbmDocument document) {
 	Velocity.init();
-	
+
 	VelocityContext context = new VelocityContext();
-	
+
 	String baseDir = FilenameUtils.getFullPath(document.getPath());
-	
+
 	context.put("basedir", baseDir);
 
 	context.put("name", document.getProjectName());
 	context.put("version", document.getProjectVersion());
-	
+
 	StringWriter w = new StringWriter();
 	Velocity.evaluate(context, w, "variables.parse", input);
-	
+
 	String tmp = w.toString();
 	return tmp;
     }

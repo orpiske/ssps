@@ -5,8 +5,9 @@
     
     <complexType name="Dbm">
     	<sequence>
-            <element name="project" type="tns:Project"></element>
-            <element name="build" type="tns:Build"></element>
+    		<element name="project" type="tns:Project"></element>
+    		<element name="build" type="tns:Build"></element>
+    		<element name="repository" type="tns:Repository"></element>
     	</sequence>
     </complexType>
 
@@ -20,8 +21,23 @@
 
     <complexType name="Project">
     	<sequence>
-    		<element name="name" type="string"></element>
+            <element name="group" type="string"></element>
+            <element name="name" type="string"></element>
     		<element name="version" type="string"></element>
     	</sequence>
+    </complexType>
+
+    <complexType name="Author">
+    	<sequence>
+    		<element name="id" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Repository">
+    	<sequence>
+    		<element name="username" type="string"></element>
+            <element name="password" type="string"></element>
+            <element name="url" type="string"></element>
+        </sequence>
     </complexType>
 </schema>

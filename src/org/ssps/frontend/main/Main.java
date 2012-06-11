@@ -46,7 +46,7 @@ public class Main {
 	    System.exit(-3);
 	}
     }
-    
+
     public static void help(int code) {
 	HelpFormatter formatter = new HelpFormatter();
 
@@ -63,7 +63,20 @@ public class Main {
 	options = new Options();
 
 	options.addOption("h", "help", false, "prints the help");
+	options.addOption("c", "create", false, "create the deliverable file");
 	options.addOption("f", "file", true, "path to the DBM file");
+	options.addOption("p", "publish", false,
+		"send the file to the publication server");
+	options.addOption("d", "deliverable", true,
+		"path to the deliverable file");
+	options.addOption("g", "get", false,
+		"gets a deliverable");
+	options.addOption("D", "destination", true,
+		"destination folder for the deliverable");
+	
+	options.addOption("G", "group", true, "group");
+	options.addOption("N", "name", true, "name");
+	options.addOption("V", "version", true, "version");
 
 	return parser.parse(options, args);
     }
@@ -74,27 +87,49 @@ public class Main {
     public static void main(String[] args) {
 	try {
 	    CommandLine cmdLine = processCommand(args);
-	    
+
 	    initLogger();
 	    initConfig();
-	    
-	    
+
 	    if (cmdLine.hasOption('h')) {
 		help(1);
 	    }
- 	    
-	    
-	    if (!cmdLine.hasOption('f')) {
-		help(-1);
+
+	    if (cmdLine.hasOption('c')) {
+		if (!cmdLine.hasOption('f')) {
+		    help(-1);
+		}
+
+		String dbmFile = cmdLine.getOptionValue('f');
+
+		Archiver archiver = new Archiver(dbmFile);
+
+		archiver.createArchive();
+	    } else {
+		if (cmdLine.hasOption('p')) {
+		    String deliverable = cmdLine.getOptionValue('d');
+		    String dbmFile = cmdLine.getOptionValue('f');
+		
+		    PublicationManager manager = new PublicationManager(dbmFile);
+		    
+		    manager.upload(deliverable);
+		}
+		else {
+		    if (cmdLine.hasOption('g')) {
+			PublicationManager manager = new PublicationManager();
+			
+			String group = cmdLine.getOptionValue('G');
+			String name = cmdLine.getOptionValue('N');
+			String version = cmdLine.getOptionValue('V');
+			String destination = cmdLine.getOptionValue('D');
+			
+			manager.download(group, name, version, destination);
+		    }
+		    else {
+			help(1);
+		    }
+		}
 	    }
-	    
-	    
-	    
-	    String dbmFile = cmdLine.getOptionValue('f');
-	    
-	    Archiver archiver = new Archiver(dbmFile);
-	    
-	    archiver.createArchive();
 
 	    // PublishService publishService = new PublishService();
 
@@ -107,6 +142,8 @@ public class Main {
 	} catch (Exception e) {
 	    System.err
 		    .println("Unable to execute operation: " + e.getMessage());
+
+	    e.printStackTrace();
 	}
 
     }

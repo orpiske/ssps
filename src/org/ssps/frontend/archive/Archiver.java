@@ -31,39 +31,38 @@ import com.sun.xml.txw2.Document;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class Archiver {
-    private UsaArchive usaArchive; 
+    private UsaArchive usaArchive;
     private DbmDocument dbmDocument;
-    
+
     public Archiver(final String dbmFile) throws XmlDocumentException {
 	dbmDocument = new DbmDocument(dbmFile);
 	usaArchive = new UsaArchive();
     }
-    
 
     private File getBuildSourceDirectory() {
 	String sourceDir = dbmDocument.getBuildSourceDirectory();
-	
+
 	return new File(sourceDir);
     }
-    
+
     private File getBuildOutputDirectory() {
 	String outputDir = dbmDocument.getBuildOutputDirectory();
-	
+
 	return new File(outputDir);
     }
-    
+
     private void createBuildRoot() throws DbmException {
 	File sourceDir = getBuildSourceDirectory();
 	File outputDir = getBuildOutputDirectory();
-	
+
 	if (!sourceDir.exists()) {
-	    throw new DbmException("The source directory " + sourceDir.getPath()
-		    + " does not exist");
+	    throw new DbmException("The source directory "
+		    + sourceDir.getPath() + " does not exist");
 	}
-	
+
 	try {
 	    FileUtils.copyDirectory(sourceDir, outputDir);
 	} catch (IOException e) {
@@ -71,16 +70,13 @@ public class Archiver {
 		    + " to " + outputDir.getPath(), e);
 	}
     }
-    
-    
+
     private void copyArtifact() throws DbmException {
 	File sourceFile = new File(dbmDocument.getBuildArtifact());
-	File destDir = new File(dbmDocument.getBuildOutputDirectory() + 
-		File.separator + "artifacts" + File.separator + "install" + 
-		File.separator + "default");
-	
-	
-	
+	File destDir = new File(dbmDocument.getBuildOutputDirectory()
+		+ File.separator + "artifacts" + File.separator + "install"
+		+ File.separator + "default");
+
 	try {
 	    FileUtils.copyFileToDirectory(sourceFile, destDir);
 	} catch (IOException e) {
@@ -88,19 +84,18 @@ public class Archiver {
 		    + " to " + destDir.getPath(), e);
 	}
     }
-    
-    
+
     public void createArchive() throws DbmException, SspsArchiveException {
 	createBuildRoot();
 	copyArtifact();
-	
+
 	String buildDirectory = dbmDocument.getBuildOutputDirectory();
 	String deliverableName = dbmDocument.getDeliverableName();
-	
-	usaArchive.pack(buildDirectory, buildDirectory + File.separator 
-		+ deliverableName);
-	
+
+	usaArchive.pack(buildDirectory,
+		dbmDocument.getDeliverableOutputDirectory() + File.separator
+			+ deliverableName);
+
     }
-    
 
 }
