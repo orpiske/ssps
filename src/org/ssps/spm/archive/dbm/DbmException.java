@@ -24,21 +24,21 @@ import org.ssps.common.exceptions.SspsException;
 @SuppressWarnings("serial")
 public class DbmException extends SspsException {
 
-    /**
-     * @param message
-     * @param t
-     */
-    public DbmException(String message, Throwable t) {
-	super(message, t);
-	// TODO Auto-generated constructor stub
-    }
+	/**
+	 * @param message
+	 * @param t
+	 */
+	public DbmException(String message, Throwable t) {
+		super(message, t);
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
-     * @param message
-     */
-    public DbmException(String message) {
-	super(message);
-	// TODO Auto-generated constructor stub
-    }
+	/**
+	 * @param message
+	 */
+	public DbmException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
 
 }

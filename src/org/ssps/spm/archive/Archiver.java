@@ -30,68 +30,68 @@ import org.ssps.spm.archive.dbm.DbmException;
  * 
  */
 public class Archiver {
-    private UsaArchive usaArchive;
-    private DbmDocument dbmDocument;
+	private UsaArchive usaArchive;
+	private DbmDocument dbmDocument;
 
-    public Archiver(final String dbmFile) throws XmlDocumentException {
-	dbmDocument = new DbmDocument(dbmFile);
-	usaArchive = new UsaArchive();
-    }
-
-    private File getBuildSourceDirectory() {
-	String sourceDir = dbmDocument.getBuildSourceDirectory();
-
-	return new File(sourceDir);
-    }
-
-    private File getBuildOutputDirectory() {
-	String outputDir = dbmDocument.getBuildOutputDirectory();
-
-	return new File(outputDir);
-    }
-
-    private void createBuildRoot() throws DbmException {
-	File sourceDir = getBuildSourceDirectory();
-	File outputDir = getBuildOutputDirectory();
-
-	if (!sourceDir.exists()) {
-	    throw new DbmException("The source directory "
-		    + sourceDir.getPath() + " does not exist");
+	public Archiver(final String dbmFile) throws XmlDocumentException {
+		dbmDocument = new DbmDocument(dbmFile);
+		usaArchive = new UsaArchive();
 	}
 
-	try {
-	    FileUtils.copyDirectory(sourceDir, outputDir);
-	} catch (IOException e) {
-	    throw new DbmException("Unable to copy " + sourceDir.getPath()
-		    + " to " + outputDir.getPath(), e);
+	private File getBuildSourceDirectory() {
+		String sourceDir = dbmDocument.getBuildSourceDirectory();
+
+		return new File(sourceDir);
 	}
-    }
 
-    private void copyArtifact() throws DbmException {
-	File sourceFile = new File(dbmDocument.getBuildArtifact());
-	File destDir = new File(dbmDocument.getBuildOutputDirectory()
-		+ File.separator + "artifacts" + File.separator + "install"
-		+ File.separator + "default");
+	private File getBuildOutputDirectory() {
+		String outputDir = dbmDocument.getBuildOutputDirectory();
 
-	try {
-	    FileUtils.copyFileToDirectory(sourceFile, destDir);
-	} catch (IOException e) {
-	    throw new DbmException("Unable to copy " + sourceFile.getPath()
-		    + " to " + destDir.getPath(), e);
+		return new File(outputDir);
 	}
-    }
 
-    public void createArchive() throws DbmException, SspsArchiveException {
-	createBuildRoot();
-	copyArtifact();
+	private void createBuildRoot() throws DbmException {
+		File sourceDir = getBuildSourceDirectory();
+		File outputDir = getBuildOutputDirectory();
 
-	String buildDirectory = dbmDocument.getBuildOutputDirectory();
-	String deliverableName = dbmDocument.getDeliverableName();
+		if (!sourceDir.exists()) {
+			throw new DbmException("The source directory "
+					+ sourceDir.getPath() + " does not exist");
+		}
 
-	usaArchive.pack(buildDirectory,
-		dbmDocument.getDeliverableOutputDirectory() + File.separator
-			+ deliverableName);
+		try {
+			FileUtils.copyDirectory(sourceDir, outputDir);
+		} catch (IOException e) {
+			throw new DbmException("Unable to copy " + sourceDir.getPath()
+					+ " to " + outputDir.getPath(), e);
+		}
+	}
 
-    }
+	private void copyArtifact() throws DbmException {
+		File sourceFile = new File(dbmDocument.getBuildArtifact());
+		File destDir = new File(dbmDocument.getBuildOutputDirectory()
+				+ File.separator + "artifacts" + File.separator + "install"
+				+ File.separator + "default");
+
+		try {
+			FileUtils.copyFileToDirectory(sourceFile, destDir);
+		} catch (IOException e) {
+			throw new DbmException("Unable to copy " + sourceFile.getPath()
+					+ " to " + destDir.getPath(), e);
+		}
+	}
+
+	public void createArchive() throws DbmException, SspsArchiveException {
+		createBuildRoot();
+		copyArtifact();
+
+		String buildDirectory = dbmDocument.getBuildOutputDirectory();
+		String deliverableName = dbmDocument.getDeliverableName();
+
+		usaArchive.pack(buildDirectory,
+				dbmDocument.getDeliverableOutputDirectory() + File.separator
+						+ deliverableName);
+
+	}
 
 }

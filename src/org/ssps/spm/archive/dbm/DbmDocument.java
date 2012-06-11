@@ -30,103 +30,102 @@ import org.w3c.dom.Element;
  * 
  */
 public class DbmDocument extends XmlDocument {
-    public static final String DEFAULT_SOURCE_DIRECTORY = "${basedir}/src/dbm";
-    public static final String DEFAULT_OUTPUT_DIRECTORY = "${basedir}/target/installroot";
-    public static final String DEF_DELIVERABLE_OUTPUT_DIRECTORY = "${basedir}/target";
+	public static final String DEFAULT_SOURCE_DIRECTORY = "${basedir}/src/dbm";
+	public static final String DEFAULT_OUTPUT_DIRECTORY = "${basedir}/target/installroot";
+	public static final String DEF_DELIVERABLE_OUTPUT_DIRECTORY = "${basedir}/target";
 
-    private String path;
+	private String path;
 
-    public DbmDocument(final String path) throws XmlDocumentException {
-	this.setPath(path);
+	public DbmDocument(final String path) throws XmlDocumentException {
+		this.setPath(path);
 
-	try {
-	    InputStream stream = new FileInputStream(path);
+		try {
+			InputStream stream = new FileInputStream(path);
 
-	    super.openDocument(stream);
-	} catch (FileNotFoundException e) {
-	    throw new XmlDocumentException(e.getMessage(), e);
-	}
-    }
-
-    private String getElementByExpression(final String expression) {
-	Element root = (Element) getDocument().getFirstChild();
-	Element element = super.find(expression, root);
-
-	if (element != null) {
-	    return element.getTextContent();
+			super.openDocument(stream);
+		} catch (FileNotFoundException e) {
+			throw new XmlDocumentException(e.getMessage(), e);
+		}
 	}
 
-	return null;
-    }
+	private String getElementByExpression(final String expression) {
+		Element root = (Element) getDocument().getFirstChild();
+		Element element = super.find(expression, root);
 
-    public String getPath() {
-	return path;
-    }
+		if (element != null) {
+			return element.getTextContent();
+		}
 
-    public void setPath(String path) {
-	this.path = path;
-    }
-
-    public String getProjectGroup() {
-	return getElementByExpression("//project/group");
-    }
-    
-    public String getProjectName() {
-	return getElementByExpression("//project/name");
-    }
-
-    public String getProjectVersion() {
-	return getElementByExpression("//project/version");
-    }
-
-    public String getBuildSourceDirectory() {
-	String ret = getElementByExpression("//build/sourceDirectory");
-
-	if (ret == null) {
-	    ret = DEFAULT_SOURCE_DIRECTORY;
+		return null;
 	}
 
-	return VariableSupport.parse(ret, this);
-    }
-
-    public String getBuildOutputDirectory() {
-	String ret = getElementByExpression("//build/outputDirectory");
-
-	if (ret == null) {
-	    ret = DEFAULT_OUTPUT_DIRECTORY;
+	public String getPath() {
+		return path;
 	}
 
-	return VariableSupport.parse(ret, this);
-    }
-
-    public String getBuildArtifact() {
-	String ret = getElementByExpression("//build/artifact");
-
-	if (ret != null) {
-	    ret = VariableSupport.parse(ret, this);
+	public void setPath(String path) {
+		this.path = path;
 	}
 
-	return ret;
-    }
+	public String getProjectGroup() {
+		return getElementByExpression("//project/group");
+	}
 
-    public String getDeliverableName() {
-	return getProjectName() + "-" + getProjectVersion();
-    }
+	public String getProjectName() {
+		return getElementByExpression("//project/name");
+	}
 
-    public String getDeliverableOutputDirectory() {
-	return VariableSupport.parse(DEF_DELIVERABLE_OUTPUT_DIRECTORY, this);
-    }
-    
-    
-    public String getRepositoryUser() {
-	return getElementByExpression("//repository/username");
-    }
-    
-    public String getRepositoryPassword() {
-	return getElementByExpression("//repository/password");
-    }
+	public String getProjectVersion() {
+		return getElementByExpression("//project/version");
+	}
 
-    public String getRepositoryUrl() {
-	return getElementByExpression("//repository/url");
-    }
+	public String getBuildSourceDirectory() {
+		String ret = getElementByExpression("//build/sourceDirectory");
+
+		if (ret == null) {
+			ret = DEFAULT_SOURCE_DIRECTORY;
+		}
+
+		return VariableSupport.parse(ret, this);
+	}
+
+	public String getBuildOutputDirectory() {
+		String ret = getElementByExpression("//build/outputDirectory");
+
+		if (ret == null) {
+			ret = DEFAULT_OUTPUT_DIRECTORY;
+		}
+
+		return VariableSupport.parse(ret, this);
+	}
+
+	public String getBuildArtifact() {
+		String ret = getElementByExpression("//build/artifact");
+
+		if (ret != null) {
+			ret = VariableSupport.parse(ret, this);
+		}
+
+		return ret;
+	}
+
+	public String getDeliverableName() {
+		return getProjectName() + "-" + getProjectVersion();
+	}
+
+	public String getDeliverableOutputDirectory() {
+		return VariableSupport.parse(DEF_DELIVERABLE_OUTPUT_DIRECTORY, this);
+	}
+
+	public String getRepositoryUser() {
+		return getElementByExpression("//repository/username");
+	}
+
+	public String getRepositoryPassword() {
+		return getElementByExpression("//repository/password");
+	}
+
+	public String getRepositoryUrl() {
+		return getElementByExpression("//repository/url");
+	}
 }

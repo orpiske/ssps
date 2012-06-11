@@ -1,4 +1,5 @@
-/**
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
    Copyright 2012 Otavio Rodolfo Piske
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,26 +13,18 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
-package org.ssps.spm.utils;
+ -->
 
-import java.io.File;
-
-public final class Constants {
-	/**
-	 * This property is used to set the configuration directory
-	 */
-	public static final String HOME_PROPERTY = "org.ssps.spm.home";
-
-	public static final String SPM_CONFIG_DIR;
-
-	static {
-		SPM_CONFIG_DIR = System.getProperty(HOME_PROPERTY) + File.separator
-				+ "conf";
-	}
-
-	/**
-	 * This constant holds the configuration file name for the backend
-	 */
-	public static final String CONFIG_FILE_NAME = "spm.properties";
-}
+<dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
+  <!-- This is a sample file -->
+  <project>
+    <name>org.mygroup</name>
+    <name>sample</name>
+    <version>1.0.0</version>
+  </project>
+  <build>
+    <artifact>
+    	<name>${name}-${version}-bin.tar.bz2</name>	
+    </artifact>
+  </build>
+</dbm>
