@@ -32,13 +32,20 @@ public class RecursiveArchiver extends DirectoryWalker {
 		walk(startDirectory, results);
 		return results;
 	}
+	
+	private String stripPath(final String path) {
+	    int pos = path.indexOf("installroot");
+	    return path.substring(pos);
+	    
+	}
 
 	@Override
 	protected boolean handleDirectory(File directory, int depth,
 			Collection results) throws IOException {
 
-		logger.trace("Archiving " + directory.getName());
-		TarArchiveEntry entry = new TarArchiveEntry(directory);
+	    String path = stripPath(directory.getPath());
+	    logger.trace("Archiving " + path);
+		TarArchiveEntry entry = new TarArchiveEntry(directory, path);
 
 		outputStream.putArchiveEntry(entry);
 		outputStream.closeArchiveEntry();
@@ -49,8 +56,12 @@ public class RecursiveArchiver extends DirectoryWalker {
 	@Override
 	protected void handleFile(File file, int depth, Collection results)
 			throws IOException {
-		logger.trace("Archiving " + file.getCanonicalPath());
-		TarArchiveEntry entry = new TarArchiveEntry(file);
+		
+		String path = stripPath(file.getPath());
+		
+		logger.trace("Archiving" + path);
+		
+		TarArchiveEntry entry = new TarArchiveEntry(file, path);
 
 		outputStream.putArchiveEntry(entry);
 		IOUtils.copy(new FileInputStream(file), outputStream);
