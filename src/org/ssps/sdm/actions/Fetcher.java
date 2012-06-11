@@ -17,12 +17,15 @@ package org.ssps.sdm.actions;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.repository.PathUtils;
 
@@ -37,6 +40,8 @@ import com.googlecode.sardine.SardineFactory;
 public class Fetcher {
     private static final PropertiesConfiguration config = ConfigurationWrapper
 	    .getConfig();
+    private static final Logger logger = Logger
+	    .getLogger(Fetcher.class);
     
     private Sardine sardine;
     private String url;
@@ -68,6 +73,9 @@ public class Fetcher {
 	if (destination == null) {
 	    destination = config.getString("temp.work.dir", 
 		    FileUtils.getTempDirectoryPath());
+	    
+	    logger.info("No destination directory provided. Using: " 
+		    + destination);
 	}
 
 	for (DavResource resource : resources) {
@@ -83,10 +91,10 @@ public class Fetcher {
 		    newFile.createNewFile();
 		}
 		
-		InputStream stream = new FileInputStream(newFile);
-		stream = sardine.get(resource.getHref().toString());
-
-		stream.close();
+		InputStream input = sardine.get(resource.getHref().toString());
+		FileOutputStream output = new FileOutputStream(newFile);
+		
+		IOUtils.copy(input, output);
 	    }
 	}
     }
