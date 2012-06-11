@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
   <project>
+    <group>org.orpiske</group>
     <name>ssps-frontend</name>
     <version>0.0.1-SNAPSHOT</version>
   </project>
   <build>
     <sourceDirectory>${basedir}/src/dbm</sourceDirectory>
     <outputDirectory>${basedir}/target/installroot</outputDirectory>
-    <artifact>${root}/target/${name}-${version}-bin.tar.bz2</artifact>
+    <artifact>${basedir}/target/${name}-${version}-bin.tar.bz2</artifact>
   </build>
+  
+  <repository>
+  	<url>http://localhost:8080/repository/default</url>
+  	<username>admin</username>
+  	<password></password>
+  </repository>
 </dbm>

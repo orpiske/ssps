@@ -9,6 +9,17 @@
 		<cxf.version>2.6.0</cxf.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>sardine-google-svn-repo</id>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<name>Sardine maven repo at Google Code</name>
+			<url>http://sardine.googlecode.com/svn/maven/</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- Internal project dependencies -->
 		<dependency>
@@ -34,7 +45,13 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.googlecode.sardine</groupId>
+			<artifactId>sardine</artifactId>
+			<version>314</version>
+		</dependency>
+
 		<!-- Apache Commons: CLI -->
 		<dependency>
 			<groupId>commons-cli</groupId>
