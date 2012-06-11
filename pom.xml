@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ssps</groupId>
-	<artifactId>ssps-frontend</artifactId>
+	<artifactId>spm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
@@ -71,7 +71,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>../lib</classpathPrefix>
-							<mainClass>org.ssps.frontend.main.Main</mainClass>
+							<mainClass>org.ssps.spm.main.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

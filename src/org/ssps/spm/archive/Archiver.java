@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.ssps.frontend.archive;
+package org.ssps.spm.archive;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +22,8 @@ import org.apache.commons.io.FileUtils;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.usa.UsaArchive;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.frontend.archive.dbm.DbmDocument;
-import org.ssps.frontend.archive.dbm.DbmException;
+import org.ssps.spm.archive.dbm.DbmDocument;
+import org.ssps.spm.archive.dbm.DbmException;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
