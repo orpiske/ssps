@@ -2,7 +2,7 @@
 <dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
   <project>
     <group>org.orpiske</group>
-    <name>ssps-frontend</name>
+    <name>spm</name>
     <version>0.0.1-SNAPSHOT</version>
   </project>
   <build>
