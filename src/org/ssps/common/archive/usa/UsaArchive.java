@@ -98,8 +98,8 @@ public class UsaArchive implements SspsArchive {
 	    outputStream.flush();
 	    outputStream.close();
 
+	    outStream.flush();
 	    outStream.close();
-	    outputStream.close();
 
 	} catch (IOException e) {
 	    silentlyCloseStream(outStream);
