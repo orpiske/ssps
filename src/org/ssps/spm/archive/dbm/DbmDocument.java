@@ -19,9 +19,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import org.ssps.common.xml.XmlDocument;
+import javax.xml.bind.JAXBException;
+
+import net.orpiske.ssps.dbm.Dbm;
+
+import org.ssps.common.xml.XmlParserUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.w3c.dom.Element;
 
 /**
  * Abstracts the Deliverable Build Model (DBM) document
@@ -29,12 +32,13 @@ import org.w3c.dom.Element;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
-public class DbmDocument extends XmlDocument {
+public class DbmDocument  {
 	public static final String DEFAULT_SOURCE_DIRECTORY = "${basedir}/src/dbm";
 	public static final String DEFAULT_OUTPUT_DIRECTORY = "${basedir}/target/installroot";
 	public static final String DEF_DELIVERABLE_OUTPUT_DIRECTORY = "${basedir}/target";
 
 	private String path;
+	private Dbm dbm;
 
 	public DbmDocument(final String path) throws XmlDocumentException {
 		this.setPath(path);
@@ -42,22 +46,14 @@ public class DbmDocument extends XmlDocument {
 		try {
 			InputStream stream = new FileInputStream(path);
 
-			super.openDocument(stream);
+			dbm = XmlParserUtils.unmarshal(Dbm.class, stream);
 		} catch (FileNotFoundException e) {
 			throw new XmlDocumentException(e.getMessage(), e);
+		} catch (JAXBException e) {
+			throw new XmlDocumentException("Unable to umarhsall document", e);
 		}
 	}
 
-	private String getElementByExpression(final String expression) {
-		Element root = (Element) getDocument().getFirstChild();
-		Element element = super.find(expression, root);
-
-		if (element != null) {
-			return element.getTextContent();
-		}
-
-		return null;
-	}
 
 	public String getPath() {
 		return path;
@@ -67,20 +63,25 @@ public class DbmDocument extends XmlDocument {
 		this.path = path;
 	}
 
+	
 	public String getProjectGroup() {
-		return getElementByExpression("//project/group");
+		return dbm.getProject().getGroup();
 	}
 
 	public String getProjectName() {
-		return getElementByExpression("//project/name");
+		//return getElementByExpression("//project/name");
+		
+		return dbm.getProject().getName();
 	}
 
 	public String getProjectVersion() {
-		return getElementByExpression("//project/version");
+		//return getElementByExpression("//project/version");
+		
+		return dbm.getProject().getVersion();
 	}
 
 	public String getBuildSourceDirectory() {
-		String ret = getElementByExpression("//build/sourceDirectory");
+		String ret = dbm.getBuild().getSourceDirectory();
 
 		if (ret == null) {
 			ret = DEFAULT_SOURCE_DIRECTORY;
@@ -90,7 +91,7 @@ public class DbmDocument extends XmlDocument {
 	}
 
 	public String getBuildOutputDirectory() {
-		String ret = getElementByExpression("//build/outputDirectory");
+		String ret = dbm.getBuild().getOutputDirectory();
 
 		if (ret == null) {
 			ret = DEFAULT_OUTPUT_DIRECTORY;
@@ -100,7 +101,7 @@ public class DbmDocument extends XmlDocument {
 	}
 
 	public String getBuildArtifact() {
-		String ret = getElementByExpression("//build/artifact");
+		String ret = dbm.getBuild().getArtifactPath();
 
 		if (ret != null) {
 			ret = VariableSupport.parse(ret, this);
@@ -118,14 +119,14 @@ public class DbmDocument extends XmlDocument {
 	}
 
 	public String getRepositoryUser() {
-		return getElementByExpression("//repository/username");
+		return dbm.getRepository().getUsername();
 	}
 
 	public String getRepositoryPassword() {
-		return getElementByExpression("//repository/password");
+		return dbm.getRepository().getPassword();
 	}
 
 	public String getRepositoryUrl() {
-		return getElementByExpression("//repository/url");
+		return dbm.getRepository().getUrl();
 	}
 }
