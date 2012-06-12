@@ -17,90 +17,99 @@ package org.ssps.common.repository;
 
 /**
  * Repository path utilities
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class PathUtils {
-    private String url;
-    
-    /**
-     * Constructor
-     * @param url The repository URL
-     */
-    public PathUtils(final String url) {
-	this.url = url;
-    }
-    
-    
-    /**
-     * Gets the root directory for a project group
-     * @param group the name of the group
-     * @return the URL
-     */
-    public static String getGroupRoot(final String url, final String group) {
-   	StringBuffer buffer = new StringBuffer(url);
+	private String url;
 
-   	buffer.append("/");
-   	buffer.append(group);
+	/**
+	 * Constructor
+	 * 
+	 * @param url
+	 *            The repository URL
+	 */
+	public PathUtils(final String url) {
+		this.url = url;
+	}
 
-   	return buffer.toString();
-    }
-    
-    
-    /**
-     * Gets the root directory for a project group
-     * @param group the name of the group
-     * @return the URL
-     */
-    public String getGroupRoot(final String group) {
-   	StringBuffer buffer = new StringBuffer(url);
+	/**
+	 * Gets the root directory for a project group
+	 * 
+	 * @param group
+	 *            the name of the group
+	 * @return the URL
+	 */
+	public static String getGroupRoot(final String url, final String group) {
+		StringBuffer buffer = new StringBuffer(url);
 
-   	buffer.append("/");
-   	buffer.append(group);
+		buffer.append("/");
+		buffer.append(group);
 
-   	return buffer.toString();
-    }
-    
-    
-    /**
-     * Gets the root directory for a project within a project group
-     * @param group the name of the group
-     * @param name the project name
-     * @return the URL
-     */
-    public String getNameRoot(final String group, final String name) {
-   	StringBuffer buffer = new StringBuffer(url);
+		return buffer.toString();
+	}
 
-   	buffer.append("/");
-   	buffer.append(group);
-   	buffer.append("/");
-   	buffer.append(name);
+	/**
+	 * Gets the root directory for a project group
+	 * 
+	 * @param group
+	 *            the name of the group
+	 * @return the URL
+	 */
+	public String getGroupRoot(final String group) {
+		StringBuffer buffer = new StringBuffer(url);
 
-   	return buffer.toString();
-    }
-    
-    
-    /**
-     * Gets the root directory for a project version
-     * @param group the name of the group
-     * @param name the project name
-     * @param version the project version
-     * @return the URL
-     */
-    public String getPath(final String group, final String name,
-	    final String version) {
-	StringBuffer buffer = new StringBuffer(url);
+		buffer.append("/");
+		buffer.append(group);
 
-	buffer.append("/");
-	buffer.append(group);
-	buffer.append("/");
-	buffer.append(name);
-	buffer.append("/");
-	buffer.append(version);
-	buffer.append("/");
+		return buffer.toString();
+	}
 
-	return buffer.toString();
-    }
-    
+	/**
+	 * Gets the root directory for a project within a project group
+	 * 
+	 * @param group
+	 *            the name of the group
+	 * @param name
+	 *            the project name
+	 * @return the URL
+	 */
+	public String getNameRoot(final String group, final String name) {
+		StringBuffer buffer = new StringBuffer(url);
+
+		buffer.append("/");
+		buffer.append(group);
+		buffer.append("/");
+		buffer.append(name);
+
+		return buffer.toString();
+	}
+
+	/**
+	 * Gets the root directory for a project version
+	 * 
+	 * @param group
+	 *            the name of the group
+	 * @param name
+	 *            the project name
+	 * @param version
+	 *            the project version
+	 * @return the URL
+	 */
+	public String getPath(final String group, final String name,
+			final String version) {
+		StringBuffer buffer = new StringBuffer(url);
+
+		buffer.append("/");
+		buffer.append(group);
+		buffer.append("/");
+		buffer.append(name);
+		buffer.append("/");
+		buffer.append(version);
+		buffer.append("/");
+
+		return buffer.toString();
+	}
 
 }

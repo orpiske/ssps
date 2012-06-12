@@ -19,24 +19,24 @@ import org.ssps.common.exceptions.SspsException;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class SspsArchiveException extends SspsException {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * @param message
-     */
-    public SspsArchiveException(String message) {
-	super(message);
-    }
-    
-    public SspsArchiveException(String message, Throwable cause) {
-	super(message, cause);
-    }
+	/**
+	 * @param message
+	 */
+	public SspsArchiveException(String message) {
+		super(message);
+	}
+
+	public SspsArchiveException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
 }

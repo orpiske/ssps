@@ -12,13 +12,14 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License
-*/
+ */
 package org.ssps.common.exceptions;
 
-/** 
+/**
  * Request related exception
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class RequestException extends SspsException {
 

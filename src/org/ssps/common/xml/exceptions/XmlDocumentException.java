@@ -19,30 +19,28 @@ import org.ssps.common.exceptions.SspsException;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class XmlDocumentException extends SspsException {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * @param message
-     */
-    public XmlDocumentException(String message) {
-	super(message);
-    }
+	/**
+	 * @param message
+	 */
+	public XmlDocumentException(String message) {
+		super(message);
+	}
 
-    /**
-     * @param message
-     * @param t
-     */
-    public XmlDocumentException(String message, Throwable t) {
-	super(message, t);
-    }
-    
-    
+	/**
+	 * @param message
+	 * @param t
+	 */
+	public XmlDocumentException(String message, Throwable t) {
+		super(message, t);
+	}
 
 }

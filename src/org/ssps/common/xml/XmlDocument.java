@@ -18,6 +18,10 @@ package org.ssps.common.xml;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,96 +45,101 @@ import org.xml.sax.SAXException;
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
+@Deprecated
 public abstract class XmlDocument {
-    private static final Logger logger = Logger.getLogger(XmlDocument.class);
-    
-    private Document document;
-    
-    /**
-     * Default constructor
-     */
-    public XmlDocument() {
-	
-    }
-    
-    /** 
-     * Creates a new XML document from the input
-     * @param input A input stream associated with the XML document
-     * @throws XmlDocumentException 
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     */
-    public XmlDocument (final InputStream input) throws XmlDocumentException  {
-	openDocument(input);
-    }
-    
-    
-    /**
-     * Opens the document
-     * @param input A input stream associated with the XML document
-     * @throws XmlDocumentException 
-     * @throws SAXException
-     * @throws IOException
-     * @throws ParserConfigurationException
-     */
-    protected void openDocument(final InputStream input) throws XmlDocumentException {
-	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	DocumentBuilder builder;
-	try {
-	    builder = factory.newDocumentBuilder();
-	    setDocument(builder.parse(input));
-	} catch (ParserConfigurationException e) {
-	   throw new XmlDocumentException("Unable to open document", e);
-	} catch (SAXException e) {
-	    throw new XmlDocumentException(
-		    "Unable to open document (Invalid document?)", e);
-	} catch (IOException e) {
-	    throw new XmlDocumentException(
-		    "Unhandled I/O exception", e);
+	private static final Logger logger = Logger.getLogger(XmlDocument.class);
+
+	private Document document;
+
+	/**
+	 * Default constructor
+	 */
+	public XmlDocument() {
+
 	}
-	
-	
-    }
-    
-    
-    /**
-     * Finds a node using an XPath expression
-     * @param expression The XPath expression
-     * @param node
-     * @return
-     */
-    protected Element find(final String expression, Node node) {
-	XPathFactory factory = XPathFactory.newInstance();
-	XPath xpath = factory.newXPath();
-	
-	Element ret = null; 
-	
-	try {
-	    ret = (Element) xpath.evaluate(expression, node, XPathConstants.NODE);
-	} catch (XPathExpressionException e) {
-	    logger.warn("Unable to evaluate expression " + expression, e);
-	} 
-	
-	return ret;
-    }
 
-    
-    /**
-     * Gets the XML Document pointer
-     * @return The org.w3c.dom.Document pointing to this document
-     */
-    protected Document getDocument() {
-	return document;
-    }
+	/**
+	 * Creates a new XML document from the input
+	 * 
+	 * @param input
+	 *            A input stream associated with the XML document
+	 * @throws XmlDocumentException
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public XmlDocument(final InputStream input) throws XmlDocumentException {
+		openDocument(input);
+	}
 
-    
-    /**
-     * Sets the XML Document pointer
-     * @param document The org.w3c.dom.Document pointing to this document
-     */
-    protected void setDocument(Document document) {
-	this.document = document;
-    }
-    
+	/**
+	 * Opens the document
+	 * 
+	 * @param input
+	 *            A input stream associated with the XML document
+	 * @throws XmlDocumentException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	protected void openDocument(final InputStream input)
+			throws XmlDocumentException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		try {
+			builder = factory.newDocumentBuilder();
+			setDocument(builder.parse(input));
+		} catch (ParserConfigurationException e) {
+			throw new XmlDocumentException("Unable to open document", e);
+		} catch (SAXException e) {
+			throw new XmlDocumentException(
+					"Unable to open document (Invalid document?)", e);
+		} catch (IOException e) {
+			throw new XmlDocumentException("Unhandled I/O exception", e);
+		}
+
+	}
+
+	/**
+	 * Finds a node using an XPath expression
+	 * 
+	 * @param expression
+	 *            The XPath expression
+	 * @param node
+	 * @return
+	 */
+	protected Element find(final String expression, Node node) {
+		XPathFactory factory = XPathFactory.newInstance();
+		XPath xpath = factory.newXPath();
+
+		Element ret = null;
+
+		try {
+			ret = (Element) xpath.evaluate(expression, node,
+					XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			logger.warn("Unable to evaluate expression " + expression, e);
+		}
+
+		return ret;
+	}
+
+	/**
+	 * Gets the XML Document pointer
+	 * 
+	 * @return The org.w3c.dom.Document pointing to this document
+	 */
+	protected Document getDocument() {
+		return document;
+	}
+
+	/**
+	 * Sets the XML Document pointer
+	 * 
+	 * @param document
+	 *            The org.w3c.dom.Document pointing to this document
+	 */
+	protected void setDocument(Document document) {
+		this.document = document;
+	}
 }

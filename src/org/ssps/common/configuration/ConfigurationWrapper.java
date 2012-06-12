@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 package org.ssps.common.configuration;
 
 import java.io.File;
@@ -23,28 +23,33 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class ConfigurationWrapper {
 	private static PropertiesConfiguration config;
-	
+
 	/**
 	 * Initializes the configuration object
-	 * @param propertyName The name of the system property that points to the 
-	 * log configuration directory
-	 * @param fileName The name of the configuration file
+	 * 
+	 * @param propertyName
+	 *            The name of the system property that points to the log
+	 *            configuration directory
+	 * @param fileName
+	 *            The name of the configuration file
 	 * @throws FileNotFoundException
 	 * @throws ConfigurationException
 	 */
-	public static void initConfiguration(final String configDir, 
-			final String fileName) throws FileNotFoundException, ConfigurationException 
-	{	
+	public static void initConfiguration(final String configDir,
+			final String fileName) throws FileNotFoundException,
+			ConfigurationException {
 		if (configDir == null) {
-			throw new FileNotFoundException("The configuration dir was not found");
+			throw new FileNotFoundException(
+					"The configuration dir was not found");
 		}
-		
-		config = new PropertiesConfiguration(configDir + File.separator 
+
+		config = new PropertiesConfiguration(configDir + File.separator
 				+ fileName);
 	}
-	
+
 	/**
 	 * Gets the configuration object
+	 * 
 	 * @return
 	 */
 	public static PropertiesConfiguration getConfig() {
