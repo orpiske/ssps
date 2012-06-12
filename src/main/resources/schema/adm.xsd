@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.orpiske.net/ssps/adm" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/ssps/adm">
+
+    <element name="adm" type="tns:Adm">
+    	<annotation>
+    		<documentation>Artifact deployment model</documentation>
+    	</annotation></element>
+    
+    <complexType name="Adm">
+    	<sequence>
+    		<element name="artifact" type="tns:Artifact"></element>
+    		<element name="stages" type="tns:Stages"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Artifact">
+    	<sequence>
+    		<element name="name" type="string"></element>
+    		<element name="version" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Stages">
+    	<sequence>
+    		<element name="prepare" type="tns:PrepareStage" minOccurs="0"></element>
+    		<element name="validate" type="tns:ValidateStage" minOccurs="0"></element>
+    		<element name="setup" type="tns:SetupStage" minOccurs="0"></element>
+    		<element name="verify" type="tns:VerifyStage" minOccurs="0"></element>
+    		<element name="cleanup" type="tns:CleanupStage" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="AbstractStage" abstract="true">
+    	<sequence>
+    		<any minOccurs="0" maxOccurs="unbounded"></any>
+    	</sequence>
+    </complexType>
+
+    <complexType name="AbstractRule"></complexType>
+
+    <complexType name="PrepareStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="ValidateStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="SetupStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="VerifyStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="CleanupStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+</schema>

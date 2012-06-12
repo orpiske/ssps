@@ -17,7 +17,10 @@
 
 <schema targetNamespace="http://www.orpiske.net/ssps/dbm" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/ssps/dbm">
 
-    <element name="dbm" type="tns:Dbm"></element>
+    <element name="dbm" type="tns:Dbm">
+    	<annotation>
+    		<documentation>Deliverable build model</documentation>
+    	</annotation></element>
     
     <complexType name="Dbm">
     	<sequence>
