@@ -14,8 +14,6 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  -->
-
-<?xml version="1.0" encoding="UTF-8"?>
 <adm xmlns="http://www.orpiske.net/ssps/adm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/adm ../src/main/resources/schema/adm.xsd ">
   <artifact>
     <name>name</name>
