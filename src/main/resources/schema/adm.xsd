@@ -31,9 +31,26 @@
     </complexType>
 
     <complexType name="AbstractStage" abstract="true">
-    	<sequence>
-    		<any minOccurs="0" maxOccurs="unbounded"></any>
-    	</sequence>
+        <sequence>
+        	<choice minOccurs="0" maxOccurs="unbounded">
+        		<element name="echo" type="tns:EchoRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="mkdir" type="tns:MkdirRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="copy" type="tns:CopyRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="rmdir" type="tns:Rmdir" minOccurs="0"></element>
+        		<element name="unpack" type="tns:UnpackRule"
+        			minOccurs="0">
+        		</element>
+                <element name="symlink" type="tns:SymlinkRule"></element>
+            </choice>
+
+        </sequence>
+
     </complexType>
 
     <complexType name="AbstractRule"></complexType>
@@ -65,6 +82,84 @@
     <complexType name="CleanupStage">
     	<complexContent>
     		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="CopyRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="from" type="string"></attribute>
+    			<attribute name="to" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+
+
+
+    <complexType name="MkdirRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="dir" type="string"></attribute>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="Rmdir">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="dir" type="string"></attribute>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+
+    
+
+
+    <complexType name="EchoRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<sequence>
+    				<element name="message" type="string"></element>
+    			</sequence>
+    			<attribute name="level">
+    				<simpleType>
+    					<restriction base="string">
+    						<enumeration value="warning"></enumeration>
+    						<enumeration value="info"></enumeration>
+    						<enumeration value="error"></enumeration>
+    						<enumeration value="debug"></enumeration>
+    						<enumeration value="fatal"></enumeration>
+    					</restriction>
+    				</simpleType>
+    			</attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="UnpackRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="source" type="string"></attribute>
+
+    			<attribute name="destination" type="string"></attribute>
+
+    			<attribute name="format" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="SymlinkRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="from" type="string"></attribute>
+
+    			<attribute name="to" type="string"></attribute>
+
+    		</extension>
     	</complexContent>
     </complexType>
 </schema>
