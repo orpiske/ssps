@@ -18,18 +18,18 @@ package org.ssps.sdm.adm.stages;
 import java.util.List;
 
 import net.orpiske.ssps.adm.AbstractRule;
-import net.orpiske.ssps.adm.PrepareStage;
+import net.orpiske.ssps.adm.SetupStage;
 
 import org.ssps.sdm.adm.StageProcessor;
 import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.adm.exceptions.StageException;
 import org.ssps.sdm.adm.util.PrintUtils;
 
-public class PrepareStageProcessor extends StageProcessor<PrepareStage>{
+public class SetupStageProcessor extends StageProcessor<SetupStage>{
 	
 	@Override
-	public void run(PrepareStage stage) throws StageException {
-		PrintUtils.printStartStage("Prepare");
+	public void run(SetupStage stage) throws StageException {
+		PrintUtils.printStartStage("Setup");
 		
 		List<AbstractRule> rules = stage.getEchoOrMkdirOrCopy();
 		
@@ -40,11 +40,11 @@ public class PrepareStageProcessor extends StageProcessor<PrepareStage>{
 			}
 		}
 		catch (RuleException e) {
-			PrintUtils.printEndWithError("Prepare", e);
+			PrintUtils.printEndWithError("Setup", e);
 			throw new StageException("Rule error ", e);
-		}	
+		}
 		
-		PrintUtils.printEndStage("Prepare");
+		PrintUtils.printEndStage("Setup");
 	}
 
 }

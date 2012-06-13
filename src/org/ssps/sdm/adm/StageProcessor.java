@@ -1,15 +1,14 @@
 package org.ssps.sdm.adm;
 
+import net.orpiske.ssps.adm.AbstractRule;
+import net.orpiske.ssps.adm.AbstractStage;
+
 import org.apache.log4j.Logger;
 import org.ssps.sdm.adm.exceptions.RuleEngineException;
 import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.adm.exceptions.StageException;
 import org.ssps.sdm.adm.rules.AbstractRuleProcessor;
 import org.ssps.sdm.adm.rules.RuleProcessorFactory;
-
-import net.orpiske.ssps.adm.AbstractRule;
-import net.orpiske.ssps.adm.AbstractStage;
-import javax.xml.bind.JAXBElement;
 
 public abstract class StageProcessor<T extends AbstractStage> {
 	
@@ -18,7 +17,9 @@ public abstract class StageProcessor<T extends AbstractStage> {
 	protected void processRules(final Object object) throws RuleException {
 		
 		if (object instanceof AbstractRule) {
-			logger.debug("Processing object of type " + object.getClass());
+			if (logger.isTraceEnabled()) { 
+				logger.trace("Processing object of type " + object.getClass());
+			}
 			
 			AbstractRuleProcessor ruleProcessor = 
 					RuleProcessorFactory.getRule(object.getClass());
@@ -33,7 +34,7 @@ public abstract class StageProcessor<T extends AbstractStage> {
 		}
 		else {
 			if (object != null) {
-				logger.debug("Unknown object of type " + object.getClass());
+				logger.error("Unknown object of type " + object.getClass());
 			}
 		}
 	}

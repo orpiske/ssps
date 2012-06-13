@@ -1,12 +1,36 @@
+/**
+   Copyright 2012 Otavio Rodolfo Piske
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 package org.ssps.sdm.adm;
 
-import org.apache.log4j.Logger;
-import org.ssps.sdm.adm.exceptions.RuleException;
-import org.ssps.sdm.adm.exceptions.StageException;
-import org.ssps.sdm.adm.stages.PrepareStageProcessor;
-
 import net.orpiske.ssps.adm.Adm;
+import net.orpiske.ssps.adm.CleanupStage;
 import net.orpiske.ssps.adm.PrepareStage;
+import net.orpiske.ssps.adm.SetupStage;
+import net.orpiske.ssps.adm.ValidateStage;
+import net.orpiske.ssps.adm.VerifyStage;
+
+import org.apache.log4j.Logger;
+import org.ssps.sdm.adm.exceptions.AdmException;
+import org.ssps.sdm.adm.exceptions.StageException;
+import org.ssps.sdm.adm.stages.CleanupStageProcessor;
+import org.ssps.sdm.adm.stages.PrepareStageProcessor;
+import org.ssps.sdm.adm.stages.SetupStageProcessor;
+import org.ssps.sdm.adm.stages.ValidateStageProcessor;
+import org.ssps.sdm.adm.stages.VerifyStageProcessor;
+import org.ssps.sdm.adm.util.PrintUtils;
 
 /**
  * Process the Artifact Deployment Module (ADM) rules
@@ -23,26 +47,106 @@ public class AdmProcessor {
 	 */
 	public AdmProcessor(final Adm adm) {
 		this.adm = adm;
+		
+		registerVariables();
 	}
 	
+	
+	private void registerVariables() {
+		if (logger.isTraceEnabled()) {
+			logger.trace("Registering variables");
+		}
+		
+		AdmVariables admVariables = AdmVariables.getInstance();
+		
+		String name = adm.getArtifact().getName();
+		admVariables.register("name", name);
+		
+		String version = adm.getArtifact().getVersion();
+		admVariables.register("version", version);
+	}
+	
+	public void process() throws AdmException {
+		PrintUtils.printStartStage("Main");
+		try {
+			prepareStage();
+			validateStage();
+			setupStage();
+			verifyStage();
+			cleanupStage();
+		} catch (StageException e) {
+			throw new AdmException("Error while processing ADM document", e);
+		}
+		PrintUtils.printEndStage("Main");
+	}
 	
 
 	/**
 	 * Runs the prepare stage rules
+	 * @throws StageException If there are errors in the rules
 	 */
-	public void prepareStage() {
-		logger.debug("Running the prepare stage");
-		
+	private void prepareStage() throws StageException {
 		PrepareStageProcessor processor = new PrepareStageProcessor();
 		PrepareStage stage = adm.getStages().getPrepare();
 		
-		try {
+		if (stage != null) {
 			processor.run(stage);
-		} catch (StageException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
 	
+	/**
+	 * Runs the validate stage rules
+	 * @throws StageException If there are errors in the rules
+	 */
+	private void validateStage() throws StageException {
+		ValidateStageProcessor processor = new ValidateStageProcessor();
+		ValidateStage stage = adm.getStages().getValidate();
+			
+		if (stage != null) {
+			processor.run(stage);
+		}
+	}
+	
+	
+	/**
+	 * Runs the setup stage rules
+	 * @throws StageException If there are errors in the rules
+	 */
+	private void setupStage() throws StageException {
+		SetupStageProcessor processor = new SetupStageProcessor();
+		SetupStage stage = adm.getStages().getSetup();
+		
+		if (stage != null) {
+			processor.run(stage);
+		}
+	}
+	
+	
+	/**
+	 * Runs the verify stage rules
+	 * @throws StageException If there are errors in the rules
+	 */
+	private void verifyStage() throws StageException {
+		VerifyStageProcessor processor = new VerifyStageProcessor();
+		VerifyStage stage = adm.getStages().getVerify();
+			
+		if (stage != null) {
+			processor.run(stage);
+		}
+	}
+	
+
+	/**
+	 * Runs the cleanup stage rules
+	 * @throws StageException If there are errors in the rules
+	 */
+	private void cleanupStage() throws StageException {
+		CleanupStageProcessor processor = new CleanupStageProcessor();
+		CleanupStage stage = adm.getStages().getCleanup();
+			
+		if (stage != null) {
+			processor.run(stage);
+		}
+	}	
 }

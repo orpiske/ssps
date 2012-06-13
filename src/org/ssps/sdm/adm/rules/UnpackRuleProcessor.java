@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.sdm.adm.rules;
 
 import net.orpiske.ssps.adm.UnpackRule;
@@ -21,6 +21,7 @@ import org.ssps.common.archive.Archive;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.tbz.TbzArchive;
 import org.ssps.common.archive.tgz.TgzArchive;
+import org.ssps.sdm.adm.AdmVariables;
 import org.ssps.sdm.adm.exceptions.RuleException;
 
 /**
@@ -28,6 +29,8 @@ import org.ssps.sdm.adm.exceptions.RuleException;
  *
  */
 public class UnpackRuleProcessor extends AbstractRuleProcessor {
+	
+	private AdmVariables admVariables = AdmVariables.getInstance();
 	
 	private void run(UnpackRule rule) throws RuleException {
 		Archive archive;
@@ -45,7 +48,10 @@ public class UnpackRuleProcessor extends AbstractRuleProcessor {
 		}
 		
 		try {
-			archive.unpack(rule.getSource(), rule.getDestination());
+			String source = admVariables.evaluate(rule.getSource());
+			String destination = admVariables.evaluate(rule.getDestination());
+			
+			archive.unpack(source, destination);
 		} catch (SspsArchiveException e) {
 			throw new RuleException(e.getMessage(), e);
 		}

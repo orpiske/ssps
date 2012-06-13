@@ -13,21 +13,23 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.sdm.adm.exceptions;
+package org.ssps.sdm.utils;
 
-import org.ssps.common.exceptions.SspsException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.ssps.common.configuration.ConfigurationWrapper;
 
-@SuppressWarnings("serial")
-public class StageException extends SspsException {
-
-	public StageException(String message) {
-		super(message);
-		// TODO Auto-generated constructor stub
-	}
-
-	public StageException(String message, Throwable t) {
-		super(message, t);
-		// TODO Auto-generated constructor stub
+/**
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
+public class WorkdirUtils {
+	private static final PropertiesConfiguration config 
+		= ConfigurationWrapper.getConfig();
+	
+	
+	public static String getGetRoot() {
+		return config.getString("temp.work.dir");
 	}
 
 }

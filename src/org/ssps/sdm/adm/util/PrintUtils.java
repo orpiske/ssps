@@ -13,36 +13,24 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.sdm.adm.rules;
+package org.ssps.sdm.adm.util;
 
-import net.orpiske.ssps.adm.EchoRule;
-
-import org.ssps.sdm.adm.AdmVariables;
 import org.ssps.sdm.adm.exceptions.RuleException;
 
-public class EchoRuleProcessor extends AbstractRuleProcessor {
+public class PrintUtils {
 	
-	private AdmVariables admVariables = AdmVariables.getInstance();
-	
-	private void run(EchoRule rule) {
-		String level = rule.getLevel();
-		
-		if (level == null) {
-			level = "info";
-		}
-		
-		String message = admVariables.evaluate(rule.getMessage());
-		
-		if (message == null) {
-			message = "null";
-		}
-		
-		System.out.println("[" + level.toUpperCase() + "]: " + message);
+	public static void printStartStage(final String stageName) {
+		System.out.println("\n** " + stageName + " Started **\n");
 	}
-
-	@Override
-	public void run(Object rule) throws RuleException {
-		run((EchoRule) rule);
+	
+	public static void printEndStage(final String stageName) {
+		System.out.println("\n** " + stageName + " Completed **\n");
+	}
+	
+	public static void printEndWithError(final String stageName, 
+			final RuleException e) 
+	{
+		
 	}
 
 }
