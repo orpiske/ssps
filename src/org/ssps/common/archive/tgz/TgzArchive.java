@@ -28,16 +28,16 @@ public class TgzArchive implements Archive {
 	}
 
 	private String getCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".bz2")) {
+		if (originalName.endsWith(".gz")) {
 			return originalName;
 		}
 
-		return originalName + ".bz2";
+		return originalName + ".gz";
 	}
 
 	private String replaceCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".bz2")) {
-			return originalName.replaceAll(".bz2", "");
+		if (originalName.endsWith(".gz")) {
+			return originalName.replaceAll(".gz", "");
 		}
 
 		return originalName;

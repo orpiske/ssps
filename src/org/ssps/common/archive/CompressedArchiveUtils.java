@@ -35,6 +35,21 @@ import org.apache.commons.io.IOUtils;
  *
  */
 public class CompressedArchiveUtils {
+	
+	private static void validateDestination(File destination)
+			throws IOException {
+		File parent = destination.getParentFile();
+		
+		if (!parent.exists()) {
+			parent.mkdirs();
+		}
+		
+		if (destination.exists()) {
+			if (destination.isDirectory()) {
+				throw new IOException("The destination file is a directory");
+			}
+		}
+	}
 
 	/**
 	 * Compress a file
@@ -97,7 +112,10 @@ public class CompressedArchiveUtils {
 	 * @throws IOException
 	 */
 	public static long gzUncompress(File source, File destination) throws IOException {
-		FileOutputStream out = new FileOutputStream(destination);
+		FileOutputStream out;
+		
+		validateDestination(destination);
+		out = new FileOutputStream(destination);
 	
 		FileInputStream fin = null;
 		BufferedInputStream bin = null;
@@ -136,7 +154,11 @@ public class CompressedArchiveUtils {
 	 * @throws IOException
 	 */
 	public static long bzipUncompress(File source, File destination) throws IOException {
-		FileOutputStream out = new FileOutputStream(destination);
+		FileOutputStream out; 
+		
+		validateDestination(destination);
+		
+		out = new FileOutputStream(destination);
 	
 		FileInputStream fin = null;
 		BufferedInputStream bin = null;
@@ -166,5 +188,7 @@ public class CompressedArchiveUtils {
 	
 		return bzIn.getBytesRead();
 	}
+
+	
 
 }

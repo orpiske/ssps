@@ -20,24 +20,24 @@ public class UsaArchive implements Archive {
 
 
 	private String getArchiveFileExtension(final String originalName) {
-		if (originalName.endsWith(".tar")) {
+		if (originalName.endsWith(".usa")) {
 			return originalName;
 		}
 
-		return originalName + ".tar";
+		return originalName + ".usa";
 	}
 
 	private String getCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".gz")) {
+		if (originalName.endsWith(".ugz")) {
 			return originalName;
 		}
 
-		return originalName + ".gz";
+		return originalName + ".ugz";
 	}
 
 	private String replaceCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".gz")) {
-			return originalName.replaceAll(".gz", "");
+		if (originalName.endsWith(".ugz")) {
+			return originalName.replaceAll(".ugz", ".usa");
 		}
 
 		return originalName;

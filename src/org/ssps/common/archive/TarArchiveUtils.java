@@ -105,7 +105,8 @@ public abstract class TarArchiveUtils implements Archive {
 	/**
 	 * Unpacks a file
 	 * @param source source file
-	 * @param destination destination file
+	 * @param destination destination directory. If the directory does not 
+	 * exists, it will be created
 	 * @param format archive format
 	 * @return
 	 * @throws SspsException
@@ -114,6 +115,17 @@ public abstract class TarArchiveUtils implements Archive {
 	 */
 	public static long unpack(File source, File destination, String format) throws SspsException,
 			ArchiveException, IOException {
+		
+		if (!destination.exists()) {
+			destination.mkdirs();
+		}
+		else {
+			if (!destination.isDirectory()) {
+				throw new SspsException("The provided destination " 
+						+ destination.getPath() + " is not a directory");
+			}
+		}
+		
 		ArchiveStreamFactory factory = new ArchiveStreamFactory();
 
 		FileInputStream inputFileStream = new FileInputStream(source);
