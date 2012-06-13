@@ -1,4 +1,4 @@
-package org.ssps.common.archive.usa;
+package org.ssps.common.archive.tbz;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +14,9 @@ import org.ssps.common.archive.TarArchiveUtils;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.exceptions.SspsException;
 
-public class UsaArchive implements Archive {
+public class TbzArchive implements Archive {
 
-	private static final Logger logger = Logger.getLogger(UsaArchive.class);
+	private static final Logger logger = Logger.getLogger(TbzArchive.class);
 
 
 	private String getArchiveFileExtension(final String originalName) {
@@ -28,27 +28,28 @@ public class UsaArchive implements Archive {
 	}
 
 	private String getCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".gz")) {
+		if (originalName.endsWith(".bz2")) {
 			return originalName;
 		}
 
-		return originalName + ".gz";
+		return originalName + ".bz2";
 	}
 
 	private String replaceCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".gz")) {
-			return originalName.replaceAll(".gz", "");
+		if (originalName.endsWith(".bz2")) {
+			return originalName.replaceAll(".bz2", "");
 		}
 
 		return originalName;
 	}
+	
 
 	public long pack(String source, String destination)
 			throws SspsArchiveException {
 		File archiveFile = new File(getArchiveFileExtension(destination));
 
 		try {
-			TarArchiveUtils.pack(source, archiveFile, true);
+			TarArchiveUtils.pack(source, archiveFile, false);
 		} catch (ArchiveException e1) {
 			throw new SspsArchiveException("Unable to archive file", e1);
 		} catch (IOException e1) {
@@ -59,7 +60,7 @@ public class UsaArchive implements Archive {
 		File compressedFile = new File(getCompressedFileExtension(destination));
 
 		try {
-			CompressedArchiveUtils.compress(archiveFile, compressedFile, CompressorStreamFactory.GZIP);
+			CompressedArchiveUtils.compress(archiveFile, compressedFile, CompressorStreamFactory.BZIP2);
 			
 			return 0;
 		} catch (CompressorException e) {
@@ -94,7 +95,7 @@ public class UsaArchive implements Archive {
 				+ uncompressedArchiveFile.getPath());
 
 		try {
-			CompressedArchiveUtils.gzUncompress(compressedFileSource, uncompressedArchiveFile);
+			CompressedArchiveUtils.bzipUncompress(compressedFileSource, uncompressedArchiveFile);
 		} catch (IOException e) {
 			throw new SspsArchiveException(
 					"Unable to uncompress archive file: I/O error", e);
