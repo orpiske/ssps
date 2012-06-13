@@ -14,20 +14,38 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  -->
+
 <adm xmlns="http://www.orpiske.net/ssps/adm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/adm ../src/main/resources/schema/adm.xsd ">
   <artifact>
-    <name>name</name>
-    <version>version</version>
+    <name>spm</name>
+    <version>0.0.1-SNAPSHOT</version>
   </artifact>
   <stages>
   	<prepare>
   		<echo>
+			<message>Starting to process artifact ${name}-${version}</message>
+		</echo>
+		
+		<echo>
+			<message>Basedir = ${basedir} </message>
+		</echo>
+
+		<echo>
+			<message>WorkDir = ${workdir}</message>
+		</echo>
+		
+  		<echo>
 			<message>Unpacking file</message>
 		</echo>
 		<unpack format="tbz2" 
-			source="./installroot/artifacts/install/default/spm-0.0.1-SNAPSHOT-bin.tar.bz2"
-			destination="/tmp/unpacked" />
-
+			source="${basedir}/artifacts/install/default/${name}-${version}-bin.tar.bz2"
+			destination="${workdir}/${name}/" />
   	</prepare>
+  	<validate>
+  		<echo>
+			<message>Validated :)</message>
+		</echo>
+  	</validate>
+  	
   </stages>
 </adm>
