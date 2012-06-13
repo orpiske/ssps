@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import net.orpiske.ssps.adm.CopyRule;
 import net.orpiske.ssps.adm.EchoRule;
+import net.orpiske.ssps.adm.UnpackRule;
 
 import org.ssps.sdm.adm.exceptions.RuleEngineException;
 
@@ -21,6 +22,7 @@ public final class RuleProcessorFactory {
 	private static void populateRulesMap() {
 		rulesMap = new HashMap<Class<?>, Class<? extends AbstractRuleProcessor>>();
 		
+		rulesMap.put(UnpackRule.class, UnpackRuleProcessor.class);
 		rulesMap.put(CopyRule.class, CopyRuleProcessor.class);
 		rulesMap.put(EchoRule.class, EchoRuleProcessor.class);
 	}
