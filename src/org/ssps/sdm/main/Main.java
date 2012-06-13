@@ -17,6 +17,8 @@ package org.ssps.sdm.main;
 
 import java.io.FileNotFoundException;
 
+import net.orpiske.ssps.adm.Adm;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -29,6 +31,8 @@ import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
 import org.ssps.sdm.actions.Fetcher;
 import org.ssps.sdm.actions.Unpacker;
+import org.ssps.sdm.adm.AdmDocument;
+import org.ssps.sdm.adm.AdmProcessor;
 import org.ssps.sdm.utils.Constants;
 
 /**
@@ -37,104 +41,116 @@ import org.ssps.sdm.utils.Constants;
  */
 public class Main {
 
-    private static Options options;
+	private static Options options;
 
-    public static void initLogger() throws FileNotFoundException {
-	LoggerUtils.initLogger(Constants.SDM_CONFIG_DIR);
-    }
-
-    public static void help(int code) {
-	HelpFormatter formatter = new HelpFormatter();
-
-	formatter.printHelp("sdm", options);
-	System.exit(code);
-    }
-
-    /**
-     * Initializes the configuration object
-     */
-    private static void initConfig() {
-	try {
-	    ConfigurationWrapper.initConfiguration(Constants.SDM_CONFIG_DIR,
-		    Constants.CONFIG_FILE_NAME);
-	} catch (FileNotFoundException e) {
-	    System.err.println(e.getMessage());
-	    System.exit(-3);
-	} catch (ConfigurationException e) {
-	    System.err.println(e.getMessage());
-	    System.exit(-3);
+	public static void initLogger() throws FileNotFoundException {
+		LoggerUtils.initLogger(Constants.SDM_CONFIG_DIR);
 	}
-    }
 
-    public static CommandLine processCommand(String[] args)
-	    throws ParseException {
-	// create the command line parser
-	CommandLineParser parser = new PosixParser();
+	public static void help(int code) {
+		HelpFormatter formatter = new HelpFormatter();
 
-	// create the Options
-	options = new Options();
+		formatter.printHelp("sdm", options);
+		System.exit(code);
+	}
 
-	options.addOption("h", "help", false, "prints the help");
-	options.addOption(null, "deploy", false, "deploys a deliverable");
-	options.addOption(null, "fetch", false,
-		"fetchs a deliverable but does not install it");
-	options.addOption(null, "install", false,
-		"install/deploys a previously fetched deliverable");
-	options.addOption(null, "unpack", false,
-		"unpacks a previously fetched deliverable");
-
-	options.addOption("g", "group", true, "deliverable group");
-	options.addOption("n", "name", true, "deliverable name");
-	options.addOption("v", "version", true, "deliverable version");
-
-	options.addOption("r", "repository", true, "repository base address");
-	options.addOption("f", "file", true, "work file");
-
-	/*
-	 * options.addOption("D", "destination", true,
-	 * "destination folder for the deliverable");
+	/**
+	 * Initializes the configuration object
 	 */
-
-	return parser.parse(options, args);
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-	try {
-	    CommandLine cmdLine = processCommand(args);
-
-	    initLogger();
-	    initConfig();
-
-	    if (cmdLine.hasOption('h')) {
-		help(1);
-	    }
-
-	    if (cmdLine.hasOption("fetch")) {
-		Fetcher fetcher = new Fetcher(null, null, null);
-
-		String group = cmdLine.getOptionValue('g');
-		String name = cmdLine.getOptionValue('n');
-		String version = cmdLine.getOptionValue('v');
-		String destination = cmdLine.getOptionValue('d');
-
-		fetcher.fetch(group, name, version, destination);
-	    } else {
-		if (cmdLine.hasOption("unpack")) {
-		    String file = cmdLine.getOptionValue('f');
-
-		    Unpacker unpacker = new Unpacker();
-
-		    unpacker.unpack(file);
+	private static void initConfig() {
+		try {
+			ConfigurationWrapper.initConfiguration(Constants.SDM_CONFIG_DIR,
+					Constants.CONFIG_FILE_NAME);
+		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
+			System.exit(-3);
+		} catch (ConfigurationException e) {
+			System.err.println(e.getMessage());
+			System.exit(-3);
 		}
-	    }
-
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    System.exit(-1);
 	}
-    }
+
+	public static CommandLine processCommand(String[] args)
+			throws ParseException {
+		// create the command line parser
+		CommandLineParser parser = new PosixParser();
+
+		// create the Options
+		options = new Options();
+
+		options.addOption("h", "help", false, "prints the help");
+		options.addOption(null, "deploy", false, "deploys a deliverable");
+		options.addOption(null, "fetch", false,
+				"fetchs a deliverable but does not install it");
+		options.addOption(null, "install", false,
+				"install/deploys a previously fetched deliverable");
+		options.addOption(null, "unpack", false,
+				"unpacks a previously fetched deliverable");
+
+		options.addOption("g", "group", true, "deliverable group");
+		options.addOption("n", "name", true, "deliverable name");
+		options.addOption("v", "version", true, "deliverable version");
+
+		options.addOption("r", "repository", true, "repository base address");
+		options.addOption("f", "file", true, "work file");
+		options.addOption("a", "adm-file", true, "adm file");
+
+		/*
+		 * options.addOption("D", "destination", true,
+		 * "destination folder for the deliverable");
+		 */
+
+		return parser.parse(options, args);
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		try {
+			CommandLine cmdLine = processCommand(args);
+
+			initLogger();
+			initConfig();
+
+			if (cmdLine.hasOption('h')) {
+				help(1);
+			}
+
+			if (cmdLine.hasOption("fetch")) {
+				Fetcher fetcher = new Fetcher(null, null, null);
+
+				String group = cmdLine.getOptionValue('g');
+				String name = cmdLine.getOptionValue('n');
+				String version = cmdLine.getOptionValue('v');
+				String destination = cmdLine.getOptionValue('d');
+
+				fetcher.fetch(group, name, version, destination);
+			} else {
+				if (cmdLine.hasOption("unpack")) {
+					String file = cmdLine.getOptionValue('f');
+
+					Unpacker unpacker = new Unpacker();
+
+					unpacker.unpack(file);
+				}
+				else {
+					if (cmdLine.hasOption("install")) {
+						String path = cmdLine.getOptionValue('a');
+						AdmDocument admDocument = new AdmDocument(path);
+						Adm adm = admDocument.getDocument();
+						
+						AdmProcessor processor = new AdmProcessor(adm);
+						
+						processor.prepareStage();
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
 
 }

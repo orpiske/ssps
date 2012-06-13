@@ -18,20 +18,20 @@ package org.ssps.sdm.utils;
 import java.io.File;
 
 public final class Constants {
-    /**
-     * This property is used to set the configuration directory
-     */
-    public static final String HOME_PROPERTY = "org.ssps.sdm.home";
+	/**
+	 * This property is used to set the configuration directory
+	 */
+	public static final String HOME_PROPERTY = "org.ssps.sdm.home";
 
-    public static final String SDM_CONFIG_DIR;
+	public static final String SDM_CONFIG_DIR;
 
-    static {
-	SDM_CONFIG_DIR = System.getProperty(HOME_PROPERTY)
-		+ File.separator + "conf";
-    }
+	static {
+		SDM_CONFIG_DIR = System.getProperty(HOME_PROPERTY) + File.separator
+				+ "conf";
+	}
 
-    /**
-     * This constant holds the configuration file name for the backend
-     */
-    public static final String CONFIG_FILE_NAME = "sdm.properties";
+	/**
+	 * This constant holds the configuration file name for the backend
+	 */
+	public static final String CONFIG_FILE_NAME = "sdm.properties";
 }

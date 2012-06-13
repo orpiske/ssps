@@ -35,68 +35,63 @@ import com.googlecode.sardine.SardineFactory;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class Fetcher {
-    private static final PropertiesConfiguration config = ConfigurationWrapper
-	    .getConfig();
-    private static final Logger logger = Logger
-	    .getLogger(Fetcher.class);
-    
-    private Sardine sardine;
-    private String url;
-    
-    
-    
-    public Fetcher(String url, String username, String password) 
-    {
-	
-	if (url == null) {
-	    url = config.getString("default.repository.url");
-	}
-	
-	if (username == null) {
-	    username = config.getString("default.repository.username");
-	    password = config.getString("default.repository.password");
-	}
-	
-	this.url = url;
-	sardine = SardineFactory.begin(username, password);
-    }
-    
-    public void fetch(final String group, final String name,
-	    final String version, String destination) throws IOException {
-	String path = (new PathUtils(url)).getPath(group, name, version);
+	private static final PropertiesConfiguration config = ConfigurationWrapper
+			.getConfig();
+	private static final Logger logger = Logger.getLogger(Fetcher.class);
 
-	List<DavResource> resources = sardine.list(path);
-	
-	if (destination == null) {
-	    destination = config.getString("temp.work.dir", 
-		    FileUtils.getTempDirectoryPath());
-	    
-	    logger.info("No destination directory provided. Using: " 
-		    + destination);
-	}
+	private Sardine sardine;
+	private String url;
 
-	for (DavResource resource : resources) {
+	public Fetcher(String url, String username, String password) {
 
-	    if (!resource.isDirectory()) {
-		File newFile = new File(destination
-			+ File.separator + resource.getName());
-		
-		if (newFile.exists()) {
-		    continue;
+		if (url == null) {
+			url = config.getString("default.repository.url");
 		}
-		else {
-		    newFile.createNewFile();
+
+		if (username == null) {
+			username = config.getString("default.repository.username");
+			password = config.getString("default.repository.password");
 		}
-		
-		InputStream input = sardine.get(resource.getHref().toString());
-		FileOutputStream output = new FileOutputStream(newFile);
-		
-		IOUtils.copy(input, output);
-	    }
+
+		this.url = url;
+		sardine = SardineFactory.begin(username, password);
 	}
-    }
+
+	public void fetch(final String group, final String name,
+			final String version, String destination) throws IOException {
+		String path = (new PathUtils(url)).getPath(group, name, version);
+
+		List<DavResource> resources = sardine.list(path);
+
+		if (destination == null) {
+			destination = config.getString("temp.work.dir",
+					FileUtils.getTempDirectoryPath());
+
+			logger.info("No destination directory provided. Using: "
+					+ destination);
+		}
+
+		for (DavResource resource : resources) {
+
+			if (!resource.isDirectory()) {
+				File newFile = new File(destination + File.separator
+						+ resource.getName());
+
+				if (newFile.exists()) {
+					continue;
+				} else {
+					newFile.createNewFile();
+				}
+
+				InputStream input = sardine.get(resource.getHref().toString());
+				FileOutputStream output = new FileOutputStream(newFile);
+
+				IOUtils.copy(input, output);
+			}
+		}
+	}
 
 }

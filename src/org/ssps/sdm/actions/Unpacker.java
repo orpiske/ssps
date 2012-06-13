@@ -26,19 +26,18 @@ import org.ssps.common.configuration.ConfigurationWrapper;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class Unpacker {
-    private static final PropertiesConfiguration config = ConfigurationWrapper
-	    .getConfig();
-    private static final Logger logger = Logger
-	    .getLogger(Unpacker.class);
-    
-    private UsaArchive archive = new UsaArchive();
+	private static final PropertiesConfiguration config = ConfigurationWrapper
+			.getConfig();
+	private static final Logger logger = Logger.getLogger(Unpacker.class);
 
-    public void unpack(final String source) throws SspsArchiveException {
-	final String destination = config.getString("temp.work.dir", 
-		    FileUtils.getTempDirectoryPath() + File.separator + "work");
-	archive.unpack(source, destination);
-    }
+	private UsaArchive archive = new UsaArchive();
+
+	public void unpack(final String source) throws SspsArchiveException {
+		final String destination = config.getString("temp.work.dir",
+				FileUtils.getTempDirectoryPath() + File.separator + "work");
+		archive.unpack(source, destination);
+	}
 }
