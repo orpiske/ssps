@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
   <project>
-    <group>org.orpiske</group>
+    <group>net.orpiske</group>
     <name>spm</name>
     <version>0.0.1-SNAPSHOT</version>
   </project>
   <build>
     <sourceDirectory>${basedir}/src/dbm</sourceDirectory>
     <outputDirectory>${basedir}/target/installroot</outputDirectory>
-    <artifact>${basedir}/target/${name}-${version}-bin.tar.bz2</artifact>
+    <artifactPath>${basedir}/target/${name}-${version}-bin.tar.bz2</artifactPath>
   </build>
   
   <repository>
