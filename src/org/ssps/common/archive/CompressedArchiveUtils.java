@@ -43,12 +43,6 @@ public class CompressedArchiveUtils {
 		if (!parent.exists()) {
 			parent.mkdirs();
 		}
-		
-		if (destination.exists()) {
-			if (destination.isDirectory()) {
-				throw new IOException("The destination file is a directory");
-			}
-		}
 	}
 
 	/**
@@ -188,7 +182,4 @@ public class CompressedArchiveUtils {
 	
 		return bzIn.getBytesRead();
 	}
-
-	
-
 }
