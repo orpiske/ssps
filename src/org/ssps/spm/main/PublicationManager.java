@@ -15,11 +15,9 @@
  */
 package org.ssps.spm.main;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
@@ -29,7 +27,6 @@ import org.ssps.common.repository.PathUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.spm.archive.dbm.DbmDocument;
 
-import com.googlecode.sardine.DavResource;
 import com.googlecode.sardine.Sardine;
 import com.googlecode.sardine.SardineFactory;
 
