@@ -129,6 +129,11 @@ public class Main {
 			} else {
 				if (cmdLine.hasOption("unpack")) {
 					String file = cmdLine.getOptionValue('f');
+					
+					if (file == null) {
+						System.err.println("Missing file information");
+						help(-1);
+					}
 
 					Unpacker unpacker = new Unpacker();
 
