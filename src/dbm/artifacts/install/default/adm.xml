@@ -15,16 +15,21 @@
    limitations under the License.
  -->
 
-<dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
-  <!-- This is a sample file -->
-  <project>
-    <name>org.mygroup</name>
-    <name>sample</name>
-    <version>1.0.0</version>
-  </project>
-  <build>
-    <artifact>
-    	<name>${name}-${version}-bin.tar.bz2</name>	
-    </artifact>
-  </build>
-</dbm>
+<?xml version="1.0" encoding="UTF-8"?>
+<adm xmlns="http://www.orpiske.net/ssps/adm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/adm ../src/main/resources/schema/adm.xsd ">
+  <artifact>
+    <name>name</name>
+    <version>version</version>
+  </artifact>
+  <stages>
+  	<prepare>
+  		<echo>
+			<message>Unpacking file</message>
+		</echo>
+		<unpack format="tbz2" 
+			source="./installroot/artifacts/install/default/spm-0.0.1-SNAPSHOT-bin.tar.bz2"
+			destination="/tmp/unpacked" />
+
+  	</prepare>
+  </stages>
+</adm>
