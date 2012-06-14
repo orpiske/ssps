@@ -16,23 +16,17 @@
 package org.ssps.sdm.main;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
-import net.orpiske.ssps.adm.Adm;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 import org.apache.commons.configuration.ConfigurationException;
-import org.ssps.common.archive.usa.UsaArchive;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
+import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.sdm.actions.Fetcher;
+import org.ssps.sdm.actions.Initializer;
+import org.ssps.sdm.actions.Installer;
 import org.ssps.sdm.actions.Unpacker;
-import org.ssps.sdm.adm.AdmDocument;
-import org.ssps.sdm.adm.AdmProcessor;
+import org.ssps.sdm.repository.exceptions.InvalidRepository;
 import org.ssps.sdm.utils.Constants;
 
 /**
@@ -41,17 +35,22 @@ import org.ssps.sdm.utils.Constants;
  */
 public class Main {
 
-	private static Options options;
-
 	public static void initLogger() throws FileNotFoundException {
 		LoggerUtils.initLogger(Constants.SDM_CONFIG_DIR);
 	}
 
 	public static void help(int code) {
-		HelpFormatter formatter = new HelpFormatter();
-
-		formatter.printHelp("sdm", options);
+		System.out.println("Usage: sdm <action>\n");
+		
+		System.out.println("Actions:");
+		System.out.println("   init");
+		System.out.println("   fetch");
+		System.out.println("   install");
+		System.out.println("   unpack");
+		System.out.println("   help");
+		
 		System.exit(code);
+		
 	}
 
 	/**
@@ -70,91 +69,66 @@ public class Main {
 		}
 	}
 
-	public static CommandLine processCommand(String[] args)
-			throws ParseException {
-		// create the command line parser
-		CommandLineParser parser = new PosixParser();
-
-		// create the Options
-		options = new Options();
-
-		options.addOption("h", "help", false, "prints the help");
-		options.addOption(null, "deploy", false, "deploys a deliverable");
-		options.addOption(null, "fetch", false,
-				"fetchs a deliverable but does not install it");
-		options.addOption(null, "install", false,
-				"install/deploys a previously fetched deliverable");
-		options.addOption(null, "unpack", false,
-				"unpacks a previously fetched deliverable");
-
-		options.addOption("g", "group", true, "deliverable group");
-		options.addOption("n", "name", true, "deliverable name");
-		options.addOption("v", "version", true, "deliverable version");
-
-		options.addOption("r", "repository", true, "repository base address");
-		options.addOption("f", "file", true, "work file");
-		options.addOption("a", "adm-file", true, "adm file");
-
-		/*
-		 * options.addOption("D", "destination", true,
-		 * "destination folder for the deliverable");
-		 */
-
-		return parser.parse(options, args);
-	}
-
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		try {
-			CommandLine cmdLine = processCommand(args);
-
-			initLogger();
-			initConfig();
-
-			if (cmdLine.hasOption('h')) {
+	
+			if (args.length == 0) {
 				help(1);
 			}
-
-			if (cmdLine.hasOption("fetch")) {
-				Fetcher fetcher = new Fetcher(null, null, null);
-
-				String group = cmdLine.getOptionValue('g');
-				String name = cmdLine.getOptionValue('n');
-				String version = cmdLine.getOptionValue('v');
-				String destination = cmdLine.getOptionValue('d');
-
-				fetcher.fetch(group, name, version, destination);
-			} else {
-				if (cmdLine.hasOption("unpack")) {
-					String file = cmdLine.getOptionValue('f');
-					
-					if (file == null) {
-						System.err.println("Missing file information");
-						help(-1);
-					}
-
-					Unpacker unpacker = new Unpacker();
-
-					unpacker.unpack(file);
-				}
-				else {
-					if (cmdLine.hasOption("install")) {
-						String path = cmdLine.getOptionValue('a');
-						AdmDocument admDocument = new AdmDocument(path);
-						Adm adm = admDocument.getDocument();
-						
-						AdmProcessor processor = new AdmProcessor(adm);
-						
-						processor.process();
-					}
-				}
+			
+			String first = args[0];
+			String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+			
+			try {
+				initLogger();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
+			initConfig();
+
+			if (first.equals("help")) {
+				help(1);
+			}
+			
+			try { 
+				if (first.equals("init")) {
+					Initializer init = new Initializer(newArgs);
+					
+					init.run();
+					return;
+				}
+	
+				
+				if (first.equals("fetch")) {
+					Fetcher fetcher = new Fetcher(newArgs);
+	
+					fetcher.run();
+					return;
+				}
+				if (first.equals("unpack")) {
+					Unpacker unpacker = new Unpacker(newArgs);
+	
+					unpacker.run();
+					
+					return;
+				}
+				if (first.equals("install")) {
+					Installer installer = new Installer(newArgs);
+					
+					installer.run();
+					return;
+				}
+				
+				help(1);
+			}
+			catch (XmlDocumentException e) {
+				System.err.println("Invalid document: " + e.getMessage());
+			} catch (InvalidRepository e) {
+				System.err.println("The repository is not correctly setup. Did you run init?");
+			}
 	}
 
 }
