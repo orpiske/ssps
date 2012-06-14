@@ -40,15 +40,13 @@ public class DbmDocument  {
 	private String path;
 	private Dbm dbm;
 
-	public DbmDocument(final String path) throws XmlDocumentException {
+	public DbmDocument(final String path) throws XmlDocumentException, FileNotFoundException {
 		this.setPath(path);
 
 		try {
 			InputStream stream = new FileInputStream(path);
 
 			dbm = XmlParserUtils.unmarshal(Dbm.class, stream);
-		} catch (FileNotFoundException e) {
-			throw new XmlDocumentException(e.getMessage(), e);
 		} catch (JAXBException e) {
 			throw new XmlDocumentException("Unable to umarhsall document", e);
 		}
@@ -68,15 +66,11 @@ public class DbmDocument  {
 		return dbm.getProject().getGroup();
 	}
 
-	public String getProjectName() {
-		//return getElementByExpression("//project/name");
-		
+	public String getProjectName() {	
 		return dbm.getProject().getName();
 	}
 
 	public String getProjectVersion() {
-		//return getElementByExpression("//project/version");
-		
 		return dbm.getProject().getVersion();
 	}
 

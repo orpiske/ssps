@@ -16,6 +16,7 @@
 package org.ssps.spm.main;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -55,7 +56,7 @@ public class PublicationManager {
 		sardine = SardineFactory.begin(repositoryUser, repositoryPassword);
 	}
 
-	public PublicationManager(final String dbmFile) throws XmlDocumentException {
+	public PublicationManager(final String dbmFile) throws XmlDocumentException, FileNotFoundException {
 		dbmDocument = new DbmDocument(dbmFile);
 
 		String repositoryUser = dbmDocument.getRepositoryUser();
@@ -93,7 +94,8 @@ public class PublicationManager {
 				dbmDocument.getProjectName(), dbmDocument.getProjectVersion());
 	}
 
-	public void upload(final String filename) throws IOException {
+	public void upload() throws IOException {
+		String filename = dbmDocument.getDeliverableName() + ".ugz";
 		InputStream stream = new FileInputStream(filename);
 
 		// byte[] data = FileUtils.readFileToByteArray(new File(filename));

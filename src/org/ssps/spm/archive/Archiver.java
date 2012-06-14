@@ -16,6 +16,7 @@
 package org.ssps.spm.archive;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
@@ -33,7 +34,14 @@ public class Archiver {
 	private UsaArchive usaArchive;
 	private DbmDocument dbmDocument;
 
-	public Archiver(final String dbmFile) throws XmlDocumentException {
+	/**
+	 * 
+	 * @param dbmFile The path to the DBM file (usually: dbm.xml) on the 
+	 * existing directory
+	 * @throws XmlDocumentException If the DBM file is incorrectly setup
+	 * @throws FileNotFoundException If the DBM archive cannot be found
+	 */
+	public Archiver(final String dbmFile) throws XmlDocumentException, FileNotFoundException {
 		dbmDocument = new DbmDocument(dbmFile);
 		usaArchive = new UsaArchive();
 	}

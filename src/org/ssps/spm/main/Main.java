@@ -16,6 +16,7 @@
 package org.ssps.spm.main;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -26,11 +27,13 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
+import org.ssps.spm.actions.ArchiveCreator;
+import org.ssps.spm.actions.Publisher;
+import org.ssps.spm.actions.RepositoryManager;
 import org.ssps.spm.archive.Archiver;
 import org.ssps.spm.utils.Constants;
 
 public class Main {
-	private static Options options;
 
 	public static void initLogger() throws FileNotFoundException {
 		LoggerUtils.initLogger(Constants.SPM_CONFIG_DIR);
@@ -53,87 +56,69 @@ public class Main {
 	}
 
 	public static void help(int code) {
-		HelpFormatter formatter = new HelpFormatter();
-
-		formatter.printHelp("spm", options);
+		System.out.println("Usage: sdm <action>\n");
+		
+		System.out.println("Actions:");
+		System.out.println("   create");
+		System.out.println("   publish");
+		System.out.println("   delete");
+		
 		System.exit(code);
 	}
 
-	public static CommandLine processCommand(String[] args)
-			throws ParseException {
-		// create the command line parser
-		CommandLineParser parser = new PosixParser();
-
-		// create the Options
-		options = new Options();
-
-		options.addOption("h", "help", false, "prints the help");
-		options.addOption(null, "create", false, "create the deliverable file");
-		options.addOption(null, "publish", false,
-				"send the file to the publication server");
-		options.addOption(null, "delete", false,
-				"deletes a resource from the repository");
-
-		options.addOption("f", "file", true, "path to the DBM file");
-		options.addOption("d", "deliverable", true,
-				"path to the deliverable file");
-		options.addOption("u", "url", true, "URL to the resource to delete");
-
-		return parser.parse(options, args);
-	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
-			CommandLine cmdLine = processCommand(args);
-
-			initLogger();
-			initConfig();
-
-			if (cmdLine.hasOption('h')) {
+			if (args.length == 0) {
 				help(1);
 			}
-
-			String dbmFile = cmdLine.getOptionValue('f');
-			if (dbmFile == null) {
-				help(-1);
+			
+			String first = args[0];
+			String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+			
+			try {
+				initLogger();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
 			}
+			initConfig();
 
-			if (cmdLine.hasOption("create")) {
-				Archiver archiver = new Archiver(dbmFile);
-
-				archiver.createArchive();
-			} else {
-				if (cmdLine.hasOption("publish")) {
-					String deliverable = cmdLine.getOptionValue('d');
-
-					PublicationManager manager = new PublicationManager(dbmFile);
-
-					manager.upload(deliverable);
-				} else {
-					if (cmdLine.hasOption("delete")) {
-						PublicationManager manager = new PublicationManager(
-								dbmFile);
-
-						manager.delete();
-					} else {
-						help(1);
-					}
-				}
+			if (first.equals("help")) {
+				help(1);
 			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-
-			System.exit(-1);
+			
+			if (first.equals("create")) {
+				ArchiveCreator creator = new ArchiveCreator(newArgs);
+				
+				creator.run();
+				
+				return;
+			}
+			
+			if (first.equals("publish")) {
+				Publisher publisher = new Publisher(newArgs);
+				
+				publisher.run();
+				
+				return;
+			}
+			
+			if (first.equals("publish")) {
+				RepositoryManager manager = new RepositoryManager(newArgs);
+				
+				manager.run();
+				
+				return;
+			}
 		} catch (Exception e) {
-			System.err
-					.println("Unable to execute operation: " + e.getMessage());
-
-			e.printStackTrace();
+			System.err.println("Unable to execute operation: " 
+					+ e.getMessage());
 		}
+		
 
 	}
 
