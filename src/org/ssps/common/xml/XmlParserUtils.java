@@ -8,20 +8,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 public class XmlParserUtils {
-	
-	public static <T> void marshal(Class<T> clazz) {
-	        
-			/**
-			try {
-	            // JAXBElement<T> gl = of.createGreetings( grList );
-	            //JAXBContext jc = JAXBContext.newInstance( "hello" );
-	            Marshaller m = jc.createMarshaller();
-	            m.marshal( gl, System.out );
-	        } catch( JAXBException jbe ){
-	            // ...
-	        }
-	        */
-	}
 
 	public static <T> T unmarshal(Class<T> docClass, InputStream inputStream)
 			throws JAXBException 
