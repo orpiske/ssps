@@ -107,7 +107,7 @@
 
 				<executions>
 					<execution>
-						<id>dbm</id>
+						<id>JAXB Classes</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
@@ -115,6 +115,7 @@
 							<schemaIncludes>
 								<include>dbm.xsd</include>
 								<include>adm.xsd</include>
+								<include>repository.xsd</include>
 							</schemaIncludes>
 							<schemaDirectory>${basedir}/src/main/resources/schema</schemaDirectory>
 							<generateDirectory>${project.build.directory}/generated-sources</generateDirectory>
