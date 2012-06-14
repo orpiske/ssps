@@ -46,8 +46,9 @@
         		<element name="unpack" type="tns:UnpackRule"
         			minOccurs="0">
         		</element>
-                <element name="symlink" type="tns:SymlinkRule"></element>
-            </choice>
+                <element name="shield" type="tns:ShieldRule" minOccurs="0"></element>
+                <element name="symlink" type="tns:SymlinkRule" minOccurs="0"></element>
+        	</choice>
 
         </sequence>
 
@@ -161,5 +162,10 @@
 
     		</extension>
     	</complexContent>
+    </complexType>
+
+    <complexType name="ShieldRule">
+    	<sequence></sequence>
+    	<attribute name="resource" type="string"></attribute>
     </complexType>
 </schema>
