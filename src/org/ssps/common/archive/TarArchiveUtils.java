@@ -171,6 +171,20 @@ public abstract class TarArchiveUtils implements Archive {
 					outStream.close();
 				}
 
+				int mode = entry.getMode();
+				
+				int canOthersExecute = (mode >> 3) & 1; 
+				int canOwnerExecute = (mode >> 6) & 1;
+				
+				if (canOthersExecute == 1) {
+					outFile.setExecutable(true, false);
+				}
+				else {
+					if (canOthersExecute == 0 && canOwnerExecute == 1) {
+						outFile.setExecutable(true, true);
+					}
+				}
+				
 				entry = (TarArchiveEntry) archiveStream.getNextEntry();
 			}
 
