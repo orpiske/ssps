@@ -75,7 +75,7 @@ public class RepositoryManager extends ActionInterface {
 		String dbmFile = cmdLine.getOptionValue('f');
 
 		if (dbmFile == null) {
-			dbmFile = "dbm.xml";
+			dbmFile = "./dbm.xml";
 		}
 		
 		PublicationManager manager = new PublicationManager(dbmFile);

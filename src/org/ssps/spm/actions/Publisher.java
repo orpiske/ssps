@@ -74,7 +74,7 @@ public class Publisher extends ActionInterface {
 		String dbmFile = cmdLine.getOptionValue('f');
 
 		if (dbmFile == null) {
-			dbmFile = "dbm.xml";
+			dbmFile = "./dbm.xml";
 		}
 		
 		PublicationManager manager = new PublicationManager(dbmFile);
@@ -97,7 +97,8 @@ public class Publisher extends ActionInterface {
 		} catch (XmlDocumentException e) {
 			System.err.println("Invalid XML document: " + e.getMessage());
 		} catch (IOException e) {
-			System.err.println("Invalid DBM document: " + e.getMessage());
+			System.err.println("Input/output error: " + e.getMessage() + 
+					"\nDid you forget to run spm create?");
 		}
 
 	}

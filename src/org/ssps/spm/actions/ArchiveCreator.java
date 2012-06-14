@@ -78,7 +78,7 @@ public class ArchiveCreator extends ActionInterface {
 		String dbmFile = cmdLine.getOptionValue('d');
 		
 		if (dbmFile == null) {
-			dbmFile = "dbm.xml";
+			dbmFile = "./dbm.xml";
 		}
 	
 		Archiver archiver;

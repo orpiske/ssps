@@ -15,6 +15,7 @@
  */
 package org.ssps.spm.archive.dbm;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -106,6 +107,11 @@ public class DbmDocument  {
 
 	public String getDeliverableName() {
 		return getProjectName() + "-" + getProjectVersion();
+	}
+	
+	public String getDeliverableFullPath() {
+		return getDeliverableOutputDirectory() + File.separator 
+				+ getDeliverableName() + ".ugz";
 	}
 
 	public String getDeliverableOutputDirectory() {

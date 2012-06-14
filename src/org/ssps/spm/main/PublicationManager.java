@@ -95,7 +95,7 @@ public class PublicationManager {
 	}
 
 	public void upload() throws IOException {
-		String filename = dbmDocument.getDeliverableName() + ".ugz";
+		String filename = dbmDocument.getDeliverableFullPath();
 		InputStream stream = new FileInputStream(filename);
 
 		// byte[] data = FileUtils.readFileToByteArray(new File(filename));
@@ -118,10 +118,16 @@ public class PublicationManager {
 			sardine.createDirectory(getPath());
 		}
 
-		sardine.put(getPath() + FilenameUtils.getName(filename), stream);
+		String destination = getPath() + FilenameUtils.getName(filename);
+		sardine.put(destination, stream);
+		System.out.println("Deliverable uploaded successfully to " 
+				+ destination);
 	}
 
 	public void delete() throws IOException {
-		sardine.delete(getPath());
+		String destination = getPath();
+		
+		sardine.delete(destination);
+		System.out.println("Removing folder " + destination);
 	}
 }

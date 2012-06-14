@@ -107,13 +107,15 @@ public class Main {
 				return;
 			}
 			
-			if (first.equals("publish")) {
+			if (first.equals("delete")) {
 				RepositoryManager manager = new RepositoryManager(newArgs);
 				
 				manager.run();
 				
 				return;
 			}
+			
+			help(1);
 		} catch (Exception e) {
 			System.err.println("Unable to execute operation: " 
 					+ e.getMessage());
