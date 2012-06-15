@@ -13,7 +13,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- -->
+-->
 
 <adm xmlns="http://www.orpiske.net/ssps/adm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/adm ../src/main/resources/schema/adm.xsd ">
   <artifact>
@@ -22,31 +22,13 @@
   </artifact>
   <stages>
   	<prepare>
-  		<echo>
-			<message>Starting to process artifact ${name}-${version}</message>
-		</echo>
-		
-		<echo>
-			<message>Basedir = ${basedir} </message>
-		</echo>
-		
-		<echo>
-			<message>Repository = ${repository} </message>
-		</echo>
-
-		<echo>
-			<message>WorkDir = ${workdir}</message>
-		</echo>
-		
-  		<echo>
-			<message>Unpacking file</message>
-		</echo>
+  		<exec> </exec>
 		<unpack format="tbz2" 
 			source="${basedir}/artifacts/install/default/${name}-${version}-bin.tar.bz2"
 			destination="${workdir}/${name}/" />
 			
-		<shield resource="${repository}/${name}/conf/spm.properties" />
-		<shield resource="${repository}/${name}/conf/log.properties" />
+		<shield resource="${repository}/${name}-${version}/conf/spm.properties" />
+		<shield resource="${repository}/${name}-${version}/conf/log.properties" />
   	</prepare>
   	<setup>
   		<copy from="${workdir}/${name}/${name}-${version}/lib" to="${repository}/${name}-${version}/lib" />
