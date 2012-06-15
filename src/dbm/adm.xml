@@ -29,6 +29,10 @@
 		<echo>
 			<message>Basedir = ${basedir} </message>
 		</echo>
+		
+		<echo>
+			<message>Repository = ${repository} </message>
+		</echo>
 
 		<echo>
 			<message>WorkDir = ${workdir}</message>
@@ -40,7 +44,15 @@
 		<unpack format="tbz2" 
 			source="${basedir}/artifacts/install/default/${name}-${version}-bin.tar.bz2"
 			destination="${workdir}/${name}/" />
+			
+		<shield resource="${repository}/${name}/conf/spm.properties" />
+		<shield resource="${repository}/${name}/conf/log.properties" />
   	</prepare>
+  	<setup>
+  		<copy from="${workdir}/${name}/${name}-${version}/lib" to="${repository}/${name}-${version}/lib" />
+		<copy from="${workdir}/${name}/${name}-${version}/conf" to="${repository}/${name}-${version}/conf" />
+		<copy from="${workdir}/${name}/${name}-${version}/bin" to="${repository}/${name}-${version}/bin" />  		
+  	</setup>
   	<validate>
   		<echo>
 			<message>Validated :)</message>
