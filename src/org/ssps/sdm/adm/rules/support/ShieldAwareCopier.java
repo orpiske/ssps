@@ -75,6 +75,10 @@ public class ShieldAwareCopier extends DirectoryWalker {
 		
 		if (!ShieldUtils.isShielded(destinationFile)) {
 			FileUtils.copyFile(file, destinationFile);
+			
+			destinationFile.setExecutable(file.canExecute());
+			destinationFile.setReadable(file.canRead());
+			destinationFile.setWritable(file.canWrite());
 		}
 		else {
 			PrintUtils.printInfo("Ignoring shielded file " + file.getPath());

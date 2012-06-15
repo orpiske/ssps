@@ -126,6 +126,7 @@ public class Main {
 					Deployer deployer = new Deployer(newArgs);
 					
 					deployer.run();
+					return;
 				}
 				
 				help(1);

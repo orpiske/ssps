@@ -37,6 +37,15 @@ public class ShieldRuleProcessor extends AbstractRuleProcessor {
 	
 	public void run(ShieldRule rule) throws RuleException {
 		String resource = admVariables.evaluate(rule.getResource());
+		
+		File shieldedFile = new File(resource);
+		
+		if (!shieldedFile.exists()) {
+			PrintUtils.printInfo("Resource " + resource + " does not exist");
+			
+			return;
+		}
+		
 		File shield = new File(resource + ShieldUtils.SHIELD_EXT);
 	
 		if (!shield.exists()) {

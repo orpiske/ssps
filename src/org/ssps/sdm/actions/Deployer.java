@@ -50,6 +50,8 @@ public class Deployer extends ActionInterface {
 	private String version;
 	
 	public Deployer(final String[] args) throws XmlDocumentException, InvalidRepository {
+		processCommand(args);
+		
 		RepositoryDocument repositoryDocument = new RepositoryDocument();
 		repository = repositoryDocument.getDocument();
 	}
