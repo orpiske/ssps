@@ -47,9 +47,9 @@ public interface Archive {
 	/**
 	 * Unpack 'file' to 'directory'
 	 * 
-	 * @param file
-	 *            The packed file
 	 * @param source
+	 *            The source file
+	 * @param destination
 	 *            The destination directory
 	 * @return The number of bytes unpacked
 	 * @throws IOException

@@ -16,7 +16,6 @@
 package org.ssps.common.xml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,11 +28,26 @@ import javax.xml.bind.Marshaller;
 import org.apache.commons.io.IOUtils;
 
 /**
+ * XML writing utilities
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class XmlWriterUtils {
 	
+	/**
+	 * Restricted constructor
+	 */
+	private XmlWriterUtils() {}
+	
+	
+	/**
+	 * Marshals an object into a formatted XML document
+	 * @param element the JAXB element object that represents an 'object' of 
+	 * type T
+	 * @param object the object to be transformed into XML
+	 * @param stream the output stream
+	 * @throws JAXBException if unable to transform the object to XML
+	 */
 	public static <T> void marshal(JAXBElement<T> element, T object, OutputStream stream) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(
 				object.getClass().getPackage().getName());
@@ -45,6 +59,14 @@ public class XmlWriterUtils {
 	}
 	
 	
+	/**
+	 * Marshals an object into a formatted XML document
+	 * @param element the JAXB element object that represents an 'object' of 
+	 * type T
+	 * @param object the object to be transformed into XML
+	 * @param file the output file
+	 * @throws JAXBException if unable to transform the object to XML
+	 */
 	public static <T> void marshal(JAXBElement<T> element, T object, File file) throws JAXBException, IOException {
 		OutputStream stream = new FileOutputStream(file);
 		

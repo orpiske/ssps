@@ -64,7 +64,6 @@ public class CompressedArchiveUtils {
 	 *            destination file
 	 * @param format
 	 *            compression format
-	 * @return
 	 * @throws CompressorException if the archiver name is not known
 	 * @throws IOException for lower level I/O errors
 	 */

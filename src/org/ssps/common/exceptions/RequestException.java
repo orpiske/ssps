@@ -21,13 +21,13 @@ package org.ssps.common.exceptions;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
+@SuppressWarnings("serial")
 public class RequestException extends SspsException {
-
+	
 	/**
-	 * 
+	 * Constructor
+	 * @param message
 	 */
-	private static final long serialVersionUID = 1L;
-
 	public RequestException(String message) {
 		super(message);
 	}

@@ -18,26 +18,26 @@ package org.ssps.common.xml.exceptions;
 import org.ssps.common.exceptions.SspsException;
 
 /**
+ * XML Document exception
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
+@SuppressWarnings("serial")
 public class XmlDocumentException extends SspsException {
 
-	/**
-     * 
-     */
-	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message exception message
 	 */
 	public XmlDocumentException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message exception message
+	 * @param t root cause
 	 */
 	public XmlDocumentException(String message, Throwable t) {
 		super(message, t);

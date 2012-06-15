@@ -18,10 +18,6 @@ package org.ssps.common.xml;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -106,7 +102,7 @@ public abstract class XmlDocument {
 	 * @param expression
 	 *            The XPath expression
 	 * @param node
-	 * @return
+	 * @return the node
 	 */
 	protected Element find(final String expression, Node node) {
 		XPathFactory factory = XPathFactory.newInstance();

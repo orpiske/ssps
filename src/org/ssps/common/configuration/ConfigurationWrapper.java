@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.common.configuration;
 
 import java.io.File;
@@ -21,15 +21,25 @@ import java.io.FileNotFoundException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+
+/**
+ * Wraps the configuration object
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class ConfigurationWrapper {
 	private static PropertiesConfiguration config;
+	
+	/**
+	 * Restricted constructor
+	 */
+	private ConfigurationWrapper() {}
 
 	/**
 	 * Initializes the configuration object
 	 * 
-	 * @param propertyName
-	 *            The name of the system property that points to the log
-	 *            configuration directory
+	 * @param configDir
+	 * 			  The configuration directory containing the configuration file
 	 * @param fileName
 	 *            The name of the configuration file
 	 * @throws FileNotFoundException
@@ -50,7 +60,7 @@ public class ConfigurationWrapper {
 	/**
 	 * Gets the configuration object
 	 * 
-	 * @return
+	 * @return the instance of the configuration object
 	 */
 	public static PropertiesConfiguration getConfig() {
 		return config;

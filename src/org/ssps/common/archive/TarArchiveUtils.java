@@ -56,7 +56,7 @@ public abstract class TarArchiveUtils implements Archive {
 	 * @param stripPath
 	 *            whether or not to strip part of the path (used by the
 	 *            UsaArchiver)
-	 * @return
+	 * @return the number of bytes processed
 	 * @throws ArchiveException
 	 * @throws IOException
 	 */
@@ -113,7 +113,7 @@ public abstract class TarArchiveUtils implements Archive {
 	 * @param destination destination directory. If the directory does not 
 	 * exists, it will be created
 	 * @param format archive format
-	 * @return
+	 * @return the number of bytes processed
 	 * @throws SspsException
 	 * @throws ArchiveException
 	 * @throws IOException
