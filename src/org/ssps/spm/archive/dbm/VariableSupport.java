@@ -31,6 +31,9 @@ public class VariableSupport {
 		Velocity.init();
 
 		VelocityContext context = new VelocityContext();
+		
+		Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS,
+				org.apache.velocity.runtime.log.NullLogSystem.class);
 
 		String baseDir = FilenameUtils.getFullPath(document.getPath());
 
