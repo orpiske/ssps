@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="SSPS Common">
+  <bannerLeft>
+    <name>SSPS Common</name>
+    <href>http://www.orpiske.net/ssps/common/</href>
+  </bannerLeft>
+  <body>
+    <menu name="SSPS Common">
+      <item name="Introduction" href="index.html"/>
+      <item name="Source Code" href="get.html"/>
+      <item name="General Information" href="about.html"/>
+    </menu>
+    
+    <menu name="Documentation">
+      <item name="API" href="apidocs/index.html"/>
+    </menu>
+  </body>
+</project>
