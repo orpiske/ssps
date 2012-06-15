@@ -17,7 +17,7 @@
 
 <adm xmlns="http://www.orpiske.net/ssps/adm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/adm ../src/main/resources/schema/adm.xsd ">
   <artifact>
-    <name>spm</name>
+    <name>sdm</name>
     <version>0.0.1-SNAPSHOT</version>
   </artifact>
   <stages>
