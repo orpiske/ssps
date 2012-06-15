@@ -26,6 +26,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
@@ -48,12 +49,15 @@ public class Deployer extends ActionInterface {
 	private Repository repository;
 	
 	private String version;
+	private String name;
 	
 	public Deployer(final String[] args) throws XmlDocumentException, InvalidRepository {
 		processCommand(args);
 		
 		RepositoryDocument repositoryDocument = new RepositoryDocument();
 		repository = repositoryDocument.getDocument();
+		
+		name = repository.getName();
 	}
 
 	/* (non-Javadoc)
@@ -88,8 +92,6 @@ public class Deployer extends ActionInterface {
 	}
 	
 	private String getPackageWorkdir() {
-		String name = repository.getName();
-		
 		return WorkdirUtils.getWorkDir() + File.separator + name + 
 				File.separator + version;
 	}
@@ -98,7 +100,8 @@ public class Deployer extends ActionInterface {
 	private void fetch() throws XmlDocumentException, InvalidRepository, IOException {
 		Fetcher fetcher = new Fetcher();
 		
-		final String destination = WorkdirUtils.getWorkDir();
+		final String destination = WorkdirUtils.getWorkDir() + File.separator 
+				+ name ;
 		
 		fetcher.fetch(version, destination);
 	}
@@ -106,13 +109,10 @@ public class Deployer extends ActionInterface {
 	private void unpack() throws SspsArchiveException {
 		Unpacker unpacker = new Unpacker();
 		
-		String name = repository.getName();
-		
-		String source = WorkdirUtils.getWorkDir() + File.separator + name 
-				+ "-" + version + ".ugz";
+		String source = WorkdirUtils.getWorkDir() + File.separator + name +
+				File.separator + name + "-" + version + ".ugz";
 		
 		final String destination = getPackageWorkdir();
-		
 		unpacker.unpack(source, destination);
 	}
 	
@@ -122,6 +122,15 @@ public class Deployer extends ActionInterface {
 		Installer installer = new Installer();
 		
 		installer.install(admFilePath);
+	}
+	
+	private void clean() {
+		String name = repository.getName();
+		String workDirPath = WorkdirUtils.getWorkDir() + File.separator + name;
+		File workDir = new File(workDirPath);
+		
+		System.out.println("Erasing the workdir at " + workDirPath);
+		FileUtils.deleteQuietly(workDir);
 	}
 	
 
@@ -145,6 +154,8 @@ public class Deployer extends ActionInterface {
 				fetch();
 				unpack();
 				install();
+				
+				clean();
 			}
 		} catch (XmlDocumentException e) {
 			System.err.println("Unable to install: " + e.getMessage());

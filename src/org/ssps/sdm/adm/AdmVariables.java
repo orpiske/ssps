@@ -34,6 +34,9 @@ public class AdmVariables {
 	
 	private AdmVariables() {
 		context = new VelocityContext();
+		
+		Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS,
+				org.apache.velocity.runtime.log.NullLogSystem.class);
 	}
 	
 	public void register(final String key, final String value) {
