@@ -16,11 +16,9 @@
 package org.ssps.spm.actions;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -30,6 +28,7 @@ import org.ssps.spm.archive.Archiver;
 import org.ssps.spm.archive.dbm.DbmException;
 
 /**
+ * This action class is reponsible for creating new SSPS archives
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -38,20 +37,15 @@ public class ArchiveCreator extends ActionInterface {
 	private CommandLine cmdLine;
 	private Options options;
 	
+	/**
+	 * Constructor
+	 * @param args command line arguments
+	 */
 	public ArchiveCreator(String[] args) {
 		processCommand(args);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ssps.spm.actions.ActionInterface#help(int)
-	 */
-	@Override
-	protected void help(int code) {
-		HelpFormatter formatter = new HelpFormatter();
-
-		formatter.printHelp("sdm", options);
-		System.exit(code);
-	}
+	
 
 	/* (non-Javadoc)
 	 * @see org.ssps.spm.actions.ActionInterface#processCommand(java.lang.String[])
@@ -70,7 +64,7 @@ public class ArchiveCreator extends ActionInterface {
 			cmdLine = parser.parse(options, args);
 		}
 		catch (ParseException e) {
-			help(-1);
+			help(options, -1);
 		}
 	}
 	
@@ -90,7 +84,7 @@ public class ArchiveCreator extends ActionInterface {
 		catch (FileNotFoundException e) {
 			System.err.println("You must inform the path to the DBM file or " + 
 					"put a dbm.xml file on the current directory");
-			help(-1);
+			help(options, -1);
 		}
 		
 		
@@ -103,7 +97,7 @@ public class ArchiveCreator extends ActionInterface {
 	public void run() {
 		try {
 			if (cmdLine.hasOption('h')) { 
-				help(1);
+				help(options, 1);
 			}
 			else { 
 				archive();

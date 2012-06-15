@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.spm.archive;
 
 import java.io.File;
@@ -27,6 +27,8 @@ import org.ssps.spm.archive.dbm.DbmDocument;
 import org.ssps.spm.archive.dbm.DbmException;
 
 /**
+ * Archiver archives the archive (ok, not the archive, but the artifacts + 
+ * deployment descriptors .. :)
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
@@ -35,7 +37,7 @@ public class Archiver {
 	private DbmDocument dbmDocument;
 
 	/**
-	 * 
+	 * Constructor
 	 * @param dbmFile The path to the DBM file (usually: dbm.xml) on the 
 	 * existing directory
 	 * @throws XmlDocumentException If the DBM file is incorrectly setup
@@ -89,6 +91,12 @@ public class Archiver {
 		}
 	}
 
+	
+	/**
+	 * Creates a new archive
+	 * @throws DbmException if the DBM document is incorrect or invalid
+	 * @throws SspsArchiveException if unable to create a new SSPS Archive
+	 */
 	public void createArchive() throws DbmException, SspsArchiveException {
 		createBuildRoot();
 		copyArtifact();

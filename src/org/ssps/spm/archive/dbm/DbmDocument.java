@@ -41,6 +41,12 @@ public class DbmDocument  {
 	private String path;
 	private Dbm dbm;
 
+	/**
+	 * Constructor
+	 * @param path path to the DBM document
+	 * @throws XmlDocumentException if the DBM document is incorrect/invalid
+	 * @throws FileNotFoundException if the DBM document was not found
+	 */
 	public DbmDocument(final String path) throws XmlDocumentException, FileNotFoundException {
 		this.setPath(path);
 
@@ -53,28 +59,55 @@ public class DbmDocument  {
 		}
 	}
 
-
+	/**
+	 * Gets the path to the DBM document
+	 * @return
+	 */
 	public String getPath() {
 		return path;
 	}
 
-	public void setPath(String path) {
+	
+	private void setPath(String path) {
 		this.path = path;
 	}
 
 	
+	/**
+	 * Gets the project group
+	 * @return the project group
+	 */
+	@Deprecated
 	public String getProjectGroup() {
 		return dbm.getProject().getGroup();
 	}
 
+	
+	/**
+	 * Gets the project name
+	 * @return the project name
+	 */
+	@Deprecated
 	public String getProjectName() {	
 		return dbm.getProject().getName();
 	}
 
+	
+	
+	/**
+	 * Gets the project version
+	 * @return the project version
+	 */
+	@Deprecated
 	public String getProjectVersion() {
 		return dbm.getProject().getVersion();
 	}
 
+	
+	/**
+	 * Gets the source directory
+	 * @return the source directory
+	 */
 	public String getBuildSourceDirectory() {
 		String ret = dbm.getBuild().getSourceDirectory();
 
@@ -85,6 +118,11 @@ public class DbmDocument  {
 		return VariableSupport.parse(ret, this);
 	}
 
+	
+	/**
+	 * Gets the build output directory
+	 * @return the build output directory
+	 */
 	public String getBuildOutputDirectory() {
 		String ret = dbm.getBuild().getOutputDirectory();
 
@@ -95,6 +133,11 @@ public class DbmDocument  {
 		return VariableSupport.parse(ret, this);
 	}
 
+	
+	/**
+	 * Gets the build artifact
+	 * @return
+	 */
 	public String getBuildArtifact() {
 		String ret = dbm.getBuild().getArtifactPath();
 
@@ -105,27 +148,62 @@ public class DbmDocument  {
 		return ret;
 	}
 
+	
+	/**
+	 * Gets the name of the deliverable
+	 * @return
+	 */
+	@Deprecated
 	public String getDeliverableName() {
 		return getProjectName() + "-" + getProjectVersion();
 	}
 	
+	
+	/**
+	 * Gets the full path to the deliverable
+	 * @return
+	 */
+	@Deprecated
 	public String getDeliverableFullPath() {
 		return getDeliverableOutputDirectory() + File.separator 
 				+ getDeliverableName() + ".ugz";
 	}
 
+	
+	/**
+	 * Gets the deliverable output directory
+	 * @return
+	 */
+	@Deprecated
 	public String getDeliverableOutputDirectory() {
 		return VariableSupport.parse(DEF_DELIVERABLE_OUTPUT_DIRECTORY, this);
 	}
 
+	/**
+	 * Gets the repository user
+	 * @return
+	 */
+	@Deprecated
 	public String getRepositoryUser() {
 		return dbm.getRepository().getUsername();
 	}
 
+	
+	/**
+	 * Gets the repository password
+	 * @return
+	 */
+	@Deprecated
 	public String getRepositoryPassword() {
 		return dbm.getRepository().getPassword();
 	}
 
+	
+	/**
+	 * Gets the repository URL
+	 * @return
+	 */
+	@Deprecated
 	public String getRepositoryUrl() {
 		return dbm.getRepository().getUrl();
 	}

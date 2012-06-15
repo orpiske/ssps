@@ -18,6 +18,7 @@ package org.ssps.spm.archive.dbm;
 import org.ssps.common.exceptions.SspsException;
 
 /**
+ * DBM exception
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
@@ -25,20 +26,20 @@ import org.ssps.common.exceptions.SspsException;
 public class DbmException extends SspsException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message exception message
+	 * @param t root cause
 	 */
 	public DbmException(String message, Throwable t) {
 		super(message, t);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message exception message
 	 */
 	public DbmException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 }

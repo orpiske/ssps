@@ -22,11 +22,22 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 /**
+ * Adds support for variables in the DBM file
+ * 
+ * TODO: this class is way too simple. Needs refactoring. Also needs to stop 
+ * using the DbmDocument and use the Dbm class
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
 public class VariableSupport {
 
+	/**
+	 * Parses a text string
+	 * @param input
+	 * @param document
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
 	public static String parse(final String input, final DbmDocument document) {
 		Velocity.init();
 

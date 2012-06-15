@@ -12,18 +12,42 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.spm.actions;
+
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
 
 
 /**
+ * This interface is used by the main code to know how to run specific actions
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
 public abstract class ActionInterface {
 	
-	protected abstract void help(int code);
+
+	/**
+	 * Prints the help for the action and exit
+	 * @param options the options object
+	 * @param code the exit code
+	 */
+	protected void help(final Options options, int code) {
+		HelpFormatter formatter = new HelpFormatter();
+
+		formatter.printHelp("sdm", options);
+		System.exit(code);
+	}
+	
+	/**
+	 * Process the command line arguments
+	 * @param args the command line arguments
+	 */
 	protected abstract void processCommand(String[] args);
+	
+	/**
+	 * Runs the action
+	 */
 	public abstract void run();
 	
 

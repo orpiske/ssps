@@ -12,14 +12,13 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.spm.actions;
 
 import java.io.IOException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -27,6 +26,7 @@ import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.spm.main.PublicationManager;
 
 /**
+ * This action is responsible for repository management
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -35,21 +35,14 @@ public class RepositoryManager extends ActionInterface {
 	private CommandLine cmdLine;
 	private Options options;
 	
+	/**
+	 * Constructor
+	 * @param args command-line arguments
+	 */
 	public RepositoryManager(final String[] args) {
 		processCommand(args);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.ssps.spm.actions.ActionInterface#help(int)
-	 */
-	@Override
-	protected void help(int code) {
-		HelpFormatter formatter = new HelpFormatter();
-
-		formatter.printHelp("sdm", options);
-		System.exit(code);
-
-	}
 
 	/* (non-Javadoc)
 	 * @see org.ssps.spm.actions.ActionInterface#processCommand(java.lang.String[])
@@ -67,7 +60,7 @@ public class RepositoryManager extends ActionInterface {
 			cmdLine = parser.parse(options, args);
 		}
 		catch (ParseException e) {
-			help(-1);
+			help(options, -1);
 		}
 	}
 
@@ -90,7 +83,7 @@ public class RepositoryManager extends ActionInterface {
 	public void run() {
 		try {
 			if (cmdLine.hasOption('h')) { 
-				help(1);
+				help(options, 1);
 			}
 			else { 
 				delete();
@@ -100,7 +93,5 @@ public class RepositoryManager extends ActionInterface {
 		} catch (IOException e) {
 			System.err.println("Invalid DBM document: " + e.getMessage());
 		}
-
 	}
-
 }
