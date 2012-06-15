@@ -165,7 +165,10 @@
     </complexType>
 
     <complexType name="ShieldRule">
-    	<sequence></sequence>
-    	<attribute name="resource" type="string"></attribute>
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="resource" type="string"></attribute>
+    		</extension>
+    	</complexContent>
     </complexType>
 </schema>
