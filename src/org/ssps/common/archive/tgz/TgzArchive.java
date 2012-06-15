@@ -1,3 +1,18 @@
+/**
+   Copyright 2012 Otavio Rodolfo Piske
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 package org.ssps.common.archive.tgz;
 
 import java.io.File;
@@ -14,25 +29,35 @@ import org.ssps.common.archive.TarArchiveUtils;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.exceptions.SspsException;
 
+
+/**
+ * TAR + Gzip archive support
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ */
 public class TgzArchive implements Archive {
 
 	private static final Logger logger = Logger.getLogger(TgzArchive.class);
 
+	/**
+	 * Default file type extension
+	 */
+	public static final String TGZ_EXTENSION = ".gz";
 
 	private String getArchiveFileExtension(final String originalName) {
-		if (originalName.endsWith(".tar")) {
+		if (originalName.endsWith(TarArchiveUtils.TAR_EXTENSION)) {
 			return originalName;
 		}
 
-		return originalName + ".tar";
+		return originalName + TarArchiveUtils.TAR_EXTENSION;
 	}
 
 	private String getCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".gz")) {
+		if (originalName.endsWith(TGZ_EXTENSION)) {
 			return originalName;
 		}
 
-		return originalName + ".gz";
+		return originalName + TGZ_EXTENSION;
 	}
 
 	private String replaceCompressedFileExtension(final String originalName) {
@@ -44,6 +69,10 @@ public class TgzArchive implements Archive {
 	}
 	
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.ssps.common.archive.Archive#pack(java.lang.String, java.lang.String)
+	 */
 	public long pack(String source, String destination)
 			throws SspsArchiveException {
 		File archiveFile = new File(getArchiveFileExtension(destination));
@@ -76,6 +105,10 @@ public class TgzArchive implements Archive {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.ssps.common.archive.Archive#unpack(java.lang.String, java.lang.String)
+	 */
 	public long unpack(String source, String destination)
 			throws SspsArchiveException {
 		File compressedFileSource = new File(source);
@@ -118,6 +151,5 @@ public class TgzArchive implements Archive {
 				uncompressedArchiveFile.delete();
 			}
 		}
-
 	}
 }

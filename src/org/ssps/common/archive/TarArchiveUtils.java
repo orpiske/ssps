@@ -41,6 +41,10 @@ public abstract class TarArchiveUtils implements Archive {
 
 	private static final Logger logger = Logger.getLogger(TarArchiveUtils.class);
 
+	/**
+	 * Default file type extension
+	 */
+	public static final String TAR_EXTENSION = ".tar";
 
 	/**
 	 * Lower level pack operation

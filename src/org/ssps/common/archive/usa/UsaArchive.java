@@ -1,3 +1,18 @@
+/**
+   Copyright 2012 Otavio Rodolfo Piske
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 package org.ssps.common.archive.usa;
 
 import java.io.File;
@@ -14,35 +29,59 @@ import org.ssps.common.archive.TarArchiveUtils;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.exceptions.SspsException;
 
+/**
+ * This class implements support for the Unsigned Ssps Archive
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class UsaArchive implements Archive {
 
 	private static final Logger logger = Logger.getLogger(UsaArchive.class);
-
+	
+	/**
+	 * Default file type extension
+	 */
+	public static final String USA_EXTENSION = ".usa";
+	
+	/**
+	 * File type extension for compressed archive
+	 */
+	public static final String COMPRESSED_USA_EXT = ".ugz";
 
 	private String getArchiveFileExtension(final String originalName) {
-		if (originalName.endsWith(".usa")) {
+		if (originalName.endsWith(USA_EXTENSION)) {
 			return originalName;
 		}
 
-		return originalName + ".usa";
+		return originalName + USA_EXTENSION;
 	}
 
 	private String getCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".ugz")) {
+		if (originalName.endsWith(COMPRESSED_USA_EXT)) {
 			return originalName;
 		}
 
-		return originalName + ".ugz";
+		return originalName + COMPRESSED_USA_EXT;
 	}
 
+	
+	/*
+	 * This is used to replace the extension of the file name. Since the file
+	 * is not compressed anymore, then it's just a regular usa archive
+	 */
 	private String replaceCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(".ugz")) {
-			return originalName.replaceAll(".ugz", ".usa");
+		if (originalName.endsWith(COMPRESSED_USA_EXT)) {
+			return originalName.replaceAll(COMPRESSED_USA_EXT, USA_EXTENSION);
 		}
 
 		return originalName;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.ssps.common.archive.Archive#pack(java.lang.String, java.lang.String)
+	 */
 	public long pack(String source, String destination)
 			throws SspsArchiveException {
 		File archiveFile = new File(getArchiveFileExtension(destination));
@@ -75,6 +114,11 @@ public class UsaArchive implements Archive {
 		}
 	}
 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.ssps.common.archive.Archive#unpack(java.lang.String, java.lang.String)
+	 */
 	public long unpack(String source, String destination)
 			throws SspsArchiveException {
 		File compressedFileSource = new File(source);
@@ -117,6 +161,5 @@ public class UsaArchive implements Archive {
 				uncompressedArchiveFile.delete();
 			}
 		}
-
 	}
 }

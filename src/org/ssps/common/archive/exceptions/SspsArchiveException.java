@@ -12,12 +12,13 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.common.archive.exceptions;
 
 import org.ssps.common.exceptions.SspsException;
 
 /**
+ * Abstracts archiving-specific exceptions
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
@@ -29,12 +30,19 @@ public class SspsArchiveException extends SspsException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message exception message
 	 */
 	public SspsArchiveException(String message) {
 		super(message);
 	}
 
+	
+	/**
+	 * Constructor
+	 * @param message exception message
+	 * @param cause the root cause
+	 */
 	public SspsArchiveException(String message, Throwable cause) {
 		super(message, cause);
 	}
