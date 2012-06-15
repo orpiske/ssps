@@ -22,6 +22,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
+import org.ssps.sdm.actions.Deployer;
 import org.ssps.sdm.actions.Fetcher;
 import org.ssps.sdm.actions.Initializer;
 import org.ssps.sdm.actions.Installer;
@@ -44,6 +45,7 @@ public class Main {
 		
 		System.out.println("Actions:");
 		System.out.println("   init");
+		System.out.println("   deploy");
 		System.out.println("   fetch");
 		System.out.println("   install");
 		System.out.println("   unpack");
@@ -119,6 +121,11 @@ public class Main {
 					
 					installer.run();
 					return;
+				}
+				if (first.equals("deploy")) {
+					Deployer deployer = new Deployer(newArgs);
+					
+					deployer.run();
 				}
 				
 				help(1);

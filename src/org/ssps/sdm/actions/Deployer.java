@@ -15,7 +15,9 @@
  */
 package org.ssps.sdm.actions;
 
-import net.orpiske.ssps.adm.Adm;
+import java.io.File;
+import java.io.IOException;
+
 import net.orpiske.ssps.repository.Repository;
 
 import org.apache.commons.cli.CommandLine;
@@ -24,46 +26,35 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.sdm.adm.AdmDocument;
-import org.ssps.sdm.adm.AdmProcessor;
 import org.ssps.sdm.adm.exceptions.AdmException;
 import org.ssps.sdm.repository.RepositoryDocument;
 import org.ssps.sdm.repository.exceptions.InvalidRepository;
+import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- * 
+ *
  */
-public class Installer extends ActionInterface {
-	private static final Logger logger = Logger.getLogger(Installer.class);
-
+public class Deployer extends ActionInterface {
+	
+	private static final Logger logger = Logger.getLogger(Deployer.class);
+	
 	private CommandLine cmdLine;
 	private Options options;
-
-	private Repository repository;
-
-	public Installer() throws XmlDocumentException, InvalidRepository {
-		RepositoryDocument repositoryDocument = new RepositoryDocument();
-
-		repository = repositoryDocument.getDocument();
-	}
 	
-	public Installer(final String[] args) throws InvalidRepository,
-			XmlDocumentException {
-		processCommand(args);
-
+	private Repository repository;
+	
+	private String version;
+	
+	public Deployer(final String[] args) throws XmlDocumentException, InvalidRepository {
 		RepositoryDocument repositoryDocument = new RepositoryDocument();
-
 		repository = repositoryDocument.getDocument();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.ssps.sdm.actions.ActionInterface#help(int)
 	 */
 	@Override
@@ -72,14 +63,10 @@ public class Installer extends ActionInterface {
 
 		formatter.printHelp("sdm", options);
 		System.exit(code);
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.ssps.sdm.actions.ActionInterface#processCommand(java.lang.String[])
+	/* (non-Javadoc)
+	 * @see org.ssps.sdm.actions.ActionInterface#processCommand(java.lang.String[])
 	 */
 	@Override
 	protected void processCommand(String[] args) {
@@ -88,45 +75,55 @@ public class Installer extends ActionInterface {
 		options = new Options();
 
 		options.addOption("h", "help", false, "prints the help");
-		options.addOption("a", "adm-file", true, "adm file");
-		options.addOption(null, "install-only", false, "does not fetch the file");
+		options.addOption("v", "version", true, "version to deploy");
 
 		try {
 			cmdLine = parser.parse(options, args);
 		} catch (ParseException e) {
 			help(-1);
 		}
+
 	}
 	
-	public void install(String path) throws XmlDocumentException, AdmException {
-		AdmDocument admDocument;
+	private String getPackageWorkdir() {
+		String name = repository.getName();
+		
+		return WorkdirUtils.getWorkDir() + File.separator + name + 
+				File.separator + version;
+	}
 	
-		admDocument = new AdmDocument(path);
-
-		Adm adm = admDocument.getDocument();
-
-		AdmProcessor processor = new AdmProcessor(adm, 
-				FilenameUtils.getFullPath("./"));
+	
+	private void fetch() throws XmlDocumentException, InvalidRepository, IOException {
+		Fetcher fetcher = new Fetcher();
 		
-
-		processor.process();
+		final String destination = WorkdirUtils.getWorkDir();
 		
+		fetcher.fetch(version, destination);
 	}
-
-	private void install() throws XmlDocumentException, AdmException {
-		String path = cmdLine.getOptionValue('a');
+	
+	private void unpack() throws SspsArchiveException {
+		Unpacker unpacker = new Unpacker();
 		
-		if (path == null) {
-			System.err.println("Missing adm file information");
-			help(-1);
-		}
+		String name = repository.getName();
 		
-		install(path);
+		String source = WorkdirUtils.getWorkDir() + File.separator + name 
+				+ "-" + version + ".ugz";
+		
+		final String destination = getPackageWorkdir();
+		
+		unpacker.unpack(source, destination);
 	}
+	
+	private void install() throws XmlDocumentException, AdmException, InvalidRepository {
+		String admFilePath = getPackageWorkdir() + File.separator 
+				+ "installroot" + File.separator + "adm.xml";
+		Installer installer = new Installer();
+		
+		installer.install(admFilePath);
+	}
+	
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.ssps.sdm.actions.ActionInterface#run()
 	 */
 	@Override
@@ -136,6 +133,15 @@ public class Installer extends ActionInterface {
 				help(1);
 			}
 			else {
+				version = cmdLine.getOptionValue('v');
+				if (version == null) {
+					System.err.println("You must inform the version to deploy");
+					
+					help(-1);
+				}
+				
+				fetch();
+				unpack();
 				install();
 			}
 		} catch (XmlDocumentException e) {
@@ -150,7 +156,28 @@ public class Installer extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Invalid package: " + e.getMessage(), e);
 			}
+		} catch (InvalidRepository e) {
+			System.err.println("The repository is not correctly setup. Did you run init?");
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Invalid repository: " + e.getMessage(), e);
+			}
+		} catch (IOException e) {
+			System.err.println("Input/ouput error: " + e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Input/ouput error: " + e.getMessage(), e);
+			}
+		} catch (SspsArchiveException e) {
+			System.err.println("Unable to process SSPS archive: " 
+					+ e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Unable to process SSPS archive: " + e.getMessage(),
+						e);
+			}
 		} 
+
 	}
 
 }

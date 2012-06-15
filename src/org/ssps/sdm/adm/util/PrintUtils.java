@@ -30,7 +30,11 @@ public class PrintUtils {
 	public static void printEndWithError(final String stageName, 
 			final RuleException e) 
 	{
-		
+		System.out.println("\n** " + stageName + " Failed **\n");
+	}
+	
+	public static void printInfo(final String message) {
+		System.out.println("\n[INFO]: " + message);
 	}
 
 }

@@ -60,13 +60,24 @@ public class Fetcher extends ActionInterface {
 	private Options options;
 	private Repository repository;
 	
-
+	public Fetcher() throws XmlDocumentException, InvalidRepository {
+		init();
+	}
+	
 	public Fetcher(final String[] args) throws XmlDocumentException, InvalidRepository {
 		processCommand(args);
 		
+		init();
+	}
+
+
+	/**
+	 * @throws XmlDocumentException
+	 * @throws InvalidRepository
+	 */
+	private void init() throws XmlDocumentException, InvalidRepository {
 		RepositoryDocument repositoryDocument = new RepositoryDocument();
 		repository = repositoryDocument.getDocument();
-		
 		
 		String url = repository.getLocation();
 		if (url == null) {
@@ -90,6 +101,9 @@ public class Fetcher extends ActionInterface {
 		this.url = url;
 		sardine = SardineFactory.begin(username, password);
 	}
+	
+
+	
 	
 	/* (non-Javadoc)
 	 * @see org.ssps.sdm.actions.ActionInterface#help(org.apache.commons.cli.Options, int)
@@ -123,19 +137,10 @@ public class Fetcher extends ActionInterface {
 		}
 	}
 
-	private void fetch() throws IOException {
+	public void fetch(final String version, String destination) throws IOException {
 
 		String group = repository.getGroup();
 		String name = repository.getName();
-		
-		String version = cmdLine.getOptionValue('v');
-		if (version == null) {
-			System.err.println("You must inform the deliverable version");
-			help(-1);
-		}
-		
-		
-		String destination = cmdLine.getOptionValue('d');
 		
 		String path = (new PathUtils(url)).getPath(group, name, version);
 
@@ -170,6 +175,18 @@ public class Fetcher extends ActionInterface {
 			}
 		}
 	}
+	
+	private void fetch() throws IOException {
+		String version = cmdLine.getOptionValue('v');
+		if (version == null) {
+			System.err.println("You must inform the deliverable version");
+			help(-1);
+		}
+		
+		String destination = cmdLine.getOptionValue('d');
+		
+		fetch(version, destination);
+	}
 
 
 	/* (non-Javadoc)
@@ -182,7 +199,7 @@ public class Fetcher extends ActionInterface {
 			if (cmdLine.hasOption('h')) { 
 				help(1);
 			}
-			else { 
+			else {
 				fetch();
 			}
 		} catch (IOException e) {

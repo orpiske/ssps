@@ -15,7 +15,10 @@
 */
 package org.ssps.sdm.utils;
 
+import java.io.File;
+
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
 import org.ssps.common.configuration.ConfigurationWrapper;
 
 /**
@@ -30,6 +33,12 @@ public class WorkdirUtils {
 	
 	public static String getGetRoot() {
 		return config.getString("temp.work.dir");
+	}
+	
+	
+	public static String getWorkDir() {
+		return config.getString("temp.work.dir",
+				FileUtils.getTempDirectoryPath() + File.separator + "work");
 	}
 
 }

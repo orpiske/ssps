@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.usa.UsaArchive;
 import org.ssps.common.configuration.ConfigurationWrapper;
+import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
  * Unpacker
@@ -43,6 +44,10 @@ public class Unpacker extends ActionInterface {
 	
 	private CommandLine cmdLine;
 	private Options options;
+	
+	public Unpacker() {
+		
+	} 
 	
 	public Unpacker(final String[] args) {
 		processCommand(args);
@@ -72,6 +77,7 @@ public class Unpacker extends ActionInterface {
 		
 		options.addOption("h", "help", false, "prints the help");
 		options.addOption("f", "file", true, "work file");
+		options.addOption("d", "destination", true, "destination to unpack");
 		
 		try { 
 			cmdLine = parser.parse(options, args);
@@ -81,16 +87,24 @@ public class Unpacker extends ActionInterface {
 		}
 	}
 	
+	
+	public void unpack(String source, String destination) throws SspsArchiveException {
+		archive.unpack(source, destination);
+	}
+	
 	private void unpack() throws SspsArchiveException {
-		String source = cmdLine.getOptionValue('f');
+		final String source = cmdLine.getOptionValue('f');
 		
 		if (source == null) {
 			System.err.println("Missing file information");
 			help(-1);
 		}
 		
-		final String destination = config.getString("temp.work.dir",
-				FileUtils.getTempDirectoryPath() + File.separator + "work");
+		String destination = cmdLine.getOptionValue('d');
+		if (destination == null) {
+			destination = WorkdirUtils.getWorkDir();
+		}
+		
 		archive.unpack(source, destination);
 	}
 

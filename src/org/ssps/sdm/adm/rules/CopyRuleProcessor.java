@@ -15,18 +15,21 @@
 */
 package org.ssps.sdm.adm.rules;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import net.orpiske.ssps.adm.CopyRule;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.AbstractFileFilter;
+import org.apache.commons.io.filefilter.FileFileFilter;
 import org.ssps.sdm.adm.AdmVariables;
 import org.ssps.sdm.adm.exceptions.RuleException;
+import org.ssps.sdm.adm.rules.support.ShieldAwareCopier;
+import org.ssps.sdm.adm.rules.support.ShieldFileFilter;
+import org.ssps.sdm.adm.rules.support.ShieldUtils;
+import org.ssps.sdm.adm.util.PrintUtils;
 
 public class CopyRuleProcessor extends AbstractRuleProcessor {
 	
@@ -37,18 +40,38 @@ public class CopyRuleProcessor extends AbstractRuleProcessor {
 		run((CopyRule) object);
 	}
 	
+	private void createParentDirectories(File dir) {
+		if (!dir.exists()) {
+			dir.getParentFile().mkdirs();
+		}
+	}
+	
+	
 	private void run(CopyRule rule) throws RuleException {
 		String from = admVariables.evaluate(rule.getFrom());
 		String to = admVariables.evaluate(rule.getTo());
 		
-		InputStream input;
-		OutputStream output;
-		
 		try {
-			input = new FileInputStream(from);
-			output = new FileOutputStream(to);
+			File fromFile = new File(from);
+			File toFile = new File(to);
 			
-			IOUtils.copy(input, output);
+			createParentDirectories(toFile);
+			
+			if (fromFile.isDirectory()) {
+				
+				ShieldAwareCopier copier = new ShieldAwareCopier(toFile);
+				
+				copier.copy(fromFile);
+				
+			}
+			else {
+				if (ShieldUtils.isShielded(toFile)) {
+					PrintUtils.printInfo("Ignoring shilded file " + to);
+				}
+				else { 
+					FileUtils.copyFile(fromFile, toFile);
+				}
+			}
 		} catch (FileNotFoundException e) {
 			throw new RuleException("File not found", e);
 		} catch (IOException e) {

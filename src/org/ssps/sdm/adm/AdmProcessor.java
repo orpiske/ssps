@@ -21,6 +21,7 @@ import net.orpiske.ssps.adm.PrepareStage;
 import net.orpiske.ssps.adm.SetupStage;
 import net.orpiske.ssps.adm.ValidateStage;
 import net.orpiske.ssps.adm.VerifyStage;
+import net.orpiske.ssps.repository.Repository;
 
 import org.apache.log4j.Logger;
 import org.ssps.sdm.adm.exceptions.AdmException;
@@ -39,14 +40,17 @@ import org.ssps.sdm.adm.util.PrintUtils;
  */
 public class AdmProcessor {
 	private static final Logger logger = Logger.getLogger(AdmProcessor.class);
+	
 	private Adm adm;
+	private String repositoryPath;
 	
 	/**
 	 * Constructor
 	 * @param adm The ADM object
 	 */
-	public AdmProcessor(final Adm adm) {
+	public AdmProcessor(final Adm adm, final String repositoryPath) {
 		this.adm = adm;
+		this.repositoryPath = repositoryPath;
 		
 		registerVariables();
 	}
@@ -64,6 +68,8 @@ public class AdmProcessor {
 		
 		String version = adm.getArtifact().getVersion();
 		admVariables.register("version", version);
+		
+		admVariables.register("repository", repositoryPath);
 	}
 	
 	public void process() throws AdmException {
