@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.common.archive;
 
 import java.io.File;
@@ -31,16 +31,16 @@ import org.apache.log4j.Logger;
 import org.ssps.common.exceptions.SspsException;
 
 /**
- * @author Otavio R. Piske <angusyoung@gmail.com>
+ * TAR archive format utilities.
  * 
+ * TODO: rename this class to a more appropriate name.
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public abstract class TarArchiveUtils implements Archive {
 
 	private static final Logger logger = Logger.getLogger(TarArchiveUtils.class);
 
-	protected static File getBaseDirectory(final String source) {
-		return new File(source);
-	}
 
 	/**
 	 * Lower level pack operation
@@ -73,14 +73,12 @@ public abstract class TarArchiveUtils implements Archive {
 			throw e;
 		}
 
-		File startDirectory = getBaseDirectory(source);
+		File startDirectory = new File(source);
 
 		RecursiveArchiver archiver = new RecursiveArchiver(outputStream,
 				stripPath);
 
 		try {
-
-			logger.warn("Start directory = " + startDirectory.getPath());
 			archiver.archive(startDirectory);
 			outputStream.flush();
 			outputStream.close();
@@ -96,8 +94,11 @@ public abstract class TarArchiveUtils implements Archive {
 		}
 
 		long ret = outputStream.getBytesWritten();
-		logger.info("Packed " + ret + " bytes");
-
+		
+		if (logger.isDebugEnabled()) { 
+			logger.debug("Packed " + ret + " bytes");
+		}
+			
 		return ret;
 	}
 

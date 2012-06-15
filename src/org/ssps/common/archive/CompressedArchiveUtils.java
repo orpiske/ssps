@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.common.archive;
 
 import java.io.BufferedInputStream;
@@ -36,7 +36,17 @@ import org.apache.commons.io.IOUtils;
  */
 public class CompressedArchiveUtils {
 	
-	private static void validateDestination(File destination)
+	/**
+	 * Default constructor
+	 */
+	private CompressedArchiveUtils() {}
+	
+	/**
+	 * Prepares the destination directory by creating directories if needed 
+	 * @param destination
+	 * @throws IOException
+	 */
+	private static void prepareDestination(File destination)
 			throws IOException {
 		File parent = destination.getParentFile();
 		
@@ -55,8 +65,8 @@ public class CompressedArchiveUtils {
 	 * @param format
 	 *            compression format
 	 * @return
-	 * @throws CompressorException
-	 * @throws IOException
+	 * @throws CompressorException if the archiver name is not known
+	 * @throws IOException for lower level I/O errors
 	 */
 	public static void compress(File source, File destination, String format)
 			throws CompressorException, IOException {
@@ -100,15 +110,15 @@ public class CompressedArchiveUtils {
 
 	/**
 	 * Uncompress a file
-	 * @param source
-	 * @param destination
-	 * @return
-	 * @throws IOException
+	 * @param source the source file to be uncompressed
+	 * @param destination the destination directory
+	 * @return the number of bytes read
+	 * @throws IOException for lower level I/O errors
 	 */
 	public static long gzUncompress(File source, File destination) throws IOException {
 		FileOutputStream out;
 		
-		validateDestination(destination);
+		prepareDestination(destination);
 		out = new FileOutputStream(destination);
 	
 		FileInputStream fin = null;
@@ -142,15 +152,15 @@ public class CompressedArchiveUtils {
 	
 	/**
 	 * Uncompress a file
-	 * @param source
-	 * @param destination
-	 * @return
-	 * @throws IOException
+	r * @param source the source file to be uncompressed
+	 * @param destination the destination directory
+	 * @return the number of bytes read
+	 * @throws IOException for lower level I/O errors
 	 */
 	public static long bzipUncompress(File source, File destination) throws IOException {
 		FileOutputStream out; 
 		
-		validateDestination(destination);
+		prepareDestination(destination);
 		
 		out = new FileOutputStream(destination);
 	
