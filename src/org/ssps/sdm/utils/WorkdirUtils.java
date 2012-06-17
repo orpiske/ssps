@@ -22,9 +22,9 @@ import org.apache.commons.io.FileUtils;
 import org.ssps.common.configuration.ConfigurationWrapper;
 
 /**
+ * Work dir utilities
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class WorkdirUtils {
 	private static final PropertiesConfiguration config 
