@@ -12,25 +12,18 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.spm.main;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
 import org.ssps.spm.actions.ArchiveCreator;
 import org.ssps.spm.actions.Publisher;
 import org.ssps.spm.actions.RepositoryManager;
-import org.ssps.spm.archive.Archiver;
 import org.ssps.spm.utils.Constants;
 
 public class Main {
