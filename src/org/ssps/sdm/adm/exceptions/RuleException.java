@@ -17,6 +17,11 @@ package org.ssps.sdm.adm.exceptions;
 
 import org.ssps.common.exceptions.SspsException;
 
+/**
+ * Rule exception is used by the rules to raise problems executing them
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 @SuppressWarnings("serial")
 public class RuleException extends SspsException {
 

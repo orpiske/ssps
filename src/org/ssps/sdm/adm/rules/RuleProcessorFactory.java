@@ -26,6 +26,11 @@ import net.orpiske.ssps.adm.UnpackRule;
 import org.ssps.sdm.adm.exceptions.RuleEngineException;
 
 
+/**
+ * Process rules
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public final class RuleProcessorFactory {
 	
 	private static HashMap<Class<?>, Class<? extends AbstractRuleProcessor>> 

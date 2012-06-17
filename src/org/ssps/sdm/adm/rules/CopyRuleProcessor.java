@@ -31,6 +31,11 @@ import org.ssps.sdm.adm.rules.support.ShieldFileFilter;
 import org.ssps.sdm.adm.rules.support.ShieldUtils;
 import org.ssps.sdm.adm.util.PrintUtils;
 
+/**
+ * Implements the copy rule
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class CopyRuleProcessor extends AbstractRuleProcessor {
 	
 	private AdmVariables admVariables = AdmVariables.getInstance();

@@ -35,6 +35,7 @@ import org.ssps.sdm.repository.exceptions.InvalidRepository;
 import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
+ * Implements the deploy action
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */

@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.ssps.sdm.adm.util.PrintUtils;
 
 /**
+ * Implements a file copier that respect shielded files
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */

@@ -33,6 +33,7 @@ import org.ssps.sdm.repository.RepositoryDocument;
 import org.ssps.sdm.repository.exceptions.InvalidRepository;
 
 /**
+ * Implements the install action
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */

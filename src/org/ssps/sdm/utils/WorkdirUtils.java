@@ -30,13 +30,29 @@ public class WorkdirUtils {
 	private static final PropertiesConfiguration config 
 		= ConfigurationWrapper.getConfig();
 	
+	/**
+	 * Restricted constructor
+	 */
+	private WorkdirUtils() {}
 	
+	
+	/**
+	 * Gets the work root dir
+	 * 
+	 * TODO: rename. This name is horrible.
+	 * @return the work root dir
+	 */
+	@Deprecated
 	public static String getGetRoot() {
 		return config.getString("temp.work.dir", 
 				FileUtils.getTempDirectoryPath());
 	}
 	
 	
+	/**
+	 * Gets the work dir
+	 * @return
+	 */
 	public static String getWorkDir() {
 		return config.getString("temp.work.dir",
 				FileUtils.getTempDirectoryPath() + File.separator + "work");

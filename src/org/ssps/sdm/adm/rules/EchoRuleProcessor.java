@@ -20,6 +20,12 @@ import net.orpiske.ssps.adm.EchoRule;
 import org.ssps.sdm.adm.AdmVariables;
 import org.ssps.sdm.adm.exceptions.RuleException;
 
+
+/**
+ * Implements the echo rule
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class EchoRuleProcessor extends AbstractRuleProcessor {
 	
 	private AdmVariables admVariables = AdmVariables.getInstance();

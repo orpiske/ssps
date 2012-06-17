@@ -44,6 +44,7 @@ import com.googlecode.sardine.Sardine;
 import com.googlecode.sardine.SardineFactory;
 
 /**
+ * Implements the fetch action
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */

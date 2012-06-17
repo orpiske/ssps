@@ -17,17 +17,20 @@ package org.ssps.sdm.adm.exceptions;
 
 import org.ssps.common.exceptions.SspsException;
 
+/**
+ * ADM Exception
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 @SuppressWarnings("serial")
 public class AdmException extends SspsException {
 
 	public AdmException(String message, Throwable t) {
 		super(message, t);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AdmException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 	
 

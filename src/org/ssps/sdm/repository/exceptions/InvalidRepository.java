@@ -18,6 +18,7 @@ package org.ssps.sdm.repository.exceptions;
 import org.ssps.common.exceptions.SspsException;
 
 /**
+ * Invalid repository exception
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -25,20 +26,20 @@ import org.ssps.common.exceptions.SspsException;
 public class InvalidRepository extends SspsException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message exception message
+	 * @param t root cause
 	 */
 	public InvalidRepository(String message, Throwable t) {
 		super(message, t);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message exception message
 	 */
 	public InvalidRepository(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 	
 

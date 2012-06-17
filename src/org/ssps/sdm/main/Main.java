@@ -31,6 +31,7 @@ import org.ssps.sdm.repository.exceptions.InvalidRepository;
 import org.ssps.sdm.utils.Constants;
 
 /**
+ * Main class
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */

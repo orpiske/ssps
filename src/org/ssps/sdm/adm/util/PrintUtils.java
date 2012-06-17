@@ -17,6 +17,11 @@ package org.ssps.sdm.adm.util;
 
 import org.ssps.sdm.adm.exceptions.RuleException;
 
+/**
+ * Standard out printing utilities for the rules
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class PrintUtils {
 	
 	public static void printStartStage(final String stageName) {

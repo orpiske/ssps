@@ -28,7 +28,7 @@ import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
- * Unpacker
+ * Implements the unpack action
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */

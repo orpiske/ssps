@@ -25,6 +25,7 @@ import org.ssps.sdm.adm.AdmVariables;
 import org.ssps.sdm.adm.exceptions.RuleException;
 
 /**
+ * Implements the unpack rule
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */

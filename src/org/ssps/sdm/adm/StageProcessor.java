@@ -25,6 +25,13 @@ import org.ssps.sdm.adm.exceptions.StageException;
 import org.ssps.sdm.adm.rules.AbstractRuleProcessor;
 import org.ssps.sdm.adm.rules.RuleProcessorFactory;
 
+/**
+ * The stage processor abstracts part of the work required to process each of 
+ * the stages in an ADM file
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ * @param <T>
+ */
 public abstract class StageProcessor<T extends AbstractStage> {
 	
 	private static Logger logger = Logger.getLogger(StageProcessor.class);

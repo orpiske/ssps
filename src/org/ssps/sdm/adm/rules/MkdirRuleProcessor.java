@@ -24,6 +24,7 @@ import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.adm.util.PrintUtils;
 
 /**
+ * Implements the mkdir rule
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */

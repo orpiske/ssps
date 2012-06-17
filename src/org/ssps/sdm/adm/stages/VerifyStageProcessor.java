@@ -25,6 +25,11 @@ import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.adm.exceptions.StageException;
 import org.ssps.sdm.adm.util.PrintUtils;
 
+/**
+ * Implements the verify stage
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class VerifyStageProcessor extends StageProcessor<VerifyStage>{
 	
 	@Override

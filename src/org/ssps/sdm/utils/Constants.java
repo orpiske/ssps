@@ -17,7 +17,18 @@ package org.ssps.sdm.utils;
 
 import java.io.File;
 
+/**
+ * Application constants
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public final class Constants {
+	
+	/**
+	 * Restricted constructor
+	 */
+	private Constants() {}
+	
 	/**
 	 * This property is used to set the configuration directory
 	 */
