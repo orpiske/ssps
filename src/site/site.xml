@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="SSPS Common">
+<project name="Software Publication Module">
   <bannerLeft>
-    <name>SSPS Common</name>
+    <name>Simple Software Publication System</name>
     <!--
     <src>http://maven.apache.org/images/apache-maven-project.png</src>
     -->
-    <href>http://www.orpiske.net/ssps/common/</href>
+    <href>http://www.orpiske.net/ssps/</href>
   </bannerLeft>
   <!--
   <bannerRight>
@@ -13,18 +13,25 @@
   </bannerRight>
   -->
   <body>
-    <links>
-      <item name="Apache" href="http://www.apache.org/" />
-      <item name="Maven 1.x" href="http://maven.apache.org/maven-1.x/"/>
-      <item name="Maven 2" href="http://maven.apache.org/"/>
-    </links>
-
-    <menu name="SSPS Common">
+    <menu name="SPM">
       <item name="Introduction" href="index.html"/>
-      <item name="Download" href="download.html"/>
+      <item name="Download" href="get.html"/>
       <item name="Release Notes" href="release-notes.html" />
       <item name="General Information" href="about.html"/>
-      <item name="Road Map" href="roadmap.html" />
+    </menu>
+    
+    <menu name="Documentation">
+      <item name="Enable SPM" href="doc/use-ssps.html"/>
+      <item name="Run SPM" href="doc/run-spm.html"/>
+      <item name="Run SDM" href="doc/run-sdm.html"/>
+      <item name="Mail Lists" href="mail-lists.html"/>
+    </menu>
+    
+    
+     <menu name="Project">
+      <item name="License" href="license.html"/>
+      <item name="Summary" href="project-summary.html"/>
+      <item name="Detailed Information" href="project-info.html"/>
     </menu>
   </body>
 </project>

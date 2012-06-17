@@ -1,0 +1,211 @@
+	------
+	Get Started With SPM
+	------
+	Otavio R. Piske
+	------
+	Jun, 2012
+
+Get Started
+
+	The SSPS is composed of two modules: a publication module called SPM and a 
+software deployment module called SDM.
+
+	The SPM is a small utility that takes the a set of files, deployment 
+descriptors and other resources in order to build a deliverable. That deliverable
+is then uploaded to a repository server. 
+	The Software Deployment Module, is the component that downloads deliverables
+from the repository server, extracts then and deploys then on the host system. 
+	This is how they relate to each other:	
+
+[./pics/architecture.png] Architecture
+
+	Overall, the publication process is composed of 6 steps, all of which can be 
+seen in the image below.
+
+[./pics/publication-process.png]
+
+	You can enable SSPS on your project by doing just 3 steps: 
+
+	[[1]] Create the DBM tree.
+	
+	[[2]] Create the ADM file.
+	
+	[[3]] Create the DBM file.
+	
+	After those 3 steps your project is available for publication. 
+	
+	Before you start, however, please make sure you have your backend up and 
+running. If haven't done so yet, you may want to read this very simple 
+{{{./configure-the-repository.html}repository configuration guide}}.
+
+The DBM Tree
+
+	The DBM tree is the directory structure containing the structure for 
+storing the deliverables, deployment descriptors and other resources required 
+for deploying the software. At the moment, you can live with a <<<dbm>>> folder
+within your source directory. Within the DBM tree lies a special file named 
+<<<adm.xml>>>. It is the Artifact Deployment Model (ADM) file. 
+
+The ADM File
+
+	The ADM file contains the deployment rules and tasks used by the SPM to 
+deploy a package. It is a descriptive file, in the sense that it must, 
+specifically, tells how and where the resources must be deployed. For more 
+details about the SPM deployment process check the 
+{{{http://www.orpiske.net/ssps/sdm}Software Deployment Module}} page.
+
+	This is what an ADM file looks like:
+ 
+----------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<adm xmlns="http://www.orpiske.net/ssps/adm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/adm ../src/main/resources/schema/adm.xsd ">
+  <artifact>
+    <name>spm</name>
+    <version>0.0.1-SNAPSHOT</version>
+  </artifact>
+  <stages>
+  	<prepare>
+		<unpack format="tbz2" 
+			source="${basedir}/artifacts/install/default/${name}-${version}-bin.tar.bz2"
+			destination="${workdir}/${name}/" />
+			
+		<shield resource="${repository}/${name}-${version}/conf/spm.properties" />
+		<shield resource="${repository}/${name}-${version}/conf/log.properties" />
+  	</prepare>
+  	<setup>
+  		<copy from="${workdir}/${name}/${name}-${version}/lib" to="${repository}/${name}-${version}/lib" />
+		<copy from="${workdir}/${name}/${name}-${version}/conf" to="${repository}/${name}-${version}/conf" />
+		<copy from="${workdir}/${name}/${name}-${version}/bin" to="${repository}/${name}-${version}/bin" />  		
+  	</setup>
+  	<validate>
+  		<echo>
+			<message>Hooray! Installation completed successfully</message>
+		</echo>
+  	</validate>
+  </stages>
+</adm>
+----------------------------------------
+
+	The ADM file declares stages, which are a group of steps that are executed
+during software deployment. Currently, the following stages are accepted: 
+prepare, validate, setup, verify, cleanup.
+
+Section: Rules
+
+	Each stage accept the following rules:
+	
+	* <<<echo>>>: echoes a message.
+
+	* <<<mkdir>>>: creates a directory.
+
+	* <<<shield>>>: shields a file (prevents it from being overwritten).
+	
+	* <<<unpack>>>: unpacks a tar.bz2/tar.gz/ugz file.
+
+	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/adm.xsd}download}}
+the current schema file and open it on your favourite editor.
+
+
+The DBM File
+
+	The Deliverable Build Model (DBM) file is a file descriptor that contains basic
+description about what and how the deliverable will be built. It must be located
+on your project root and should be named dbm.xml. 
+	The file format is rather simple, this is the one used by SPM:
+
+----------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
+  <project>
+    <group>net.orpiske</group>
+    <name>spm</name>
+    <version>0.0.1-SNAPSHOT</version>
+  </project>
+  <build>
+    <sourceDirectory>${basedir}/src/dbm</sourceDirectory>
+    <outputDirectory>${basedir}/target/installroot</outputDirectory>
+    <artifactPath>${basedir}/target/${name}-${version}-bin.tar.bz2</artifactPath>
+  </build>
+  
+  <repository>
+  	<url>http://localhost:8080/repository/default</url>
+  	<username>admin</username>
+  	<password></password>
+  </repository>
+</dbm>
+----------------------------------------
+
+	The DBM file is divided in three main sections: project, build and 
+repository. 
+
+Section: Project
+
+	This section contains information about the project.
+	
+	* Element <<<group>>>: the group name for the project. If you don't know 
+what to use, then use the same value of the groupId tag in your Maven's pom.xml 
+file. If you don't use Maven, you can use your company name or whatever if think
+that express the group this deliverable is part of.
+
+	* Element <<<name>>>: the name of the project
+
+	* Element <<<version>>>: the version of the project.
+	
+Section: Build
+
+	This section contains information about how to build the deliverable.
+	
+	* Element <<<sourceDirectory>>>: the source DBM directory. 
+	
+	* Element <<<outputDirectory>>>: the output folder.
+	
+	* Element <<<artifactPath>>>: the path for the artifact. At the moment, SPM
+supports only a single artifact per deliverable. This will change in the next 
+versions.
+	
+Section: Repository
+
+	This section contains information about where to publish the deliverable.
+	
+	* Element <<<url>>>: the URL for the repository.
+	
+	* Element <<<username>>>: the username to login to the repository.
+	
+	* Element <<<password>>>: the password to login to the repository.
+
+	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/dbm.xsd}download}}
+the current schema file and open it on your favourite editor.
+
+Next Steps
+
+	The project is now available for publication. You can publish the 
+deliverable to the repository by using the following commands (on a Unix system): 
+
+----------------------------------------
+spm create && spm publish
+----------------------------------------
+
+	Please check the {{{./run-sdm.html}Run SPM}} documentation to gather the 
+details about each of these steps.
+
+	To deploy your newly created project you can run these steps: 
+	
+	[[1]] Initialize a local repository. This is a one-time only operation that
+ties a directory on the file system to a content in the repository.
+
+----------------------------------------
+sdm init -g my.group -n mysoftware -v 0.0.1 -l http://hostname:8080/repository
+----------------------------------------
+
+	Please check the {{{./run-sdm.html}Run SDM}} documentation to gather the 
+details about each of these steps.
+
+
+	[[2]] Deploy the package:
+	
+----------------------------------------
+sdm publish
+----------------------------------------
+
+	If everything went fine, the artifact should have been deployed on the local
+repository.

@@ -1,0 +1,95 @@
+	------
+	Run SDM
+	------
+	Otavio R. Piske
+	------
+	Jun, 2012
+	
+	
+Obtaining Help	
+
+	You can always use the --help flag on each of the actions. That will 
+print a brief explation of each of the flags. 
+
+Configuring SDM
+
+	Usually you don't need to, but if you want, you can configure a few SDM run
+time settings on the sdm.properties file. It is located on the conf 
+directory.
+
+----------------------------------------
+# Can (and should) be overridden in the DBM file
+default.repository.url=http://localhost:8080/repository/default
+
+# Can (and should) be overridden in the DBM file
+default.repository.username=admin
+
+# Can (and should) be overridden in the DBM file
+default.repository.password=
+
+# Temporary working directory. If commented, it will use the OS default.
+# temp.work.dir=/tmp/sdm/work
+----------------------------------------
+
+
+Initialize the Repository
+
+	This is a one-time action that ties your local repository to a remote
+repository. 
+
+----------------------------------------
+sdm init <flags>
+----------------------------------------
+
+	For example:
+	
+----------------------------------------
+sdm init -g my.group -n mysoftware -l http://hostname:port/pat/to/repository
+----------------------------------------	
+
+	If something goes wrong and you have incorrectly configured your reposity, 
+just delete the .repository.xml file.
+
+Deploy
+
+	To deploy a deliverable that has been published to a server, just run on an
+initialized local repository:
+
+----------------------------------------
+sdm publish -v <version>
+----------------------------------------
+
+	For example:
+
+----------------------------------------
+sdm publish -v 0.0.1
+----------------------------------------
+
+	That will download and deploy version 0.0.1 from the remote repository.
+
+Fetch 
+
+	This action can be used for testing purposes. It fetches the deliverable 
+from the remote repository.
+
+----------------------------------------
+sdm fetch <flags>
+----------------------------------------
+
+Unpack
+
+	This action can be used for testing purposes. It unpacks a deliverable on
+your disk into your work directory.
+
+----------------------------------------
+sdm unpack <flags>
+----------------------------------------
+
+Install
+
+	This action can be used for testing purposes. It installs a deliverable on
+your disk into your repository.
+
+----------------------------------------
+sdm install <flags>
+----------------------------------------

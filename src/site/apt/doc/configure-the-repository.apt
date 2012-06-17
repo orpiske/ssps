@@ -1,0 +1,26 @@
+	------
+	Repository Configuration
+	------
+	Otavio R. Piske
+	------
+	Jun, 2012
+	
+Configuring the Repository
+
+	The SPM publishes the deliverables in a WebDAV compatible Content Repository. 
+A good open source, free, alternative is Apache's {{{http://jackrabbit.apache.org/}JackRabbit}}. 
+Although JackRabbit configuration is outside the scope of this documentation, 
+here's a brief explanation about how to get it up and running very quickly: 
+
+	[[1]] If you haven't done so, run jack rabbit one time only, so that it creates
+the default repository. Once it's up and running, bring it down, open the file
+<<<repository.xml>>> and perform the following changes: 
+
+	[[2]] Change the Access Manager from the default value to 
+<<<org.apache.jackrabbit.core.security.simple.SimpleAccessManager>>>
+
+	[[3]] Change the Login Module from the default to
+<<<org.apache.jackrabbit.core.security.simple.SimpleLoginModule>>>
+
+	[[4]] Run JackRabbit again and access {{{http://localhost:8080/repository/default}}} 
+or whatever you have configured your repository to be.
