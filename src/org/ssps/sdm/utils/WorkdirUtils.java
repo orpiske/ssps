@@ -32,7 +32,8 @@ public class WorkdirUtils {
 	
 	
 	public static String getGetRoot() {
-		return config.getString("temp.work.dir");
+		return config.getString("temp.work.dir", 
+				FileUtils.getTempDirectoryPath());
 	}
 	
 	
