@@ -13,6 +13,31 @@
 	<groupId>net.orpiske</groupId>
 	<artifactId>ssps-common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<url>http://www.orpiske.net/ssps-common</url>
+	
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>manual</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>orpiske</id>
+			<name>Otavio R. Piske</name>
+			<email>angusyoung@gmail.com</email>
+			<url>http://orpiske.net</url>
+			<organization>N/A</organization>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-3</timezone>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<!-- Apache Log4j -->
