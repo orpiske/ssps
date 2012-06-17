@@ -4,6 +4,16 @@
 	<groupId>org.ssps</groupId>
 	<artifactId>sdm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<url>http://www.orpiske.net/ssps/</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>manual</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
 
 	<repositories>
 		<repository>
@@ -23,7 +33,7 @@
 			<artifactId>ssps-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -80,6 +90,31 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<mailingLists>
+		<mailingList>
+			<name>User List</name>
+			<subscribe>ssps-users+subscribe@googlegroups.com</subscribe>
+			<unsubscribe>ssps-users+subscribe@googlegroups.com</unsubscribe>
+			<post>ssps-users@googlegroups.com</post>
+			<archive>https://groups.google.com/forum/#!forum/ssps-users</archive>
+		</mailingList>
+	</mailingLists>
+
+	<developers>
+		<developer>
+			<id>orpiske</id>
+			<name>Otavio R. Piske</name>
+			<email>angusyoung@gmail.com</email>
+			<url>http://orpiske.net</url>
+			<organization>N/A</organization>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-3</timezone>
+		</developer>
+	</developers>
 
 	<profiles>
 		<profile>
