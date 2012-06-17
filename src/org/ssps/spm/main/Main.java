@@ -49,7 +49,7 @@ public class Main {
 	}
 
 	public static void help(int code) {
-		System.out.println("Usage: sdm <action>\n");
+		System.out.println("Usage: spm <action>\n");
 		
 		System.out.println("Actions:");
 		System.out.println("   create");
