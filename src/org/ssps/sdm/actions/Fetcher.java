@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.sdm.actions;
 
 import java.io.File;
@@ -26,7 +26,6 @@ import net.orpiske.ssps.repository.Repository;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -102,19 +101,6 @@ public class Fetcher extends ActionInterface {
 		sardine = SardineFactory.begin(username, password);
 	}
 	
-
-	
-	
-	/* (non-Javadoc)
-	 * @see org.ssps.sdm.actions.ActionInterface#help(org.apache.commons.cli.Options, int)
-	 */
-	@Override
-	protected void help(int code) {
-		HelpFormatter formatter = new HelpFormatter();
-
-		formatter.printHelp("sdm", options);
-		System.exit(code);
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.ssps.sdm.actions.ActionInterface#processCommand(java.lang.String[])
@@ -133,7 +119,7 @@ public class Fetcher extends ActionInterface {
 			cmdLine = parser.parse(options, args);
 		}
 		catch (ParseException e) {
-			help(-1);
+			help(options, -1);
 		}
 	}
 
@@ -180,7 +166,7 @@ public class Fetcher extends ActionInterface {
 		String version = cmdLine.getOptionValue('v');
 		if (version == null) {
 			System.err.println("You must inform the deliverable version");
-			help(-1);
+			help(options, -1);
 		}
 		
 		String destination = cmdLine.getOptionValue('d');
@@ -197,7 +183,7 @@ public class Fetcher extends ActionInterface {
 		
 		try {
 			if (cmdLine.hasOption('h')) { 
-				help(1);
+				help(options, 1);
 			}
 			else {
 				fetch();

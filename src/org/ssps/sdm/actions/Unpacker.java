@@ -12,19 +12,15 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.sdm.actions;
-
-import java.io.File;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.usa.UsaArchive;
@@ -55,18 +51,6 @@ public class Unpacker extends ActionInterface {
 
 
 	/* (non-Javadoc)
-	 * @see org.ssps.sdm.actions.ActionInterface#help(org.apache.commons.cli.Options, int)
-	 */
-	@Override
-	protected void help(int code) {
-		HelpFormatter formatter = new HelpFormatter();
-
-		formatter.printHelp("sdm", options);
-		System.exit(code);
-		
-	}
-
-	/* (non-Javadoc)
 	 * @see org.ssps.sdm.actions.ActionInterface#processCommand(java.lang.String[])
 	 */
 	@Override
@@ -83,7 +67,7 @@ public class Unpacker extends ActionInterface {
 			cmdLine = parser.parse(options, args);
 		}
 		catch (ParseException e) {
-			help(-1);
+			help(options, -1);
 		}
 	}
 	
@@ -97,7 +81,7 @@ public class Unpacker extends ActionInterface {
 		
 		if (source == null) {
 			System.err.println("Missing file information");
-			help(-1);
+			help(options, -1);
 		}
 		
 		String destination = cmdLine.getOptionValue('d');
@@ -115,7 +99,7 @@ public class Unpacker extends ActionInterface {
 	public void run() {
 		try {
 			if (cmdLine.hasOption('h')) { 
-				help(1);
+				help(options, 1);
 			}
 			else {
 				unpack();

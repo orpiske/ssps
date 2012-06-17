@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 package org.ssps.sdm.actions;
 
 import java.io.File;
@@ -22,7 +22,6 @@ import net.orpiske.ssps.repository.Repository;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -61,17 +60,6 @@ public class Deployer extends ActionInterface {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.ssps.sdm.actions.ActionInterface#help(int)
-	 */
-	@Override
-	protected void help(int code) {
-		HelpFormatter formatter = new HelpFormatter();
-
-		formatter.printHelp("sdm", options);
-		System.exit(code);
-	}
-
-	/* (non-Javadoc)
 	 * @see org.ssps.sdm.actions.ActionInterface#processCommand(java.lang.String[])
 	 */
 	@Override
@@ -86,7 +74,7 @@ public class Deployer extends ActionInterface {
 		try {
 			cmdLine = parser.parse(options, args);
 		} catch (ParseException e) {
-			help(-1);
+			help(options, -1);
 		}
 
 	}
@@ -141,14 +129,14 @@ public class Deployer extends ActionInterface {
 	public void run() {
 		try {
 			if (cmdLine.hasOption('h')) { 
-				help(1);
+				help(options, 1);
 			}
 			else {
 				version = cmdLine.getOptionValue('v');
 				if (version == null) {
 					System.err.println("You must inform the version to deploy");
 					
-					help(-1);
+					help(options, -1);
 				}
 				
 				fetch();
