@@ -11,8 +11,8 @@ Welcome to Simple Software Publication System (SSPS)
 configuration management personnel to automate the jobs related to publish and 
 deployment of custom-built software packages. It is composed of two modules: a
 publication module called SPM and a software deployment module called SDM.
-	This project is still and its infancy and under a lot of development. If 
-this software can be useful for you, {{{./about.html}please me know}}.
+	This project is still in its infancy and under a lot of development. If 
+this software is useful for you, {{{./about.html}please me know}}.
 
 Learning About SSPS
 

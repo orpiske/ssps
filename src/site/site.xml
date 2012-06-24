@@ -7,11 +7,7 @@
     -->
     <href>http://www.orpiske.net/ssps/</href>
   </bannerLeft>
-  <!--
-  <bannerRight>
-    <src>http://maven.apache.org/images/maven-small.gif</src>
-  </bannerRight>
-  -->
+  
   <body>
     <menu name="SPM">
       <item name="Introduction" href="index.html"/>

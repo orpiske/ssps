@@ -21,12 +21,7 @@ if [[ "$installdir" == "." ]] ; then
 	installdir=".."
 fi
 
-source "$installdir"/conf/startup.conf
+MAIN_JAR=spm-0.0.1.jar
 
-JAVA_DEBUG="-Xdebug -Djava.compiler=NONE -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${DEBUG_PORT}"
+java -Dorg.ssps.spm.home="$installdir" -jar "$installdir"/bin/${MAIN_JAR} $@
 
-if [ "x$1" == "xdebug" ] ; then
-	java ${JAVA_DEBUG} -Dorg.ssps.spm.home="$installdir" -jar "$installdir"/bin/${MAIN_JAR} $@
-else
-	java -Dorg.ssps.spm.home="$installdir" -jar "$installdir"/bin/${MAIN_JAR} $@
-fi
