@@ -20,7 +20,7 @@
   <project>
     <group>net.orpiske</group>
     <name>sdm</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </project>
   <build>
     <sourceDirectory>${basedir}/src/dbm</sourceDirectory>
@@ -29,7 +29,7 @@
   </build>
   
   <repository>
-  	<url>http://localhost:8080/repository/defaultgit</url>
+  	<url>http://localhost:8080/repository/default</url>
   	<username>admin</username>
   	<password></password>
   </repository>

@@ -19,7 +19,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ssps</groupId>
 	<artifactId>sdm</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<url>http://www.orpiske.net/ssps/</url>
 
 	<licenses>
@@ -47,14 +47,16 @@
 		<dependency>
 			<groupId>net.orpiske</groupId>
 			<artifactId>ssps-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 
+		<!-- Required by Sardine --> 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.4</version>
 		</dependency>
+ 		
 
 		<dependency>
 			<groupId>log4j</groupId>
