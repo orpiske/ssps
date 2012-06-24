@@ -18,6 +18,6 @@ Learning About SSPS
 
 	The best way to learn SSPS is to focus on the module that interests you most. 
 To learn about how to modify your project so that your artifacts can be published
-and managed on a repository, read the {{{./enable-spm.html}Use SSPS}} and the 
-{{{./run-spm.html}Run SPM Guide}}. To learn how to use SSPS to automate the steps 
-of software deployment, please read the {{{./run-sdm.html}Run SDM Guide}}.
+and managed on a repository, read the {{{./doc/use-ssps.html}Use SSPS}} and the 
+{{{./doc/run-spm.html}Run SPM Guide}}. To learn how to use SSPS to automate the steps 
+of software deployment, please read the {{{./doc/run-sdm.html}Run SDM Guide}}.
