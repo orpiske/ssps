@@ -1,7 +1,7 @@
 SSPS: Software Deployment Module
 ============
 
-This is source code reposiroty for the Software Deployment Module (SDM).
+This is source code repository for the Software Deployment Module (SDM).
 
 References
 ----
