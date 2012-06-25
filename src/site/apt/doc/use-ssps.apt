@@ -194,7 +194,7 @@ details about each of these steps.
 ties a directory on the file system to a content in the repository.
 
 ----------------------------------------
-sdm init -g my.group -n mysoftware -v 0.0.1 -l http://hostname:8080/repository
+sdm init -g my.group -n mysoftware -l http://hostname:8080/repository
 ----------------------------------------
 
 	Please check the {{{./run-sdm.html}Run SDM}} documentation to gather the 
@@ -204,7 +204,7 @@ details about each of these steps.
 	[[2]] Deploy the package:
 	
 ----------------------------------------
-sdm publish
+sdm deploy -v version
 ----------------------------------------
 
 	If everything went fine, the artifact should have been deployed on the local
