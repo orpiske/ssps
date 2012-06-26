@@ -180,7 +180,7 @@
     <complexType name="DownloadRule">
     	<complexContent>
     		<extension base="tns:AbstractRule">
-    			<attribute name="url" type="string"></attribute>
+    			<attribute name="url" type="string" use="required"></attribute>
 
     		</extension>
     	</complexContent>
