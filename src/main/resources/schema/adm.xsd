@@ -46,8 +46,13 @@
         		<element name="unpack" type="tns:UnpackRule"
         			minOccurs="0">
         		</element>
-                <element name="shield" type="tns:ShieldRule" minOccurs="0"></element>
-                <element name="symlink" type="tns:SymlinkRule" minOccurs="0"></element>
+        		<element name="shield" type="tns:ShieldRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="symlink" type="tns:SymlinkRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="download" type="tns:DownloadRule"></element>
         	</choice>
 
         </sequence>
@@ -168,6 +173,15 @@
     	<complexContent>
     		<extension base="tns:AbstractRule">
     			<attribute name="resource" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="DownloadRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="url" type="string"></attribute>
+
     		</extension>
     	</complexContent>
     </complexType>
