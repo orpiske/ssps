@@ -19,7 +19,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ssps</groupId>
 	<artifactId>sdm</artifactId>
-	<version>0.0.1</version>
+	<version>0.1.0</version>
 	<url>http://www.orpiske.net/ssps/</url>
 
 	<licenses>
@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>net.orpiske</groupId>
 			<artifactId>ssps-common</artifactId>
-			<version>0.0.1</version>
+			<version>0.1.0</version>
 		</dependency>
 
 		<!-- Required by Sardine --> 
