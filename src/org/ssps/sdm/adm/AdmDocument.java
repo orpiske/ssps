@@ -41,6 +41,29 @@ public class AdmDocument {
 	
 	private Adm admDocument;
 	
+	/**
+	 * Constructor
+	 * @param stream Input stream 
+	 * @throws XmlDocumentException if unable to unmarshall the document
+	 */
+	public AdmDocument(final InputStream stream) throws XmlDocumentException {
+		setPath(WorkdirUtils.getWorkDir());
+		
+		try {
+			setDocument(XmlParserUtils.unmarshal(Adm.class, stream));
+			
+			registerVariables(path);
+			
+		} catch (JAXBException e) {
+			throw new XmlDocumentException("Unable to unmarshall document", e);
+		}
+	}
+	
+	/**
+	 * Constructor
+	 * @param path ADM file path
+	 * @throws XmlDocumentException
+	 */
 	public AdmDocument(final String path) throws XmlDocumentException {
 		this.setPath(path);
 
@@ -54,14 +77,13 @@ public class AdmDocument {
 		} catch (FileNotFoundException e) {
 			throw new XmlDocumentException(e.getMessage(), e);
 		} catch (JAXBException e) {
-			throw new XmlDocumentException("Unable to umarhsall document", e);
+			throw new XmlDocumentException("Unable to unmarshall document", e);
 		}
 	}
 
 	private void registerVariables(final String path) {
 		AdmVariables admVariables = AdmVariables.getInstance();
 		
-		//String baseDir = FilenameUtils.getFullPath(path);
 		File baseDir = new File(path);
 		
 		try {
@@ -74,7 +96,7 @@ public class AdmDocument {
 		String filename = FilenameUtils.getName(path);
 		admVariables.register("filename", filename);
 		
-		String workDir = WorkdirUtils.getGetRoot();
+		String workDir = WorkdirUtils.getWorkDir();
 		admVariables.register("workdir", workDir);
 	}
 

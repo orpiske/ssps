@@ -15,6 +15,10 @@
 */
 package org.ssps.sdm.actions;
 
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import net.orpiske.ssps.adm.Adm;
 import net.orpiske.ssps.repository.Repository;
 
@@ -25,6 +29,9 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.ssps.common.resource.ResourceExchange;
+import org.ssps.common.resource.DefaultResourceExchange;
+import org.ssps.common.resource.exceptions.ResourceExchangeException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.sdm.adm.AdmDocument;
 import org.ssps.sdm.adm.AdmProcessor;
@@ -44,20 +51,26 @@ public class Installer extends ActionInterface {
 	private Options options;
 
 	private Repository repository;
+	
+	private boolean isRemote;
+	private boolean isHelp;
 
 	public Installer() throws XmlDocumentException, InvalidRepository {
 		RepositoryDocument repositoryDocument = new RepositoryDocument();
 
 		repository = repositoryDocument.getDocument();
+		
 	}
 	
 	public Installer(final String[] args) throws InvalidRepository,
 			XmlDocumentException {
 		processCommand(args);
 
-		RepositoryDocument repositoryDocument = new RepositoryDocument();
+		if (!isRemote && !isHelp) { 
+			RepositoryDocument repositoryDocument = new RepositoryDocument();
 
-		repository = repositoryDocument.getDocument();
+			repository = repositoryDocument.getDocument();
+		}
 	}
 
 
@@ -75,6 +88,8 @@ public class Installer extends ActionInterface {
 
 		options.addOption("h", "help", false, "prints the help");
 		options.addOption("a", "adm-file", true, "adm file");
+		options.addOption(null, "remote", false, 
+				"instructs the installer to download the ADM file from a remote location");
 		options.addOption(null, "install-only", false, "does not fetch the file");
 
 		try {
@@ -82,12 +97,31 @@ public class Installer extends ActionInterface {
 		} catch (ParseException e) {
 			help(options, -1);
 		}
+		
+		isRemote = cmdLine.hasOption("remote");
+		isHelp = cmdLine.hasOption("help");
 	}
 	
 	public void install(String path) throws XmlDocumentException, AdmException {
 		AdmDocument admDocument;
 	
+		
 		admDocument = new AdmDocument(path);
+
+		Adm adm = admDocument.getDocument();
+
+		AdmProcessor processor = new AdmProcessor(adm, 
+				FilenameUtils.getFullPath("./"));
+		
+
+		processor.process();
+	}
+	
+	public void install(InputStream stream) throws XmlDocumentException, AdmException, URISyntaxException, ResourceExchangeException {
+		AdmDocument admDocument;
+	
+		admDocument = new AdmDocument(stream);
+	
 
 		Adm adm = admDocument.getDocument();
 
@@ -99,7 +133,7 @@ public class Installer extends ActionInterface {
 		
 	}
 
-	private void install() throws XmlDocumentException, AdmException {
+	private void install() throws XmlDocumentException, AdmException, ResourceExchangeException, URISyntaxException {
 		String path = cmdLine.getOptionValue('a');
 		
 		if (path == null) {
@@ -107,7 +141,17 @@ public class Installer extends ActionInterface {
 			help(options, -1);
 		}
 		
-		install(path);
+		
+		if (isRemote) {
+			ResourceExchange resourceExchange = new DefaultResourceExchange();
+			
+			URI uri = new URI(path);
+			InputStream stream = resourceExchange.get(uri);
+			install(stream);
+		}
+		else { 
+			install(path);
+		}
 	}
 
 	/*
@@ -135,6 +179,18 @@ public class Installer extends ActionInterface {
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Invalid package: " + e.getMessage(), e);
+			}
+		} catch (ResourceExchangeException e) {
+			System.err.println("Unable to install: " + e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Unable to install: " + e.getMessage(), e);
+			}
+		} catch (URISyntaxException e) {
+			System.err.println("Invalid ADM resource: " + e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Invalid ADM resource: " + e.getMessage(), e);
 			}
 		} 
 	}
