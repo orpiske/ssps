@@ -46,7 +46,7 @@ public class PrepareStageProcessor extends StageProcessor<PrepareStage>{
 		}
 		catch (RuleException e) {
 			PrintUtils.printEndWithError("Prepare", e);
-			throw new StageException("Rule error ", e);
+			throw new StageException(e.getMessage(), e);
 		}	
 		
 		PrintUtils.printEndStage("Prepare");

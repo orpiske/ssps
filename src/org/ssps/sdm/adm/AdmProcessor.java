@@ -81,7 +81,8 @@ public class AdmProcessor {
 			verifyStage();
 			cleanupStage();
 		} catch (StageException e) {
-			throw new AdmException("Error while processing ADM document", e);
+			throw new AdmException("Error while processing ADM document: "
+					+ e.getMessage(), e);
 		}
 		PrintUtils.printEndStage("Main");
 	}

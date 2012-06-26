@@ -18,6 +18,7 @@ package org.ssps.sdm.adm.rules;
 import java.util.HashMap;
 
 import net.orpiske.ssps.adm.CopyRule;
+import net.orpiske.ssps.adm.DownloadRule;
 import net.orpiske.ssps.adm.EchoRule;
 import net.orpiske.ssps.adm.MkdirRule;
 import net.orpiske.ssps.adm.ShieldRule;
@@ -49,6 +50,7 @@ public final class RuleProcessorFactory {
 		rulesMap.put(EchoRule.class, EchoRuleProcessor.class);
 		rulesMap.put(MkdirRule.class, MkdirRuleProcessor.class);
 		rulesMap.put(ShieldRule.class, ShieldRuleProcessor.class);
+		rulesMap.put(DownloadRule.class, DownloadRuleProcessor.class);
 	}
 	
 	public static AbstractRuleProcessor getRule(Class<?> type) {

@@ -175,10 +175,10 @@ public class Installer extends ActionInterface {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
 		} catch (AdmException e) {
-			System.err.println("Invalid package: " + e.getMessage());
+			System.err.println(e.getMessage());
 
 			if (logger.isDebugEnabled()) {
-				logger.error("Invalid package: " + e.getMessage(), e);
+				logger.error(e.getMessage(), e);
 			}
 		} catch (ResourceExchangeException e) {
 			System.err.println("Unable to install: " + e.getMessage());
