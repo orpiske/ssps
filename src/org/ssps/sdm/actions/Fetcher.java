@@ -59,6 +59,7 @@ public class Fetcher extends ActionInterface {
 	private CommandLine cmdLine;
 	private Options options;
 	private Repository repository;
+	private boolean isHelp;
 	
 	public Fetcher() throws XmlDocumentException, InvalidRepository {
 		init();
@@ -67,7 +68,9 @@ public class Fetcher extends ActionInterface {
 	public Fetcher(final String[] args) throws XmlDocumentException, InvalidRepository {
 		processCommand(args);
 		
-		init();
+		if (!isHelp) { 
+			init();
+		}
 	}
 
 
@@ -122,6 +125,8 @@ public class Fetcher extends ActionInterface {
 		catch (ParseException e) {
 			help(options, -1);
 		}
+		
+		isHelp = cmdLine.hasOption("help");
 	}
 
 	public void fetch(final String version, String destination) throws IOException {

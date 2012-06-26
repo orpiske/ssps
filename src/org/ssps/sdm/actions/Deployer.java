@@ -50,14 +50,18 @@ public class Deployer extends ActionInterface {
 	
 	private String version;
 	private String name;
+
+	private boolean isHelp;
 	
 	public Deployer(final String[] args) throws XmlDocumentException, InvalidRepository {
 		processCommand(args);
 		
-		RepositoryDocument repositoryDocument = new RepositoryDocument();
-		repository = repositoryDocument.getDocument();
-		
-		name = repository.getName();
+		if (!isHelp) { 
+			RepositoryDocument repositoryDocument = new RepositoryDocument();
+			repository = repositoryDocument.getDocument();
+			
+			name = repository.getName();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -78,6 +82,7 @@ public class Deployer extends ActionInterface {
 			help(options, -1);
 		}
 
+		isHelp = cmdLine.hasOption("help");
 	}
 	
 	private String getPackageWorkdir() {
