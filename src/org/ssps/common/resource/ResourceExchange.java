@@ -36,7 +36,7 @@ public interface ResourceExchange {
 	
 	
 	/**
-	 * Releases any open resources
+	 * Releases any open resources used by the exchange
 	 */
 	void release();
 }
