@@ -15,28 +15,27 @@
 */
 package org.ssps.common.resource;
 
-import java.io.InputStream;
-import java.net.URI;
-
-import org.ssps.common.resource.exceptions.ResourceExchangeException;
-
 /**
- * Defines a simple interface for VFS-based exchanges
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public interface ResourceExchange {
-	/**
-	 * Gets the resource pointed by an URL into file
-	 * @param uri the resource location/address
-	 * @throws ResourceExchangeException if unable to obtain the resource. 
-	 * Check the root cause for details.
-	 */
-	Resource<InputStream> get(final URI uri) throws ResourceExchangeException;
+public final  class Resource<T> {
+	private long size;
+	private T payload;
 	
 	
-	/**
-	 * Releases any open resources
-	 */
-	void release();
+	public long getSize() {
+		return size;
+	}
+	public void setSize(long size) {
+		this.size = size;
+	}
+	public T getPayload() {
+		return payload;
+	}
+	public void setPayload(T payload) {
+		this.payload = payload;
+	}
+	
+
 }
