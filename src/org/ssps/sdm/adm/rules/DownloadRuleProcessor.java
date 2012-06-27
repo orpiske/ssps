@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -27,6 +28,7 @@ import net.orpiske.ssps.adm.DownloadRule;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.ssps.common.resource.DefaultResourceExchange;
+import org.ssps.common.resource.Resource;
 import org.ssps.common.resource.ResourceExchange;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
 import org.ssps.sdm.adm.AdmVariables;
@@ -39,6 +41,28 @@ import org.ssps.sdm.utils.WorkdirUtils;
  */
 public class DownloadRuleProcessor extends AbstractRuleProcessor {
 	private AdmVariables admVariables = AdmVariables.getInstance();
+	
+	
+	private void copy(final Resource<InputStream> resource, final OutputStream output) throws IOException {
+		InputStream input = resource.getPayload();
+		long i = 0;
+		
+		for (i = 0; i < resource.getSize(); i++) {
+			output.write(input.read());
+			
+			if ((i % (1024 * 1024)) == 0) { 
+				System.out.print("\r");
+				System.out.print("Downloaded " + i + " bytes out of " 
+						+ resource.getSize());
+			}
+		}
+		System.out.print("\r");
+		System.out.println("Downloaded " + i + " bytes out of " 
+				+ resource.getSize());
+		
+		output.flush();
+		IOUtils.closeQuietly(output);
+	}
 	
 	
 	private void run(DownloadRule rule) throws RuleException {
@@ -64,13 +88,13 @@ public class DownloadRuleProcessor extends AbstractRuleProcessor {
 			
 			ResourceExchange resourceExchange = new DefaultResourceExchange();
 			
-			InputStream input = resourceExchange.get(uri);
+			Resource<InputStream> resource = resourceExchange.get(uri);
 			
 			try { 
-				IOUtils.copy(input, output);
+				copy(resource, output);
 			}
 			finally { 
-				IOUtils.closeQuietly(input);
+				IOUtils.closeQuietly(resource.getPayload());
 				IOUtils.closeQuietly(output);
 			}
 		} catch (URISyntaxException e) {

@@ -28,7 +28,9 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.ssps.common.resource.Resource;
 import org.ssps.common.resource.ResourceExchange;
 import org.ssps.common.resource.DefaultResourceExchange;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
@@ -146,8 +148,13 @@ public class Installer extends ActionInterface {
 			ResourceExchange resourceExchange = new DefaultResourceExchange();
 			
 			URI uri = new URI(path);
-			InputStream stream = resourceExchange.get(uri);
-			install(stream);
+			Resource<InputStream> resource = new Resource<InputStream>();
+			resource = resourceExchange.get(uri);
+			install(resource.getPayload());
+			
+			IOUtils.closeQuietly(resource.getPayload());
+			
+			resourceExchange.release();
 		}
 		else { 
 			install(path);
