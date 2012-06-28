@@ -12,95 +12,161 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 package org.ssps.sdm.adm.rules;
 
+import static org.ssps.sdm.adm.util.PrintUtils.*;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.orpiske.ssps.adm.DownloadRule;
 
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.ssps.common.resource.DefaultResourceExchange;
 import org.ssps.common.resource.Resource;
 import org.ssps.common.resource.ResourceExchange;
+import org.ssps.common.resource.ResourceInfo;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
+import org.ssps.common.utils.URLUtils;
 import org.ssps.sdm.adm.AdmVariables;
 import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class DownloadRuleProcessor extends AbstractRuleProcessor {
 	private AdmVariables admVariables = AdmVariables.getInstance();
-	
-	
-	private void copy(final Resource<InputStream> resource, final OutputStream output) throws IOException {
+
+	private void copy(final Resource<InputStream> resource,
+			final OutputStream output) throws IOException {
 		InputStream input = resource.getPayload();
+
 		long i = 0;
-		
-		for (i = 0; i < resource.getSize(); i++) {
+
+		for (i = 0; i < resource.getResourceInfo().getSize(); i++) {
 			output.write(input.read());
-			
-			if ((i % (1024 * 1024)) == 0) { 
-				System.out.print("\r");
-				System.out.print("Downloaded " + i + " bytes out of " 
-						+ resource.getSize());
+
+			if ((i % (1024 * 512)) == 0) {
+				staticInfoMessage("Downloaded " + i + " bytes out of "
+						+ resource.getResourceInfo().getSize());
 			}
 		}
-		System.out.print("\r");
-		System.out.println("Downloaded " + i + " bytes out of " 
-				+ resource.getSize());
-		
+		staticInfoMessage("Downloaded " + i + " bytes out of "
+				+ resource.getResourceInfo().getSize() + "\n");
+
 		output.flush();
-		IOUtils.closeQuietly(output);
+
+	}
+
+	private String getFilename(final DownloadRule rule, final String url)
+			throws MalformedURLException, URISyntaxException {
+		String name = admVariables.evaluate(rule.getName());
+
+		if (name != null) {
+			return name;
+		}
+
+		return URLUtils.getFilename(url);
+	}
+
+	/**
+	 * Setups the output file
+	 * @param rule
+	 * @param url
+	 * @return
+	 * @throws MalformedURLException
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 */
+	private File setupOutputFile(DownloadRule rule, String url)
+			throws MalformedURLException, URISyntaxException, IOException {
+		String fileName = getFilename(rule, url);
+		String workDir = WorkdirUtils.getWorkDir();
+		String fullName = workDir + File.separator + fileName;
+
+		File outputFile = new File(fullName);
+
+		outputFile.getParentFile().mkdirs();
+		if (!outputFile.exists()) {
+			outputFile.createNewFile();
+		} else {
+			if (rule.isOverwrite()) {
+				outputFile.delete();
+				outputFile.createNewFile();
+			} else {
+				printInfo("Destination file " + fullName + " already exists");
+			}
+		}
+		return outputFile;
 	}
 	
-	
+	/**
+	 * Saves the downloaded file
+	 * @param outputFile
+	 * @param resourceInfo
+	 * @param resource
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	private void saveDownload(File outputFile, Resource<InputStream> resource)
+			throws FileNotFoundException, IOException {
+		FileOutputStream output = null;
+		
+		try {
+			output = new FileOutputStream(outputFile);
+
+			copy(resource, output);
+			outputFile.setLastModified(resource.getResourceInfo()
+					.getLastModified());
+		} finally {
+
+			IOUtils.closeQuietly(output);
+			IOUtils.closeQuietly(resource.getPayload());
+		}
+	}
+
 	private void run(DownloadRule rule) throws RuleException {
 		try {
 			String url = admVariables.evaluate(rule.getUrl());
 			URI uri = new URI(url);
-			
-			String fileName = uri.toURL().getFile();
-			String workDir = WorkdirUtils.getWorkDir();
-			
-			File outputFile = new File(workDir + File.separator + fileName);
-			
-			outputFile.getParentFile().mkdirs();
-			if (!outputFile.exists()) {
-				outputFile.createNewFile();
-			}
-			else {
-				outputFile.delete();
-				outputFile.createNewFile();
-			}
-			
-			FileOutputStream output = new FileOutputStream(outputFile);
-			
+
+			File outputFile = setupOutputFile(rule, url);
+
 			ResourceExchange resourceExchange = new DefaultResourceExchange();
-			
-			Resource<InputStream> resource = resourceExchange.get(uri);
-			
-			try { 
-				copy(resource, output);
-			}
-			finally { 
-				IOUtils.closeQuietly(resource.getPayload());
-				IOUtils.closeQuietly(output);
+			ResourceInfo resourceInfo = resourceExchange.info(uri);
+
+			try {
+				long outSize = FileUtils.sizeOf(outputFile);
+				long sourceSize = resourceInfo.getSize();
+
+				if (sourceSize == outSize) {
+					printInfo("Destination file and source file appears to be the same");
+
+					return;
+				} else {
+					Resource<InputStream> resource = resourceExchange.get(uri);
+					
+					saveDownload(outputFile, resource);
+				}
+			} finally {
+				printInfo("Releasing resources");
+				resourceExchange.release();
 			}
 		} catch (URISyntaxException e) {
 			throw new RuleException("Invalid URI: " + rule.getUrl(), e);
 		} catch (ResourceExchangeException e) {
-			throw new RuleException("Unable to download file from " 
+			throw new RuleException("Unable to download file from "
 					+ rule.getUrl() + ": " + e.getMessage(), e);
 		} catch (IOException e) {
 			throw new RuleException("I/O error: " + e.getMessage(), e);
@@ -108,7 +174,11 @@ public class DownloadRuleProcessor extends AbstractRuleProcessor {
 
 	}
 
-	/* (non-Javadoc)
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.ssps.sdm.adm.rules.AbstractRuleProcessor#run(java.lang.Object)
 	 */
 	@Override

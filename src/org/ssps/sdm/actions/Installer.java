@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.ssps.common.resource.Resource;
 import org.ssps.common.resource.ResourceExchange;
 import org.ssps.common.resource.DefaultResourceExchange;
+import org.ssps.common.resource.ResourceInfo;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.sdm.adm.AdmDocument;
@@ -148,8 +149,12 @@ public class Installer extends ActionInterface {
 			ResourceExchange resourceExchange = new DefaultResourceExchange();
 			
 			URI uri = new URI(path);
-			Resource<InputStream> resource = new Resource<InputStream>();
-			resource = resourceExchange.get(uri);
+			
+			ResourceInfo resourceInfo = resourceExchange.info(uri);
+			logger.info("Downloading " + resourceInfo.getSize() 
+					+ " from the server");
+			
+			Resource<InputStream> resource = resourceExchange.get(uri);
 			install(resource.getPayload());
 			
 			IOUtils.closeQuietly(resource.getPayload());
