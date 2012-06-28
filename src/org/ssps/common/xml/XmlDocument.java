@@ -34,14 +34,13 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- * This is a very simple (naive) implementation of the basis of a XmlDocument
+ * This is a very simple implementation of the basis of a XmlDocument
  * 
  * TODO: this clearly needs to be improved in the future. Avoid relying on this
  * code.
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
-@Deprecated
 public abstract class XmlDocument {
 	private static final Logger logger = Logger.getLogger(XmlDocument.class);
 
