@@ -39,7 +39,11 @@ public class PrintUtils {
 	}
 	
 	public static void printInfo(final String message) {
-		System.out.println("\n[INFO]: " + message);
+		System.out.println("[INFO]: " + message);
+	}
+	
+	public static void staticInfoMessage(final String message) {
+		System.out.print("\r[INFO]: " + message);
 	}
 
 }
