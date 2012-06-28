@@ -19,7 +19,7 @@ import java.io.File;
 
 import net.orpiske.ssps.adm.MkdirRule;
 
-import org.ssps.sdm.adm.AdmVariables;
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.adm.util.PrintUtils;
 
@@ -29,7 +29,7 @@ import org.ssps.sdm.adm.util.PrintUtils;
  *
  */
 public class MkdirRuleProcessor extends AbstractRuleProcessor {
-	private AdmVariables admVariables = AdmVariables.getInstance();
+	private VariablesParser admVariables = VariablesParser.getInstance();
 	
 	public void run(MkdirRule rule) throws RuleException {
 		String directory = admVariables.evaluate(rule.getDir());

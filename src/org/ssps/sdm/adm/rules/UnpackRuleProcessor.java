@@ -21,7 +21,7 @@ import org.ssps.common.archive.Archive;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.tbz.TbzArchive;
 import org.ssps.common.archive.tgz.TgzArchive;
-import org.ssps.sdm.adm.AdmVariables;
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
 
 /**
@@ -31,7 +31,7 @@ import org.ssps.sdm.adm.exceptions.RuleException;
  */
 public class UnpackRuleProcessor extends AbstractRuleProcessor {
 	
-	private AdmVariables admVariables = AdmVariables.getInstance();
+	private VariablesParser admVariables = VariablesParser.getInstance();
 	
 	private void run(UnpackRule rule) throws RuleException {
 		Archive archive;

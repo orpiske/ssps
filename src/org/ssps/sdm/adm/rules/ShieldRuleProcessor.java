@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import net.orpiske.ssps.adm.ShieldRule;
 
-import org.ssps.sdm.adm.AdmVariables;
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.adm.rules.support.ShieldUtils;
 import org.ssps.sdm.adm.util.PrintUtils;
@@ -32,7 +32,7 @@ import org.ssps.sdm.adm.util.PrintUtils;
  */
 public class ShieldRuleProcessor extends AbstractRuleProcessor {
 	
-	private AdmVariables admVariables = AdmVariables.getInstance();
+	private VariablesParser admVariables = VariablesParser.getInstance();
 	
 	
 	public void run(ShieldRule rule) throws RuleException {

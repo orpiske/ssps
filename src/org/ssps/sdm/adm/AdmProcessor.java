@@ -24,6 +24,7 @@ import net.orpiske.ssps.adm.VerifyStage;
 import net.orpiske.ssps.repository.Repository;
 
 import org.apache.log4j.Logger;
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.AdmException;
 import org.ssps.sdm.adm.exceptions.StageException;
 import org.ssps.sdm.adm.stages.CleanupStageProcessor;
@@ -61,7 +62,7 @@ public class AdmProcessor {
 			logger.trace("Registering variables");
 		}
 		
-		AdmVariables admVariables = AdmVariables.getInstance();
+		VariablesParser admVariables = VariablesParser.getInstance();
 		
 		String name = adm.getArtifact().getName();
 		admVariables.register("name", name);

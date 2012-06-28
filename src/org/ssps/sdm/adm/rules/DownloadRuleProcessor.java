@@ -37,7 +37,7 @@ import org.ssps.common.resource.ResourceExchange;
 import org.ssps.common.resource.ResourceInfo;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
 import org.ssps.common.utils.URLUtils;
-import org.ssps.sdm.adm.AdmVariables;
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.utils.WorkdirUtils;
 
@@ -46,7 +46,7 @@ import org.ssps.sdm.utils.WorkdirUtils;
  * 
  */
 public class DownloadRuleProcessor extends AbstractRuleProcessor {
-	private AdmVariables admVariables = AdmVariables.getInstance();
+	private VariablesParser admVariables = VariablesParser.getInstance();
 
 	private void copy(final Resource<InputStream> resource,
 			final OutputStream output) throws IOException {

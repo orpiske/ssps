@@ -26,6 +26,7 @@ import javax.xml.bind.JAXBException;
 import net.orpiske.ssps.adm.Adm;
 
 import org.apache.commons.io.FilenameUtils;
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.common.xml.XmlParserUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.sdm.adm.exceptions.RuleEngineException;
@@ -82,7 +83,7 @@ public class AdmDocument {
 	}
 
 	private void registerVariables(final String path) {
-		AdmVariables admVariables = AdmVariables.getInstance();
+		VariablesParser admVariables = VariablesParser.getInstance();
 		
 		File baseDir = new File(path);
 		

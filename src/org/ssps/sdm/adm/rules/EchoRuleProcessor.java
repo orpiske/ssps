@@ -17,7 +17,7 @@ package org.ssps.sdm.adm.rules;
 
 import net.orpiske.ssps.adm.EchoRule;
 
-import org.ssps.sdm.adm.AdmVariables;
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
 
 
@@ -28,7 +28,7 @@ import org.ssps.sdm.adm.exceptions.RuleException;
  */
 public class EchoRuleProcessor extends AbstractRuleProcessor {
 	
-	private AdmVariables admVariables = AdmVariables.getInstance();
+	private VariablesParser admVariables = VariablesParser.getInstance();
 	
 	private void run(EchoRule rule) {
 		String level = rule.getLevel();
