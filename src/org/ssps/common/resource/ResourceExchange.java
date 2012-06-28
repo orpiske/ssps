@@ -26,6 +26,7 @@ import org.ssps.common.resource.exceptions.ResourceExchangeException;
  *
  */
 public interface ResourceExchange {
+	
 	/**
 	 * Gets the resource pointed by an URL into file
 	 * @param uri the resource location/address
@@ -33,6 +34,15 @@ public interface ResourceExchange {
 	 * Check the root cause for details.
 	 */
 	Resource<InputStream> get(final URI uri) throws ResourceExchangeException;
+	
+	
+	/**
+	 * Gets the resource information pointed by an URL into file
+	 * @param uri the resource location/address
+	 * @throws ResourceExchangeException if unable to obtain the resource. 
+	 * Check the root cause for details.
+	 */
+	ResourceInfo info(final URI uri) throws ResourceExchangeException;
 	
 	
 	/**

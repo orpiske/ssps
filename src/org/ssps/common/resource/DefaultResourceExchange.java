@@ -18,13 +18,19 @@ package org.ssps.common.resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
@@ -44,7 +50,106 @@ public class DefaultResourceExchange implements ResourceExchange {
 	public DefaultResourceExchange() {
 		
 	}
+	
+	/**
+	 * Gets the last modified value from the header
+	 * @param response the HTTP response
+	 * @return The content length
+	 */
+	private long getLastModified(HttpResponse response) {
+		Header header = response.getFirstHeader(HttpHeaders.LAST_MODIFIED);
+		
+		String tmp = header.getValue();
+		//Tue, 26 Jun 2012 02:25:57 GMT
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z");
+		Date date;
+		try {
+			date = dateFormat.parse(tmp);
+		} catch (ParseException e) {
+			logger.warn("The last modified date provided by the server is invalid");
+			return 0;
+		}
+		
+		return date.getTime();
+	}
+	
+	/**
+	 * Gets the content length value from the header
+	 * @param response the HTTP response
+	 * @return The content length
+	 */
+	private long getContentLength(HttpResponse response) {
+		Header header = response.getFirstHeader(HttpHeaders.CONTENT_LENGTH);
+		
+		String tmp = header.getValue();
+		try { 
+			return Long.parseLong(tmp);
+		}
+		catch (NumberFormatException e) {
+			logger.warn("The server provided an invalid content lenght value");
+		}
+		
+		return 0;
+	}
+	
+	
+	/*
+	 * Gets information about a resource
+	 * @see org.ssps.common.resource.ResourceExchange#get(java.net.URI)
+	 */
+	public ResourceInfo info(URI uri) throws ResourceExchangeException {
+		HttpHead httpHead = new HttpHead(uri);
+		HttpResponse response;
+		try {
+			response = httpclient.execute(httpHead);
+			
+			int statusCode = response.getStatusLine().getStatusCode(); 
+			
+			if (statusCode == HttpStatus.SC_OK) { 
+				HttpEntity entity = response.getEntity();
 
+				long length = getContentLength(response);
+				logger.debug("Reading " + length + " bytes from the server");
+				
+				ResourceInfo ret = new ResourceInfo();
+				
+				ret.setSize(length);
+				ret.setLastModified(getLastModified(response));
+				
+				return ret;
+			}
+			else {
+				switch (statusCode) {
+				case HttpStatus.SC_NOT_FOUND: 
+					throw new ResourceExchangeException("Remote file not found");
+				case HttpStatus.SC_BAD_REQUEST: 
+					throw new ResourceExchangeException(
+							"The client sent a bad request");
+				case HttpStatus.SC_FORBIDDEN: 
+					throw new ResourceExchangeException(
+							"Accessing the resource is forbidden");
+				case HttpStatus.SC_UNAUTHORIZED: 
+					throw new ResourceExchangeException("Unathorized");
+				case HttpStatus.SC_INTERNAL_SERVER_ERROR:
+					throw new ResourceExchangeException("Internal server error");
+				default:
+					throw new ResourceExchangeException(
+							"Unable to download file: http status code " + statusCode);
+				}
+			}
+		} catch (ClientProtocolException e) {
+			throw new ResourceExchangeException("Unhandled protocol erro: " 
+					+ e.getMessage(), e);
+		} catch (IOException e) {		
+			throw new ResourceExchangeException("I/O error: " + e.getMessage(), 
+					e);
+		}
+	}
+
+	/*
+	 * Gets a resource
+	 * @see org.ssps.common.resource.ResourceExchange#get(java.net.URI)
+	 */
 	public Resource<InputStream> get(URI uri) throws ResourceExchangeException {
 		HttpGet httpget = new HttpGet(uri);
 		HttpResponse response;
@@ -57,13 +162,18 @@ public class DefaultResourceExchange implements ResourceExchange {
 				HttpEntity entity = response.getEntity();
 				
 				if (entity != null) {
-					logger.info("Starding to read " + entity.getContentLength() 
+					logger.debug("Reading " + entity.getContentLength() 
 							+ " bytes from the server");
 					
 					Resource<InputStream> ret = new Resource<InputStream>();
 					
 					ret.setPayload(entity.getContent());
-					ret.setSize(entity.getContentLength());
+					
+					ResourceInfo info = new ResourceInfo();
+					
+					info.setSize(entity.getContentLength());
+					info.setLastModified(getLastModified(response));
+					ret.setResourceInfo(info);
 					
 					return ret;
 				}
@@ -94,7 +204,6 @@ public class DefaultResourceExchange implements ResourceExchange {
 			throw new ResourceExchangeException("I/O error: " + e.getMessage(), 
 					e);
 		}
-		
 		
 		return null;
 	}

@@ -16,29 +16,32 @@
 package org.ssps.common.resource;
 
 /**
+ * Holds resource information
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public final  class Resource<T> {
-	private T payload;
-	private ResourceInfo resourceInfo;
-
-	public T getPayload() {
-		return payload;
+public class ResourceInfo {
+	private long size;
+	private long lastModified;
+	
+	/**
+	 * Resource size
+	 * @return
+	 */
+	public long getSize() {
+		return size;
 	}
 	
-	public void setPayload(T payload) {
-		this.payload = payload;
+	public void setSize(long size) {
+		this.size = size;
 	}
 	
-	public ResourceInfo getResourceInfo() {
-		return resourceInfo;
+	public long getLastModified() {
+		return lastModified;
 	}
 	
-	public void setResourceInfo(ResourceInfo resourceInfo) {
-		this.resourceInfo = resourceInfo;
+	public void setLastModified(long lastModified) {
+		this.lastModified = lastModified;
 	}
-
-	
 
 }
