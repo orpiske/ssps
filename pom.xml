@@ -49,6 +49,12 @@
 			<artifactId>ssps-common</artifactId>
 			<version>0.1.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>net.orpiske</groupId>
+			<artifactId>ssps-types</artifactId>
+			<version>0.1.0</version>
+		</dependency>
 
 		<!-- Required by Sardine --> 
 		<dependency>
