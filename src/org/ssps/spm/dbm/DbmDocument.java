@@ -24,9 +24,9 @@ import javax.xml.bind.JAXBException;
 
 import net.orpiske.ssps.dbm.Dbm;
 
+import org.ssps.common.variables.VariablesParser;
 import org.ssps.common.xml.XmlParserUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.spm.archive.dbm.VariableSupport;
 
 /**
  * Abstracts the Deliverable Build Model (DBM) document
@@ -41,6 +41,17 @@ public class DbmDocument  {
 
 	private String path;
 	private Dbm dbm;
+	
+	/*
+	 * 
+	 * 
+		String baseDir = FilenameUtils.getFullPath(document.getPath());
+
+		context.put("basedir", baseDir);
+
+		context.put("name", document.getProjectName());
+		context.put("version", document.getProjectVersion());
+	 */
 
 	/**
 	 * Constructor
@@ -55,9 +66,21 @@ public class DbmDocument  {
 			InputStream stream = new FileInputStream(path);
 
 			dbm = XmlParserUtils.unmarshal(Dbm.class, stream);
+			
+			
+			
+			
 		} catch (JAXBException e) {
 			throw new XmlDocumentException("Unable to umarhsall document", e);
 		}
+	}
+	
+	private void registerVariables() {
+		VariablesParser variablesParser = VariablesParser.getInstance();
+		
+		variablesParser.register("basedir", getPath());
+		variablesParser.register("name", getProjectName());
+		variablesParser.register("version", getProjectVersion());
 	}
 
 	/**
@@ -115,8 +138,8 @@ public class DbmDocument  {
 		if (ret == null) {
 			ret = DEFAULT_SOURCE_DIRECTORY;
 		}
-
-		return VariableSupport.parse(ret, this);
+		
+		return VariablesParser.getInstance().evaluate(ret);
 	}
 
 	
@@ -131,7 +154,7 @@ public class DbmDocument  {
 			ret = DEFAULT_OUTPUT_DIRECTORY;
 		}
 
-		return VariableSupport.parse(ret, this);
+		return VariablesParser.getInstance().evaluate(ret);
 	}
 
 	
@@ -143,7 +166,7 @@ public class DbmDocument  {
 		String ret = dbm.getBuild().getArtifactPath();
 
 		if (ret != null) {
-			ret = VariableSupport.parse(ret, this);
+			ret = VariablesParser.getInstance().evaluate(ret);
 		}
 
 		return ret;
@@ -177,7 +200,7 @@ public class DbmDocument  {
 	 */
 	@Deprecated
 	public String getDeliverableOutputDirectory() {
-		return VariableSupport.parse(DEF_DELIVERABLE_OUTPUT_DIRECTORY, this);
+		return VariablesParser.getInstance().evaluate(DEF_DELIVERABLE_OUTPUT_DIRECTORY);
 	}
 
 	/**
