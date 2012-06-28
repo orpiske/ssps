@@ -100,12 +100,14 @@ Section: Rules
 
 	* <<<mkdir>>>: creates a directory.
 
+	* <<<download>>>: downloads a file.
+
 	* <<<shield>>>: shields a file (prevents it from being overwritten).
 	
 	* <<<unpack>>>: unpacks a tar.bz2/tar.gz/ugz file.
 
-	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/adm.xsd}download}}
-the current schema file and open it on your favourite editor.
+	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/adm.xsd.html}read}}
+part of the current schema documentation online.
 
 
 The DBM File
@@ -142,6 +144,28 @@ on your project root and should be named dbm.xml.
 	The DBM file is divided in three main sections: project, build and 
 repository. 
 
+
+Section: Include
+
+	This section allow the developer to reference an external file as the source
+of project information. At the moment, only Maven's pom.xml is supported. To 
+reference an external file, you can use this: 
+----------------------------------------
+	<include includeType="maven" includeFile="pom.xml">
+		<groupExpression>
+			<expression>//project/groupId</expression>
+		</groupExpression>
+		<nameExpression>
+			<expression>//project/artifactId</expression>
+		</nameExpression>
+		<versionExpression>
+			<expression>//project/version</expression>
+		</versionExpression>
+	</include>
+----------------------------------------
+
+	If provided, <<<include>>> will have precedence over <<<project>>>. 
+
 Section: Project
 
 	This section contains information about the project.
@@ -177,8 +201,8 @@ Section: Repository
 	
 	* Element <<<password>>>: the password to login to the repository.
 
-	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/dbm.xsd}download}}
-the current schema file and open it on your favourite editor.
+	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/dbm.xsd.html}read}}
+part of the current schema documentation online.
 
 Next Steps
 
