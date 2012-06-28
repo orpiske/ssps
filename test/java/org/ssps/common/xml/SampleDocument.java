@@ -26,58 +26,54 @@ import org.xml.sax.SAXException;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
+ * 
  */
 public class SampleDocument extends XmlDocument {
-    
 
-    /**
-     * @param input
-     * @throws ParserConfigurationException
-     * @throws XmlDocumentException 
-     */
-    public SampleDocument()
-	    throws ParserConfigurationException, SAXException, IOException, XmlDocumentException {
-	
-	InputStream stream = getClass().getResourceAsStream("sample.xml");
-	
-	super.openDocument(stream);
-    }
-    
-    
-    
-    public String getFirst() {
-	Element root = (Element) getDocument().getFirstChild();
-	Element element = super.find("//first", root);
-	
-	if (element != null) {
-	    return element.getTextContent();
+	/**
+	 * @param input
+	 * @throws ParserConfigurationException
+	 * @throws XmlDocumentException
+	 */
+	public SampleDocument() throws ParserConfigurationException, SAXException,
+			IOException, XmlDocumentException {
+
+		InputStream stream = getClass().getResourceAsStream("sample.xml");
+
+		super.openDocument(stream);
 	}
-	
-	return null;
-    }
-    
-    
-    public String getSecond() {
-	Element root = (Element) getDocument().getFirstChild();
-	Element element = super.find("//second", root);
-	
-	if (element != null) {
-	    return element.getTextContent();
+
+	public String getFirst() {
+		Element root = (Element) getDocument().getFirstChild();
+		Element element = super.find("//first", root);
+
+		if (element != null) {
+			return element.getTextContent();
+		}
+
+		return null;
 	}
-	
-	return null;
-    }
-    
-    public String getFourth() {
-	Element root = (Element) getDocument().getFirstChild();
-	Element element = super.find("//third/fourth", root);
-	
-	if (element != null) {
-	    return element.getTextContent();
+
+	public String getSecond() {
+		Element root = (Element) getDocument().getFirstChild();
+		Element element = super.find("//second", root);
+
+		if (element != null) {
+			return element.getTextContent();
+		}
+
+		return null;
 	}
-	
-	return null;
-    }
+
+	public String getFourth() {
+		Element root = (Element) getDocument().getFirstChild();
+		Element element = super.find("//third/fourth", root);
+
+		if (element != null) {
+			return element.getTextContent();
+		}
+
+		return null;
+	}
 
 }
