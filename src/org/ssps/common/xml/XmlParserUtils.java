@@ -22,12 +22,15 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.log4j.Logger;
+
 /**
  * XML parsing utilities
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class XmlParserUtils {
+	private static final Logger logger = Logger.getLogger(XmlParserUtils.class);
 	
 	/**
 	 * Restricted constructor
@@ -46,6 +49,8 @@ public class XmlParserUtils {
 			final InputStream inputStream)
 			throws JAXBException 
 	{
+		logger.trace("Unmarshalling the XML data");
+		
 		String packageName = docClass.getPackage().getName();
 		JAXBContext jc = JAXBContext.newInstance(packageName);
 		Unmarshaller u = jc.createUnmarshaller();
