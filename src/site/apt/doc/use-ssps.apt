@@ -86,6 +86,8 @@ details about the SPM deployment process check the
 </adm>
 ----------------------------------------
 
+	{{{./xsd/adm.xsd.html}Here}} you can check the schema definition for this file.
+
 	The ADM file declares stages, which are a group of steps that are executed
 during software deployment. Currently, the following stages are accepted: 
 prepare, validate, setup, verify, cleanup.
@@ -134,6 +136,8 @@ on your project root and should be named dbm.xml.
   </repository>
 </dbm>
 ----------------------------------------
+
+	{{{./xsd/dbm.xsd.html}Here}} you can check the schema definition for this file.
 
 	The DBM file is divided in three main sections: project, build and 
 repository. 
