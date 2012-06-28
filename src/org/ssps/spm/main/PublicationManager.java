@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.repository.PathUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.spm.archive.dbm.DbmDocument;
+import org.ssps.spm.dbm.DbmDocument;
 
 import com.googlecode.sardine.Sardine;
 import com.googlecode.sardine.SardineFactory;

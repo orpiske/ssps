@@ -23,8 +23,8 @@ import org.apache.commons.io.FileUtils;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.usa.UsaArchive;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.spm.archive.dbm.DbmDocument;
-import org.ssps.spm.archive.dbm.DbmException;
+import org.ssps.spm.dbm.DbmDocument;
+import org.ssps.spm.dbm.DbmException;
 
 /**
  * Archiver archives the archive (ok, not the archive, but the artifacts + 

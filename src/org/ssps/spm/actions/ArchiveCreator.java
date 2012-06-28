@@ -25,7 +25,7 @@ import org.apache.commons.cli.PosixParser;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.spm.archive.Archiver;
-import org.ssps.spm.archive.dbm.DbmException;
+import org.ssps.spm.dbm.DbmException;
 
 /**
  * This action class is reponsible for creating new SSPS archives

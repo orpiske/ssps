@@ -20,6 +20,7 @@ import java.io.StringWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.ssps.spm.dbm.DbmDocument;
 
 /**
  * Adds support for variables in the DBM file
