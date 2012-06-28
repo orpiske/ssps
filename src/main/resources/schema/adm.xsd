@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.orpiske.net/ssps/adm" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/ssps/adm">
+
+    <element name="adm" type="tns:Adm">
+    	<annotation>
+    		<documentation>Artifact deployment model</documentation>
+    	</annotation></element>
+    
+    <complexType name="Adm">
+    	<sequence>
+    		<element name="artifact" type="tns:Artifact"></element>
+    		<element name="stages" type="tns:Stages"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Artifact">
+    	<sequence>
+    		<element name="name" type="string"></element>
+    		<element name="version" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Stages">
+    	<sequence>
+    		<element name="prepare" type="tns:PrepareStage" minOccurs="0"></element>
+    		<element name="validate" type="tns:ValidateStage" minOccurs="0"></element>
+    		<element name="setup" type="tns:SetupStage" minOccurs="0"></element>
+    		<element name="verify" type="tns:VerifyStage" minOccurs="0"></element>
+    		<element name="cleanup" type="tns:CleanupStage" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="AbstractStage" abstract="true">
+        <sequence>
+        	<choice minOccurs="0" maxOccurs="unbounded">
+        		<element name="echo" type="tns:EchoRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="mkdir" type="tns:MkdirRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="copy" type="tns:CopyRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="rmdir" type="tns:Rmdir" minOccurs="0"></element>
+        		<element name="unpack" type="tns:UnpackRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="shield" type="tns:ShieldRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="symlink" type="tns:SymlinkRule"
+        			minOccurs="0">
+        		</element>
+        		<element name="download" type="tns:DownloadRule"></element>
+        	</choice>
+
+        </sequence>
+
+    </complexType>
+
+    <complexType name="AbstractRule"></complexType>
+
+    <complexType name="PrepareStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="ValidateStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="SetupStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="VerifyStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="CleanupStage">
+    	<complexContent>
+    		<extension base="tns:AbstractStage"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="CopyRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="from" type="string"></attribute>
+    			<attribute name="to" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+
+
+
+    <complexType name="MkdirRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="dir" type="string"></attribute>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="Rmdir">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="dir" type="string"></attribute>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+
+    
+
+
+    <complexType name="EchoRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<sequence>
+    				<element name="message" type="string"></element>
+    			</sequence>
+    			<attribute name="level">
+    				<simpleType>
+    					<restriction base="string">
+    						<enumeration value="warning"></enumeration>
+    						<enumeration value="info"></enumeration>
+    						<enumeration value="error"></enumeration>
+    						<enumeration value="debug"></enumeration>
+    						<enumeration value="fatal"></enumeration>
+    					</restriction>
+    				</simpleType>
+    			</attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="UnpackRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="source" type="string"></attribute>
+
+    			<attribute name="destination" type="string"></attribute>
+
+    			<attribute name="format" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="SymlinkRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="from" type="string"></attribute>
+
+    			<attribute name="to" type="string"></attribute>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="ShieldRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="resource" type="string"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="DownloadRule">
+    	<complexContent>
+    		<extension base="tns:AbstractRule">
+    			<attribute name="url" type="string" use="required"></attribute>
+
+    			<attribute name="name" type="string"></attribute>
+    			<attribute name="overwrite" type="boolean" default="false"></attribute>
+    		</extension>
+    	</complexContent>
+    </complexType>
+</schema>
