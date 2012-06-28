@@ -20,11 +20,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.usa.UsaArchive;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.spm.dbm.DbmDocument;
 import org.ssps.spm.dbm.DbmException;
+import org.ssps.spm.dbm.DbmProcessor;
 
 /**
  * Archiver archives the archive (ok, not the archive, but the artifacts + 
@@ -33,8 +35,10 @@ import org.ssps.spm.dbm.DbmException;
  * 
  */
 public class Archiver {
+	private static Logger logger = Logger.getLogger(Archiver.class);
+	
 	private UsaArchive usaArchive;
-	private DbmDocument dbmDocument;
+	private DbmProcessor dbmProcessor;
 
 	/**
 	 * Constructor
@@ -42,25 +46,33 @@ public class Archiver {
 	 * existing directory
 	 * @throws XmlDocumentException If the DBM file is incorrectly setup
 	 * @throws FileNotFoundException If the DBM archive cannot be found
+	 * @throws DbmException 
 	 */
-	public Archiver(final String dbmFile) throws XmlDocumentException, FileNotFoundException {
-		dbmDocument = new DbmDocument(dbmFile);
+	public Archiver(final String dbmFile) throws XmlDocumentException, FileNotFoundException, DbmException {
+		logger.trace("Creating a new DBM document object");
+		DbmDocument dbmDocument = new DbmDocument(dbmFile);
+		
+		dbmProcessor = dbmDocument.getDbmProcessor();
+		
+		logger.trace("Creating a new USA archive processor");
 		usaArchive = new UsaArchive();
 	}
 
 	private File getBuildSourceDirectory() {
-		String sourceDir = dbmDocument.getDbmProcessor().getBuildSourceDirectory();
+		String sourceDir = dbmProcessor.getBuildSourceDirectory();
 
 		return new File(sourceDir);
 	}
 
 	private File getBuildOutputDirectory() {
-		String outputDir = dbmDocument.getDbmProcessor().getBuildOutputDirectory();
+		String outputDir = dbmProcessor.getBuildOutputDirectory();
 
 		return new File(outputDir);
 	}
 
 	private void createBuildRoot() throws DbmException {
+		logger.info("Creating the build root");
+		
 		File sourceDir = getBuildSourceDirectory();
 		File outputDir = getBuildOutputDirectory();
 
@@ -82,16 +94,21 @@ public class Archiver {
 	}
 
 	private void copyArtifact() throws DbmException {
-		File sourceFile = new File(dbmDocument.getDbmProcessor().getBuildArtifact());
-		File destDir = new File(dbmDocument.getDbmProcessor().getBuildOutputDirectory()
+		logger.info("Copying the artifact");
+		File sourceFile = new File(dbmProcessor.getBuildArtifact());
+		
+		String destDirPath = dbmProcessor.getBuildOutputDirectory()
 				+ File.separator + "artifacts" + File.separator + "install"
-				+ File.separator + "default");
-
+				+ File.separator + "default";
+		
+		logger.trace("Artifact destination directory: " + destDirPath);
+		File destDir = new File(destDirPath);
+		
 		try {
 			FileUtils.copyFileToDirectory(sourceFile, destDir);
 		} catch (IOException e) {
 			throw new DbmException("Unable to copy " + sourceFile.getPath()
-					+ " to " + destDir.getPath(), e);
+					+ " to " + destDir.getPath() + ": " + e.getMessage(), e);
 		}
 	}
 
@@ -105,11 +122,13 @@ public class Archiver {
 		createBuildRoot();
 		copyArtifact();
 
-		String buildDirectory = dbmDocument.getDbmProcessor().getBuildOutputDirectory();
-		String deliverableName = dbmDocument.getDbmProcessor().getDeliverableName();
+		
+		String buildDirectory = dbmProcessor.getBuildOutputDirectory();
+		String deliverableName = dbmProcessor.getDeliverableName();
 
+		logger.info("Packing the deliverable");
 		usaArchive.pack(buildDirectory,
-				dbmDocument.getDbmProcessor().getDeliverableOutputDirectory() + File.separator
+				dbmProcessor.getDeliverableOutputDirectory() + File.separator
 						+ deliverableName);
 
 	}

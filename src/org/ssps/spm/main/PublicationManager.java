@@ -27,6 +27,7 @@ import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.repository.PathUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.spm.dbm.DbmDocument;
+import org.ssps.spm.dbm.DbmException;
 
 import com.googlecode.sardine.Sardine;
 import com.googlecode.sardine.SardineFactory;
@@ -56,7 +57,7 @@ public class PublicationManager {
 		sardine = SardineFactory.begin(repositoryUser, repositoryPassword);
 	}
 
-	public PublicationManager(final String dbmFile) throws XmlDocumentException, FileNotFoundException {
+	public PublicationManager(final String dbmFile) throws XmlDocumentException, FileNotFoundException, DbmException {
 		dbmDocument = new DbmDocument(dbmFile);
 
 		String repositoryUser = dbmDocument.getDbmProcessor().getRepositoryUser();

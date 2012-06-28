@@ -23,6 +23,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
+import org.ssps.spm.dbm.DbmException;
 import org.ssps.spm.main.PublicationManager;
 
 /**
@@ -65,7 +66,7 @@ public class Publisher extends ActionInterface {
 		}
 	}
 	
-	private void publish() throws XmlDocumentException, IOException {
+	private void publish() throws XmlDocumentException, IOException, DbmException {
 		String dbmFile = cmdLine.getOptionValue('f');
 
 		if (dbmFile == null) {
@@ -94,6 +95,8 @@ public class Publisher extends ActionInterface {
 		} catch (IOException e) {
 			System.err.println("Input/output error: " + e.getMessage() + 
 					"\nDid you forget to run spm create?");
+		} catch (DbmException e) {
+			System.err.println("Invalid DBM document: " + e.getMessage());
 		}
 
 	}

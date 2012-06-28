@@ -24,6 +24,7 @@ import javax.xml.bind.JAXBException;
 
 import net.orpiske.ssps.dbm.Dbm;
 
+import org.apache.log4j.Logger;
 import org.ssps.common.variables.VariablesParser;
 import org.ssps.common.xml.XmlParserUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
@@ -35,6 +36,8 @@ import org.ssps.common.xml.exceptions.XmlDocumentException;
  * 
  */
 public class DbmDocument  {
+	private static final Logger logger = Logger.getLogger(DbmDocument.class);
+	
 	public static final String DEFAULT_SOURCE_DIRECTORY = "${basedir}/src/dbm";
 	public static final String DEFAULT_OUTPUT_DIRECTORY = "${basedir}/target/installroot";
 	public static final String DEF_DELIVERABLE_OUTPUT_DIRECTORY = "${basedir}/target";
@@ -48,11 +51,14 @@ public class DbmDocument  {
 	 * @param path path to the DBM document
 	 * @throws XmlDocumentException if the DBM document is incorrect/invalid
 	 * @throws FileNotFoundException if the DBM document was not found
+	 * @throws DbmException If the DBM file is invalid and/or includes cannot 
+	 * be read
 	 */
-	public DbmDocument(final String path) throws XmlDocumentException, FileNotFoundException {
+	public DbmDocument(final String path) throws XmlDocumentException, FileNotFoundException, DbmException {
 		this.setPath(path);
 
 		try {
+			logger.trace("Opening file " + path);
 			InputStream stream = new FileInputStream(path);
 
 			dbm = XmlParserUtils.unmarshal(Dbm.class, stream);
@@ -62,11 +68,13 @@ public class DbmDocument  {
 			setDbmProcessor(new DbmProcessor(dbm));
 			
 		} catch (JAXBException e) {
-			throw new XmlDocumentException("Unable to umarhsall document", e);
-		}
+			throw new XmlDocumentException("Unable to umarhsall document: " 
+					+ e.getMessage(), e);
+		} 
 	}
 	
 	private void registerVariables() {
+		logger.trace("Registering variables");
 		VariablesParser variablesParser = VariablesParser.getInstance();
 		
 		variablesParser.register("basedir", "./");

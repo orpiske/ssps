@@ -17,7 +17,10 @@ package org.ssps.spm.dbm;
 
 import java.io.File;
 
+import org.apache.log4j.Logger;
 import org.ssps.common.variables.VariablesParser;
+import org.ssps.spm.dbm.include.IncludeProcessor;
+import org.ssps.spm.dbm.include.IncludeProcessorFactory;
 
 import net.orpiske.ssps.dbm.Dbm;
 import net.orpiske.ssps.dbm.Include;
@@ -27,21 +30,32 @@ import net.orpiske.ssps.dbm.Include;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public class DbmProcessor {
+public final class DbmProcessor {
+	private static final Logger logger = Logger.getLogger(DbmProcessor.class);
+	
 	public static final String DEFAULT_SOURCE_DIRECTORY = "${basedir}/src/dbm";
 	public static final String DEFAULT_OUTPUT_DIRECTORY = "${basedir}/target/installroot";
 	public static final String DEF_DELIVERABLE_OUTPUT_DIRECTORY = "${basedir}/target";
 	
 	private Dbm dbm;
+	private IncludeProcessor processor;
 	
-	public DbmProcessor(final Dbm dbm) {
+	public DbmProcessor(final Dbm dbm) throws DbmException {
+		logger.trace("Creating a new DBM document processor");
 		this.dbm = dbm;
+		
+		
+		Include include = dbm.getInclude();
+		if (include != null) {
+			processor = IncludeProcessorFactory.getProcessor(include);
+		}
 		
 		registerVariables();
 	}
 	
 	
 	private void registerVariables() {
+		logger.trace("Registering variables");
 		VariablesParser variablesParser = VariablesParser.getInstance();
 		
 		variablesParser.register("name", getProjectName());
@@ -58,7 +72,9 @@ public class DbmProcessor {
 		Include include = dbm.getInclude();
 		
 		if (include != null) {
+			String expr = include.getGroupExpression().getExpression();
 			
+			ret = processor.getValue(expr);
 		}
 		else {
 			ret = dbm.getProject().getGroup();
@@ -78,7 +94,9 @@ public class DbmProcessor {
 		Include include = dbm.getInclude();
 		
 		if (include != null) {
+			String expr = include.getNameExpression().getExpression();
 			
+			ret = processor.getValue(expr);
 		}
 		else {
 			ret = dbm.getProject().getName();
@@ -97,7 +115,9 @@ public class DbmProcessor {
 		Include include = dbm.getInclude();
 		
 		if (include != null) {
+			String expr = include.getVersionExpression().getExpression();
 			
+			ret = processor.getValue(expr);
 		}
 		else {
 			ret = dbm.getProject().getVersion();

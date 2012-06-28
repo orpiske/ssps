@@ -23,6 +23,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
+import org.ssps.spm.dbm.DbmException;
 import org.ssps.spm.main.PublicationManager;
 
 /**
@@ -64,7 +65,7 @@ public class RepositoryManager extends ActionInterface {
 		}
 	}
 
-	private void delete() throws XmlDocumentException, IOException {
+	private void delete() throws XmlDocumentException, IOException, DbmException {
 		String dbmFile = cmdLine.getOptionValue('f');
 
 		if (dbmFile == null) {
@@ -91,6 +92,8 @@ public class RepositoryManager extends ActionInterface {
 		} catch (XmlDocumentException e) {
 			System.err.println("Invalid XML document: " + e.getMessage());
 		} catch (IOException e) {
+			System.err.println("Invalid DBM document: " + e.getMessage());
+		} catch (DbmException e) {
 			System.err.println("Invalid DBM document: " + e.getMessage());
 		}
 	}

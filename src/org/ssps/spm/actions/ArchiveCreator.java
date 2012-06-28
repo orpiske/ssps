@@ -22,6 +22,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.spm.archive.Archiver;
@@ -33,6 +34,8 @@ import org.ssps.spm.dbm.DbmException;
  *
  */
 public class ArchiveCreator extends ActionInterface {
+	
+	private static final Logger logger = Logger.getLogger(ArchiveCreator.class);
 	
 	private CommandLine cmdLine;
 	private Options options;
@@ -71,13 +74,16 @@ public class ArchiveCreator extends ActionInterface {
 	private void archive() throws XmlDocumentException, DbmException, SspsArchiveException {
 		String dbmFile = cmdLine.getOptionValue('d');
 		
+		
 		if (dbmFile == null) {
+			logger.trace("Using default dbm.xml file");
+			
 			dbmFile = "./dbm.xml";
 		}
 	
 		Archiver archiver;
 		
-		try { 
+		try {
 			archiver = new Archiver(dbmFile);
 			archiver.createArchive();
 		}
@@ -95,12 +101,15 @@ public class ArchiveCreator extends ActionInterface {
 	 */
 	@Override
 	public void run() {
+		logger.trace("Running action");
+		
 		try {
 			if (cmdLine.hasOption('h')) { 
 				help(options, 1);
 			}
 			else { 
 				archive();
+				logger.info("Deliverable file created successfully");
 			}
 		} catch (XmlDocumentException e) {
 			System.err.println("Invalid XML document: " + e.getMessage());
