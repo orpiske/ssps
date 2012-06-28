@@ -24,10 +24,19 @@
     
     <complexType name="Dbm">
     	<sequence>
-    		<element name="project" type="tns:Project"></element>
-    		<element name="build" type="tns:Build"></element>
-    		<element name="repository" type="tns:Repository"></element>
-    	</sequence>
+    		<choice>
+    			<element name="include" type="tns:Include">
+    				<annotation>
+    					<documentation>Allows inclusion of external project files (such as Maven's pom.xml or Ant's build.xml) so that some of the information can be retrieved from those files</documentation>
+    				</annotation></element>
+                <element name="project" type="tns:Project">
+                	<annotation>
+                		<documentation>This type holds project related information</documentation>
+                	</annotation></element>
+            </choice>
+            <element name="build" type="tns:Build"></element>
+            <element name="repository" type="tns:Repository"></element>
+        </sequence>
     </complexType>
 
     <complexType name="Build">
@@ -40,9 +49,18 @@
 
     <complexType name="Project">
     	<sequence>
-            <element name="group" type="string"></element>
-            <element name="name" type="string"></element>
-    		<element name="version" type="string"></element>
+            <element name="group" type="string">
+            	<annotation>
+            		<documentation>Project group</documentation>
+            	</annotation></element>
+            <element name="name" type="string">
+            	<annotation>
+            		<documentation>Project name</documentation>
+            	</annotation></element>
+    		<element name="version" type="string">
+    			<annotation>
+    				<documentation>Project version</documentation>
+    			</annotation></element>
     	</sequence>
     </complexType>
 
@@ -58,5 +76,41 @@
             <element name="password" type="string"></element>
             <element name="url" type="string"></element>
         </sequence>
+    </complexType>
+
+    <complexType name="Include">
+    	<complexContent>
+    		<extension base="tns:AbstractInclude">
+    			<sequence>
+    				<element name="groupExpression" type="tns:InformationSourceExpr" minOccurs="0"></element>
+    				<element name="nameExpression" type="tns:InformationSourceExpr" minOccurs="0"></element>
+    				<element name="versionExpression" type="tns:InformationSourceExpr" minOccurs="0"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <simpleType name="IncludeType">
+    	<restriction base="string">
+    		<enumeration value="maven"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="InformationSourceExpr">
+    	<sequence>
+    		<element name="expression" type="string"></element>
+    	</sequence>
+    	<attribute name="type" use="optional" fixed="xpath">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="xpath"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+    <complexType name="AbstractInclude" abstract="true">
+    	<attribute name="includeType" type="tns:IncludeType" default="maven"></attribute>
+    	<attribute name="includeFile" type="string" use="required"></attribute>
     </complexType>
 </schema>
