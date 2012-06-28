@@ -59,8 +59,8 @@ public class PublicationManager {
 	public PublicationManager(final String dbmFile) throws XmlDocumentException, FileNotFoundException {
 		dbmDocument = new DbmDocument(dbmFile);
 
-		String repositoryUser = dbmDocument.getRepositoryUser();
-		String repositoryPassword = dbmDocument.getRepositoryPassword();
+		String repositoryUser = dbmDocument.getDbmProcessor().getRepositoryUser();
+		String repositoryPassword = dbmDocument.getDbmProcessor().getRepositoryPassword();
 
 		if (repositoryUser == null) {
 			repositoryUser = config.getString("default.repository.username");
@@ -72,7 +72,7 @@ public class PublicationManager {
 			repositoryPassword = "";
 		}
 
-		url = dbmDocument.getRepositoryUrl();
+		url = dbmDocument.getDbmProcessor().getRepositoryUrl();
 
 		if (url == null) {
 			url = config.getString("default.repository.url");
@@ -81,21 +81,23 @@ public class PublicationManager {
 	}
 
 	private String getGroupRoot() {
-		return (new PathUtils(url)).getGroupRoot(dbmDocument.getProjectGroup());
+		return (new PathUtils(url)).getGroupRoot(dbmDocument.getDbmProcessor().getProjectGroup());
 	}
 
 	private String getNameRoot() {
-		return (new PathUtils(url)).getNameRoot(dbmDocument.getProjectGroup(),
-				dbmDocument.getProjectName());
+		return (new PathUtils(url)).getNameRoot(dbmDocument.getDbmProcessor().getProjectGroup(),
+				dbmDocument.getDbmProcessor().getProjectName());
 	}
 
 	private String getPath() {
-		return (new PathUtils(url)).getPath(dbmDocument.getProjectGroup(),
-				dbmDocument.getProjectName(), dbmDocument.getProjectVersion());
+		return (new PathUtils(url)).getPath(
+				dbmDocument.getDbmProcessor().getProjectGroup(),
+				dbmDocument.getDbmProcessor().getProjectName(), 
+				dbmDocument.getDbmProcessor().getProjectVersion());
 	}
 
 	public void upload() throws IOException {
-		String filename = dbmDocument.getDeliverableFullPath();
+		String filename = dbmDocument.getDbmProcessor().getDeliverableFullPath();
 		InputStream stream = new FileInputStream(filename);
 
 		// byte[] data = FileUtils.readFileToByteArray(new File(filename));

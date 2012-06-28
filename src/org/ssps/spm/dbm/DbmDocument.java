@@ -41,18 +41,8 @@ public class DbmDocument  {
 
 	private String path;
 	private Dbm dbm;
+	private DbmProcessor dbmProcessor;
 	
-	/*
-	 * 
-	 * 
-		String baseDir = FilenameUtils.getFullPath(document.getPath());
-
-		context.put("basedir", baseDir);
-
-		context.put("name", document.getProjectName());
-		context.put("version", document.getProjectVersion());
-	 */
-
 	/**
 	 * Constructor
 	 * @param path path to the DBM document
@@ -67,8 +57,9 @@ public class DbmDocument  {
 
 			dbm = XmlParserUtils.unmarshal(Dbm.class, stream);
 			
+			registerVariables();
 			
-			
+			setDbmProcessor(new DbmProcessor(dbm));
 			
 		} catch (JAXBException e) {
 			throw new XmlDocumentException("Unable to umarhsall document", e);
@@ -78,9 +69,7 @@ public class DbmDocument  {
 	private void registerVariables() {
 		VariablesParser variablesParser = VariablesParser.getInstance();
 		
-		variablesParser.register("basedir", getPath());
-		variablesParser.register("name", getProjectName());
-		variablesParser.register("version", getProjectVersion());
+		variablesParser.register("basedir", "./");
 	}
 
 	/**
@@ -96,139 +85,11 @@ public class DbmDocument  {
 		this.path = path;
 	}
 
-	
-	/**
-	 * Gets the project group
-	 * @return the project group
-	 */
-	@Deprecated
-	public String getProjectGroup() {
-		return dbm.getProject().getGroup();
+	public DbmProcessor getDbmProcessor() {
+		return dbmProcessor;
 	}
 
-	
-	/**
-	 * Gets the project name
-	 * @return the project name
-	 */
-	@Deprecated
-	public String getProjectName() {	
-		return dbm.getProject().getName();
-	}
-
-	
-	
-	/**
-	 * Gets the project version
-	 * @return the project version
-	 */
-	@Deprecated
-	public String getProjectVersion() {
-		return dbm.getProject().getVersion();
-	}
-
-	
-	/**
-	 * Gets the source directory
-	 * @return the source directory
-	 */
-	public String getBuildSourceDirectory() {
-		String ret = dbm.getBuild().getSourceDirectory();
-
-		if (ret == null) {
-			ret = DEFAULT_SOURCE_DIRECTORY;
-		}
-		
-		return VariablesParser.getInstance().evaluate(ret);
-	}
-
-	
-	/**
-	 * Gets the build output directory
-	 * @return the build output directory
-	 */
-	public String getBuildOutputDirectory() {
-		String ret = dbm.getBuild().getOutputDirectory();
-
-		if (ret == null) {
-			ret = DEFAULT_OUTPUT_DIRECTORY;
-		}
-
-		return VariablesParser.getInstance().evaluate(ret);
-	}
-
-	
-	/**
-	 * Gets the build artifact
-	 * @return
-	 */
-	public String getBuildArtifact() {
-		String ret = dbm.getBuild().getArtifactPath();
-
-		if (ret != null) {
-			ret = VariablesParser.getInstance().evaluate(ret);
-		}
-
-		return ret;
-	}
-
-	
-	/**
-	 * Gets the name of the deliverable
-	 * @return
-	 */
-	@Deprecated
-	public String getDeliverableName() {
-		return getProjectName() + "-" + getProjectVersion();
-	}
-	
-	
-	/**
-	 * Gets the full path to the deliverable
-	 * @return
-	 */
-	@Deprecated
-	public String getDeliverableFullPath() {
-		return getDeliverableOutputDirectory() + File.separator 
-				+ getDeliverableName() + ".ugz";
-	}
-
-	
-	/**
-	 * Gets the deliverable output directory
-	 * @return
-	 */
-	@Deprecated
-	public String getDeliverableOutputDirectory() {
-		return VariablesParser.getInstance().evaluate(DEF_DELIVERABLE_OUTPUT_DIRECTORY);
-	}
-
-	/**
-	 * Gets the repository user
-	 * @return
-	 */
-	@Deprecated
-	public String getRepositoryUser() {
-		return dbm.getRepository().getUsername();
-	}
-
-	
-	/**
-	 * Gets the repository password
-	 * @return
-	 */
-	@Deprecated
-	public String getRepositoryPassword() {
-		return dbm.getRepository().getPassword();
-	}
-
-	
-	/**
-	 * Gets the repository URL
-	 * @return
-	 */
-	@Deprecated
-	public String getRepositoryUrl() {
-		return dbm.getRepository().getUrl();
+	public void setDbmProcessor(DbmProcessor dbmProcessor) {
+		this.dbmProcessor = dbmProcessor;
 	}
 }

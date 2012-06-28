@@ -49,13 +49,13 @@ public class Archiver {
 	}
 
 	private File getBuildSourceDirectory() {
-		String sourceDir = dbmDocument.getBuildSourceDirectory();
+		String sourceDir = dbmDocument.getDbmProcessor().getBuildSourceDirectory();
 
 		return new File(sourceDir);
 	}
 
 	private File getBuildOutputDirectory() {
-		String outputDir = dbmDocument.getBuildOutputDirectory();
+		String outputDir = dbmDocument.getDbmProcessor().getBuildOutputDirectory();
 
 		return new File(outputDir);
 	}
@@ -68,6 +68,10 @@ public class Archiver {
 			throw new DbmException("The source directory "
 					+ sourceDir.getPath() + " does not exist");
 		}
+		
+		if (!outputDir.exists()) {
+			outputDir.mkdirs();
+		}
 
 		try {
 			FileUtils.copyDirectory(sourceDir, outputDir);
@@ -78,8 +82,8 @@ public class Archiver {
 	}
 
 	private void copyArtifact() throws DbmException {
-		File sourceFile = new File(dbmDocument.getBuildArtifact());
-		File destDir = new File(dbmDocument.getBuildOutputDirectory()
+		File sourceFile = new File(dbmDocument.getDbmProcessor().getBuildArtifact());
+		File destDir = new File(dbmDocument.getDbmProcessor().getBuildOutputDirectory()
 				+ File.separator + "artifacts" + File.separator + "install"
 				+ File.separator + "default");
 
@@ -101,11 +105,11 @@ public class Archiver {
 		createBuildRoot();
 		copyArtifact();
 
-		String buildDirectory = dbmDocument.getBuildOutputDirectory();
-		String deliverableName = dbmDocument.getDeliverableName();
+		String buildDirectory = dbmDocument.getDbmProcessor().getBuildOutputDirectory();
+		String deliverableName = dbmDocument.getDbmProcessor().getDeliverableName();
 
 		usaArchive.pack(buildDirectory,
-				dbmDocument.getDeliverableOutputDirectory() + File.separator
+				dbmDocument.getDbmProcessor().getDeliverableOutputDirectory() + File.separator
 						+ deliverableName);
 
 	}
