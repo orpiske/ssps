@@ -22,7 +22,6 @@ import java.io.InputStream;
 /**
  * Interface for message digest implementations
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public interface MessageDigest {
 	
@@ -76,6 +75,4 @@ public interface MessageDigest {
 	 * the input stream
 	 */
 	void save(final String source) throws IOException;
-	
-	
 }
