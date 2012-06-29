@@ -35,6 +35,7 @@
                 	</annotation></element>
             </choice>
             <element name="build" type="tns:Build"></element>
+            <element name="contents" type="tns:Contents"></element>
             <element name="repository" type="tns:Repository"></element>
         </sequence>
     </complexType>
@@ -42,8 +43,7 @@
     <complexType name="Build">
     	<sequence>
     		<element name="sourceDirectory" type="string"></element>
-            <element name="outputDirectory" type="string"></element>
-            <element name="artifactPath" type="string"></element>
+    		<element name="outputDirectory" type="string"></element>
     	</sequence>
     </complexType>
 
@@ -112,5 +112,81 @@
     <complexType name="AbstractInclude" abstract="true">
     	<attribute name="includeType" type="tns:IncludeType" default="maven"></attribute>
     	<attribute name="includeFile" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Contents">
+    	<sequence>
+    		<element name="artifactList" type="tns:ArtifactList"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ArtifactList">
+    	<sequence>
+    		<element name="artifactRef" type="tns:ArtifactReference" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ArtifactReference">
+    	<choice>
+    		<element name="artifactPath" type="string" minOccurs="1"></element>
+    		<element name="fileFilter" type="tns:FileFilterRef" minOccurs="1"></element>
+    	</choice>
+    </complexType>
+
+    <complexType name="FileFilterRef">
+    	<choice>
+    		<element name="suffixFilter" type="tns:SuffixFilter"
+    			minOccurs="1">
+    		</element>
+            <element name="prefixFilter" type="tns:PrefixFilter" minOccurs="1"></element>
+            <element name="wildcardFilter" type="tns:WildcardFilter"
+    			minOccurs="1">
+    		</element>
+    		<element name="regexFilter" type="tns:RegexFilter"
+    			minOccurs="1">
+    		</element>
+    		<element name="nameFilter" type="tns:NameFilter"
+    			minOccurs="1">
+    		</element>
+    	</choice>
+
+    </complexType>
+
+    <complexType name="AbstractFileFilter" abstract="true">
+    	<sequence>
+    		<element name="filter" type="string"></element>
+    		<element name="path" type="string"></element>
+    	</sequence>
+    	<attribute name="negate" type="boolean" use="optional" default="false"></attribute>
+    </complexType>
+    
+    <complexType name="SuffixFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="WildcardFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="RegexFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="NameFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="PrefixFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
     </complexType>
 </schema>
