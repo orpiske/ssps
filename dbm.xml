@@ -27,9 +27,15 @@
 	
 	<contents>
 		<artifactList>
-			<artifactPath>${basedir}/target/${name}-${version}-bin.tar.bz2</artifactPath>
+			<artifactRef>
+				<fileFilter>
+					<wildcardFilter>
+						<path>${basedir}/target/</path>
+						<filter>*-bin.*</filter>
+					</wildcardFilter>
+				</fileFilter>
+			</artifactRef>
 		</artifactList>
-		
 	</contents>
 
 	<repository>
