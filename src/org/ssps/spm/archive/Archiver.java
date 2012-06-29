@@ -24,6 +24,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.usa.UsaArchive;
+import org.ssps.common.digest.MessageDigest;
+import org.ssps.common.digest.Sha1Digest;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.spm.dbm.DbmDocument;
 import org.ssps.spm.dbm.DbmException;
@@ -129,6 +131,25 @@ public class Archiver {
 			copyArtifact(artifact, i, artifacts.size());
 		}
 	}
+	
+	/**
+	 * Gets the output file name
+	 * @return
+	 */
+	private String getOutputFileName() {
+		String deliverableName = dbmProcessor.getDeliverableName();
+		String outputFile = dbmProcessor.getDeliverableOutputDirectory() 
+				+ File.separator + deliverableName;
+
+		logger.info("Packing the deliverable");
+		
+		if (!outputFile.contains(".ugz")) {
+			outputFile = outputFile + ".ugz";
+		}
+		
+		return outputFile;
+	}
+
 
 	
 	/**
@@ -142,13 +163,26 @@ public class Archiver {
 
 		
 		String buildDirectory = dbmProcessor.getBuildOutputDirectory();
-		String deliverableName = dbmProcessor.getDeliverableName();
+		String outputFile = getOutputFileName();
+		
+		usaArchive.pack(buildDirectory, outputFile);
 
-		logger.info("Packing the deliverable");
-		usaArchive.pack(buildDirectory,
-				dbmProcessor.getDeliverableOutputDirectory() + File.separator
-						+ deliverableName);
-
+		/*
+		 * This is hard-coded for now, but in the future I plan to make it more
+		 * flexible to allow using other algorithms
+		 */
+		MessageDigest md = new Sha1Digest();
+		
+		try {
+			logger.info("Calculating message digest for the deliverable");
+			md.save(outputFile + "");
+		} catch (IOException e) {
+			throw new DbmException("Unable to calculate digest: " 
+					+ e.getMessage(), e);
+		}
+		
+		logger.info("Archive created successfully");
 	}
+
 
 }
