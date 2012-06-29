@@ -18,6 +18,7 @@ package org.ssps.spm.archive;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -92,10 +93,11 @@ public class Archiver {
 					+ " to " + outputDir.getPath(), e);
 		}
 	}
-
-	private void copyArtifact() throws DbmException {
-		logger.info("Copying the artifact");
-		File sourceFile = new File(dbmProcessor.getBuildArtifact());
+	
+	private void copyArtifact(final String artifact, int num, int total) throws DbmException {
+		logger.info("Copying artifact " + num + " of " + total);
+		
+		File sourceFile = new File(artifact);
 		
 		String destDirPath = dbmProcessor.getBuildOutputDirectory()
 				+ File.separator + "artifacts" + File.separator + "install"
@@ -111,6 +113,22 @@ public class Archiver {
 					+ " to " + destDir.getPath() + ": " + e.getMessage(), e);
 		}
 	}
+	
+
+	private void copyArtifacts() throws DbmException {
+		
+		List<String> artifacts = dbmProcessor.getContents();
+		
+		if (artifacts == null || artifacts.size() == 0) {
+			throw new DbmException("The DBM file does not have any contents");
+		}
+		
+		for (int i = 0; i < artifacts.size(); i++) {
+			String artifact = artifacts.get(i);
+			
+			copyArtifact(artifact, i, artifacts.size());
+		}
+	}
 
 	
 	/**
@@ -120,7 +138,7 @@ public class Archiver {
 	 */
 	public void createArchive() throws DbmException, SspsArchiveException {
 		createBuildRoot();
-		copyArtifact();
+		copyArtifacts();
 
 		
 		String buildDirectory = dbmProcessor.getBuildOutputDirectory();

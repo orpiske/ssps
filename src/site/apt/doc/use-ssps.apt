@@ -120,16 +120,34 @@ on your project root and should be named dbm.xml.
 ----------------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
 <dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
-  <project>
-    <group>net.orpiske</group>
-    <name>spm</name>
-    <version>0.0.1-SNAPSHOT</version>
-  </project>
+  	<include includeType="maven" includeFile="pom.xml">
+		<groupExpression>
+			<expression>//project/groupId</expression>
+		</groupExpression>
+		<nameExpression>
+			<expression>//project/artifactId</expression>
+		</nameExpression>
+		<versionExpression>
+			<expression>//project/version</expression>
+		</versionExpression>
+	</include>
   <build>
     <sourceDirectory>${basedir}/src/dbm</sourceDirectory>
     <outputDirectory>${basedir}/target/installroot</outputDirectory>
-    <artifactPath>${basedir}/target/${name}-${version}-bin.tar.bz2</artifactPath>
   </build>
+  
+  <contents>
+  	<artifactList>
+  		<artifactRef>
+  			<fileFilter>
+  				<wildcardFilter>
+  					<path>${basedir}/target/</path>
+  					<filter>*-bin.*</filter>
+  				</wildcardFilter>
+  			</fileFilter>
+  		</artifactRef>
+  	</artifactList>
+  </contents>
   
   <repository>
   	<url>http://localhost:8080/repository/default</url>

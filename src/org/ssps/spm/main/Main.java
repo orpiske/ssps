@@ -110,6 +110,7 @@ public class Main {
 			
 			help(1);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("Unable to execute operation: " 
 					+ e.getMessage());
 		}

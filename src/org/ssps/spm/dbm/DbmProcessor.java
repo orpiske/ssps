@@ -16,13 +16,20 @@
 package org.ssps.spm.dbm;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.ssps.common.variables.VariablesParser;
+import org.ssps.spm.dbm.filefilter.FileFilterHelper;
 import org.ssps.spm.dbm.include.IncludeProcessor;
 import org.ssps.spm.dbm.include.IncludeProcessorFactory;
 
+import net.orpiske.ssps.dbm.ArtifactList;
+import net.orpiske.ssps.dbm.ArtifactReference;
+import net.orpiske.ssps.dbm.Contents;
 import net.orpiske.ssps.dbm.Dbm;
+import net.orpiske.ssps.dbm.FileFilterRef;
 import net.orpiske.ssps.dbm.Include;
 
 /**
@@ -182,16 +189,43 @@ public final class DbmProcessor {
 
 	
 	/**
-	 * Gets the build artifact
-	 * @return
+	 * Gets the contents to build the deliverable
+	 * @return A list of paths to the contents that are part of the deliverable
+	 * @throws DbmException If the DBM file is not well formed/invalid
 	 */
-	public String getBuildArtifact() {
-		String ret = dbm.getBuild().getArtifactPath();
-
-		if (ret != null) {
-			ret = VariablesParser.getInstance().evaluate(ret);
+	public List<String> getContents() throws DbmException {
+		Contents contents = dbm.getContents();
+		List<String> ret = new ArrayList<String>();
+		
+		if (contents == null) {
+			throw new DbmException("The DBM file does not declare any contents");
 		}
-
+		
+		ArtifactList artifactList = contents.getArtifactList();
+		
+		if (artifactList == null) {
+			throw new DbmException("The DBM file does not declare any artifacts");
+		}
+		
+		List<ArtifactReference> artifactReferences = artifactList.getArtifactRef();
+		
+		for (ArtifactReference artifactReference : artifactReferences) {
+			String artifactPath = artifactReference.getArtifactPath();
+			
+			artifactPath = VariablesParser.getInstance().evaluate(artifactPath);
+			
+			if (artifactPath != null) {
+				ret.add(artifactPath);
+			}
+			else {
+				FileFilterRef fileFilterRef = artifactReference.getFileFilter();
+				List<String> fileList = 
+						FileFilterHelper.getFileList(fileFilterRef);
+				
+				ret.addAll(fileList);
+			}
+		}
+		
 		return ret;
 	}
 	

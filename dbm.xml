@@ -23,9 +23,14 @@
 	<build>
 		<sourceDirectory>${basedir}/src/dbm</sourceDirectory>
 		<outputDirectory>${basedir}/target/installroot</outputDirectory>
-		<artifactPath>${basedir}/target/${name}-${version}-bin.tar.bz2
-		</artifactPath>
 	</build>
+	
+	<contents>
+		<artifactList>
+			<artifactPath>${basedir}/target/${name}-${version}-bin.tar.bz2</artifactPath>
+		</artifactList>
+		
+	</contents>
 
 	<repository>
 		<url>http://localhost:8080/repository/default</url>
