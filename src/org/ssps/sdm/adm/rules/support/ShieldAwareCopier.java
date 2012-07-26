@@ -88,7 +88,6 @@ public class ShieldAwareCopier extends DirectoryWalker {
 	
 	@SuppressWarnings("unchecked")
 	public void copy(final File source) throws IOException {
-		@SuppressWarnings("rawtypes")
 		List results = new ArrayList();
 
 		walk(source, results);

@@ -22,12 +22,9 @@ import java.io.IOException;
 import net.orpiske.ssps.adm.CopyRule;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.AbstractFileFilter;
-import org.apache.commons.io.filefilter.FileFileFilter;
 import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.adm.rules.support.ShieldAwareCopier;
-import org.ssps.sdm.adm.rules.support.ShieldFileFilter;
 import org.ssps.sdm.adm.rules.support.ShieldUtils;
 import org.ssps.sdm.adm.util.PrintUtils;
 
