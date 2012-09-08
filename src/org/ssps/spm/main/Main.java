@@ -108,14 +108,19 @@ public class Main {
 				return;
 			}
 			
+			if (first.equals("--version")) {
+				System.out.println("Simple Software Provisioning System: spm " +
+						Constants.VERSION);
+				
+				return;
+			}
+			
 			help(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Unable to execute operation: " 
 					+ e.getMessage());
 		}
-		
-
 	}
 
 }
