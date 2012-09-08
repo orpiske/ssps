@@ -130,6 +130,13 @@ public class Main {
 					return;
 				}
 				
+				if (first.equals("--version")) {
+					System.out.println("Simple Software Provisioning System: sdm " +
+							Constants.VERSION);
+					
+					return;
+				}
+				
 				help(1);
 			}
 			catch (XmlDocumentException e) {
