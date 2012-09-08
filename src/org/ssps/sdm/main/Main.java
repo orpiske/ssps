@@ -26,7 +26,6 @@ import org.ssps.sdm.actions.Deployer;
 import org.ssps.sdm.actions.Fetcher;
 import org.ssps.sdm.actions.Initializer;
 import org.ssps.sdm.actions.Installer;
-import org.ssps.sdm.actions.Unpacker;
 import org.ssps.sdm.repository.exceptions.InvalidRepository;
 import org.ssps.sdm.utils.Constants;
 
@@ -49,7 +48,6 @@ public class Main {
 		System.out.println("   deploy");
 		System.out.println("   fetch");
 		System.out.println("   install");
-		System.out.println("   unpack");
 		System.out.println("   help");
 		
 		System.exit(code);
@@ -108,13 +106,6 @@ public class Main {
 					Fetcher fetcher = new Fetcher(newArgs);
 	
 					fetcher.run();
-					return;
-				}
-				if (first.equals("unpack")) {
-					Unpacker unpacker = new Unpacker(newArgs);
-	
-					unpacker.run();
-					
 					return;
 				}
 				if (first.equals("install")) {
