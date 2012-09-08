@@ -27,9 +27,11 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.resource.Resource;
 import org.ssps.common.resource.ResourceExchange;
 import org.ssps.common.resource.DefaultResourceExchange;
@@ -39,6 +41,7 @@ import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.sdm.adm.AdmDocument;
 import org.ssps.sdm.adm.AdmProcessor;
 import org.ssps.sdm.adm.exceptions.AdmException;
+import org.ssps.sdm.adm.util.ResourceExchangeFactory;
 import org.ssps.sdm.repository.RepositoryDocument;
 import org.ssps.sdm.repository.exceptions.InvalidRepository;
 
@@ -49,7 +52,9 @@ import org.ssps.sdm.repository.exceptions.InvalidRepository;
  */
 public class Installer extends ActionInterface {
 	private static final Logger logger = Logger.getLogger(Installer.class);
-
+	
+	
+	
 	private CommandLine cmdLine;
 	private Options options;
 
@@ -146,7 +151,8 @@ public class Installer extends ActionInterface {
 		
 		
 		if (isRemote) {
-			ResourceExchange resourceExchange = new DefaultResourceExchange();
+			ResourceExchange resourceExchange = 
+					ResourceExchangeFactory.newResourceExchange();
 			
 			URI uri = new URI(path);
 			
