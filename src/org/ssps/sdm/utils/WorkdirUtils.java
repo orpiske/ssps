@@ -57,5 +57,17 @@ public class WorkdirUtils {
 		return config.getString("temp.work.dir",
 				FileUtils.getTempDirectoryPath() + File.separator + "work");
 	}
+	
+	
+	/**
+	 * Gets the work dir
+	 * @return
+	 */
+	public static String getPackageWorkDir(final String group, 
+			final String name, final String version) 
+	{
+		return getWorkDir() + File.separator + group + File.separator + name 
+				+ File.separator + version + File.separator ;
+	}
 
 }

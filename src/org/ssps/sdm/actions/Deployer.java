@@ -28,6 +28,8 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
+import org.ssps.common.repository.AdmPathUtils;
+import org.ssps.common.resource.exceptions.ResourceExchangeException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.sdm.adm.exceptions.AdmException;
 import org.ssps.sdm.repository.RepositoryDocument;
@@ -50,6 +52,9 @@ public class Deployer extends ActionInterface {
 	
 	private String version;
 	private String name;
+	private String group;
+	
+	private String packageWorkDir;
 
 	private boolean isHelp;
 	
@@ -61,6 +66,7 @@ public class Deployer extends ActionInterface {
 			repository = repositoryDocument.getDocument();
 			
 			name = repository.getName();
+			group = repository.getGroup();
 		}
 	}
 
@@ -85,45 +91,34 @@ public class Deployer extends ActionInterface {
 		isHelp = cmdLine.hasOption("help");
 	}
 	
+	/*
 	private String getPackageWorkdir() {
 		return WorkdirUtils.getWorkDir() + File.separator + name + 
 				File.separator + version;
 	}
+	*/
 	
 	
-	private void fetch() throws XmlDocumentException, InvalidRepository, IOException {
+	private void fetch() throws XmlDocumentException, InvalidRepository, IOException, ResourceExchangeException {
 		Fetcher fetcher = new Fetcher();
 		
-		final String destination = WorkdirUtils.getWorkDir() + File.separator 
-				+ name ;
-		
-		fetcher.fetch(version, destination);
+		fetcher.fetch(version, packageWorkDir);
 	}
 	
-	private void unpack() throws SspsArchiveException {
-		Unpacker unpacker = new Unpacker();
-		
-		String source = WorkdirUtils.getWorkDir() + File.separator + name +
-				File.separator + name + "-" + version + ".ugz";
-		
-		final String destination = getPackageWorkdir();
-		unpacker.unpack(source, destination);
-	}
 	
 	private void install() throws XmlDocumentException, AdmException, InvalidRepository {
-		String admFilePath = getPackageWorkdir() + File.separator 
-				+ "installroot" + File.separator + "adm.xml";
+		String admFilePath = packageWorkDir 
+				+ AdmPathUtils.getName(name, version);
+		
 		Installer installer = new Installer();
 		
 		installer.install(admFilePath);
 	}
 	
 	private void clean() {
-		String name = repository.getName();
-		String workDirPath = WorkdirUtils.getWorkDir() + File.separator + name;
-		File workDir = new File(workDirPath);
+		File workDir = new File(packageWorkDir);
 		
-		System.out.println("Erasing the workdir at " + workDirPath);
+		System.out.println("Erasing the workdir at " + packageWorkDir);
 		FileUtils.deleteQuietly(workDir);
 	}
 	
@@ -145,8 +140,9 @@ public class Deployer extends ActionInterface {
 					help(options, -1);
 				}
 				
+				packageWorkDir = WorkdirUtils.getPackageWorkDir(group, name, version);
+				
 				fetch();
-				unpack();
 				install();
 				
 				clean();
@@ -175,13 +171,12 @@ public class Deployer extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Input/ouput error: " + e.getMessage(), e);
 			}
-		} catch (SspsArchiveException e) {
-			System.err.println("Unable to process SSPS archive: " 
-					+ e.getMessage());
+		} 
+		catch (ResourceExchangeException e) {
+			System.err.println("Unable to fetch: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
-				logger.error("Unable to process SSPS archive: " + e.getMessage(),
-						e);
+				logger.error("Unable to fetch: " + e.getMessage(), e);
 			}
 		} 
 
