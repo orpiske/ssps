@@ -21,16 +21,19 @@ import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
@@ -42,13 +45,50 @@ import org.ssps.common.resource.exceptions.ResourceExchangeException;
  */
 public class DefaultResourceExchange implements ResourceExchange {
 	private static final Logger logger = Logger.getLogger(DefaultResourceExchange.class);
+	
+	/**
+	 * Exchange properties
+	 */
+	public class Properties {
+		/**
+		 * HTTP Proxy URL
+		 */
+		public static final String HTTP_PROXY = "HTTP_PROXY";
+		
+		/**
+		 * HTTP port
+		 */
+		public static final String PROXY_PORT = "PROXY_PORT";
+	}
+	
+	
 	private HttpClient httpclient = new DefaultHttpClient();
+	
+	
 	
 	/**
 	 * Constructor
 	 */
 	public DefaultResourceExchange() {
 		
+	}
+	
+	/**
+	 * Constructor using connection properties (at the moment, it supports only
+	 * unauthenticated proxies).
+	 * @param connectionProperties A Hashmap of connection properties to use to 
+	 * setup the connection (ex.: proxy)
+	 */
+	public DefaultResourceExchange(HashMap<String, Object> connectionProperties) {
+		String proxy = (String) connectionProperties.get(Properties.HTTP_PROXY);
+		Integer port = (Integer) connectionProperties.get(Properties.PROXY_PORT);
+		
+		if (proxy != null) { 
+			HttpHost proxyHost = new HttpHost(proxy,port.intValue());
+			
+			httpclient.getParams().setParameter(
+					ConnRoutePNames.DEFAULT_PROXY, proxyHost);
+		}
 	}
 	
 	/**
@@ -154,6 +194,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 		HttpGet httpget = new HttpGet(uri);
 		HttpResponse response;
 		try {
+			
 			response = httpclient.execute(httpget);
 			
 			int statusCode = response.getStatusLine().getStatusCode(); 
