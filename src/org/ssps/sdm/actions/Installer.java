@@ -53,20 +53,16 @@ import org.ssps.sdm.repository.exceptions.InvalidRepository;
 public class Installer extends ActionInterface {
 	private static final Logger logger = Logger.getLogger(Installer.class);
 	
-	
-	
 	private CommandLine cmdLine;
 	private Options options;
-
-	private Repository repository;
 	
 	private boolean isRemote;
 	private boolean isHelp;
 
 	public Installer() throws XmlDocumentException, InvalidRepository {
-		RepositoryDocument repositoryDocument = new RepositoryDocument();
+		//RepositoryDocument repositoryDocument = new RepositoryDocument();
 
-		repository = repositoryDocument.getDocument();
+		//repository = repositoryDocument.getDocument();
 		
 	}
 	
@@ -75,9 +71,9 @@ public class Installer extends ActionInterface {
 		processCommand(args);
 
 		if (!isRemote && !isHelp) { 
-			RepositoryDocument repositoryDocument = new RepositoryDocument();
+			//RepositoryDocument repositoryDocument = new RepositoryDocument();
 
-			repository = repositoryDocument.getDocument();
+			//repository = repositoryDocument.getDocument();
 		}
 	}
 

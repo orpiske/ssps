@@ -53,4 +53,13 @@ public class MkdirRuleProcessor extends AbstractRuleProcessor {
 		run((MkdirRule) rule);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ssps.sdm.adm.rules.AbstractRuleProcessor#cleanup(java.lang.Object)
+	 */
+	@Override
+	protected void cleanup(Object rule) throws RuleException {
+		// NOP
+		
+	}
+
 }

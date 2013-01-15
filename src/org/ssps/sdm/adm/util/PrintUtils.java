@@ -45,5 +45,9 @@ public class PrintUtils {
 	public static void staticInfoMessage(final String message) {
 		System.out.print("\r[INFO]: " + message);
 	}
+	
+	public static void staticWarningMessage(final String message) {
+		System.out.println("[WARNING]: " + message);
+	}
 
 }

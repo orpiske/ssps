@@ -42,6 +42,14 @@ public class CopyRuleProcessor extends AbstractRuleProcessor {
 		run((CopyRule) object);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.ssps.sdm.adm.rules.AbstractRuleProcessor#cleanup(java.lang.Object)
+	 */
+	@Override
+	protected void cleanup(Object rule) throws RuleException {
+		// NOP
+	}
+	
 	private void createParentDirectories(File dir) {
 		if (!dir.exists()) {
 			dir.getParentFile().mkdirs();
@@ -80,5 +88,7 @@ public class CopyRuleProcessor extends AbstractRuleProcessor {
 			throw new RuleException("Input/output error", e);
 		}
 	}
+
+	
 
 }

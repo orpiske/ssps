@@ -15,14 +15,20 @@
 */
 package org.ssps.sdm.adm.rules;
 
+import static org.ssps.sdm.adm.util.PrintUtils.*;
+
+import java.io.File;
+
 import net.orpiske.ssps.adm.UnpackRule;
 
+import org.apache.commons.io.FileUtils;
 import org.ssps.common.archive.Archive;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.archive.tbz.TbzArchive;
 import org.ssps.common.archive.tgz.TgzArchive;
 import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
+import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
  * Implements the unpack rule
@@ -31,7 +37,26 @@ import org.ssps.sdm.adm.exceptions.RuleException;
  */
 public class UnpackRuleProcessor extends AbstractRuleProcessor {
 	
+	public static final String DESTINATION_DIRECTORY = "${workdir}/${name}-${version}";
+	
 	private VariablesParser admVariables = VariablesParser.getInstance();
+	
+	
+	
+	
+	private void cleanup(UnpackRule rule) {
+		staticWarningMessage("Cleaning up due to errors");
+		
+		String destination = admVariables.evaluate(rule.getDestination());
+		
+		if (destination == null) {
+			destination = admVariables.evaluate(DESTINATION_DIRECTORY);
+		}
+		
+		File orphanDirectory = new File(destination);
+		
+		FileUtils.deleteQuietly(orphanDirectory);
+	}
 	
 	private void run(UnpackRule rule) throws RuleException {
 		Archive archive;
@@ -52,19 +77,38 @@ public class UnpackRuleProcessor extends AbstractRuleProcessor {
 			String source = admVariables.evaluate(rule.getSource());
 			String destination = admVariables.evaluate(rule.getDestination());
 			
+			if (destination == null) {
+				destination = admVariables.evaluate(DESTINATION_DIRECTORY);
+			}
+			else {
+				staticWarningMessage("Usage of 'destination' is discouraged");
+			}
+			
 			archive.unpack(source, destination);
 		} catch (SspsArchiveException e) {
+			cleanup(rule);
+			
 			throw new RuleException(e.getMessage(), e);
+ 
 		}
-
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.ssps.sdm.adm.rules.AbstractRuleProcessor#run(java.lang.Object)
 	 */
 	@Override
 	public void run(Object rule) throws RuleException {
 		run((UnpackRule) rule);
+		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.ssps.sdm.adm.rules.AbstractRuleProcessor#cleanup(java.lang.Object)
+	 */
+	@Override
+	protected void cleanup(Object rule) throws RuleException {
+		cleanup((UnpackRule) rule);
+	}
+
+	
 }

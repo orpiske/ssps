@@ -31,4 +31,12 @@ public abstract class AbstractRuleProcessor {
 	 * @throws RuleException If there is any exception while processing the rule
 	 */
 	public abstract void run(Object rule) throws RuleException;
+	
+	
+	/**
+	 * Runs a rule
+	 * @param rule The rule object
+	 * @throws RuleException If there is any exception while processing the rule
+	 */
+	protected abstract void cleanup(Object rule) throws RuleException;
 }
