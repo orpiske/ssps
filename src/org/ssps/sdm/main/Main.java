@@ -24,7 +24,6 @@ import org.ssps.common.logger.LoggerUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
 import org.ssps.sdm.actions.Deployer;
 import org.ssps.sdm.actions.Fetcher;
-import org.ssps.sdm.actions.Initializer;
 import org.ssps.sdm.actions.Installer;
 import org.ssps.sdm.repository.exceptions.InvalidRepository;
 import org.ssps.sdm.utils.Constants;
@@ -93,15 +92,7 @@ public class Main {
 				help(1);
 			}
 			
-			try { 
-				if (first.equals("init")) {
-					Initializer init = new Initializer(newArgs);
-					
-					init.run();
-					return;
-				}
-	
-				
+			try { 	
 				if (first.equals("fetch")) {
 					Fetcher fetcher = new Fetcher(newArgs);
 	
