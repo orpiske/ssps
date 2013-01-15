@@ -43,7 +43,8 @@ public class AdmDocument {
 	private Adm admDocument;
 	
 	/**
-	 * Constructor
+	 * Constructor: this is used to process an input stream (ie.: when processing
+	 * ADM files from the network)
 	 * @param stream Input stream 
 	 * @throws XmlDocumentException if unable to unmarshall the document
 	 */
@@ -101,18 +102,30 @@ public class AdmDocument {
 		admVariables.register("workdir", workDir);
 	}
 
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
+	
+	/**
+	 * Sets the ADM file path
+	 * @param path
+	 */
+	private void setPath(String path) {
 		this.path = path;
 	}
 
+
+	
+	/**
+	 * Gets the ADM document object
+	 * @return The ADM document object
+	 */
 	public Adm getDocument() {
 		return admDocument;
 	}
 
+	
+	/**
+	 * Sets the ADM document object
+	 * @param admDocument The ADM document object
+	 */
 	public void setDocument(Adm admDocument) {
 		this.admDocument = admDocument;
 	}
