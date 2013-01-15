@@ -31,16 +31,7 @@
 		</license>
 	</licenses>
 
-	<repositories>
-		<repository>
-			<id>sardine-google-svn-repo</id>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<name>Sardine maven repo at Google Code</name>
-			<url>http://sardine.googlecode.com/svn/maven/</url>
-		</repository>
-	</repositories>
+	
 
 	<dependencies>
 		<!-- Internal project dependencies -->
