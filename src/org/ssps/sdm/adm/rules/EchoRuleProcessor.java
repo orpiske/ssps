@@ -22,7 +22,8 @@ import org.ssps.sdm.adm.exceptions.RuleException;
 
 
 /**
- * Implements the echo rule
+ * Implements the echo rule. 
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */

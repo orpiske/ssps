@@ -43,6 +43,8 @@ import org.ssps.sdm.adm.exceptions.RuleException;
 import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
+ * Implements the download rule.
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
