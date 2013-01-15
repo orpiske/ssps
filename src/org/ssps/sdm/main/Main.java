@@ -22,7 +22,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.sdm.actions.Deployer;
 import org.ssps.sdm.actions.Fetcher;
 import org.ssps.sdm.actions.Installer;
 import org.ssps.sdm.repository.exceptions.InvalidRepository;
@@ -103,12 +102,6 @@ public class Main {
 					Installer installer = new Installer(newArgs);
 					
 					installer.run();
-					return;
-				}
-				if (first.equals("deploy")) {
-					Deployer deployer = new Deployer(newArgs);
-					
-					deployer.run();
 					return;
 				}
 				
