@@ -58,6 +58,7 @@ public class Installer extends ActionInterface {
 	
 	private boolean isRemote;
 	private boolean isHelp;
+	private String repositoryPath;
 
 	public Installer() throws XmlDocumentException, InvalidRepository {
 		//RepositoryDocument repositoryDocument = new RepositoryDocument();
@@ -94,7 +95,10 @@ public class Installer extends ActionInterface {
 		options.addOption("a", "adm-file", true, "adm file");
 		options.addOption(null, "remote", false, 
 				"instructs the installer to download the ADM file from a remote location");
-		options.addOption(null, "install-only", false, "does not fetch the file");
+		options.addOption(null, "install-only", false, 
+				"does not fetch the file");
+		options.addOption("r", "repository", true, 
+				"the location where to install the contents of the adm file");
 
 		try {
 			cmdLine = parser.parse(options, args);
@@ -104,6 +108,12 @@ public class Installer extends ActionInterface {
 		
 		isRemote = cmdLine.hasOption("remote");
 		isHelp = cmdLine.hasOption("help");
+		
+		repositoryPath = cmdLine.getOptionValue('r');
+		
+		if (repositoryPath == null) {
+			repositoryPath = FilenameUtils.getFullPath("./");
+		}
 	}
 	
 	public void install(String path) throws XmlDocumentException, AdmException {
@@ -114,8 +124,7 @@ public class Installer extends ActionInterface {
 
 		Adm adm = admDocument.getDocument();
 
-		AdmProcessor processor = new AdmProcessor(adm, 
-				FilenameUtils.getFullPath("./"));
+		AdmProcessor processor = new AdmProcessor(adm, repositoryPath);
 		
 
 		processor.process();
@@ -129,8 +138,7 @@ public class Installer extends ActionInterface {
 
 		Adm adm = admDocument.getDocument();
 
-		AdmProcessor processor = new AdmProcessor(adm, 
-				FilenameUtils.getFullPath("./"));
+		AdmProcessor processor = new AdmProcessor(adm, repositoryPath);
 		
 
 		processor.process();
