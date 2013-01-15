@@ -174,7 +174,7 @@ public class Installer extends ActionInterface {
 	@Override
 	public void run() {
 		try {
-			if (cmdLine.hasOption('h')) { 
+			if (isHelp) { 
 				help(options, 1);
 			}
 			else {
