@@ -1,0 +1,24 @@
+	------
+	Rule: MkDir
+	------
+	Otavio R. Piske
+	------
+	Jan, 2013
+	
+Description
+
+	Creates a directory
+	
+Element 
+
+	Name: mkdir
+
+Attributes
+
+	dir: the full path to the directory
+	
+Example
+
+----------------------------------------
+<mkdir dir="${repository}/example" />
+----------------------------------------

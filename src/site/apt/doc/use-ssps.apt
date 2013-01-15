@@ -1,0 +1,92 @@
+	------
+	Get Started With SPM
+	------
+	Otavio R. Piske
+	------
+	Jun, 2012
+
+Get Started
+
+	The SSPS is a simple software provisioning tool. Sometimes you have to 
+support multiple systems or you simply don't have access to the OS packaging 
+system (RPM, APT, etc). SSPS fills this gap by allowing you to describe the 
+deployment process in a file. There's no need to have root or administrator 
+access.
+
+	The SDM is the utility that you run to process the deployment files, called
+Application Deployment Method (ADM) file.
+
+
+The ADM File
+
+	The ADM file contains the deployment rules and tasks used by the SPM to 
+deploy a package. It is a descriptive file, in the sense that it must, 
+specifically, tells how and where the resources must be deployed. For more 
+details about the SPM deployment process check the 
+{{{http://www.orpiske.net/ssps/sdm}Software Deployment Module}} page.
+
+	This is what an ADM file to download and install SDM looks like:
+ 
+----------------------------------------
+<adm xmlns="http://www.orpiske.net/ssps/adm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.orpiske.net/ssps/adm ../src/main/resources/schema/adm.xsd ">
+  <artifact>
+    <name>sdm</name>
+    <version>0.1.0</version>
+  </artifact>
+  <stages>
+  	<prepare>
+  		<download url="http://orpiske.net/ssps/files/0.1.x/${name}-${version}-bin.tar.bz2"
+  			overwrite="false" />
+		<unpack format="tbz2" 
+			source="${workdir}/${name}-${version}-bin.tar.bz2"/>
+  	</prepare>
+  	<setup>
+  		<copy from="${workdir}/${name}-${version}" to="${repository}" />
+  	</setup>
+  	<validate>
+  		<echo>
+			<message>Hooray! Deployment completed successfully</message>
+		</echo>
+  	</validate>
+  </stages>
+</adm>
+----------------------------------------
+
+	{{{./xsd/adm.xsd.html}Here}} you can check the schema definition for this file.
+
+	The ADM file declares stages, which are a group of steps that are executed
+during software deployment. 
+
+Section: Stages
+
+	These are the phases of the deployment. They are, in order of execution:
+
+	* prepare
+
+	* validate
+	
+	* setup
+	
+	* verify
+	
+	* cleanup.
+
+Section: Rules
+
+	Rules are the code that actually executes the deployment. Each stage accept
+the following rules:
+	
+	* <<<echo>>>: echoes a message.
+
+	* <<<copy>>>: copies a file or directory.
+	
+	* <<<mkdir>>>: creates a directory.
+
+	* <<<download>>>: downloads a file.
+
+	* <<<shield>>>: shields a file (prevents it from being overwritten).
+	
+	* <<<unpack>>>: unpacks a tar.bz2/tar.gz/ugz file.
+
+	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/adm.xsd.html}read}}
+part of the current schema documentation online.
