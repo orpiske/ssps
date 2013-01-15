@@ -51,7 +51,7 @@ public class WorkdirUtils {
 	
 	/**
 	 * Gets the work dir
-	 * @return
+	 * @return the work dir
 	 */
 	public static String getWorkDir() {
 		return config.getString("temp.work.dir",
@@ -60,8 +60,8 @@ public class WorkdirUtils {
 	
 	
 	/**
-	 * Gets the work dir
-	 * @return
+	 * Gets the package work dir
+	 * @return the package work dir
 	 */
 	public static String getPackageWorkDir(final String group, 
 			final String name, final String version) 
