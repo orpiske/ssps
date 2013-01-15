@@ -90,3 +90,8 @@ the following rules:
 
 	<<Warning>>: this is not yet fully documented, but you can {{{./xsd/adm.xsd.html}read}}
 part of the current schema documentation online.
+
+
+Examples:
+
+	You can find some examples {{{./examples/}here}}.

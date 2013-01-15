@@ -30,6 +30,8 @@
     
     
      <menu name="Project">
+      <item name="API Documentation" href="apidocs/index.html"/>
+      <item name="Common API Documentation" href="../ssps-common/"/>
       <item name="License" href="license.html"/>
       <item name="Summary" href="project-summary.html"/>
       <item name="Detailed Information" href="project-info.html"/>
