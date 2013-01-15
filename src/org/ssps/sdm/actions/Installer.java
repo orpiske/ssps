@@ -60,22 +60,12 @@ public class Installer extends ActionInterface {
 	private boolean isHelp;
 	private String repositoryPath;
 
-	public Installer() throws XmlDocumentException, InvalidRepository {
-		//RepositoryDocument repositoryDocument = new RepositoryDocument();
-
-		//repository = repositoryDocument.getDocument();
-		
-	}
-	
-	public Installer(final String[] args) throws InvalidRepository,
-			XmlDocumentException {
+	/**
+	 * Constructor
+	 * @param args Command-line arguments array
+	 */
+	public Installer(final String[] args) {
 		processCommand(args);
-
-		if (!isRemote && !isHelp) { 
-			//RepositoryDocument repositoryDocument = new RepositoryDocument();
-
-			//repository = repositoryDocument.getDocument();
-		}
 	}
 
 

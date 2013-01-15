@@ -90,28 +90,23 @@ public class Main {
 				help(1);
 			}
 			
-			try { 	
-				if (first.equals("install")) {
-					Installer installer = new Installer(newArgs);
-					
-					installer.run();
-					return;
-				}
+		
+			if (first.equals("install")) {
+				Installer installer = new Installer(newArgs);
 				
-				if (first.equals("--version")) {
-					System.out.println("Simple Software Provisioning System: sdm " +
-							Constants.VERSION);
-					
-					return;
-				}
+				installer.run();
+				return;
+			}
+			
+			if (first.equals("--version")) {
+				System.out.println("Simple Software Provisioning System: sdm " +
+						Constants.VERSION);
 				
-				help(1);
+				return;
 			}
-			catch (XmlDocumentException e) {
-				System.err.println("Invalid document: " + e.getMessage());
-			} catch (InvalidRepository e) {
-				System.err.println("The repository is not correctly setup. Did you run init?");
-			}
+			
+			help(1);
+			
 	}
 
 }
