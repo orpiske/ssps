@@ -128,7 +128,7 @@ public class TgzArchive implements Archive {
 				+ uncompressedArchiveFile.getPath());
 
 		try {
-			CompressedArchiveUtils.bzipUncompress(compressedFileSource, uncompressedArchiveFile);
+			CompressedArchiveUtils.gzUncompress(compressedFileSource, uncompressedArchiveFile);
 		} catch (IOException e) {
 			throw new SspsArchiveException(
 					"Unable to uncompress archive file: I/O error", e);
