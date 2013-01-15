@@ -20,21 +20,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.orpiske.ssps.adm.Adm;
-import net.orpiske.ssps.repository.Repository;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.resource.Resource;
 import org.ssps.common.resource.ResourceExchange;
-import org.ssps.common.resource.DefaultResourceExchange;
 import org.ssps.common.resource.ResourceInfo;
 import org.ssps.common.resource.exceptions.ResourceExchangeException;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
@@ -42,8 +38,7 @@ import org.ssps.sdm.adm.AdmDocument;
 import org.ssps.sdm.adm.AdmProcessor;
 import org.ssps.sdm.adm.exceptions.AdmException;
 import org.ssps.sdm.adm.util.ResourceExchangeFactory;
-import org.ssps.sdm.repository.RepositoryDocument;
-import org.ssps.sdm.repository.exceptions.InvalidRepository;
+
 
 /**
  * Implements the install action
