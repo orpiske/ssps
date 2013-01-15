@@ -39,9 +39,6 @@ public class Main {
 		System.out.println("Usage: sdm <action>\n");
 		
 		System.out.println("Actions:");
-		System.out.println("   init");
-		System.out.println("   deploy");
-		System.out.println("   fetch");
 		System.out.println("   install");
 		System.out.println("   help");
 		
