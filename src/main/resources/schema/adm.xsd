@@ -151,7 +151,7 @@
     		<extension base="tns:AbstractRule">
     			<attribute name="source" type="string"></attribute>
 
-    			<attribute name="destination" type="string"></attribute>
+    			<attribute name="destination" type="string" use="optional"></attribute>
 
     			<attribute name="format" type="string"></attribute>
     		</extension>
