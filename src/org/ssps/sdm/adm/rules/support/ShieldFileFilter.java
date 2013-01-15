@@ -17,7 +17,6 @@ package org.ssps.sdm.adm.rules.support;
 
 import java.io.File;
 
-
 import org.apache.commons.io.filefilter.AbstractFileFilter;
 import org.ssps.sdm.adm.util.PrintUtils;
 

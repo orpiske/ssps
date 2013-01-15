@@ -15,7 +15,7 @@
 */
 package org.ssps.sdm.adm.rules;
 
-import static org.ssps.sdm.adm.util.PrintUtils.*;
+import static org.ssps.sdm.adm.util.PrintUtils.staticWarningMessage;
 
 import java.io.File;
 
@@ -28,7 +28,6 @@ import org.ssps.common.archive.tbz.TbzArchive;
 import org.ssps.common.archive.tgz.TgzArchive;
 import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.RuleException;
-import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
  * Implements the unpack rule

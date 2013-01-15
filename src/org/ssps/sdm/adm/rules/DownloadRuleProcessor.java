@@ -15,7 +15,8 @@
  */
 package org.ssps.sdm.adm.rules;
 
-import static org.ssps.sdm.adm.util.PrintUtils.*;
+import static org.ssps.sdm.adm.util.PrintUtils.printInfo;
+import static org.ssps.sdm.adm.util.PrintUtils.staticInfoMessage;
 
 import java.io.File;
 import java.io.FileNotFoundException;

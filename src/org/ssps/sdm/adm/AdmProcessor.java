@@ -21,9 +21,7 @@ import net.orpiske.ssps.adm.PrepareStage;
 import net.orpiske.ssps.adm.SetupStage;
 import net.orpiske.ssps.adm.ValidateStage;
 import net.orpiske.ssps.adm.VerifyStage;
-import net.orpiske.ssps.repository.Repository;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.ssps.common.variables.VariablesParser;
 import org.ssps.sdm.adm.exceptions.AdmException;
@@ -34,7 +32,6 @@ import org.ssps.sdm.adm.stages.SetupStageProcessor;
 import org.ssps.sdm.adm.stages.ValidateStageProcessor;
 import org.ssps.sdm.adm.stages.VerifyStageProcessor;
 import org.ssps.sdm.adm.util.PrintUtils;
-import org.ssps.sdm.utils.WorkdirUtils;
 
 /**
  * Process the Artifact Deployment Module (ADM) rules
