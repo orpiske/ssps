@@ -22,7 +22,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.common.configuration.ConfigurationWrapper;
 import org.ssps.common.logger.LoggerUtils;
 import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.sdm.actions.Fetcher;
 import org.ssps.sdm.actions.Installer;
 import org.ssps.sdm.repository.exceptions.InvalidRepository;
 import org.ssps.sdm.utils.Constants;
@@ -92,12 +91,6 @@ public class Main {
 			}
 			
 			try { 	
-				if (first.equals("fetch")) {
-					Fetcher fetcher = new Fetcher(newArgs);
-	
-					fetcher.run();
-					return;
-				}
 				if (first.equals("install")) {
 					Installer installer = new Installer(newArgs);
 					
