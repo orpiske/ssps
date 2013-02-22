@@ -36,7 +36,7 @@ public class ValidateStageProcessor extends StageProcessor<ValidateStage>{
 	public void run(ValidateStage stage) throws StageException {
 		PrintUtils.printStartStage("Validate");
 		
-		List<AbstractRule> rules = stage.getEchoOrMkdirOrCopy();
+		List<Object> rules = stage.getEchoOrMkdirOrCopy();
 		
 		try {
 			for (Object rule : rules) {

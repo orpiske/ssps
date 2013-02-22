@@ -36,7 +36,7 @@ public class SetupStageProcessor extends StageProcessor<SetupStage>{
 	public void run(SetupStage stage) throws StageException {
 		PrintUtils.printStartStage("Setup");
 		
-		List<AbstractRule> rules = stage.getEchoOrMkdirOrCopy();
+		List<Object> rules = stage.getEchoOrMkdirOrCopy();
 		
 		try {
 			for (Object rule : rules) {

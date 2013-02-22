@@ -36,7 +36,7 @@ public class CleanupStageProcessor extends StageProcessor<CleanupStage>{
 	public void run(CleanupStage stage) throws StageException {
 		PrintUtils.printStartStage("Cleanup");
 		
-		List<AbstractRule> rules = stage.getEchoOrMkdirOrCopy();
+		List<Object> rules = stage.getEchoOrMkdirOrCopy();
 
 		try {
 			for (Object rule : rules) {
