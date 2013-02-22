@@ -53,8 +53,8 @@
         			minOccurs="0">
         		</element>
         		<element name="download" type="tns:DownloadRule"></element>
-        		<element name="groovy" type="tns:GroovyType"></element>
-        		<element name="exec" type="tns:ExecType"></element>
+        		<element name="groovy" type="tns:GroovyRule"></element>
+        		<element name="exec" type="tns:ExecRule"></element>
         	</choice>
 
         </sequence>
@@ -190,11 +190,11 @@
     	</complexContent>
     </complexType>
 
-    <complexType name="GroovyType">
+    <complexType name="GroovyRule">
     	<attribute name="file" type="string"></attribute>
     </complexType>
 
-    <complexType name="ExecType">
+    <complexType name="ExecRule">
     	<attribute name="file" type="string"></attribute>
     	<attribute name="args" type="string"></attribute>
     </complexType>
