@@ -23,6 +23,7 @@
       <item name="Copy" href="doc/rules/copy.html"/>
       <item name="Download" href="doc/rules/download.html"/>
       <item name="Echo" href="doc/rules/echo.html"/>
+      <item name="Groovy" href="doc/rules/groovy.html"/>
       <item name="MkDir" href="doc/rules/mkdir.html"/>
       <item name="Shield" href="doc/rules/shield.html"/>
       <item name="Unpack" href="doc/rules/unpack.html"/>
