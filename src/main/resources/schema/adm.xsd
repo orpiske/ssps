@@ -53,6 +53,8 @@
         			minOccurs="0">
         		</element>
         		<element name="download" type="tns:DownloadRule"></element>
+        		<element name="groovy" type="tns:GroovyType"></element>
+        		<element name="exec" type="tns:ExecType"></element>
         	</choice>
 
         </sequence>
@@ -186,5 +188,14 @@
     			<attribute name="overwrite" type="boolean" default="false"></attribute>
     		</extension>
     	</complexContent>
+    </complexType>
+
+    <complexType name="GroovyType">
+    	<attribute name="file" type="string"></attribute>
+    </complexType>
+
+    <complexType name="ExecType">
+    	<attribute name="file" type="string"></attribute>
+    	<attribute name="args" type="string"></attribute>
     </complexType>
 </schema>
