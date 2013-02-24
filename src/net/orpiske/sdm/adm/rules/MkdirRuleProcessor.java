@@ -18,10 +18,9 @@ package net.orpiske.sdm.adm.rules;
 import java.io.File;
 
 import net.orpiske.sdm.adm.exceptions.RuleException;
+import net.orpiske.sdm.adm.util.PrintUtils;
 import net.orpiske.ssps.adm.MkdirRule;
 import net.orpiske.ssps.common.variables.VariablesParser;
-
-import net.orpiske.sdm.adm.util.PrintUtils;
 
 /**
  * Implements the mkdir rule

@@ -20,10 +20,8 @@ import java.util.List;
 import net.orpiske.sdm.adm.StageProcessor;
 import net.orpiske.sdm.adm.exceptions.RuleException;
 import net.orpiske.sdm.adm.exceptions.StageException;
-import net.orpiske.ssps.adm.AbstractRule;
-import net.orpiske.ssps.adm.VerifyStage;
-
 import net.orpiske.sdm.adm.util.PrintUtils;
+import net.orpiske.ssps.adm.VerifyStage;
 
 /**
  * Implements the verify stage

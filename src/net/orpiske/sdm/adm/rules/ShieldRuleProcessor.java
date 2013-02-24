@@ -20,10 +20,9 @@ import java.io.IOException;
 
 import net.orpiske.sdm.adm.exceptions.RuleException;
 import net.orpiske.sdm.adm.rules.support.ShieldUtils;
+import net.orpiske.sdm.adm.util.PrintUtils;
 import net.orpiske.ssps.adm.ShieldRule;
 import net.orpiske.ssps.common.variables.VariablesParser;
-
-import net.orpiske.sdm.adm.util.PrintUtils;
 
 /**
  * Shield rule processor

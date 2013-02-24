@@ -23,14 +23,14 @@ import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
 
+import net.orpiske.sdm.adm.exceptions.RuleEngineException;
+import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.ssps.adm.Adm;
 import net.orpiske.ssps.common.variables.VariablesParser;
 import net.orpiske.ssps.common.xml.XmlParserUtils;
 import net.orpiske.ssps.common.xml.exceptions.XmlDocumentException;
 
 import org.apache.commons.io.FilenameUtils;
-import net.orpiske.sdm.adm.exceptions.RuleEngineException;
-import net.orpiske.sdm.common.WorkdirUtils;
 
 /**
  * This class abstracts the ADM document

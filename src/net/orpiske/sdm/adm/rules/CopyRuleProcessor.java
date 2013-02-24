@@ -22,11 +22,11 @@ import java.io.IOException;
 import net.orpiske.sdm.adm.exceptions.RuleException;
 import net.orpiske.sdm.adm.rules.support.ShieldAwareCopier;
 import net.orpiske.sdm.adm.rules.support.ShieldUtils;
+import net.orpiske.sdm.adm.util.PrintUtils;
 import net.orpiske.ssps.adm.CopyRule;
 import net.orpiske.ssps.common.variables.VariablesParser;
 
 import org.apache.commons.io.FileUtils;
-import net.orpiske.sdm.adm.util.PrintUtils;
 
 /**
  * Implements the copy rule.

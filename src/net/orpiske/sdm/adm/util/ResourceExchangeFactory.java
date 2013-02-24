@@ -19,8 +19,8 @@ import java.util.HashMap;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.resource.DefaultResourceExchange;
-import net.orpiske.ssps.common.resource.ResourceExchange;
 import net.orpiske.ssps.common.resource.DefaultResourceExchange.Properties;
+import net.orpiske.ssps.common.resource.ResourceExchange;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 

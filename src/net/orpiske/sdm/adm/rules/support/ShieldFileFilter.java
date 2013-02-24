@@ -17,8 +17,9 @@ package net.orpiske.sdm.adm.rules.support;
 
 import java.io.File;
 
-import org.apache.commons.io.filefilter.AbstractFileFilter;
 import net.orpiske.sdm.adm.util.PrintUtils;
+
+import org.apache.commons.io.filefilter.AbstractFileFilter;
 
 /**
  * Implements a file filter that checks whether a shield file exits. This file

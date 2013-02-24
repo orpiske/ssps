@@ -17,6 +17,12 @@ package net.orpiske.sdm.adm;
 
 import net.orpiske.sdm.adm.exceptions.AdmException;
 import net.orpiske.sdm.adm.exceptions.StageException;
+import net.orpiske.sdm.adm.stages.CleanupStageProcessor;
+import net.orpiske.sdm.adm.stages.PrepareStageProcessor;
+import net.orpiske.sdm.adm.stages.SetupStageProcessor;
+import net.orpiske.sdm.adm.stages.ValidateStageProcessor;
+import net.orpiske.sdm.adm.stages.VerifyStageProcessor;
+import net.orpiske.sdm.adm.util.PrintUtils;
 import net.orpiske.ssps.adm.Adm;
 import net.orpiske.ssps.adm.CleanupStage;
 import net.orpiske.ssps.adm.PrepareStage;
@@ -26,12 +32,6 @@ import net.orpiske.ssps.adm.VerifyStage;
 import net.orpiske.ssps.common.variables.VariablesParser;
 
 import org.apache.log4j.Logger;
-import net.orpiske.sdm.adm.stages.CleanupStageProcessor;
-import net.orpiske.sdm.adm.stages.PrepareStageProcessor;
-import net.orpiske.sdm.adm.stages.SetupStageProcessor;
-import net.orpiske.sdm.adm.stages.ValidateStageProcessor;
-import net.orpiske.sdm.adm.stages.VerifyStageProcessor;
-import net.orpiske.sdm.adm.util.PrintUtils;
 
 /**
  * Process the Artifact Deployment Module (ADM) rules
