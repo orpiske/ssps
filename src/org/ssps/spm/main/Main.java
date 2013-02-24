@@ -18,12 +18,11 @@ package org.ssps.spm.main;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
+import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
+import net.orpiske.ssps.common.logger.LoggerUtils;
+
 import org.apache.commons.configuration.ConfigurationException;
-import org.ssps.common.configuration.ConfigurationWrapper;
-import org.ssps.common.logger.LoggerUtils;
-import org.ssps.spm.actions.ArchiveCreator;
 import org.ssps.spm.actions.Publisher;
-import org.ssps.spm.actions.RepositoryManager;
 import org.ssps.spm.utils.Constants;
 
 public class Main {
@@ -52,7 +51,6 @@ public class Main {
 		System.out.println("Usage: spm <action>\n");
 		
 		System.out.println("Actions:");
-		System.out.println("   create");
 		System.out.println("   publish");
 		System.out.println("   delete");
 		
@@ -84,13 +82,6 @@ public class Main {
 				help(1);
 			}
 			
-			if (first.equals("create")) {
-				ArchiveCreator creator = new ArchiveCreator(newArgs);
-				
-				creator.run();
-				
-				return;
-			}
 			
 			if (first.equals("publish")) {
 				Publisher publisher = new Publisher(newArgs);
@@ -100,13 +91,6 @@ public class Main {
 				return;
 			}
 			
-			if (first.equals("delete")) {
-				RepositoryManager manager = new RepositoryManager(newArgs);
-				
-				manager.run();
-				
-				return;
-			}
 			
 			if (first.equals("--version")) {
 				System.out.println("Simple Software Provisioning System: spm " +

@@ -21,7 +21,7 @@ if [[ "$installdir" == "." ]] ; then
 	installdir=".."
 fi
 
-MAIN_JAR=spm-0.1.0.jar
+MAIN_JAR=spm-0.2.0-SNAPSHOT.jar
 
 java -Dorg.ssps.spm.home="$installdir" -jar "$installdir"/bin/${MAIN_JAR} $@
 

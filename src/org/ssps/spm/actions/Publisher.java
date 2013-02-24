@@ -17,14 +17,17 @@ package org.ssps.spm.actions;
 
 import java.io.IOException;
 
+import net.orpiske.spm.common.adm.AdmDocument;
+import net.orpiske.spm.publication.WebDavPublicationManager;
+import net.orpiske.ssps.adm.Adm;
+import net.orpiske.ssps.common.resource.exceptions.ResourceExchangeException;
+import net.orpiske.ssps.common.xml.exceptions.XmlDocumentException;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.spm.dbm.DbmException;
-import org.ssps.spm.main.PublicationManager;
 
 /**
  * This action class is responsible for publishing deliverables
@@ -35,6 +38,10 @@ public class Publisher extends ActionInterface {
 	
 	private CommandLine cmdLine;
 	private Options options;
+	
+	private String file;
+	
+	private boolean overwrite;
 	
 	
 	/**
@@ -56,7 +63,9 @@ public class Publisher extends ActionInterface {
 		options = new Options();
 
 		options.addOption("h", "help", false, "prints the help");
-		options.addOption("f", "file", true, "path to the DBM file");
+		options.addOption("f", "file", true, "path to the ADM file");
+		options.addOption("o", "overwrite", false, 
+				"overwrite remote files (default = false)");
 
 		try { 
 			cmdLine = parser.parse(options, args);
@@ -64,18 +73,22 @@ public class Publisher extends ActionInterface {
 		catch (ParseException e) {
 			help(options, -1);
 		}
-	}
-	
-	private void publish() throws XmlDocumentException, IOException, DbmException {
-		String dbmFile = cmdLine.getOptionValue('f');
-
-		if (dbmFile == null) {
-			dbmFile = "./dbm.xml";
+		
+		file = cmdLine.getOptionValue('f');
+		if (file == null) {
+			file = "./adm.xml";
 		}
 		
-		PublicationManager manager = new PublicationManager(dbmFile);
+		overwrite = cmdLine.hasOption('o');
+	}
+	
+	private void publish() throws IOException, XmlDocumentException, ResourceExchangeException {
+		AdmDocument admDocument = new AdmDocument(file);
+		Adm adm = admDocument.getDocument();
+		
+		WebDavPublicationManager manager = new WebDavPublicationManager(adm);
 
-		manager.upload();
+		manager.upload(file, overwrite);
 	}
 
 	/* (non-Javadoc)
@@ -93,12 +106,11 @@ public class Publisher extends ActionInterface {
 		} catch (XmlDocumentException e) {
 			System.err.println("Invalid XML document: " + e.getMessage());
 		} catch (IOException e) {
-			System.err.println("Input/output error: " + e.getMessage() + 
-					"\nDid you forget to run spm create?");
-		} catch (DbmException e) {
-			System.err.println("Invalid DBM document: " + e.getMessage());
+			System.err.println("Input/output error: " + e.getMessage());
+			e.printStackTrace();
+		} catch (ResourceExchangeException e) {
+			System.err.println("Resource exchange error: " + e.getMessage());
 		}
-
 	}
 
 }
