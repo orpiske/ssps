@@ -18,8 +18,9 @@ package net.orpiske.ssps.common.archive;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import net.orpiske.ssps.common.archive.exceptions.SspsArchiveException;
+
 import org.apache.commons.compress.archivers.ArchiveException;
-import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.exceptions.SspsException;
 
 /**

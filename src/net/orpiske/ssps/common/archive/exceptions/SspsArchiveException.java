@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.common.archive.exceptions;
+package net.orpiske.ssps.common.archive.exceptions;
 
 import org.ssps.common.exceptions.SspsException;
 
