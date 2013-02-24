@@ -9,7 +9,7 @@
 		the specific language governing permissions and limitations under the License. -->
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.ssps</groupId>
+	<groupId>net.orpiske</groupId>
 	<artifactId>sdm-common</artifactId>
 	<version>0.2.0-SNAPSHOT</version>
 	<url>http://www.orpiske.net/ssps/</url>
