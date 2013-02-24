@@ -29,7 +29,7 @@ import net.orpiske.ssps.common.xml.XmlParserUtils;
 import net.orpiske.ssps.common.xml.exceptions.XmlDocumentException;
 
 import org.apache.commons.io.FilenameUtils;
-import org.ssps.sdm.adm.exceptions.RuleEngineException;
+import net.orpiske.sdm.adm.exceptions.RuleEngineException;
 import net.orpiske.sdm.common.WorkdirUtils;
 
 /**
