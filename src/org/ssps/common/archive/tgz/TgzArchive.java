@@ -18,14 +18,15 @@ package org.ssps.common.archive.tgz;
 import java.io.File;
 import java.io.IOException;
 
+import net.orpiske.ssps.common.archive.Archive;
+import net.orpiske.ssps.common.archive.CompressedArchiveUtils;
+import net.orpiske.ssps.common.archive.TarArchiveUtils;
+
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.log4j.Logger;
-import org.ssps.common.archive.Archive;
-import org.ssps.common.archive.CompressedArchiveUtils;
-import org.ssps.common.archive.TarArchiveUtils;
 import org.ssps.common.archive.exceptions.SspsArchiveException;
 import org.ssps.common.exceptions.SspsException;
 

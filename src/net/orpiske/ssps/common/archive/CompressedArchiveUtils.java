@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.common.archive;
+package net.orpiske.ssps.common.archive;
 
 import java.io.BufferedInputStream;
 import java.io.File;
