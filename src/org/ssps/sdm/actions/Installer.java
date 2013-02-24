@@ -19,7 +19,16 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.orpiske.sdm.adm.AdmProcessor;
+import net.orpiske.sdm.adm.exceptions.AdmException;
+import net.orpiske.sdm.adm.util.ResourceExchangeFactory;
 import net.orpiske.ssps.adm.Adm;
+import net.orpiske.spm.common.adm.AdmDocument;
+import net.orpiske.ssps.common.resource.Resource;
+import net.orpiske.ssps.common.resource.ResourceExchange;
+import net.orpiske.ssps.common.resource.ResourceInfo;
+import net.orpiske.ssps.common.resource.exceptions.ResourceExchangeException;
+import net.orpiske.ssps.common.xml.exceptions.XmlDocumentException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -29,15 +38,6 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.ssps.common.resource.Resource;
-import org.ssps.common.resource.ResourceExchange;
-import org.ssps.common.resource.ResourceInfo;
-import org.ssps.common.resource.exceptions.ResourceExchangeException;
-import org.ssps.common.xml.exceptions.XmlDocumentException;
-import org.ssps.sdm.adm.AdmDocument;
-import org.ssps.sdm.adm.AdmProcessor;
-import org.ssps.sdm.adm.exceptions.AdmException;
-import org.ssps.sdm.adm.util.ResourceExchangeFactory;
 
 
 /**

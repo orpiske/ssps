@@ -18,9 +18,10 @@ package org.ssps.sdm.main;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
+import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
+import net.orpiske.ssps.common.logger.LoggerUtils;
+
 import org.apache.commons.configuration.ConfigurationException;
-import org.ssps.common.configuration.ConfigurationWrapper;
-import org.ssps.common.logger.LoggerUtils;
 import org.ssps.sdm.actions.Installer;
 import org.ssps.sdm.utils.Constants;
 

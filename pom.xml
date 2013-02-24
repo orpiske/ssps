@@ -29,6 +29,12 @@
 		<!-- Internal project dependencies -->
 		<dependency>
 			<groupId>net.orpiske</groupId>
+			<artifactId>sdm-common</artifactId>
+			<version>0.2.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.orpiske</groupId>
 			<artifactId>ssps-common</artifactId>
 			<version>0.2.0-SNAPSHOT</version>
 		</dependency>
@@ -45,33 +51,12 @@
 			<version>1.2.16</version>
 		</dependency>
 
-		<!-- Groovy Support -->
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-
-		<!-- Exec rule support -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-exec</artifactId>
-			<version>1.1</version>
-		</dependency>
-
+		
 		<!-- Apache Commons: CLI -->
 		<dependency>
 			<groupId>commons-cli</groupId>
 			<artifactId>commons-cli</artifactId>
 			<version>1.2</version>
-		</dependency>
-		
-		<!-- Junit (for tests only) -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
