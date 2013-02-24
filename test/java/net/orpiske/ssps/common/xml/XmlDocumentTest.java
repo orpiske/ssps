@@ -12,39 +12,34 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
-package net.orpiske.ssps.common.archive.exceptions;
+ */
+package net.orpiske.ssps.common.xml;
 
-import net.orpiske.ssps.common.exceptions.SspsException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
 
 /**
- * Abstracts archiving-specific exceptions
  * @author Otavio R. Piske <angusyoung@gmail.com>
- * 
+ *
  */
-public class SspsArchiveException extends SspsException {
+public class XmlDocumentTest {
 
-	/**
-     * 
-     */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Constructor
-	 * @param message exception message
-	 */
-	public SspsArchiveException(String message) {
-		super(message);
+    @Test
+    public void testRead() {
+	try {
+	    SampleDocument sampleDocument = new SampleDocument();
+	    
+	    assertEquals("111", sampleDocument.getFirst());
+	    assertEquals("222", sampleDocument.getSecond());
+	    assertEquals("444", sampleDocument.getFourth());
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    fail();
 	}
-
 	
-	/**
-	 * Constructor
-	 * @param message exception message
-	 * @param cause the root cause
-	 */
-	public SspsArchiveException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
+	
+    } 
+    
 }

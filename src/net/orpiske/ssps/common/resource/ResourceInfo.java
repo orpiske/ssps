@@ -13,38 +13,35 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.ssps.common.archive.exceptions;
-
-import net.orpiske.ssps.common.exceptions.SspsException;
+package net.orpiske.ssps.common.resource;
 
 /**
- * Abstracts archiving-specific exceptions
+ * Holds resource information
  * @author Otavio R. Piske <angusyoung@gmail.com>
- * 
+ *
  */
-public class SspsArchiveException extends SspsException {
-
-	/**
-     * 
-     */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Constructor
-	 * @param message exception message
-	 */
-	public SspsArchiveException(String message) {
-		super(message);
-	}
-
+public class ResourceInfo {
+	private long size;
+	private long lastModified;
 	
 	/**
-	 * Constructor
-	 * @param message exception message
-	 * @param cause the root cause
+	 * Resource size
+	 * @return
 	 */
-	public SspsArchiveException(String message, Throwable cause) {
-		super(message, cause);
+	public long getSize() {
+		return size;
+	}
+	
+	public void setSize(long size) {
+		this.size = size;
+	}
+	
+	public long getLastModified() {
+		return lastModified;
+	}
+	
+	public void setLastModified(long lastModified) {
+		this.lastModified = lastModified;
 	}
 
 }

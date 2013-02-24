@@ -19,9 +19,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import net.orpiske.ssps.common.archive.exceptions.SspsArchiveException;
+import net.orpiske.ssps.common.exceptions.SspsException;
 
 import org.apache.commons.compress.archivers.ArchiveException;
-import org.ssps.common.exceptions.SspsException;
 
 /**
  * SSPS Archive interface

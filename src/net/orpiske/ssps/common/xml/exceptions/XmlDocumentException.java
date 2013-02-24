@@ -12,39 +12,35 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
-package net.orpiske.ssps.common.archive.exceptions;
+ */
+package net.orpiske.ssps.common.xml.exceptions;
 
 import net.orpiske.ssps.common.exceptions.SspsException;
 
 /**
- * Abstracts archiving-specific exceptions
+ * XML Document exception
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
  */
-public class SspsArchiveException extends SspsException {
+@SuppressWarnings("serial")
+public class XmlDocumentException extends SspsException {
 
-	/**
-     * 
-     */
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor
 	 * @param message exception message
 	 */
-	public SspsArchiveException(String message) {
+	public XmlDocumentException(String message) {
 		super(message);
 	}
 
-	
 	/**
 	 * Constructor
 	 * @param message exception message
-	 * @param cause the root cause
+	 * @param t root cause
 	 */
-	public SspsArchiveException(String message, Throwable cause) {
-		super(message, cause);
+	public XmlDocumentException(String message, Throwable t) {
+		super(message, t);
 	}
 
 }

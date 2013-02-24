@@ -21,6 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import net.orpiske.ssps.common.exceptions.SspsException;
+
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
@@ -28,7 +30,6 @@ import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.ssps.common.exceptions.SspsException;
 
 /**
  * TAR archive format utilities.
