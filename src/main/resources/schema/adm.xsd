@@ -15,7 +15,7 @@
 
     <complexType name="Artifact">
     	<sequence>
-            <element name="group" type="string" minOccurs="0" maxOccurs="1"></element>
+            <element name="groupId" type="string" minOccurs="0" maxOccurs="1"></element>
             <element name="name" type="string" minOccurs="0" maxOccurs="1"></element>
     		<element name="version" type="string" minOccurs="0" maxOccurs="1"></element>
     	</sequence>
