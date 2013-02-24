@@ -15,6 +15,8 @@
  */
 package net.orpiske.ssps.common.repository;
 
+import java.net.URL;
+
 /**
  * Repository path utilities
  * 
@@ -33,6 +35,18 @@ public class PathUtils {
 	public PathUtils(final String url) {
 		this.url = url;
 	}
+	
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param url
+	 *            The repository URL
+	 */
+	public PathUtils(final URL url) {
+		this.url = url.toString();
+	}
+
 
 	/**
 	 * Gets the root directory for a project group
@@ -111,5 +125,4 @@ public class PathUtils {
 
 		return buffer.toString();
 	}
-	
 }
