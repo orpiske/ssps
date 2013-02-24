@@ -14,7 +14,7 @@
 	<artifactId>ssps-types</artifactId>
 	<version>0.2.0-SNAPSHOT</version>
 	<url>http://www.orpiske.net/ssps-types</url>
-	
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -38,7 +38,7 @@
 			<timezone>-3</timezone>
 		</developer>
 	</developers>
-	
+
 	<dependencies>
 		<!-- JAXB -->
 		<dependency>
@@ -47,7 +47,7 @@
 			<version>2.2.6</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test/java</testSourceDirectory>
@@ -105,6 +105,45 @@
 				</executions>
 			</plugin>
 		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.4</version>
+			</extension>
+		</extensions>
 	</build>
 
+	<scm>
+		<url>scm:git:git@github.com:orpiske/ssps-types.git</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/orpiske/ssps-types/</url>
+	</issueManagement>
+
+	<distributionManagement>
+		<downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>orpiske.net</id>
+			<name>Internal1</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>orpiske.net</id>
+			<name>Internal2</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+			<layout>default</layout>
+		</snapshotRepository>
+		<site>
+			<id>orpiske.net</id>
+			<name>SSPS Types Site</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps-types</url>
+		</site>
+
+	</distributionManagement>
 </project>
