@@ -35,7 +35,6 @@ import net.orpiske.ssps.common.resource.ResourceExchange;
 import net.orpiske.ssps.common.resource.ResourceInfo;
 import net.orpiske.ssps.common.resource.exceptions.ResourceExchangeException;
 import net.orpiske.ssps.common.utils.URLUtils;
-import net.orpiske.ssps.common.variables.VariablesParser;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -47,8 +46,6 @@ import org.apache.commons.io.IOUtils;
  * 
  */
 public class Downloader {
-	private VariablesParser admVariables = VariablesParser.getInstance();
-
 	private static void copy(final Resource<InputStream> resource,
 			final OutputStream output) throws IOException {
 		InputStream input = resource.getPayload();

@@ -33,10 +33,6 @@ import org.apache.commons.io.FileUtils;
  */
 public class IOUtil {
 	
-	private VariablesParser admVariables = VariablesParser.getInstance();
-
-
-	
 	private static void createParentDirectories(File dir) {
 		if (!dir.exists()) {
 			dir.getParentFile().mkdirs();
