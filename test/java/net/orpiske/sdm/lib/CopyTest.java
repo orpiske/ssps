@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.sdm.adm.rules;
+package net.orpiske.sdm.lib;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

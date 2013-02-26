@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.sdm.adm.rules;
+package net.orpiske.sdm.engine;
 
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public class GroovyRuleProcessorTest {
+public class GroovyEngineTest {
 	
 	
 	@Test
