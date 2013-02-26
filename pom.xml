@@ -39,7 +39,7 @@
 		</developer>
 	</developers>
 
-	<dependencies>
+	<dependencies>	
 		<!-- Apache Log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -85,6 +85,7 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.1.1</version>
 		</dependency>
+		
 
 		<!-- Junit (for tests only) -->
 		<dependency>
