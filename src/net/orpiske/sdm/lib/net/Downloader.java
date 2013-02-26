@@ -46,6 +46,7 @@ import org.apache.commons.io.IOUtils;
  * 
  */
 public class Downloader {
+	
 	private static void copy(final Resource<InputStream> resource,
 			final OutputStream output) throws IOException {
 		InputStream input = resource.getPayload();

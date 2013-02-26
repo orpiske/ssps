@@ -79,6 +79,8 @@ public class GroovyEngine implements Engine {
 		
 		try {
 			artifactName = URLUtils.getFilename(url.toString());
+			artifactName = WorkdirUtils.getWorkDir() + File.separator + artifactName;
+			
 		} catch (MalformedURLException e) {
 			throw new EngineException("The package URL is invalid: " + e.getMessage(),
 					e);
@@ -87,7 +89,7 @@ public class GroovyEngine implements Engine {
 					e);
 		}
 		
-		groovyObject.invokeMethod("extract", WorkdirUtils.getWorkDir() + File.separator + artifactName);
+		groovyObject.invokeMethod("extract", artifactName);
 		groovyObject.invokeMethod("build", artifactName);
 		groovyObject.invokeMethod("verify", artifactName);
 		groovyObject.invokeMethod("install", artifactName);

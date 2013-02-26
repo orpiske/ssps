@@ -24,6 +24,7 @@ import net.orpiske.sdm.lib.io.support.ShieldUtils;
 import net.orpiske.ssps.common.variables.VariablesParser;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Implements the copy rule.
@@ -134,7 +135,4 @@ public class IOUtil {
 			PrintUtils.printInfo("Directory " + directory + " already exists");
 		}
 	}
-
-	
-
 }

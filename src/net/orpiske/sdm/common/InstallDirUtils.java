@@ -23,39 +23,20 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 
 /**
- * Work dir utilities
- * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
  */
-public class WorkdirUtils {
+public class InstallDirUtils {
+	
 	private static final PropertiesConfiguration config 
 		= ConfigurationWrapper.getConfig();
-	
-	/**
-	 * Restricted constructor
-	 */
-	private WorkdirUtils() {}
-	
 	
 	/**
 	 * Gets the work dir
 	 * @return the work dir
 	 */
-	public static String getWorkDir() {
-		return config.getString("temp.work.dir",
-				FileUtils.getTempDirectoryPath() + File.separator + "work");
+	public static String getInstallDir() {
+		return config.getString("user.install.dir",
+				FileUtils.getUserDirectoryPath() + File.separator + "software");
 	}
-	
-	
-	/**
-	 * Gets the package work dir
-	 * @return the package work dir
-	 */
-	public static String getPackageWorkDir(final String group, 
-			final String name, final String version) 
-	{
-		return getWorkDir() + File.separator + group + File.separator + name 
-				+ File.separator + version + File.separator ;
-	}
-
 }
