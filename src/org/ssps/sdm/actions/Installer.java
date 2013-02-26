@@ -15,6 +15,7 @@
 */
 package org.ssps.sdm.actions;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,6 +23,12 @@ import java.net.URISyntaxException;
 import net.orpiske.sdm.adm.AdmProcessor;
 import net.orpiske.sdm.adm.exceptions.AdmException;
 import net.orpiske.sdm.adm.util.ResourceExchangeFactory;
+import net.orpiske.sdm.common.GroupIdUtils;
+import net.orpiske.sdm.common.RepositoryUtils;
+import net.orpiske.sdm.common.VersionUtils;
+import net.orpiske.sdm.engine.Engine;
+import net.orpiske.sdm.engine.GroovyEngine;
+import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.ssps.adm.Adm;
 import net.orpiske.spm.common.adm.AdmDocument;
 import net.orpiske.ssps.common.resource.Resource;
@@ -35,6 +42,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -51,9 +59,12 @@ public class Installer extends ActionInterface {
 	private CommandLine cmdLine;
 	private Options options;
 	
-	private boolean isRemote;
 	private boolean isHelp;
 	private String repositoryPath;
+	
+	private String groupId;
+	private String packageName;
+	private String version;
 
 	/**
 	 * Constructor
@@ -77,13 +88,10 @@ public class Installer extends ActionInterface {
 		options = new Options();
 
 		options.addOption("h", "help", false, "prints the help");
-		options.addOption("a", "adm-file", true, "adm file");
-		options.addOption(null, "remote", false, 
-				"instructs the installer to download the ADM file from a remote location");
-		options.addOption(null, "install-only", false, 
-				"does not fetch the file");
-		options.addOption("r", "repository", true, 
-				"the location where to install the contents of the adm file");
+		options.addOption("g", "groupid", true, "package group id");
+		options.addOption("p", "package", true, "package name");
+		options.addOption("r", "repository", true, "repository path");
+		options.addOption("v", "version", true, "version");
 
 		try {
 			cmdLine = parser.parse(options, args);
@@ -91,74 +99,42 @@ public class Installer extends ActionInterface {
 			help(options, -1);
 		}
 		
-		isRemote = cmdLine.hasOption("remote");
 		isHelp = cmdLine.hasOption("help");
 		
 		repositoryPath = cmdLine.getOptionValue('r');
-		
 		if (repositoryPath == null) {
-			repositoryPath = FilenameUtils.getFullPath("./");
+			repositoryPath = RepositoryUtils.getUserRepository();
 		}
-	}
-	
-	public void install(String path) throws XmlDocumentException, AdmException {
-		AdmDocument admDocument;
-	
 		
-		admDocument = new AdmDocument(path);
-
-		Adm adm = admDocument.getDocument();
-
-		AdmProcessor processor = new AdmProcessor(adm, repositoryPath);
-		
-
-		processor.process();
-	}
-	
-	public void install(InputStream stream) throws XmlDocumentException, AdmException, URISyntaxException, ResourceExchangeException {
-		AdmDocument admDocument;
-	
-		admDocument = new AdmDocument(stream);
-	
-
-		Adm adm = admDocument.getDocument();
-
-		AdmProcessor processor = new AdmProcessor(adm, repositoryPath);
-		
-
-		processor.process();
-		
-	}
-
-	private void install() throws XmlDocumentException, AdmException, ResourceExchangeException, URISyntaxException {
-		String path = cmdLine.getOptionValue('a');
-		
-		if (path == null) {
-			System.err.println("Missing adm file information");
+		packageName = cmdLine.getOptionValue('p');
+		if (packageName == null) {
 			help(options, -1);
 		}
 		
+		groupId = cmdLine.getOptionValue('g');
+		if (groupId == null) {
+			groupId = GroupIdUtils.resolveGroupId(null);
+		}
 		
-		if (isRemote) {
-			ResourceExchange resourceExchange = 
-					ResourceExchangeFactory.newResourceExchange();
-			
-			URI uri = new URI(path);
-			
-			ResourceInfo resourceInfo = resourceExchange.info(uri);
-			logger.info("Downloading " + resourceInfo.getSize() 
-					+ " from the server");
-			
-			Resource<InputStream> resource = resourceExchange.get(uri);
-			install(resource.getPayload());
-			
-			IOUtils.closeQuietly(resource.getPayload());
-			
-			resourceExchange.release();
+		version = cmdLine.getOptionValue('v');
+		if (version == null) {
+			version = VersionUtils.resolveLatest(null, null);
 		}
-		else { 
-			install(path);
-		}
+		
+	}
+	
+	
+
+	private void install() throws EngineException {
+		String packageFQPN = RepositoryUtils.getFQPN(groupId, packageName, 
+				version);
+		
+		String dir = RepositoryUtils.getPackageDir(repositoryPath, packageFQPN);
+		String packageFile = RepositoryUtils.getPackageFilePath(dir, packageName);
+		
+		Engine engine = new GroovyEngine();
+		
+		engine.run(packageFile);
 	}
 
 	/*
@@ -175,7 +151,18 @@ public class Installer extends ActionInterface {
 			else {
 				install();
 			}
-		} catch (XmlDocumentException e) {
+		
+		}
+		catch (EngineException e) {
+			System.err.println("Unable to install: " + e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Unable to install: " + e.getMessage(), e);
+			}
+		}
+		
+		/*
+		catch (XmlDocumentException e) {
 			System.err.println("Unable to install: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
@@ -200,6 +187,7 @@ public class Installer extends ActionInterface {
 				logger.error("Invalid ADM resource: " + e.getMessage(), e);
 			}
 		} 
+		*/
 	}
 
 }
