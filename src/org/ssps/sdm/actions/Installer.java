@@ -15,36 +15,18 @@
 */
 package org.ssps.sdm.actions;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import net.orpiske.sdm.adm.AdmProcessor;
-import net.orpiske.sdm.adm.exceptions.AdmException;
-import net.orpiske.sdm.adm.util.ResourceExchangeFactory;
 import net.orpiske.sdm.common.GroupIdUtils;
 import net.orpiske.sdm.common.RepositoryUtils;
 import net.orpiske.sdm.common.VersionUtils;
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
-import net.orpiske.ssps.adm.Adm;
-import net.orpiske.spm.common.adm.AdmDocument;
-import net.orpiske.ssps.common.resource.Resource;
-import net.orpiske.ssps.common.resource.ResourceExchange;
-import net.orpiske.ssps.common.resource.ResourceInfo;
-import net.orpiske.ssps.common.resource.exceptions.ResourceExchangeException;
-import net.orpiske.ssps.common.xml.exceptions.XmlDocumentException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 
