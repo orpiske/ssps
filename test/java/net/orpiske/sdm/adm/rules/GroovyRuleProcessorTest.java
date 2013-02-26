@@ -15,11 +15,11 @@
 */
 package net.orpiske.sdm.adm.rules;
 
-import static org.junit.Assert.fail;
-import net.orpiske.sdm.adm.exceptions.RuleException;
-import net.orpiske.sdm.adm.rules.GroovyRuleProcessor;
-import net.orpiske.ssps.adm.GroovyRule;
+import net.orpiske.sdm.engine.Engine;
+import net.orpiske.sdm.engine.GroovyEngine;
+import net.orpiske.sdm.engine.exceptions.EngineException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -28,21 +28,15 @@ import org.junit.Test;
  */
 public class GroovyRuleProcessorTest {
 	
+	
 	@Test
-	public void testSimpleFile() {
-		GroovyRule rule = new GroovyRule();
+	@Ignore
+	public void testSimpleFile() throws EngineException {
+		Engine engine = new GroovyEngine();
+		String path = getClass().getResource("dummy.groovy").getPath();
 		
-		String file = getClass().getResource("hello.groovy").getPath();
-		
-		rule.setFile(file);
-		
-		GroovyRuleProcessor processor = new GroovyRuleProcessor();
-		
-		try {
-			processor.run(rule);
-		} catch (RuleException e) {
-			fail(e.getMessage());
-		}
+		engine.run(path);
 	}
+
 
 }

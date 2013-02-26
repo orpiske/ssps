@@ -15,14 +15,13 @@
 */
 package net.orpiske.sdm.adm.rules;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 
-import net.orpiske.sdm.adm.exceptions.RuleException;
-import net.orpiske.sdm.adm.rules.CopyRuleProcessor;
-import net.orpiske.ssps.adm.CopyRule;
+import net.orpiske.sdm.lib.io.IOUtil;
 import net.orpiske.ssps.common.digest.Sha1Digest;
 
 import org.junit.Test;
@@ -31,25 +30,21 @@ import org.junit.Test;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public class CopyRuleProcessorTest {
+public class CopyTest {
 	
 	
 	@Test
 	public void testCopyRule() {
 		
-		CopyRuleProcessor processor = new CopyRuleProcessor();
-		CopyRule rule = new CopyRule();
 		
 		String from = getClass().getResource("dummy-a.txt").getPath();
 		String to = getClass().getResource(".").getPath() + File.separator 
 				+ "dummy-b.txt";
 		
-		rule.setFrom(from);
-		rule.setTo(to);
 		
 		try {
-			processor.run(rule);
-		} catch (RuleException e) {
+			IOUtil.copy(from, to);
+		} catch (IOException e) {
 			fail(e.getMessage());
 		}
 		
