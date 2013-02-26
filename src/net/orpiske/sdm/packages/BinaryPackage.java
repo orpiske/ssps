@@ -20,19 +20,31 @@ package net.orpiske.sdm.packages;
  *
  */
 public class BinaryPackage implements Package {
-	
-	
-	
-	public void fetch(final String url) {
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#fetch(java.lang.String)
+	 */
+	@Override
+	public void fetch(String url) {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	public void verify(final String artifactName) {
-		
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#unpack(java.lang.String)
+	 */
+	@Override
+	public void extract(String artifactName) {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	public void install(final String artifactName) {
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#prepare(java.lang.String)
+	 */
+	@Override
+	public void prepare(String artifactName) {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -44,5 +56,26 @@ public class BinaryPackage implements Package {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#verify(java.lang.String)
+	 */
+	@Override
+	public void verify(String artifactName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#install(java.lang.String)
+	 */
+	@Override
+	public void install(String artifactName) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
 
 }

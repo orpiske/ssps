@@ -23,13 +23,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import net.orpiske.sdm.adm.exceptions.RuleException;
+import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.exceptions.EngineException;
-import net.orpiske.sdm.packages.BinaryPackage;
-import net.orpiske.sdm.packages.SourcePackage;
-import net.orpiske.ssps.adm.GroovyRule;
 import net.orpiske.ssps.common.utils.URLUtils;
-import net.orpiske.ssps.common.variables.VariablesParser;
 
 import org.codehaus.groovy.control.CompilationFailedException;
 
@@ -91,6 +87,7 @@ public class GroovyEngine implements Engine {
 					e);
 		}
 		
+		groovyObject.invokeMethod("extract", WorkdirUtils.getWorkDir() + File.separator + artifactName);
 		groovyObject.invokeMethod("build", artifactName);
 		groovyObject.invokeMethod("verify", artifactName);
 		groovyObject.invokeMethod("install", artifactName);

@@ -22,6 +22,8 @@ package net.orpiske.sdm.packages;
 public interface Package {
 	
 	void fetch(final String url);
+	void extract(final String artifactName);
+	void prepare(final String artifactName);
 	void build(final String artifactName);
 	void verify(final String artifactName);
 	void install(final String artifactName);

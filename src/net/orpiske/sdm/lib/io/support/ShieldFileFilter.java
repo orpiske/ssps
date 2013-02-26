@@ -13,11 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.sdm.adm.rules.support;
+package net.orpiske.sdm.lib.io.support;
 
 import java.io.File;
 
-import net.orpiske.sdm.adm.util.PrintUtils;
+import net.orpiske.sdm.lib.PrintUtils;
 
 import org.apache.commons.io.filefilter.AbstractFileFilter;
 

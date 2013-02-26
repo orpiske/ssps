@@ -15,8 +15,8 @@
  */
 package net.orpiske.sdm.lib.net;
 
-import static net.orpiske.sdm.adm.util.PrintUtils.printInfo;
-import static net.orpiske.sdm.adm.util.PrintUtils.staticInfoMessage;
+import static net.orpiske.sdm.lib.PrintUtils.printInfo;
+import static net.orpiske.sdm.lib.PrintUtils.staticInfoMessage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,10 +28,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.orpiske.sdm.adm.exceptions.RuleException;
 import net.orpiske.sdm.common.WorkdirUtils;
-import net.orpiske.ssps.adm.DownloadRule;
-import net.orpiske.ssps.common.resource.DefaultResourceExchange;
+import net.orpiske.sdm.util.ResourceExchangeFactory;
 import net.orpiske.ssps.common.resource.Resource;
 import net.orpiske.ssps.common.resource.ResourceExchange;
 import net.orpiske.ssps.common.resource.ResourceInfo;
@@ -144,7 +142,7 @@ public class Downloader {
 
 			File outputFile = setupOutputFile(url, overwrite);
 
-			ResourceExchange resourceExchange = new DefaultResourceExchange();
+			ResourceExchange resourceExchange = ResourceExchangeFactory.newResourceExchange();
 			ResourceInfo resourceInfo = resourceExchange.info(uri);
 
 			try {
@@ -159,6 +157,7 @@ public class Downloader {
 					Resource<InputStream> resource = resourceExchange.get(uri);
 					
 					saveDownload(outputFile, resource);
+					printInfo("Downloaded " + outputFile.getPath());
 				}
 			} finally {
 				printInfo("Releasing resources");
@@ -179,6 +178,6 @@ public class Downloader {
 	 * @throws ResourceExchangeException if uanble to download the file
 	 */
 	public static void download(final String url) throws ResourceExchangeException {
-		download(url, true);
+		download(url, false);
 	}
 }

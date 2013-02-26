@@ -13,9 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.sdm.adm.util;
+package net.orpiske.sdm.lib;
 
-import net.orpiske.sdm.adm.exceptions.RuleException;
 
 /**
  * Standard out printing utilities for the rules
@@ -33,7 +32,7 @@ public class PrintUtils {
 	}
 	
 	public static void printEndWithError(final String stageName, 
-			final RuleException e) 
+			final Exception e) 
 	{
 		System.out.println("\n** " + stageName + " Failed **\n ==> " + e.getMessage());
 	}

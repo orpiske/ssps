@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.sdm.adm.util;
+package net.orpiske.sdm.util;
 
 import java.util.HashMap;
 
