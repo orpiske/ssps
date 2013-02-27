@@ -21,19 +21,14 @@ import java.io.IOException;
 import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
-import org.eclipse.jgit.api.errors.CanceledException;
-import org.eclipse.jgit.api.errors.DetachedHeadException;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidConfigurationException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -46,12 +41,21 @@ public class GitProvider implements Provider {
 	
 	private static final Logger logger = Logger.getLogger(GitProvider.class);
 	
+	private String name;
 	private String userRepositoryPath;
 	private String sourceURI;
 	
-	public GitProvider(final String sourceURI) {
+	public GitProvider(final String name) {
+		this.name = name;
+		
 		userRepositoryPath = RepositoryUtils.getUserDefaultRepository();
-		this.sourceURI = sourceURI;
+
+		PropertiesConfiguration config = RepositorySettings.getConfig();
+		
+		String userName = config.getString(name + ".auth.user", null);
+		String password = config.getString(name + "auth.password", null);
+		sourceURI = config.getString(name + ".source.url");
+		
 	}
 	
 	private void clone(final File repositoryDir) throws RepositoryUpdateException {
@@ -83,6 +87,9 @@ public class GitProvider implements Provider {
 	private void refresh(final File repositoryDir) throws RepositoryUpdateException {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository repository = null;
+		
+		logger.info("Refreshing local repository with remote copy from " + sourceURI);
+		
 		try {
 			repository = builder.setGitDir(repositoryDir)
 					.readEnvironment() 
@@ -97,7 +104,7 @@ public class GitProvider implements Provider {
 		
 		pullCommand.setProgressMonitor(new TextProgressMonitor());
 		
-		logger.info("Refreshing local repository with remote copy from " + sourceURI);
+		
 		try {
 			pullCommand.call();
 		} catch (Exception e) {
