@@ -92,6 +92,13 @@
 			<artifactId>org.eclipse.jgit</artifactId>
 			<version>2.2.0.201212191850-r</version>
 		</dependency>
+		
+		<!-- SVN Repository Support -->
+		<dependency>
+			<groupId>org.tmatesoft.svnkit</groupId>
+			<artifactId>svnkit</artifactId>
+			<version>1.7.8</version>
+		</dependency>
 
 		<!-- Junit (for tests only) -->
 		<dependency>
