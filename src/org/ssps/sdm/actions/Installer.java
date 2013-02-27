@@ -15,12 +15,12 @@
 */
 package org.ssps.sdm.actions;
 
-import net.orpiske.sdm.common.GroupIdUtils;
-import net.orpiske.sdm.common.RepositoryUtils;
-import net.orpiske.sdm.common.VersionUtils;
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
+import net.orpiske.ssps.common.repository.utils.GroupIdUtils;
+import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
+import net.orpiske.ssps.common.repository.utils.VersionUtils;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
