@@ -18,6 +18,9 @@ package net.orpiske.ssps.common.repository;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.repository.exception.RepositorySetupException;
@@ -145,7 +148,17 @@ public class RepositorySettings {
 		String newSettings = repositoryInfo.getName() + File.separator + "repository.conf";
 		
 		logger.info("Adding new repository settings at " + newSettings);
-		config.addProperty("include", newSettings);
+		
+		String[] oldIncludes = config.getStringArray("include");
+		if (oldIncludes != null) { 
+			String[] newIncludes = Arrays.copyOfRange(oldIncludes, 0, oldIncludes.length + 1);
+			newIncludes[oldIncludes.length] = newSettings;
+		
+			config.addProperty("include", newIncludes);
+		}
+		else {
+			config.addProperty("include", newSettings);
+		}
 		
 		
 		try {
