@@ -142,34 +142,6 @@ public class Installer extends ActionInterface {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
 		}
-		
-		/*
-		catch (XmlDocumentException e) {
-			System.err.println("Unable to install: " + e.getMessage());
-
-			if (logger.isDebugEnabled()) {
-				logger.error("Unable to install: " + e.getMessage(), e);
-			}
-		} catch (AdmException e) {
-			System.err.println(e.getMessage());
-
-			if (logger.isDebugEnabled()) {
-				logger.error(e.getMessage(), e);
-			}
-		} catch (ResourceExchangeException e) {
-			System.err.println("Unable to install: " + e.getMessage());
-
-			if (logger.isDebugEnabled()) {
-				logger.error("Unable to install: " + e.getMessage(), e);
-			}
-		} catch (URISyntaxException e) {
-			System.err.println("Invalid ADM resource: " + e.getMessage());
-
-			if (logger.isDebugEnabled()) {
-				logger.error("Invalid ADM resource: " + e.getMessage(), e);
-			}
-		} 
-		*/
 	}
 
 }

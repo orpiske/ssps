@@ -19,9 +19,12 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
+import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.logger.LoggerUtils;
+import net.orpiske.ssps.common.repository.RepositorySettings;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.ssps.sdm.actions.AddRepository;
 import org.ssps.sdm.actions.Installer;
 import org.ssps.sdm.utils.Constants;
 
@@ -41,6 +44,7 @@ public class Main {
 		
 		System.out.println("Actions:");
 		System.out.println("   install");
+		System.out.println("   add-repository");
 		System.out.println("   help");
 		
 		System.exit(code);
@@ -57,6 +61,16 @@ public class Main {
 			System.err.println(e.getMessage());
 			System.exit(-3);
 		} catch (ConfigurationException e) {
+			System.err.println(e.getMessage());
+			System.exit(-3);
+		}
+		
+		
+		try {
+			RepositorySettings.initConfiguration();
+		} catch (SspsException e) {
+			e.printStackTrace();
+			
 			System.err.println(e.getMessage());
 			System.exit(-3);
 		}
@@ -91,6 +105,13 @@ public class Main {
 				Installer installer = new Installer(newArgs);
 				
 				installer.run();
+				return;
+			}
+			
+			if (first.equals("add-repository")) {
+				AddRepository addRepository = new AddRepository(newArgs);
+				
+				addRepository.run();
 				return;
 			}
 			
