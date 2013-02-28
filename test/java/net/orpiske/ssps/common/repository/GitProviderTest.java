@@ -31,9 +31,9 @@ public class GitProviderTest {
 	@Test 
 	@Ignore
 	public void cloneTest() throws IOException, RepositoryUpdateException {
-		GitProvider provider = new GitProvider("https://github.com/orpiske/sdm-packages.git");
+		//GitProvider provider = new GitProvider("https://github.com/orpiske/sdm-packages.git");
 		
-		provider.update();
+		// provider.update();
 	}
 
 }

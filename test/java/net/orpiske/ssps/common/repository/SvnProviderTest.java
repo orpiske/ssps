@@ -32,16 +32,16 @@ public class SvnProviderTest {
 	
 	@Before
 	public void init() throws ConfigurationException {
-		RepositorySettings.initConfiguration();
+		// RepositorySettings.initConfiguration();
 	}
 	
 	@Test 
 	public void cloneTest() throws IOException, RepositoryUpdateException, ConfigurationException {
 		
 		
-		SvnProvider provider = new SvnProvider("test");
+		// SvnProvider provider = new SvnProvider("test");
 		
-		provider.update();
+		// provider.update();
 	}
 
 }
