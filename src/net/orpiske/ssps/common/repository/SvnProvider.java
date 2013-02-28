@@ -41,25 +41,22 @@ public class SvnProvider implements Provider {
 	
 	private static Logger logger = Logger.getLogger(SvnProvider.class);
 	
-	private String name;
+	private RepositoryInfo repositoryInfo;
 	
-	private SVNClientManager clientManager;
+	// private SVNClientManager clientManager;
+
 	
-	private String sourceURI;
-	
-	public SvnProvider(final String name) {
-		this.name = name;
+	public SvnProvider(final RepositoryInfo repositoryInfo) {
+		this.repositoryInfo = repositoryInfo;
 		
-		DefaultSVNOptions options = new DefaultSVNOptions();
+		// DefaultSVNOptions options = new DefaultSVNOptions();
 		
-		PropertiesConfiguration config = RepositorySettings.getConfig();
-		String userName = config.getString(name + ".auth.user", null);
-		String password = config.getString(name + "auth.password", null);
-		sourceURI = config.getString(name + ".source.url");
+		// PropertiesConfiguration config = RepositorySettings.getConfig();
+
 	
 		
-		clientManager = SVNClientManager.newInstance(options, userName, 
-				password); 
+		//clientManager = SVNClientManager.newInstance(options, repositoryInfo.getUserName(), 
+		//		repositoryInfo.getPassword()); 
 	}
 	
 
@@ -68,11 +65,13 @@ public class SvnProvider implements Provider {
 		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
 		final SvnCheckout checkout = svnOperationFactory.createCheckout();
 		
-		logger.info("Repository does not exist. Checking out from " + sourceURI);
+		logger.info("Repository does not exist. Checking out from " 
+				+ repositoryInfo.getUrl());
 		
 		checkout.setSingleTarget(SvnTarget.fromFile(repositoryDir));
 		try {
-			checkout.setSource(SvnTarget.fromURL(SVNURL.parseURIEncoded(sourceURI)));
+			checkout.setSource(SvnTarget.fromURL(
+					SVNURL.parseURIEncoded(repositoryInfo.getUrl())));
 			checkout.run();
 		} 
 		catch (SVNException e) {
@@ -88,7 +87,8 @@ public class SvnProvider implements Provider {
 		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
 		final SvnUpdate update = svnOperationFactory.createUpdate();
 		
-		logger.info("Refreshing local repository with remote copy from " + sourceURI);
+		logger.info("Refreshing local repository with remote copy from " + 
+				repositoryInfo.getUrl());
 		
 		update.setSingleTarget(SvnTarget.fromFile(repositoryDir));
 		try {
@@ -104,8 +104,7 @@ public class SvnProvider implements Provider {
 	
 	
 	public void update() throws RepositoryUpdateException {	
-		String repositoryPath = RepositoryUtils.getUserRepository() + File.separator 
-				+ name;
+		String repositoryPath = repositoryInfo.getLocalPath();
 		File repositoryDir = new File(repositoryPath);
 		
 		if (!repositoryDir.exists()) {

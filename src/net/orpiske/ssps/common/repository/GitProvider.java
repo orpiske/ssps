@@ -41,32 +41,23 @@ public class GitProvider implements Provider {
 	
 	private static final Logger logger = Logger.getLogger(GitProvider.class);
 	
-	private String name;
-	private String userRepositoryPath;
-	private String sourceURI;
-	
-	public GitProvider(final String name) {
-		this.name = name;
-		
-		userRepositoryPath = RepositoryUtils.getUserDefaultRepository();
+	private RepositoryInfo repositoryInfo;
 
-		PropertiesConfiguration config = RepositorySettings.getConfig();
-		
-		String userName = config.getString(name + ".auth.user", null);
-		String password = config.getString(name + "auth.password", null);
-		sourceURI = config.getString(name + ".source.url");
-		
+	
+	public GitProvider(final RepositoryInfo repositoryInfo) {
+		this.repositoryInfo = repositoryInfo;
 	}
 	
 	private void clone(final File repositoryDir) throws RepositoryUpdateException {
 		
 		CloneCommand cloneCommand = Git.cloneRepository();
-		cloneCommand.setURI(sourceURI);
+		cloneCommand.setURI(repositoryInfo.getUrl());
 		cloneCommand.setDirectory(repositoryDir);
 		cloneCommand.setProgressMonitor(new TextProgressMonitor());
 		
 		try {
-			logger.info("Repository does not exist. Cloning from " + sourceURI);
+			logger.info("Repository does not exist. Cloning from " 
+					+ repositoryInfo.getUrl());
 			
 			cloneCommand.call();
 		} catch (InvalidRemoteException e) {
@@ -88,7 +79,8 @@ public class GitProvider implements Provider {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository repository = null;
 		
-		logger.info("Refreshing local repository with remote copy from " + sourceURI);
+		logger.info("Refreshing local repository with remote copy from " 
+				+ repositoryInfo.getUrl());
 		
 		try {
 			repository = builder.setGitDir(repositoryDir)
@@ -116,7 +108,7 @@ public class GitProvider implements Provider {
 	
 	
 	public void update() throws IOException, RepositoryUpdateException {
-		File repositoryDir = new File(userRepositoryPath);
+		File repositoryDir = new File(repositoryInfo.getLocalPath());
 		
 		if (!repositoryDir.exists()) {
 			repositoryDir.mkdirs();
@@ -124,7 +116,7 @@ public class GitProvider implements Provider {
 			clone(repositoryDir);
 		}
 		else {
-			File gitDir = new File(userRepositoryPath + File.separator + ".git");
+			File gitDir = new File(repositoryInfo.getLocalPath() + File.separator + ".git");
 			refresh(gitDir);
 		}
 	}

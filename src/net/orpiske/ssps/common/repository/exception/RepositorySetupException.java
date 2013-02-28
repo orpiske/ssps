@@ -13,18 +13,33 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.ssps.common.repository;
+package net.orpiske.ssps.common.repository.exception;
 
-import java.io.IOException;
-
-import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
+import net.orpiske.ssps.common.exceptions.SspsException;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public interface Provider {
+@SuppressWarnings("serial")
+public class RepositorySetupException extends SspsException {
+
+	/**
+	 * @param message
+	 * @param t
+	 */
+	public RepositorySetupException(String message, Throwable t) {
+		super(message, t);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param message
+	 */
+	public RepositorySetupException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
 	
-	public void update() throws RepositoryUpdateException, IOException;
 
 }

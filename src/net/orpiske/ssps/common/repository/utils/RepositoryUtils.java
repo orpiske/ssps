@@ -31,7 +31,7 @@ public class RepositoryUtils {
 	
 	/**
 	 * Gets the path to the package file
-	 * @param dir the package directory (ie.: $HOME/.sdm/repository/net.orpiske/sdm/1.0.0/pkg)
+	 * @param dir the package directory (ie.: $HOME/.sdm/repositories/default/net.orpiske/sdm/1.0.0/pkg)
 	 * @param packageName the name of the package
 	 * @return The complete path to the package file
 	 */
@@ -67,7 +67,7 @@ public class RepositoryUtils {
 	
 	
 	/**
-	 * Gets the path to the user repository (by default $HOME/.sdm/repository)
+	 * Gets the path to the user repository (by default $HOME/.sdm/repositories)
 	 * @return the path to the user repository
 	 */
 	public static String getUserRepository() {
@@ -77,7 +77,7 @@ public class RepositoryUtils {
 	
 	
 	/**
-	 * Gets the path to the user repository (by default $HOME/.sdm/repository)
+	 * Gets the path to the user repository (by default $HOME/.sdm/repositories)
 	 * @return the path to the user repository
 	 */
 	public static String getUserDefaultRepository() {

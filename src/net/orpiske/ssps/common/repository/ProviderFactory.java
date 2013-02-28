@@ -15,16 +15,27 @@
 */
 package net.orpiske.ssps.common.repository;
 
-import java.io.IOException;
-
-import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
-
 /**
+ * Creates a new Provider based on the repository information
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public interface Provider {
+public class ProviderFactory {
 	
-	public void update() throws RepositoryUpdateException, IOException;
-
+	public static Provider newProvider(final RepositoryInfo repositoryInfo) {
+		String url = repositoryInfo.getUrl();
+		
+		if (url.endsWith(".git") || url.startsWith("git://")) {
+			return new GitProvider(repositoryInfo);
+		}
+		
+		if (url.startsWith("svn://")) {
+			return new SvnProvider(repositoryInfo);
+		}
+		
+		// Defaults to SvnProvider because, well, most git repositories end with ".git"
+		return new SvnProvider(repositoryInfo);
+		
+	}
+	
 }
