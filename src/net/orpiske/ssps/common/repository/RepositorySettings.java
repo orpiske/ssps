@@ -144,29 +144,7 @@ public class RepositorySettings {
 	
 	public static void addNewRepository(final RepositoryInfo repositoryInfo) throws RepositorySetupException {
 		addUserConfig(repositoryInfo);
-		
-		String newSettings = repositoryInfo.getName() + File.separator + "repository.conf";
-		
-		logger.info("Adding new repository settings at " + newSettings);
-		
-		String[] oldIncludes = config.getStringArray("include");
-		if (oldIncludes != null) { 
-			String[] newIncludes = Arrays.copyOfRange(oldIncludes, 0, oldIncludes.length + 1);
-			newIncludes[oldIncludes.length] = newSettings;
-		
-			config.addProperty("include", newIncludes);
-		}
-		else {
-			config.addProperty("include", newSettings);
-		}
-		
-		
-		try {
-			config.save();
-		} catch (ConfigurationException e) {
-			throw new RepositorySetupException("Unable to add repository configuration: " 
-					+ e.getMessage(), e);
-		}
+	
 	}
 
 }
