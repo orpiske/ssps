@@ -15,8 +15,6 @@
 */
 package org.ssps.sdm.actions;
 
-import java.io.IOException;
-
 import net.orpiske.ssps.common.repository.RepositoryManager;
 
 import org.apache.commons.cli.CommandLine;

@@ -21,9 +21,7 @@ import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
-import net.orpiske.ssps.common.repository.utils.GroupIdUtils;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
-import net.orpiske.ssps.common.repository.utils.VersionUtils;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
