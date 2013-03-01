@@ -19,9 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
-import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
