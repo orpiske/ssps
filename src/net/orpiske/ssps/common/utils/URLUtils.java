@@ -29,7 +29,6 @@ import org.apache.log4j.Logger;
  * 
  */
 public final class URLUtils {
-	private static final Logger logger = Logger.getLogger(URLUtils.class);
 
 	public static final String URL_SEPARATOR = "/";
 	private static final String PARAMETERS_START = "?";

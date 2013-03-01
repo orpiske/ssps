@@ -147,8 +147,6 @@ public class DefaultResourceExchange implements ResourceExchange {
 			int statusCode = response.getStatusLine().getStatusCode(); 
 			
 			if (statusCode == HttpStatus.SC_OK) { 
-				HttpEntity entity = response.getEntity();
-
 				long length = getContentLength(response);
 				logger.debug("Reading " + length + " bytes from the server");
 				
