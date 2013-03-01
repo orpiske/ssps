@@ -18,9 +18,6 @@ package net.orpiske.ssps.common.repository;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
 
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.repository.exception.RepositorySetupException;
