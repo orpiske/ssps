@@ -18,6 +18,9 @@ package org.ssps.sdm.actions;
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
+import net.orpiske.ssps.common.repository.PackageInfo;
+import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
+import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.common.repository.utils.GroupIdUtils;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 import net.orpiske.ssps.common.repository.utils.VersionUtils;
@@ -94,29 +97,25 @@ public class Installer extends ActionInterface {
 		}
 		
 		groupId = cmdLine.getOptionValue('g');
-		if (groupId == null) {
-			groupId = GroupIdUtils.resolveGroupId(null);
-		}
-		
 		version = cmdLine.getOptionValue('v');
-		if (version == null) {
-			version = VersionUtils.resolveLatest(null, null);
-		}
-		
 	}
 	
 	
 
 	private void install() throws EngineException {
+		/*
 		String packageFQPN = RepositoryUtils.getFQPN(groupId, packageName, 
 				version);
 		
 		String dir = RepositoryUtils.getPackageDir(repositoryPath, packageFQPN);
 		String packageFile = RepositoryUtils.getPackageFilePath(dir, packageName);
+		*/
+		RepositoryFinder finder = new FileSystemRepositoryFinder();
+		PackageInfo packageInfo = finder.findFirst(packageName);
 		
 		Engine engine = new GroovyEngine();
 		
-		engine.run(packageFile);
+		engine.run(packageInfo.getPath());
 	}
 
 	/*
