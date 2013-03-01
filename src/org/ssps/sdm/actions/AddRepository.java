@@ -21,6 +21,7 @@ import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.ssps.common.repository.Provider;
 import net.orpiske.ssps.common.repository.ProviderFactory;
 import net.orpiske.ssps.common.repository.RepositoryInfo;
+import net.orpiske.ssps.common.repository.RepositoryManager;
 import net.orpiske.ssps.common.repository.RepositorySettings;
 import net.orpiske.ssps.common.repository.exception.RepositorySetupException;
 import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
@@ -33,6 +34,7 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
 
 /**
+ * Implements add-repository action
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -95,27 +97,20 @@ public class AddRepository extends ActionInterface {
 	@Override
 	public void run() {
 		
-		Provider provider = ProviderFactory.newProvider(repositoryInfo);
-		
 		try {
 			if (isHelp) { 
 				help(options, 1);
 			}
-			else {
-				provider.update();
-				RepositorySettings.addNewRepository(repositoryInfo);
+			else {		
+				RepositoryManager repositoryManager = new RepositoryManager();
+				
+				repositoryManager.add(repositoryInfo);
 			}
 		} catch (RepositoryUpdateException e) {
 			System.err.println("Unable to update repository: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to install: " + e.getMessage(), e);
-			}
-		} catch (IOException e) {
-			System.err.println("Unhandled I/O error: " + e.getMessage());
-
-			if (logger.isDebugEnabled()) {
-				logger.error("Unhandled I/O error: " + e.getMessage(), e);
 			}
 		} catch (RepositorySetupException e) {
 			System.err.println("Unable to setup new repository: " + e.getMessage());
