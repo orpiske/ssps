@@ -118,7 +118,6 @@ public class RepositorySettings {
 			throw new RepositorySetupException("This user already exists");
 		}
 		
-	
 		PropertiesConfiguration userConfig;
 		try {
 			userConfig = new PropertiesConfiguration(path);
@@ -138,7 +137,6 @@ public class RepositorySettings {
 	
 	public static void addNewRepository(final RepositoryInfo repositoryInfo) throws RepositorySetupException {
 		addUserConfig(repositoryInfo);
-	
 	}
 
 }
