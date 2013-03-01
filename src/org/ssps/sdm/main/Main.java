@@ -26,6 +26,7 @@ import net.orpiske.ssps.common.repository.RepositorySettings;
 import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.sdm.actions.AddRepository;
 import org.ssps.sdm.actions.Installer;
+import org.ssps.sdm.actions.Update;
 import org.ssps.sdm.utils.Constants;
 
 /**
@@ -112,6 +113,13 @@ public class Main {
 				AddRepository addRepository = new AddRepository(newArgs);
 				
 				addRepository.run();
+				return;
+			}
+			
+			if (first.equals("update")) {
+				Update update = new Update(newArgs);
+				
+				update.run();
 				return;
 			}
 			
