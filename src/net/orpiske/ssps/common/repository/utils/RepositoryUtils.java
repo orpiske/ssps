@@ -77,6 +77,17 @@ public class RepositoryUtils {
 	
 	
 	/**
+	 * Gets a File object pointing to the user repository (by default $HOME/.sdm/repositories)
+	 * @return a File object that points to the user repository
+	 */
+	public static File getUserRepositoryFile() {
+		String userRepositoryPath = getUserRepository();
+		
+		return new File(userRepositoryPath);
+	}
+	
+	
+	/**
 	 * Gets the path to the user repository (by default $HOME/.sdm/repositories)
 	 * @return the path to the user repository
 	 */

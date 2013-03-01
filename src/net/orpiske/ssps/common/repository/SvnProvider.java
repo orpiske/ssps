@@ -18,22 +18,17 @@ package net.orpiske.ssps.common.repository;
 import java.io.File;
 
 import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
-import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.internal.wc.DefaultSVNOptions;
-import org.tmatesoft.svn.core.wc.SVNClientManager;
 import org.tmatesoft.svn.core.wc2.SvnCheckout;
 import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.core.wc2.SvnUpdate;
 
 /**
+ * Svn Repository Provider
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -43,25 +38,16 @@ public class SvnProvider implements Provider {
 	
 	private RepositoryInfo repositoryInfo;
 	
-	// private SVNClientManager clientManager;
-
-	
+	/**
+	 * Default constructor
+	 * @param repositoryInfo repository information
+	 */
 	public SvnProvider(final RepositoryInfo repositoryInfo) {
 		this.repositoryInfo = repositoryInfo;
-		
-		// DefaultSVNOptions options = new DefaultSVNOptions();
-		
-		// PropertiesConfiguration config = RepositorySettings.getConfig();
-
-	
-		
-		//clientManager = SVNClientManager.newInstance(options, repositoryInfo.getUserName(), 
-		//		repositoryInfo.getPassword()); 
 	}
 	
 
-	
-	public void checkout(final File repositoryDir) throws RepositoryUpdateException {	
+	private void create(final File repositoryDir) throws RepositoryUpdateException {	
 		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
 		final SvnCheckout checkout = svnOperationFactory.createCheckout();
 		
@@ -83,7 +69,26 @@ public class SvnProvider implements Provider {
 	}
 	
 	
-	public void update(final File repositoryDir) throws RepositoryUpdateException {	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.Provider#create()
+	 */
+	public void create() throws RepositoryUpdateException {
+		String repositoryPath = repositoryInfo.getLocalPath();
+		File repositoryDir = new File(repositoryPath);
+		
+		if (!repositoryDir.exists()) {
+			repositoryDir.mkdirs();
+			
+			create(repositoryDir);
+		}
+		else {
+			logger.warn("The local repository already exists and will not be recreated");
+		}
+	}
+	
+	
+	private void update(final File repositoryDir) throws RepositoryUpdateException {	
 		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
 		final SvnUpdate update = svnOperationFactory.createUpdate();
 		
@@ -103,21 +108,33 @@ public class SvnProvider implements Provider {
 	}
 	
 	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.Provider#update()
+	 */
 	public void update() throws RepositoryUpdateException {	
+		String repositoryPath = repositoryInfo.getLocalPath();
+		File repositoryDir = new File(repositoryPath);
+		
+		update(repositoryDir);
+	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.Provider#initialize()
+	 */
+	public void initialize() throws RepositoryUpdateException {	
 		String repositoryPath = repositoryInfo.getLocalPath();
 		File repositoryDir = new File(repositoryPath);
 		
 		if (!repositoryDir.exists()) {
 			repositoryDir.mkdirs();
 			
-			checkout(repositoryDir);
+			create(repositoryDir);
 		}
 		else {
 			update(repositoryDir);
 		}
-		
-	
 	}
-	
-
 }

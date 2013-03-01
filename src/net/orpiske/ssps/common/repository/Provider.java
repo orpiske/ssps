@@ -15,16 +15,32 @@
 */
 package net.orpiske.ssps.common.repository;
 
-import java.io.IOException;
-
 import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
 
 /**
+ * The interface on which repository providers are created
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public interface Provider {
 	
-	public void update() throws RepositoryUpdateException, IOException;
-
+	/**
+	 * Creates a new repository
+	 * @throws RepositoryUpdateException If unable to update data from remote location
+	 */
+	public void create() throws RepositoryUpdateException;
+	
+	/**
+	 * Updates the repository
+	 * @throws RepositoryUpdateException If unable to update data from remote location
+	 */
+	public void update() throws RepositoryUpdateException;
+	
+	
+	
+	/**
+	 * Initializes the repository
+	 * @throws RepositoryUpdateException If unable to update data from remote location
+	 */
+	public void initialize() throws RepositoryUpdateException;
 }

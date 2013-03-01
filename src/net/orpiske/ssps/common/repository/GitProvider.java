@@ -34,22 +34,27 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 /**
+ * Git repository provider
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class GitProvider implements Provider {
 	
 	private static final Logger logger = Logger.getLogger(GitProvider.class);
 	
 	private RepositoryInfo repositoryInfo;
-
 	
+	/**
+	 * Default constructor
+	 * @param repositoryInfo repository information
+	 */
 	public GitProvider(final RepositoryInfo repositoryInfo) {
 		this.repositoryInfo = repositoryInfo;
 	}
 	
-	private void clone(final File repositoryDir) throws RepositoryUpdateException {
-		
+	
+	
+	private void create(final File repositoryDir) throws RepositoryUpdateException {
 		CloneCommand cloneCommand = Git.cloneRepository();
 		cloneCommand.setURI(repositoryInfo.getUrl());
 		cloneCommand.setDirectory(repositoryDir);
@@ -75,12 +80,28 @@ public class GitProvider implements Provider {
 		}
 	}
 	
-	private void refresh(final File repositoryDir) throws RepositoryUpdateException {
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.Provider#create()
+	 */
+	public void create() throws RepositoryUpdateException {
+		File repositoryDir = new File(repositoryInfo.getLocalPath());
+		
+		if (!repositoryDir.exists()) {
+			repositoryDir.mkdirs();
+			
+			create(repositoryDir);
+		}
+		else {
+			logger.warn("The local repository already exists and will not be recreated");
+		}
+	}
+	
+	
+	private void update(final File repositoryDir) throws RepositoryUpdateException {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository repository = null;
-		
-		logger.info("Refreshing local repository with remote copy from " 
-				+ repositoryInfo.getUrl());
 		
 		try {
 			repository = builder.setGitDir(repositoryDir)
@@ -106,18 +127,30 @@ public class GitProvider implements Provider {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.Provider#update()
+	 */
+	public void update() throws RepositoryUpdateException {
+		File gitDir = new File(repositoryInfo.getLocalPath() + File.separator + ".git");
+		update(gitDir);
+	}
 	
-	public void update() throws IOException, RepositoryUpdateException {
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.Provider#initialize()
+	 */
+	public void initialize() throws RepositoryUpdateException {
 		File repositoryDir = new File(repositoryInfo.getLocalPath());
 		
 		if (!repositoryDir.exists()) {
 			repositoryDir.mkdirs();
 			
-			clone(repositoryDir);
+			create(repositoryDir);
 		}
 		else {
 			File gitDir = new File(repositoryInfo.getLocalPath() + File.separator + ".git");
-			refresh(gitDir);
+			update(gitDir);
 		}
 	}
 	
