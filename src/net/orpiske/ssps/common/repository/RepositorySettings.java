@@ -25,15 +25,12 @@ import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.log4j.Logger;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
 public class RepositorySettings {
-	
-	private static final Logger logger = Logger.getLogger(RepositorySettings.class);
 	
 	private static PropertiesConfiguration config;
 	
