@@ -44,8 +44,10 @@ public class Main {
 		System.out.println("Usage: sdm <action>\n");
 		
 		System.out.println("Actions:");
-		System.out.println("   install");
 		System.out.println("   add-repository");
+		System.out.println("   install");
+		System.out.println("   update");
+		System.out.println("----------");
 		System.out.println("   help");
 		
 		System.exit(code);
