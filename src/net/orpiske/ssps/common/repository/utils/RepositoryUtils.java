@@ -17,6 +17,8 @@ package net.orpiske.ssps.common.repository.utils;
 
 import java.io.File;
 
+import net.orpiske.ssps.common.utils.Utils;
+
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -71,8 +73,7 @@ public class RepositoryUtils {
 	 * @return the path to the user repository
 	 */
 	public static String getUserRepository() {
-		return FileUtils.getUserDirectoryPath() + File.separator 
-				+ ".sdm" + File.separator + REPOSITORIES;
+		return Utils.getSdmDirectoryPath() + File.separator + REPOSITORIES;
 	}
 	
 	
@@ -92,8 +93,7 @@ public class RepositoryUtils {
 	 * @return the path to the user repository
 	 */
 	public static String getUserDefaultRepository() {
-		return FileUtils.getUserDirectoryPath() + File.separator 
-				+ ".sdm" + File.separator + REPOSITORIES + File.separator 
+		return Utils.getSdmDirectoryPath() + File.separator + REPOSITORIES + File.separator 
 				+ DEFAULT_REPOSITORY_NAME;
 	}
 
