@@ -20,13 +20,24 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 
 /**
+ * General utilities
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
 public class Utils {
 	
 	private static String USER_LOCAL_DIRECTORY = ".sdm";
+	
+	/**
+	 * Restricted constructor
+	 */
+	private Utils() {};
 
+	/**
+	 * Gets the user SDM directory path (ie.: $HOME/.sdm)
+	 * @return the user SDM directory path
+	 */
 	public static String getSdmDirectoryPath() {
 		return FileUtils.getUserDirectoryPath() + File.separator + USER_LOCAL_DIRECTORY;
 	}
