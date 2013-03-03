@@ -55,8 +55,11 @@ public class Core {
 			final String version) throws IOException
 	{
 		String installdir = InstallDirUtils.getInstallDir();
+		String dest = installdir + File.separator + name + "-" + version;
 		
-		IOUtil.copy(source, installdir + File.separator + name + "-" + version);
+		System.out.println("Installing " + name + "-" + version + " to " + dest);
+		
+		IOUtil.copy(source, dest);
 	}
 
 }
