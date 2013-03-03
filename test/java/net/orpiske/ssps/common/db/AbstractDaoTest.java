@@ -80,6 +80,7 @@ public class AbstractDaoTest {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testDatabaseRead() throws DatabaseInitializationException,
 			SQLException {
