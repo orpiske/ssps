@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
+import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.FilenameUtils;
@@ -50,42 +51,8 @@ public class RepositoryWalker extends DirectoryWalker {
 		String ext = FilenameUtils.getExtension(file.getName());
 		
 		if (("groovy").equals(ext)) {
-			PackageInfo packageInfo = new PackageInfo();
-			
-			String baseName = FilenameUtils.getBaseName(file.getName());
-			packageInfo.setName(baseName);
-			
-			packageInfo.setPath(file.getPath());
-			
-			File typeDir = file.getParentFile();
-			String type = typeDir.getName();
-			if (("src").equals(type)) {
-				packageInfo.setPackageType(PackageInfo.PackageType.SOURCE);
-			}
-			
-			File versionDir = typeDir.getParentFile();
-			String version = versionDir.getName();
-			packageInfo.setVersion(version);
-			
-			File packageNameDir = versionDir.getParentFile();
-			String packageName = packageNameDir.getName(); 
-			
-			if (!packageName.equals(baseName)) {
-				logger.warn("The package file '" + baseName + ".groovy' and the " +
-						"repository package dir '" + packageName + "' doesn't match. " + 
-						"This can lead to problems");
-			}
-			
-			File groupIdDir = packageNameDir.getParentFile();
-			String groupId = groupIdDir.getName();
-			packageInfo.setGroupId(groupId);
-			
-			File repositoryDir = groupIdDir.getParentFile();
-			String repository = repositoryDir.getName();
-			packageInfo.setRepository(repository);
-			
-			
-			
+			PackageInfo packageInfo = RepositoryUtils.readPackageInfo(file);
+		
 			packageList.add(packageInfo);
 		}
 	}

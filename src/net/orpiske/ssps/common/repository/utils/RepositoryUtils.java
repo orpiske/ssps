@@ -17,6 +17,10 @@ package net.orpiske.ssps.common.repository.utils;
 
 import java.io.File;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+
+import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.utils.Utils;
 
 /**
@@ -24,6 +28,8 @@ import net.orpiske.ssps.common.utils.Utils;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class RepositoryUtils {
+	
+	private static final Logger logger = Logger.getLogger(RepositoryUtils.class);
 	
 	private static String REPOSITORIES = "repositories";
 	private static String DEFAULT_REPOSITORY_NAME = "default";
@@ -93,6 +99,45 @@ public class RepositoryUtils {
 	public static String getUserDefaultRepository() {
 		return Utils.getSdmDirectoryPath() + File.separator + REPOSITORIES + File.separator 
 				+ DEFAULT_REPOSITORY_NAME;
+	}
+	
+	
+	public static PackageInfo readPackageInfo(final File file) {
+		PackageInfo packageInfo = new PackageInfo();
+		
+		String baseName = FilenameUtils.getBaseName(file.getName());
+		packageInfo.setName(baseName);
+		
+		packageInfo.setPath(file.getPath());
+		
+		File typeDir = file.getParentFile();
+		String type = typeDir.getName();
+		if (("src").equals(type)) {
+			packageInfo.setPackageType(PackageInfo.PackageType.SOURCE);
+		}
+		
+		File versionDir = typeDir.getParentFile();
+		String version = versionDir.getName();
+		packageInfo.setVersion(version);
+		
+		File packageNameDir = versionDir.getParentFile();
+		String packageName = packageNameDir.getName(); 
+		
+		if (!packageName.equals(baseName)) {
+			logger.warn("The package file '" + baseName + ".groovy' and the " +
+					"repository package dir '" + packageName + "' doesn't match. " + 
+					"This can lead to problems");
+		}
+		
+		File groupIdDir = packageNameDir.getParentFile();
+		String groupId = groupIdDir.getName();
+		packageInfo.setGroupId(groupId);
+		
+		File repositoryDir = groupIdDir.getParentFile();
+		String repository = repositoryDir.getName();
+		packageInfo.setRepository(repository);
+		
+		return packageInfo;
 	}
 
 }
