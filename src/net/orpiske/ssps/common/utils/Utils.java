@@ -42,4 +42,14 @@ public class Utils {
 		return FileUtils.getUserDirectoryPath() + File.separator + USER_LOCAL_DIRECTORY;
 	}
 	
+	
+	/**
+	 * Gets the user SDM directory path (ie.: $HOME/.sdm) as a File object
+	 * @return the user SDM directory path as a File object
+	 */
+	public static File getSdmDirectoryPathFile() {
+		String userDirectory = getSdmDirectoryPath();
+		return new File(userDirectory);
+	}
+	
 }
