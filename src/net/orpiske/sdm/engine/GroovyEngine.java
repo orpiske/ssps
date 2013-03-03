@@ -27,25 +27,23 @@ import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.ssps.common.utils.URLUtils;
 
+import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
 
 /**
+ * The Groovy script engine
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class GroovyEngine implements Engine {
+	
+	private static Logger logger = Logger.getLogger(GroovyEngine.class);
 	
 	public GroovyEngine() {
 		
 	}
 	
-	public void run(final String path) throws EngineException {
-		File file = new File(path);
-		
-		run(file);
-	}
-	
-	public void run(final File file) throws EngineException {
+	private GroovyObject getObject(final File file) throws EngineException {
 		ClassLoader parent = getClass().getClassLoader();
 		GroovyClassLoader loader = new GroovyClassLoader(parent);
 		
@@ -71,9 +69,36 @@ public class GroovyEngine implements Engine {
 					e);
 		}
 		
+		return groovyObject;
+	}
+	
+	
+	private void printPhaseHeader(final String name) {
+		System.out.println("------------------------");
+		System.out.println(name.toUpperCase());
+		System.out.println("------------------------");
+	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
+	 */
+	public void run(final File file) throws EngineException {
+		long start;
+		long finish;
+		long total = 0;
+		
+		GroovyObject groovyObject = getObject(file);
+		
+		start = System.currentTimeMillis();
 		
 		Object url = groovyObject.getProperty("url");
+		printPhaseHeader("fetch");
 		groovyObject.invokeMethod("fetch", url);
+		finish = System.currentTimeMillis(); 
+		total += (finish - start);
+		logger.info("Fetch phase run in " + (finish - start) + " ms");
 		
 		String artifactName = null;
 		
@@ -89,9 +114,92 @@ public class GroovyEngine implements Engine {
 					e);
 		}
 		
+		start = System.currentTimeMillis();
+		
+		System.out.println("");
+		printPhaseHeader("extract");
 		groovyObject.invokeMethod("extract", artifactName);
+		
+		finish = System.currentTimeMillis(); 
+		total += (finish - start);
+		logger.info("Extract phase run in " + (finish - start) + " ms");
+		
+		
+		start = System.currentTimeMillis();
+		
+		System.out.println("");;
+		printPhaseHeader("build");
 		groovyObject.invokeMethod("build", artifactName);
+		
+		finish = System.currentTimeMillis(); 
+		total += (finish - start);
+		logger.info("Build phase run in " + (finish - start) + " ms");
+		
+		start = System.currentTimeMillis();
+		
+		System.out.println("");
+		printPhaseHeader("verify");
 		groovyObject.invokeMethod("verify", artifactName);
+		
+		finish = System.currentTimeMillis(); 
+		total += (finish - start);
+		logger.info("Verify phase run in " + (finish - start) + " ms");
+		
+		start = System.currentTimeMillis();
+		
+		System.out.println("");
+		printPhaseHeader("install");
 		groovyObject.invokeMethod("install", artifactName);
+		
+		finish = System.currentTimeMillis(); 
+		total += (finish - start);
+		logger.info("Install phase run in " + (finish - start) + " ms");
+		
+		printPhaseHeader("install completed");
+		System.out.println("");
+		logger.info("Installation completed in " + total + " ms");
+		
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.sdm.engine.Engine#run(java.lang.String)
+	 */
+	public void run(final String path) throws EngineException {
+		File file = new File(path);
+		
+		run(file);
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.engine.Engine#runCleanup(java.io.File)
+	 */
+	@Override
+	public void runUninstall(File file) throws EngineException {
+		long start;
+		long finish;
+		
+		GroovyObject groovyObject = getObject(file);
+		
+		start = System.currentTimeMillis();
+		printPhaseHeader("uninstall");
+		groovyObject.invokeMethod("uninstall", null);
+		finish = System.currentTimeMillis(); 
+		logger.info("Uninstall phase run in " + (finish - start) + " ms");
+		printPhaseHeader("uninstall complete");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.engine.Engine#runCleanup(java.lang.String)
+	 */
+	@Override
+	public void runUninstall(String path) throws EngineException {
+		File file = new File(path);
+		
+		runUninstall(file);
+		
+	}
+
+	
 }
