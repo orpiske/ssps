@@ -157,10 +157,15 @@ public class Installer extends ActionInterface {
 		engine.run(file);
 		
 		if (reinstall) {
+			
+			System.out.print("\rUpdating record into the registry ...");
 			registryManager.reinstall(file);
+			System.out.println("\rUpdating record into the registry ... done");
 		}
-		else { 
+		else {
+			System.out.print("\rAdding record into the registry ...");
 			registryManager.register(file);
+			System.out.println("\rAdding record into the registry ... Done");
 		}
 	}
 
@@ -180,13 +185,13 @@ public class Installer extends ActionInterface {
 			}
 		
 			if (cleanup) {
-				System.out.println("Cleaning up workdir cache ...");
+				System.out.print("\rCleaning up workdir cache ...");
 				WorkdirUtils.cleanup();
-				System.out.println("Cleaning up workdir cache ... done!");
+				System.out.println("\rCleaning up workdir cache ... done!");
 			}
 		}
 		catch (EngineException e) {
-			System.err.println("Unable to install: " + e.getMessage());
+			System.err.print("Unable to install: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to install: " + e.getMessage(), e);
