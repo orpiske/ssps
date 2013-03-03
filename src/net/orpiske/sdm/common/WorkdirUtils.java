@@ -48,14 +48,22 @@ public class WorkdirUtils {
 	
 	
 	/**
-	 * Gets the package work dir
-	 * @return the package work dir
+	 * Gets the work dir
+	 * @return the work dir as a File object
 	 */
-	public static String getPackageWorkDir(final String group, 
-			final String name, final String version) 
-	{
-		return getWorkDir() + File.separator + group + File.separator + name 
-				+ File.separator + version + File.separator ;
+	public static File getWorkDirFile() {
+		String workDir = getWorkDir();
+		return new File(workDir);
+	}
+	
+	
+	/**
+	 * Cleanup the work dir cache
+	 */
+	public static void cleanup() {
+		File workDir = getWorkDirFile();
+		
+		FileUtils.deleteQuietly(workDir);
 	}
 
 }
