@@ -59,7 +59,7 @@ public class DerbyDatabaseManager implements DatabaseManager {
 
 		try {
 			Class.forName(DRIVER).newInstance();
-			System.out.println("Loaded the appropriate driver");
+			logger.debug("Loaded the appropriate driver");
 		} catch (ClassNotFoundException cnfe) {
 			logger.debug("Unable to load JDBC driver " + DRIVER);
 			throw new DatabaseInitializationException(
