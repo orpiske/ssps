@@ -67,11 +67,12 @@ public class Downloader {
 					percentComplete = 0.0;
 				}
 					
-				System.out.print("\r" + percentComplete + "% complete (" + i + " of " + total);
+				System.out.print("\r" + percentComplete + "% complete (" + i + " of " 
+						+ total + ")");
 			}
 		}
 		
-		System.out.print("\r100% complete (" + i + " of " + total + "\n");
+		System.out.print("\r100% complete (" + i + " of " + total + ")\n");
 
 		output.flush();
 
