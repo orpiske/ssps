@@ -17,8 +17,6 @@ package net.orpiske.sdm.lib.io.support;
 
 import java.io.File;
 
-import net.orpiske.sdm.lib.PrintUtils;
-
 import org.apache.commons.io.filefilter.AbstractFileFilter;
 
 /**
@@ -37,7 +35,7 @@ public class ShieldFileFilter extends AbstractFileFilter {
 		boolean isShielded = ShieldUtils.isShielded(dir, name);
 		
 		if (isShielded) {
-			PrintUtils.printInfo("Ignoring shilded file " + name);
+			System.out.println("Ignoring shielded file " + name);
 			return false;
 		}
 		
@@ -49,7 +47,7 @@ public class ShieldFileFilter extends AbstractFileFilter {
 		boolean isShielded = ShieldUtils.isShielded(file);
 				
 		if (isShielded) {
-			PrintUtils.printInfo("Ignoring shilded file " + file.getName());
+			System.out.println("Ignoring shielded file " + file.getName());
 			return false;
 		}
 		

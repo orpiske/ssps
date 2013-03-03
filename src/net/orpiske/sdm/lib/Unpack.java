@@ -15,8 +15,6 @@
 */
 package net.orpiske.sdm.lib;
 
-import static net.orpiske.sdm.lib.PrintUtils.staticWarningMessage;
-
 import java.io.File;
 
 import net.orpiske.sdm.common.WorkdirUtils;
@@ -29,6 +27,9 @@ import net.orpiske.ssps.common.archive.tgz.TgzArchive;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+
+
 
 /**
  * Implements the unpack rule
@@ -36,8 +37,11 @@ import org.apache.commons.io.FilenameUtils;
  *
  */
 public class Unpack {
+	private static final Logger logger = Logger.getLogger(Unpack.class);
+	
+	
 	private static void cleanup() {
-		staticWarningMessage("Cleaning up due to errors");
+		logger.warn("Cleaning up due to errors");
 		
 		String destination = WorkdirUtils.getWorkDir();
 		File orphanDirectory = new File(destination);

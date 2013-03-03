@@ -15,9 +15,6 @@
  */
 package net.orpiske.sdm.lib.net;
 
-import static net.orpiske.sdm.lib.PrintUtils.printInfo;
-import static net.orpiske.sdm.lib.PrintUtils.staticInfoMessage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -38,6 +35,7 @@ import net.orpiske.ssps.common.utils.URLUtils;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 
 /**
  * Implements the download rule.
@@ -47,22 +45,33 @@ import org.apache.commons.io.IOUtils;
  */
 public class Downloader {
 	
+	private static final Logger logger = Logger.getLogger(Downloader.class);
+	
 	private static void copy(final Resource<InputStream> resource,
 			final OutputStream output) throws IOException {
 		InputStream input = resource.getPayload();
 
 		long i = 0;
+		long total = resource.getResourceInfo().getSize();
 
-		for (i = 0; i < resource.getResourceInfo().getSize(); i++) {
+		for (i = 0; i < total; i++) {
 			output.write(input.read());
 
 			if ((i % (1024 * 512)) == 0) {
-				staticInfoMessage("Downloaded " + i + " bytes out of "
-						+ resource.getResourceInfo().getSize());
+				double percentComplete = 0;
+				
+				if (i > 0) {
+					percentComplete = i / (total /100);
+				}
+				else {
+					percentComplete = 0.0;
+				}
+					
+				System.out.print("\r" + percentComplete + "% complete (" + i + " of " + total);
 			}
 		}
-		staticInfoMessage("Downloaded " + i + " bytes out of "
-				+ resource.getResourceInfo().getSize() + "\n");
+		
+		System.out.print("\r100% complete (" + i + " of " + total + "\n");
 
 		output.flush();
 
@@ -95,7 +104,7 @@ public class Downloader {
 				outputFile.delete();
 				outputFile.createNewFile();
 			} else {
-				printInfo("Destination file " + fullName + " already exists");
+				logger.info("Destination file " + fullName + " already exists");
 			}
 		}
 		return outputFile;
@@ -148,17 +157,21 @@ public class Downloader {
 				long sourceSize = resourceInfo.getSize();
 
 				if (sourceSize == outSize) {
-					printInfo("Destination file and source file appears to be the same");
+					logger.info("Destination file and source file appears to be " + 
+							"the same. Using cached file instead.");
 
 					return;
 				} else {
 					Resource<InputStream> resource = resourceExchange.get(uri);
 					
 					saveDownload(outputFile, resource);
-					printInfo("Downloaded " + outputFile.getPath());
+					
+					if (logger.isDebugEnabled()) { 
+						logger.debug("Downloaded " + outputFile.getPath());
+					}
 				}
 			} finally {
-				printInfo("Releasing resources");
+				logger.debug("Releasing resources");
 				resourceExchange.release();
 			}
 		} catch (URISyntaxException e) {

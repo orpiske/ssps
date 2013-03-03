@@ -18,13 +18,10 @@ package net.orpiske.sdm.lib.io;
 import java.io.File;
 import java.io.IOException;
 
-import net.orpiske.sdm.lib.PrintUtils;
 import net.orpiske.sdm.lib.io.support.ShieldAwareCopier;
 import net.orpiske.sdm.lib.io.support.ShieldUtils;
-import net.orpiske.ssps.common.variables.VariablesParser;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 /**
  * Implements the copy rule.
@@ -50,7 +47,7 @@ public class IOUtil {
 		File shieldedFile = new File(resource);
 		
 		if (!shieldedFile.exists()) {
-			PrintUtils.printInfo("Resource " + resource + " does not exist");
+			System.out.println("Resource " + resource + " does not exist");
 			
 			return;
 		}
@@ -61,10 +58,10 @@ public class IOUtil {
 			
 			shielded.createNewFile();
 				
-			PrintUtils.printInfo("Resource " + resource + " was shielded");
+			System.out.println("Resource " + resource + " was shielded");
 		}
 		else {
-			PrintUtils.printInfo("Resource " + resource + " already shielded");
+			System.out.println("Resource " + resource + " already shielded");
 		}
 		
 		shielded.deleteOnExit();
@@ -111,7 +108,7 @@ public class IOUtil {
 		}
 		else {
 			if (ShieldUtils.isShielded(toFile)) {
-				PrintUtils.printInfo("Ignoring shilded file " + to);
+				System.out.println("Ignoring shielded file " + to);
 			}
 			else { 
 				FileUtils.copyFile(fromFile, toFile);
@@ -132,7 +129,7 @@ public class IOUtil {
 			dir.mkdirs();
 		}
 		else {
-			PrintUtils.printInfo("Directory " + directory + " already exists");
+			System.out.println("Directory " + directory + " already exists");
 		}
 	}
 }

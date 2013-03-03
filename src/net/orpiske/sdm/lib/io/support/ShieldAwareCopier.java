@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.orpiske.sdm.lib.PrintUtils;
-
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -83,7 +81,7 @@ public class ShieldAwareCopier extends DirectoryWalker {
 			destinationFile.setWritable(file.canWrite());
 		}
 		else {
-			PrintUtils.printInfo("Ignoring shielded file " + file.getPath());
+			System.out.println("Ignoring shielded file " + file.getPath());
 		}
 	}
 	

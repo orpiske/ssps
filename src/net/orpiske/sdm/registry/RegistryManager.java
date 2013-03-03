@@ -19,8 +19,6 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
-
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
@@ -30,6 +28,8 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
