@@ -47,5 +47,11 @@ public interface DatabaseManager {
 	Connection getConnection();
 	
 	
+	/**
+	 * Closes the connection to the database
+	 */
+	void close();
+	
+	
 
 }

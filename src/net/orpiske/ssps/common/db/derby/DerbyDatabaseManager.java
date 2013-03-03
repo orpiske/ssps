@@ -23,6 +23,7 @@ import java.util.Properties;
 import net.orpiske.ssps.common.db.DatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -117,6 +118,15 @@ public class DerbyDatabaseManager implements DatabaseManager {
 	@Override
 	public Connection getConnection() {
 		return conn;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.ssps.common.db.DatabaseManager#close()
+	 */
+	@Override
+	public void close() {
+		DbUtils.closeQuietly(conn);
+		
 	}
 
 }
