@@ -15,13 +15,18 @@
 */
 package org.ssps.sdm.main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Properties;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
+import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
+import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.logger.LoggerUtils;
 import net.orpiske.ssps.common.repository.RepositorySettings;
+import net.orpiske.ssps.common.utils.Utils;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.sdm.actions.AddRepository;
@@ -78,6 +83,26 @@ public class Main {
 			System.exit(-3);
 		}
 	}
+	
+	
+	private static Properties initDatabase() throws DatabaseInitializationException {
+		Properties props = System.getProperties();
+		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
+		
+		DerbyDatabaseManager derby = new DerbyDatabaseManager("registry", props);
+
+		derby.close();
+		return props;
+	}
+	
+	private static void initUserSdmDirectory() {
+		File userDirectory = Utils.getSdmDirectoryPathFile();
+		
+		if (!userDirectory.exists()) {
+			userDirectory.mkdirs();
+		}
+		
+	}
 
 	/**
 	 * @param args
@@ -101,6 +126,14 @@ public class Main {
 
 			if (first.equals("help")) {
 				help(1);
+			}
+			
+			initUserSdmDirectory();
+			try {
+				initDatabase();
+			} catch (DatabaseInitializationException e) {
+				e.printStackTrace();
+				System.exit(-2);
 			}
 			
 		
