@@ -19,6 +19,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
@@ -34,6 +36,7 @@ import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
  *
  */
 public class RegistryManager {
+	private static final Logger logger = Logger.getLogger(RegistryManager.class);
 	
 	private DerbyDatabaseManager databaseManager;
 	SoftwareInventoryDao inventory;
@@ -43,7 +46,7 @@ public class RegistryManager {
 		inventory = new SoftwareInventoryDao(databaseManager);
 	}
 	
-	public void record(File file) throws RegistryException {
+	public void register(File file) throws RegistryException {
 		PackageInfo packageInfo = RepositoryUtils.readPackageInfo(file);
 		
 		SoftwareInventoryDto dto = new SoftwareInventoryDto();
@@ -64,6 +67,34 @@ public class RegistryManager {
 		} catch (SQLException e) {
 			throw new RegistryException("Unable to add new package to the inventory", e);
 		}
+		
+		logger.info("Successfully registered package " + dto.getName());
+	}
+	
+	
+	public void reinstall(File file) throws RegistryException {
+		PackageInfo packageInfo = RepositoryUtils.readPackageInfo(file);
+		
+		SoftwareInventoryDto dto = new SoftwareInventoryDto();
+		
+		dto.setGroupId(packageInfo.getGroupId());
+		dto.setName(packageInfo.getName());
+		dto.setType("B");
+		dto.setVersion(packageInfo.getVersion());
+		dto.setInstallDate(new Date());
+		
+		String installdir = InstallDirUtils.getInstallDir();
+		dto.setInstallDir(installdir + File.separator + packageInfo.getName() + "-" 
+		+ packageInfo.getVersion());
+		
+		
+		try {
+			inventory.updateReinstalled(dto);
+		} catch (SQLException e) {
+			throw new RegistryException("Unable to add new package to the inventory", e);
+		}
+		
+		logger.info("Successfully updated package " + dto.getName());
 	}
 	
 	
