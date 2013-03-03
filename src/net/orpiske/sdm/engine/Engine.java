@@ -39,4 +39,20 @@ public interface Engine {
 	 * @throws EngineException if fails to process the script
 	 */
 	public void run(final File file) throws EngineException;
+	
+	
+	/**
+	 * Runs the package cleanup script in the file pointed by path
+	 * @param path the full path to the package script
+	 * @throws EngineException if fails to process the script
+	 */
+	public void runUninstall(final String path) throws EngineException;
+	
+	
+	/**
+	 * Runs the package cleanup script in the file
+	 * @param file the package script
+	 * @throws EngineException if fails to process the script
+	 */
+	public void runUninstall(final File file) throws EngineException;
 }
