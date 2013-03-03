@@ -15,10 +15,16 @@
 */
 package org.ssps.sdm.actions;
 
+import java.io.File;
+
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
+import net.orpiske.sdm.registry.RegistryManager;
+import net.orpiske.sdm.registry.exceptions.RegistryException;
+import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
+import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
@@ -44,6 +50,8 @@ public class Installer extends ActionInterface {
 	private Options options;
 	
 	private boolean isHelp;
+	private boolean reinstall;
+	
 	private String repositoryPath;
 	
 	private String groupId;
@@ -75,6 +83,7 @@ public class Installer extends ActionInterface {
 		options.addOption("g", "groupid", true, "package group id");
 		options.addOption("p", "package", true, "package name");
 		options.addOption("r", "repository", true, "repository path");
+		options.addOption(null, "reinstall", false, "reinstall already installed packages");
 		options.addOption("v", "version", true, "version");
 
 		try {
@@ -84,6 +93,7 @@ public class Installer extends ActionInterface {
 		}
 		
 		isHelp = cmdLine.hasOption("help");
+		reinstall = cmdLine.hasOption("reinstall");
 		
 		repositoryPath = cmdLine.getOptionValue('r');
 		if (repositoryPath == null) {
@@ -100,15 +110,24 @@ public class Installer extends ActionInterface {
 	}
 	
 	
+	/**
+	 * @throws DatabaseInitializationException
+	 * @throws RegistryException
+	 */
+	private SoftwareInventoryDto searchRegistry() throws DatabaseInitializationException,
+			RegistryException {
+		RegistryManager registryManager = new RegistryManager();
+		
+		SoftwareInventoryDto dto = registryManager.search(packageName);
+		
+		return dto;
+		
+	
+	}
+	
+	
 
 	private void install() throws SspsException {
-		/*
-		String packageFQPN = RepositoryUtils.getFQPN(groupId, packageName, 
-				version);
-		
-		String dir = RepositoryUtils.getPackageDir(repositoryPath, packageFQPN);
-		String packageFile = RepositoryUtils.getPackageFilePath(dir, packageName);
-		*/
 		RepositoryFinder finder = new FileSystemRepositoryFinder();
 		PackageInfo packageInfo = finder.findFirst(packageName);
 		
@@ -116,9 +135,28 @@ public class Installer extends ActionInterface {
 			throw new SspsException("Package not found: " + packageName);
 		}
 		
-		Engine engine = new GroovyEngine();
+		SoftwareInventoryDto dto = searchRegistry(); 
+		if (dto != null && !reinstall) {
+			System.err.println("The package " + packageName + " is already installed. " +
+					"Use --reinstall or remove it before trying again!");
+			
+			return;
+		}
 		
-		engine.run(packageInfo.getPath());
+		
+		Engine engine = new GroovyEngine();
+		RegistryManager registryManager = new RegistryManager();
+		
+		File file = new File(packageInfo.getPath());
+		
+		engine.run(file);
+		
+		if (reinstall) {
+			registryManager.reinstall(file);
+		}
+		else { 
+			registryManager.register(file);
+		}
 	}
 
 	/*
