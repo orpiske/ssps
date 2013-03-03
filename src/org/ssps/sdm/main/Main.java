@@ -25,12 +25,14 @@ import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.logger.LoggerUtils;
+import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 import net.orpiske.ssps.common.repository.RepositorySettings;
 import net.orpiske.ssps.common.utils.Utils;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.sdm.actions.AddRepository;
 import org.ssps.sdm.actions.Installer;
+import org.ssps.sdm.actions.Search;
 import org.ssps.sdm.actions.Update;
 import org.ssps.sdm.utils.Constants;
 
@@ -52,8 +54,10 @@ public class Main {
 		System.out.println("   add-repository");
 		System.out.println("   install");
 		System.out.println("   update");
+		System.out.println("   search");
 		System.out.println("----------");
 		System.out.println("   help");
+		System.out.println("   --version");
 		
 		System.exit(code);
 	}
@@ -89,9 +93,26 @@ public class Main {
 		Properties props = System.getProperties();
 		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
 		
-		DerbyDatabaseManager derby = new DerbyDatabaseManager("registry", props);
-
-		derby.close();
+		DerbyDatabaseManager databaseManager = new DerbyDatabaseManager("registry", props);
+		SoftwareInventoryDao inventory = new SoftwareInventoryDao(databaseManager);
+		
+		try {
+			File dbDir = new File(Utils.getSdmDirectoryPath() + File.separator 
+					+ "registry");
+			
+			
+			if (!dbDir.exists()) {
+				inventory.createTable();	
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.exit(-5);
+		}
+		
+		databaseManager.close();
+		
+		
 		return props;
 	}
 	
@@ -155,6 +176,13 @@ public class Main {
 				Update update = new Update(newArgs);
 				
 				update.run();
+				return;
+			}
+			
+			if (first.equals("search")) {
+				Search search = new Search(newArgs);
+				
+				search.run();
 				return;
 			}
 			
