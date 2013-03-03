@@ -21,11 +21,22 @@ import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.utils.Utils;
 
 /**
+ * A factory class for Derby database manager
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class DerbyManagerFactory {
 	
+	/**
+	 * Restricted constructor
+	 */
+	private DerbyManagerFactory() {}
+	
+	/**
+	 * Creates a new database manager instance
+	 * @return a new database manager instance
+	 * @throws DatabaseInitializationException
+	 */
 	public static DerbyDatabaseManager newInstance() throws DatabaseInitializationException {
 		Properties props = System.getProperties();
 		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
