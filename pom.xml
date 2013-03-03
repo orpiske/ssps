@@ -171,6 +171,36 @@
 				<version>2.8.1</version>
 			</plugin>
 		</plugins>
-
 	</reporting>
+	
+	<scm>
+		<url>scm:git:git@github.com:orpiske/ssps-common.git</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/orpiske/ssps-common/</url>
+	</issueManagement>
+
+	<distributionManagement>
+		<downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>orpiske.net</id>
+			<name>Internal1</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>orpiske.net</id>
+			<name>Internal2</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+			<layout>default</layout>
+		</snapshotRepository>
+		<site>
+			<id>orpiske.net</id>
+			<name>SSPS Types Site</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps-common</url>
+		</site>
+	</distributionManagement>
 </project>
