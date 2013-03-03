@@ -93,7 +93,5 @@ public class GroovyEngine implements Engine {
 		groovyObject.invokeMethod("build", artifactName);
 		groovyObject.invokeMethod("verify", artifactName);
 		groovyObject.invokeMethod("install", artifactName);
-	
-
 	}
 }
