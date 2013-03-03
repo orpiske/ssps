@@ -93,6 +93,14 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.4</version>
+			</extension>
+		</extensions>
 	</build>
 
 	<mailingLists>
@@ -153,10 +161,38 @@
 						</executions>
 					</plugin>
 				</plugins>
-
 			</build>
-
 		</profile>
-
 	</profiles>
+	
+	<scm>
+		<url>scm:git:git@github.com:orpiske/sdm.git</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/orpiske/sdm/</url>
+	</issueManagement>
+
+	<distributionManagement>
+		<downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>orpiske.net</id>
+			<name>Internal1</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>orpiske.net</id>
+			<name>Internal2</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+			<layout>default</layout>
+		</snapshotRepository>
+		<site>
+			<id>orpiske.net</id>
+			<name>SDM</name>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/beta</url>
+		</site>
+	</distributionManagement>
 </project>
