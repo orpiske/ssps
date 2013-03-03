@@ -25,32 +25,89 @@ sdm help
 Usage: sdm <action>
 
 Actions:
+   add-repository
    install
+   uninstall
+   update
+   search
+----------
    help
+   --version
+----------------------------------------
+
+
+Add-Repository
+
+	Download and add a new remote repository to your local repository. This is the first 
+step before using sdm.
+
+----------------------------------------
+sdm add-repository -n default -u git://github.com/orpiske/sdm-packages.git
 ----------------------------------------
 
 Install
 
-	This action installs a deliverable on your disk into your current directory:
+	This action installs a package on your ${HOME}/software directory
 
 ----------------------------------------
-sdm install -a some_file.xml 
+sdm install -p apache-maven
 ----------------------------------------
 
-	This action installs a deliverable on your disk into /var/tmp:
+	If the package is already installed, you'll need to reinstall it:
 
 ----------------------------------------
-sdm install -a some_file.xml -r /var/tmp
+sdm install -p apache-maven --reinstall
 ----------------------------------------
 
-	This action installs a deliverable on your disk into your current directory using a remote ADM file:
+Uninstall 
+
+	To uninstall the apache-maven package, run:
 
 ----------------------------------------
-sdm install --remote -a http://www.orpiske.net/path/to/some/file.xml
+sdm uninstall -p apache-maven 
 ----------------------------------------
 
-	This action installs a deliverable on your disk into /var/tmp using a remote ADM file:
+
+Search
+
+	To search for an available package, run:
 
 ----------------------------------------
-sdm install --remote -a http://www.orpiske.net/path/to/some/file.xml -r /var/tmp
+sdm search -p apache-maven
+----------------------------------------
+
+	If the package is available on the repository, it should print something like this:
+
+----------------------------------------
+Group ID: org.apache
+Name: apache-maven
+Version: 3.0.5
+Type: BINARY
+File: /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.5/pkg/apache-maven.groovy
+----------------------------------------
+
+	To search for installed packages, run:
+ 
+----------------------------------------
+sdm search -p apache-maven -i
+----------------------------------------
+
+	A sample output for the above command, could be:
+
+----------------------------------------
+Group ID: org.apache
+Name: apache-maven
+Version: 3.0.5
+Type: B
+Installation date: 2013-03-03 18:27:31.31
+Installation directory: /Users/otavio/software/apache-maven-3.0.5
+----------------------------------------
+
+Update
+
+	The update is used to refresh your local scripts with the remote repository data. To 
+update your local repositories, run:
+
+----------------------------------------
+sdm update
 ----------------------------------------

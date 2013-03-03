@@ -15,20 +15,9 @@
     
     <menu name="Documentation">
       <item name="Run SDM" href="doc/run-sdm.html"/>
-      <item name="Use SSPS" href="doc/use-ssps.html"/>
+      <item name="Writing Scripts" href="doc/use-ssps.html"/>
       <item name="Mail Lists" href="mail-lists.html"/>
     </menu>
-    
-   	<menu name="Rules">
-      <item name="Copy" href="doc/rules/copy.html"/>
-      <item name="Download" href="doc/rules/download.html"/>
-      <item name="Echo" href="doc/rules/echo.html"/>
-      <item name="Groovy" href="doc/rules/groovy.html"/>
-      <item name="MkDir" href="doc/rules/mkdir.html"/>
-      <item name="Shield" href="doc/rules/shield.html"/>
-      <item name="Unpack" href="doc/rules/unpack.html"/>
-    </menu>
-    
     
      <menu name="Project">
       <item name="API Documentation" href="apidocs/index.html"/>

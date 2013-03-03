@@ -4,6 +4,14 @@
 	Otavio R. Piske
 	------
 	Jan, 2012
+
+
+SSPS Version 0.2.0
+	
+	* Replaced the XML rule mechanism with a more extensible Groovy-based mechanism
+	
+	* Converted the XML rules to POJO and made them available via Groovy
+
 	
 SSPS Version 0.1.0
 
