@@ -36,6 +36,7 @@ public class SvnProviderTest {
 	}
 	
 	@Test 
+	@Ignore
 	public void cloneTest() throws IOException, RepositoryUpdateException, ConfigurationException {
 		
 		
