@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import net.orpiske.ssps.common.utils.NameConverter;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.dbutils.ResultSetHandler;
 
@@ -58,10 +60,13 @@ public class SimpleRsHandler<T> implements ResultSetHandler<T> {
         	
         	try {
         		/*
-        		 * We set the name to lower case otherwise bean utils handle upper case
-        		 * names differently
+        		 * We conver the column name to a more appropriate and java like name 
+        		 * because some columns are usually named as some_thing whereas Java 
+        		 * properties are named someThing. This call does this conversion.
         		 */
-				PropertyUtils.setSimpleProperty(dto, name.toLowerCase(), value);
+        		String javaProperty = NameConverter.sqlToProperty(name);
+        		
+				PropertyUtils.setSimpleProperty(dto, javaProperty, value);
 			} catch (Exception e) {
 				throw new SQLException("Unable to set property " + name + " for bean" + 
 						dto.getClass(), e);
