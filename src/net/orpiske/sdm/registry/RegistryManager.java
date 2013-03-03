@@ -35,9 +35,7 @@ import org.apache.log4j.Logger;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public class RegistryManager {
-	private static final Logger logger = Logger.getLogger(RegistryManager.class);
-	
+public class RegistryManager {	
 	private DerbyDatabaseManager databaseManager;
 	SoftwareInventoryDao inventory;
 	
@@ -67,10 +65,7 @@ public class RegistryManager {
 		} catch (SQLException e) {
 			throw new RegistryException("Unable to add new package to the inventory", e);
 		}
-		
-		logger.info("Successfully registered package " + dto.getName());
 	}
-	
 	
 	public void reinstall(File file) throws RegistryException {
 		PackageInfo packageInfo = RepositoryUtils.readPackageInfo(file);
@@ -89,12 +84,14 @@ public class RegistryManager {
 		
 		
 		try {
-			inventory.updateReinstalled(dto);
+			SoftwareInventoryDto newDto = inventory.updateReinstalled(dto);
+			
+			if (newDto == null) {
+				inventory.insert(dto);
+			}
 		} catch (SQLException e) {
 			throw new RegistryException("Unable to add new package to the inventory", e);
 		}
-		
-		logger.info("Successfully updated package " + dto.getName());
 	}
 	
 	
@@ -109,5 +106,15 @@ public class RegistryManager {
 		
 		return dto;
 	}
+	
+	
+	public void delete(SoftwareInventoryDto dto) throws RegistryException {
+		try {
+			inventory.delete(dto);
+		} catch (SQLException e) {
+			throw new RegistryException("Unable to delete package: " + e.getMessage(), e);
+		}
+	}
+	
 
 }
