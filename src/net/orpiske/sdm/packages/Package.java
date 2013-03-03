@@ -27,4 +27,6 @@ public interface Package {
 	void build(final String artifactName);
 	void verify(final String artifactName);
 	void install(final String artifactName);
+	
+	void uninstall(final String artifactName);
 }

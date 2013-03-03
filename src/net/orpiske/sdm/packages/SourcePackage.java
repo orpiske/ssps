@@ -75,5 +75,14 @@ public class SourcePackage implements Package {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#uninstall(java.lang.String)
+	 */
+	@Override
+	public void uninstall(String artifactName) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
