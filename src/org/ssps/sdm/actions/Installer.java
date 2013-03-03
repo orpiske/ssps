@@ -17,6 +17,7 @@ package org.ssps.sdm.actions;
 
 import java.io.File;
 
+import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
@@ -51,6 +52,7 @@ public class Installer extends ActionInterface {
 	
 	private boolean isHelp;
 	private boolean reinstall;
+	private boolean cleanup;
 	
 	private String repositoryPath;
 	
@@ -83,6 +85,7 @@ public class Installer extends ActionInterface {
 		options.addOption("g", "groupid", true, "package group id");
 		options.addOption("p", "package", true, "package name");
 		options.addOption("r", "repository", true, "repository path");
+		options.addOption(null, "cleanup", false, "cleanup the work directory after finished");
 		options.addOption(null, "reinstall", false, "reinstall already installed packages");
 		options.addOption("v", "version", true, "version");
 
@@ -94,6 +97,8 @@ public class Installer extends ActionInterface {
 		
 		isHelp = cmdLine.hasOption("help");
 		reinstall = cmdLine.hasOption("reinstall");
+		cleanup = cmdLine.hasOption("cleanup");
+		
 		
 		repositoryPath = cmdLine.getOptionValue('r');
 		if (repositoryPath == null) {
@@ -174,6 +179,11 @@ public class Installer extends ActionInterface {
 				install();
 			}
 		
+			if (cleanup) {
+				System.out.println("Cleaning up workdir cache ...");
+				WorkdirUtils.cleanup();
+				System.out.println("Cleaning up workdir cache ... done!");
+			}
 		}
 		catch (EngineException e) {
 			System.err.println("Unable to install: " + e.getMessage());
