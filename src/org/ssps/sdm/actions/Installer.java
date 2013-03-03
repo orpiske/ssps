@@ -18,6 +18,7 @@ package org.ssps.sdm.actions;
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
+import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
@@ -100,7 +101,7 @@ public class Installer extends ActionInterface {
 	
 	
 
-	private void install() throws EngineException {
+	private void install() throws SspsException {
 		/*
 		String packageFQPN = RepositoryUtils.getFQPN(groupId, packageName, 
 				version);
@@ -110,6 +111,10 @@ public class Installer extends ActionInterface {
 		*/
 		RepositoryFinder finder = new FileSystemRepositoryFinder();
 		PackageInfo packageInfo = finder.findFirst(packageName);
+		
+		if (packageInfo == null) {
+			throw new SspsException("Package not found: " + packageName);
+		}
 		
 		Engine engine = new GroovyEngine();
 		
@@ -138,6 +143,8 @@ public class Installer extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
+		} catch (SspsException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
