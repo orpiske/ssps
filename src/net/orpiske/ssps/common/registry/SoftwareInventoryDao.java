@@ -114,5 +114,21 @@ public class SoftwareInventoryDao extends AbstractDao {
 		
 		return dto;
 	}
+	
+	
+	public SoftwareInventoryDto updateReinstalled(final SoftwareInventoryDto dto) 
+			throws SQLException 
+	{
+		String query = queries.get("updateReinstalled");
+		
+		int ret = runUpdate(query, dto.getInstallDate(), dto.getInstallDir(), 
+				dto.getGroupId(), dto.getName(), dto.getVersion(), dto.getType());
+		
+		if (ret == 1) {
+			return dto;
+		}
+		
+		return null;
+	}
 
 }
