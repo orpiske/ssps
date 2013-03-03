@@ -57,8 +57,6 @@ public class SoftwareInventoryDao extends AbstractDao {
 		
 		String query = queries.get("createDb");
 		
-		System.out.println("Query = " + query);
-		
 		Statement s = conn.createStatement();
 		s.execute(query);
 	}
