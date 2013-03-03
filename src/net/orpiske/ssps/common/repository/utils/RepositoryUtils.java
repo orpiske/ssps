@@ -19,8 +19,6 @@ import java.io.File;
 
 import net.orpiske.ssps.common.utils.Utils;
 
-import org.apache.commons.io.FileUtils;
-
 /**
  * Repository utilities
  * @author Otavio R. Piske <angusyoung@gmail.com>
