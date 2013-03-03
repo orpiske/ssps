@@ -33,6 +33,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.ssps.sdm.actions.AddRepository;
 import org.ssps.sdm.actions.Installer;
 import org.ssps.sdm.actions.Search;
+import org.ssps.sdm.actions.Uninstall;
 import org.ssps.sdm.actions.Update;
 import org.ssps.sdm.utils.Constants;
 
@@ -53,6 +54,7 @@ public class Main {
 		System.out.println("Actions:");
 		System.out.println("   add-repository");
 		System.out.println("   install");
+		System.out.println("   uninstall");;
 		System.out.println("   update");
 		System.out.println("   search");
 		System.out.println("----------");
@@ -169,6 +171,13 @@ public class Main {
 				AddRepository addRepository = new AddRepository(newArgs);
 				
 				addRepository.run();
+				return;
+			}
+			
+			if (first.equals("uninstall")) {
+				Uninstall uninstall = new Uninstall(newArgs);
+				
+				uninstall.run();
 				return;
 			}
 			
