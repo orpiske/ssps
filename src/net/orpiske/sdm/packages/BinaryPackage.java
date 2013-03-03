@@ -15,18 +15,33 @@
 */
 package net.orpiske.sdm.packages;
 
+import static net.orpiske.sdm.lib.net.Downloader.*;
+import static net.orpiske.sdm.lib.Unpack.*;
+
+import org.apache.log4j.Logger;
+
+
+import net.orpiske.ssps.common.resource.exceptions.ResourceExchangeException;
+
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
 public class BinaryPackage implements Package {
+	private static final Logger logger = Logger.getLogger(BinaryPackage.class);
 
 	/* (non-Javadoc)
 	 * @see net.orpiske.sdm.packages.Package#fetch(java.lang.String)
 	 */
 	@Override
 	public void fetch(String url) {
-		// TODO Auto-generated method stub
+		logger.info("Downloading " + url);
+		
+		try {
+			download(url);
+		} catch (ResourceExchangeException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 		
 	}
 
@@ -35,8 +50,7 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void extract(String artifactName) {
-		// TODO Auto-generated method stub
-		
+		unpack(artifactName);
 	}
 
 	/* (non-Javadoc)

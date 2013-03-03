@@ -15,11 +15,18 @@
 */
 package net.orpiske.sdm.packages;
 
+import net.orpiske.sdm.common.WorkdirUtils;
+import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
+
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
 public interface Package {
+	
+	public static final String workDir = WorkdirUtils.getWorkDir();
+	public static final String installDir = InstallDirUtils.getInstallDir();
+	
 	
 	void fetch(final String url);
 	void extract(final String artifactName);
@@ -29,4 +36,6 @@ public interface Package {
 	void install(final String artifactName);
 	
 	void uninstall(final String artifactName);
+	
+	
 }
