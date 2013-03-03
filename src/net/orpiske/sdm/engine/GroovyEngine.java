@@ -155,8 +155,8 @@ public class GroovyEngine implements Engine {
 		total += (finish - start);
 		logger.info("Install phase run in " + (finish - start) + " ms");
 		
-		printPhaseHeader("install completed");
 		System.out.println("");
+		printPhaseHeader("install completed");
 		logger.info("Installation completed in " + total + " ms");
 		
 	}
