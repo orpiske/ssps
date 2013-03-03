@@ -132,4 +132,14 @@ public final class PackageInfo {
 	public void setRepository(String repository) {
 		this.repository = repository;
 	}
+
+	@Override
+	public String toString() {
+		return "PackageInfo [groupId=" + groupId + ", name=" + name
+				+ ", version=" + version + ", packageType=" + packageType
+				+ ", path=" + path + ", repository=" + repository + "]";
+	}
+	
+	
+	
 }
