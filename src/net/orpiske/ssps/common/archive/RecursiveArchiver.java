@@ -41,13 +41,6 @@ public class RecursiveArchiver extends DirectoryWalker {
 	private ArchiveOutputStream outputStream;
 	
 	/**
-	 * Controls whether or not part of the path should be removed from the 
-	 * archive
-	 */
-	private boolean stripPath;
-
-	
-	/**
 	 * Constructor
 	 * @param outputStream the output stream used to create the archive
 	 */
@@ -57,20 +50,6 @@ public class RecursiveArchiver extends DirectoryWalker {
 		this.outputStream = outputStream;
 	}
 	
-	
-	/**
-	 * Constructor
-	 * @param outputStream the output stream used to create the archive
-	 * @param stripPath whether to strip part of the path from the archive 
-	 * entries. Right now, removes all text before 'installroot' from being
-	 * added to an entry path.
-	 */
-	public RecursiveArchiver(final ArchiveOutputStream outputStream, boolean stripPath) {
-		super();
-
-		this.outputStream = outputStream;
-		setStripPath(stripPath);
-	}
 
 	
 	/**
@@ -91,30 +70,16 @@ public class RecursiveArchiver extends DirectoryWalker {
 		return results;
 	}
 
-	/**
-	 * Removes all text before 'installroot' from the path
-	 * @param path
-	 * @return
-	 */
-	private String stripPath(final String path) {
-		int pos = path.indexOf("installroot");
-		return path.substring(pos);
-
-	}
-
 	@Override
 	protected boolean handleDirectory(File directory, int depth,
 			Collection results) throws IOException {
 
-		String path;
-		if (isStripPath()) { 
-			 path = stripPath(directory.getPath());
-		}
-		else {
-			path = directory.getPath();
+		String path = directory.getPath();
+		
+		if (logger.isTraceEnabled()) { 
+			logger.trace("Archiving directory " + path);
 		}
 		
-		logger.trace("Archiving directory " + path);
 		TarArchiveEntry entry = new TarArchiveEntry(directory, path);
 
 		outputStream.putArchiveEntry(entry);
@@ -128,15 +93,13 @@ public class RecursiveArchiver extends DirectoryWalker {
 			throws IOException {
 		
 		String path;
-		if (isStripPath()) { 
-			 path = stripPath(file.getPath());
-		}
-		else {
-			path = file.getPath();
-		}
+	
+		path = file.getPath();
 
-		logger.trace("Archiving file " + path);
-
+		if (logger.isTraceEnabled()) { 
+			logger.trace("Archiving file " + path);
+		}
+		
 		TarArchiveEntry entry = new TarArchiveEntry(file, path);
 
 		outputStream.putArchiveEntry(entry);
@@ -144,23 +107,4 @@ public class RecursiveArchiver extends DirectoryWalker {
 
 		outputStream.closeArchiveEntry();
 	}
-
-	
-	/**
-	 * Whether or not it is configured to remove strings from the path
-	 * @return true if configured to remove or false otherwise
-	 */
-	public boolean isStripPath() {
-		return stripPath;
-	}
-
-	
-	/**
-	 * Sets whether or not it is configured to remove strings from the path
-	 * @param stripPath true to remove strings from the path or false otherwise
-	 */
-	public void setStripPath(boolean stripPath) {
-		this.stripPath = stripPath;
-	}
-
 }

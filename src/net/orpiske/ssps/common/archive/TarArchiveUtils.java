@@ -61,7 +61,7 @@ public abstract class TarArchiveUtils implements Archive {
 	 * @throws ArchiveException
 	 * @throws IOException
 	 */
-	public static long pack(String source, File destination, boolean stripPath)
+	public static long pack(String source, File destination)
 			throws ArchiveException, IOException {
 
 		ArchiveStreamFactory factory = new ArchiveStreamFactory();
@@ -80,8 +80,7 @@ public abstract class TarArchiveUtils implements Archive {
 
 		File startDirectory = new File(source);
 
-		RecursiveArchiver archiver = new RecursiveArchiver(outputStream,
-				stripPath);
+		RecursiveArchiver archiver = new RecursiveArchiver(outputStream);
 
 		try {
 			archiver.archive(startDirectory);

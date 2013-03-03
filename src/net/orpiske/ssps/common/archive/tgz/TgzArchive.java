@@ -79,7 +79,7 @@ public class TgzArchive implements Archive {
 		File archiveFile = new File(getArchiveFileExtension(destination));
 
 		try {
-			TarArchiveUtils.pack(source, archiveFile, false);
+			TarArchiveUtils.pack(source, archiveFile);
 		} catch (ArchiveException e1) {
 			throw new SspsArchiveException("Unable to archive file", e1);
 		} catch (IOException e1) {
@@ -125,8 +125,13 @@ public class TgzArchive implements Archive {
 							+ uncompressedArchiveFile);
 		}
 
-		logger.info("Unpacking " + source + " to "
-				+ uncompressedArchiveFile.getPath());
+		if (logger.isDebugEnabled()) { 
+			logger.debug("Unpacking " + source + " to "
+					+ uncompressedArchiveFile.getPath());
+		}
+		else {
+			logger.info("Unpacking " + compressedFileSource.getName());
+		}
 
 		try {
 			CompressedArchiveUtils.gzUncompress(compressedFileSource, uncompressedArchiveFile);
