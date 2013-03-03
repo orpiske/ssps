@@ -165,7 +165,7 @@
 		<site>
 			<id>orpiske.net</id>
 			<name>SDM Common Site</name>
-			<url>scp://orpiske.net/home/otavio021/orpiske.net/sdm-common</url>
+			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
 		</site>
 	</distributionManagement>
 </project>
