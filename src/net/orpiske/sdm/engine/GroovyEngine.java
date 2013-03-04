@@ -25,6 +25,7 @@ import java.net.URISyntaxException;
 
 import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.exceptions.EngineException;
+import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
 import net.orpiske.ssps.common.utils.URLUtils;
 
 import org.apache.log4j.Logger;
@@ -129,7 +130,7 @@ public class GroovyEngine implements Engine {
 		
 		System.out.println("");;
 		printPhaseHeader("build");
-		groovyObject.invokeMethod("build", artifactName);
+		groovyObject.invokeMethod("build", null);
 		
 		finish = System.currentTimeMillis(); 
 		total += (finish - start);
@@ -139,7 +140,7 @@ public class GroovyEngine implements Engine {
 		
 		System.out.println("");
 		printPhaseHeader("verify");
-		groovyObject.invokeMethod("verify", artifactName);
+		groovyObject.invokeMethod("verify", null);
 		
 		finish = System.currentTimeMillis(); 
 		total += (finish - start);
@@ -149,7 +150,7 @@ public class GroovyEngine implements Engine {
 		
 		System.out.println("");
 		printPhaseHeader("install");
-		groovyObject.invokeMethod("install", artifactName);
+		groovyObject.invokeMethod("install", null);
 		
 		finish = System.currentTimeMillis(); 
 		total += (finish - start);
@@ -179,12 +180,13 @@ public class GroovyEngine implements Engine {
 	public void runUninstall(File file) throws EngineException {
 		long start;
 		long finish;
+		String installDir = InstallDirUtils.getInstallDir();
 		
 		GroovyObject groovyObject = getObject(file);
 		
 		start = System.currentTimeMillis();
 		printPhaseHeader("uninstall");
-		groovyObject.invokeMethod("uninstall", null);
+		groovyObject.invokeMethod("uninstall", installDir);
 		finish = System.currentTimeMillis(); 
 		logger.info("Uninstall phase run in " + (finish - start) + " ms");
 		printPhaseHeader("uninstall complete");
