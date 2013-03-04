@@ -63,7 +63,7 @@ public class BinaryPackage implements Package {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#build(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#build()
 	 */
 	@Override
 	public void build() {
@@ -71,7 +71,7 @@ public class BinaryPackage implements Package {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#verify(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#verify()
 	 */
 	@Override
 	public void verify() {
@@ -79,7 +79,7 @@ public class BinaryPackage implements Package {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#install(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#install()
 	 */
 	@Override
 	public void install() {
@@ -90,7 +90,7 @@ public class BinaryPackage implements Package {
 	 * @see net.orpiske.sdm.packages.Package#uninstall(java.lang.String)
 	 */
 	@Override
-	public void uninstall() {
+	public void uninstall(final String path) {
 		
 	}
 }

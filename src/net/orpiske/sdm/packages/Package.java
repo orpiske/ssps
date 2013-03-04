@@ -62,8 +62,9 @@ public interface Package {
 	
 	/**
 	 * Uninstall phase
+	 * @param path The installation path of the package
 	 */
-	void uninstall();
+	void uninstall(final String path);
 	
 	
 }

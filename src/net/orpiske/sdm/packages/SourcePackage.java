@@ -74,7 +74,7 @@ public class SourcePackage implements Package {
 	 * @see net.orpiske.sdm.packages.Package#uninstall()
 	 */
 	@Override
-	public void uninstall() {
+	public void uninstall(final String path) {
 		
 	}
 }
