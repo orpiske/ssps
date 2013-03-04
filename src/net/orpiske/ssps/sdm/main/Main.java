@@ -92,27 +92,37 @@ public class Main {
 	
 	
 	private static Properties initDatabase() throws DatabaseInitializationException {
+		DerbyDatabaseManager databaseManager = null;
 		Properties props = System.getProperties();
 		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
-		
-		DerbyDatabaseManager databaseManager = new DerbyDatabaseManager("registry", props);
-		SoftwareInventoryDao inventory = new SoftwareInventoryDao(databaseManager);
-		
+	
 		try {
 			File dbDir = new File(Utils.getSdmDirectoryPath() + File.separator 
 					+ "registry");
 			
 			
 			if (!dbDir.exists()) {
-				inventory.createTable();	
+				System.out.println("This appears to be the first time you are" + 
+						" using SDM. Creating database ...");
+				databaseManager = new DerbyDatabaseManager("registry", props);
+				SoftwareInventoryDao inventory = 
+						new SoftwareInventoryDao(databaseManager);
+				
+				inventory.createTable();
+				System.out.println("Database created successfully");
 			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.exit(-5);
 		}
+		finally {
+			if (databaseManager != null) {
+				databaseManager.close();
+			}
+		}
 		
-		databaseManager.close();
+		
 		
 		
 		return props;
