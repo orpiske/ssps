@@ -60,7 +60,7 @@ public class SimpleRsHandler<T> implements ResultSetHandler<T> {
         	
         	try {
         		/*
-        		 * We conver the column name to a more appropriate and java like name 
+        		 * We convert the column name to a more appropriate and java like name 
         		 * because some columns are usually named as some_thing whereas Java 
         		 * properties are named someThing. This call does this conversion.
         		 */
