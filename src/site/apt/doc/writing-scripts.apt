@@ -1,33 +1,27 @@
 	------
-	Get Started With SPM
+	Get Started With SDM
 	------
 	Otavio R. Piske
 	------
 	Jun, 2012
 
-Get Started
-
-	The SSPS is a simple software provisioning tool. Sometimes you have to 
-support multiple systems or you simply don't have access to the OS packaging 
-system (RPM, APT, etc). SSPS fills this gap by allowing you to describe the 
-deployment process in a groovy script file. There's no need to have root or administrator 
-access.
-
-
 The Script File
 
-	A script is, basically, a Groovy file that extends BinaryPackage and implements one or 
-more of the following methods: 
+	The script file is what SDM interprets and run to install or uninstall a 
+package.  
+	
+	The script is, basically, a {{{http://groovy.codehaus.org}Groovy}} file that
+extends BinaryPackage and implements one or more of the following methods: 
 
 ----------------------------------------
 	void fetch(final String url);
 	void extract(final String artifactName);
-	void prepare(final String artifactName);
-	void build(final String artifactName);
-	void verify(final String artifactName);
-	void install(final String artifactName);
+	void prepare();
+	void build();
+	void verify();
+	void install();
 	
-	void uninstall(final String artifactName);
+	void uninstall(final String path);
 ----------------------------------------
 	
 	This is what a script looks like: 

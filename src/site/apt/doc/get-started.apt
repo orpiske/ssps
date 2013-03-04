@@ -1,0 +1,59 @@
+	------
+	Get Started
+	------
+	Otavio R. Piske
+	------
+	Jan, 2013
+
+Introduction
+
+	After you have downloaded SPM, install it and add the bin folder to the 
+$PATH environment variable of your operating system. On Windows, this can be 
+done on My Computer. There are various ways of doing this on Unix, Linux and 
+Mac OS X, but it basically involves editing <<<~/.bashrc>>>, <<<$HOME/.profile>>>
+or a similar file. 
+
+	
+Add The Default Repository
+
+	The very first step before using SPM is to download a remote repository of
+packages and install within your local repository. To add the default SPM 
+repository run the following command: 
+
+----------------------------------------
+sdm add-repository -n default -u https://github.com/orpiske/sdm-packages.git
+----------------------------------------
+
+	If it completes successfully, you should have an output that resembles this: 
+
+----------------------------------------
+otavio@calypso [12:01:38] [~/tools] 
+-> % sdm add-repository -n default -u https://github.com/orpiske/sdm-packages.git
+Repository does not exist. Cloning from https://github.com/orpiske/sdm-packages.git
+remote: Counting objects: 120
+remote: Compressing objects: 100% (51/51)
+Receiving objects:      100% (120/120)
+Resolving deltas:       100% (20/20)
+Updating references:    100% (1/1)
+----------------------------------------
+
+
+Installing packages
+
+	To install new packages you can run the following command:
+	
+----------------------------------------	
+sdm install -p <package name>
+----------------------------------------
+
+Learning About SSPS
+
+	To learn how to run SPM and install packages, please read the 
+{{{./run-spm.html}Run SPM}} page.
+
+	To learn how to write installation scripts and contribute to the SPM default
+repository, please read the {{{./writing-scripts.html}Writing Scripts}} page.
+
+	To learn how to create a repository of your own, for the community or for 
+your company, please read the {{{./custom-repositories.html}Custom Repositories}}
+page.

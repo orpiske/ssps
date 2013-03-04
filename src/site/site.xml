@@ -14,8 +14,10 @@
     </menu>
     
     <menu name="Documentation">
+      <item name="Get Started" href="doc/get-started.html"/>
       <item name="Run SDM" href="doc/run-sdm.html"/>
-      <item name="Writing Scripts" href="doc/use-ssps.html"/>
+      <item name="Writing Scripts" href="doc/writing-scripts.html"/>
+      <item name="Custom Repositories" href="doc/custom-repositories.html"/>
       <item name="Mail Lists" href="mail-lists.html"/>
     </menu>
     
