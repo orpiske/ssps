@@ -27,15 +27,43 @@ public interface Package {
 	public static final String workDir = WorkdirUtils.getWorkDir();
 	public static final String installDir = InstallDirUtils.getInstallDir();
 	
-	
+	/**
+	 * Fetch phase: downloads the package file/files
+	 * @param url The file address
+	 */
 	void fetch(final String url);
-	void extract(final String artifactName);
-	void prepare(final String artifactName);
-	void build(final String artifactName);
-	void verify(final String artifactName);
-	void install(final String artifactName);
 	
-	void uninstall(final String artifactName);
+	/**
+	 * Extract phase: extracts the package resources
+	 * @param artifactName The path to the file to extract
+	 */
+	void extract(final String artifactName);
+	
+	/**
+	 * Run the preparation steps
+	 */
+	void prepare();
+	
+	/**
+	 * Build phase
+	 */
+	void build();
+	
+	/**
+	 * Verify phase
+	 */
+	void verify();
+	
+	/**
+	 * Install phase
+	 */
+	void install();
+	
+	
+	/**
+	 * Uninstall phase
+	 */
+	void uninstall();
 	
 	
 }

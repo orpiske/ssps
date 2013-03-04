@@ -16,6 +16,7 @@
 package net.orpiske.sdm.packages;
 
 /**
+ * Base class for source packages
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -26,7 +27,6 @@ public class SourcePackage implements Package {
 	 */
 	@Override
 	public void fetch(String url) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -35,54 +35,46 @@ public class SourcePackage implements Package {
 	 */
 	@Override
 	public void extract(String artifactName) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#prepare(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#prepare()
 	 */
 	@Override
-	public void prepare(String artifactName) {
-		// TODO Auto-generated method stub
+	public void prepare() {
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#build(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#build()
 	 */
 	@Override
-	public void build(String artifactName) {
-		// TODO Auto-generated method stub
-		
+	public void build() {
+
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#verify(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#verify()
 	 */
 	@Override
-	public void verify(String artifactName) {
-		// TODO Auto-generated method stub
-		
+	public void verify() {
+
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#install(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#install()
 	 */
 	@Override
-	public void install(String artifactName) {
-		// TODO Auto-generated method stub
-		
+	public void install() {
+
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#uninstall(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#uninstall()
 	 */
 	@Override
-	public void uninstall(String artifactName) {
-		// TODO Auto-generated method stub
+	public void uninstall() {
 		
 	}
-
-
 }

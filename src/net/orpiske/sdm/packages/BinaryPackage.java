@@ -24,8 +24,9 @@ import org.apache.log4j.Logger;
 import net.orpiske.ssps.common.resource.exceptions.ResourceExchangeException;
 
 /**
+ * Base class for binary packages
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class BinaryPackage implements Package {
 	private static final Logger logger = Logger.getLogger(BinaryPackage.class);
@@ -54,11 +55,10 @@ public class BinaryPackage implements Package {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#prepare(java.lang.String)
+	 * @see net.orpiske.sdm.packages.Package#prepare()
 	 */
 	@Override
-	public void prepare(String artifactName) {
-		// TODO Auto-generated method stub
+	public void prepare() {
 		
 	}
 
@@ -66,8 +66,7 @@ public class BinaryPackage implements Package {
 	 * @see net.orpiske.sdm.packages.Package#build(java.lang.String)
 	 */
 	@Override
-	public void build(String artifactName) {
-		// TODO Auto-generated method stub
+	public void build() {
 		
 	}
 
@@ -75,8 +74,7 @@ public class BinaryPackage implements Package {
 	 * @see net.orpiske.sdm.packages.Package#verify(java.lang.String)
 	 */
 	@Override
-	public void verify(String artifactName) {
-		// TODO Auto-generated method stub
+	public void verify() {
 		
 	}
 
@@ -84,8 +82,7 @@ public class BinaryPackage implements Package {
 	 * @see net.orpiske.sdm.packages.Package#install(java.lang.String)
 	 */
 	@Override
-	public void install(String artifactName) {
-		// TODO Auto-generated method stub
+	public void install() {
 		
 	}
 
@@ -93,12 +90,7 @@ public class BinaryPackage implements Package {
 	 * @see net.orpiske.sdm.packages.Package#uninstall(java.lang.String)
 	 */
 	@Override
-	public void uninstall(String artifactName) {
-		// TODO Auto-generated method stub
+	public void uninstall() {
 		
 	}
-	
-	
-
-
 }
