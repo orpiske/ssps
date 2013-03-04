@@ -13,38 +13,41 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.sdm.utils;
+package net.orpiske.ssps.sdm.actions;
 
-import java.io.File;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+
 
 /**
- * Application constants
+ * Implements app specific actions
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public final class Constants {
-	
-	public static final String VERSION = "0.2.0";
+public abstract class ActionInterface {
 	
 	/**
-	 * Restricted constructor
+	 * Prints the help for the action and exit
+	 * @param options the options object
+	 * @param code the exit code
 	 */
-	private Constants() {}
-	
-	/**
-	 * This property is used to set the configuration directory
-	 */
-	public static final String HOME_PROPERTY = "org.ssps.sdm.home";
+	protected void help(final Options options, int code) {
+		HelpFormatter formatter = new HelpFormatter();
 
-	public static final String SDM_CONFIG_DIR;
-
-	static {
-		SDM_CONFIG_DIR = System.getProperty(HOME_PROPERTY) + File.separator
-				+ "conf";
+		formatter.printHelp("spm", options);
+		System.exit(code);
 	}
-
+	
 	/**
-	 * This constant holds the configuration file name for the backend
+	 * Process the command line arguments
+	 * @param args the command line arguments
 	 */
-	public static final String CONFIG_FILE_NAME = "sdm.properties";
+	protected abstract void processCommand(String[] args);
+	
+	/**
+	 * Runs the action
+	 */
+	public abstract void run();
+	
+
 }

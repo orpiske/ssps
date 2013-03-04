@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.sdm.main;
+package net.orpiske.ssps.sdm.main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,14 +28,14 @@ import net.orpiske.ssps.common.logger.LoggerUtils;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 import net.orpiske.ssps.common.repository.RepositorySettings;
 import net.orpiske.ssps.common.utils.Utils;
+import net.orpiske.ssps.sdm.actions.AddRepository;
+import net.orpiske.ssps.sdm.actions.Installer;
+import net.orpiske.ssps.sdm.actions.Search;
+import net.orpiske.ssps.sdm.actions.Uninstall;
+import net.orpiske.ssps.sdm.actions.Update;
+import net.orpiske.ssps.sdm.utils.Constants;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.ssps.sdm.actions.AddRepository;
-import org.ssps.sdm.actions.Installer;
-import org.ssps.sdm.actions.Search;
-import org.ssps.sdm.actions.Uninstall;
-import org.ssps.sdm.actions.Update;
-import org.ssps.sdm.utils.Constants;
 
 /**
  * Main class

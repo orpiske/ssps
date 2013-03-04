@@ -87,7 +87,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>../lib</classpathPrefix>
-							<mainClass>org.ssps.sdm.main.Main</mainClass>
+							<mainClass>net.orpiske.ssps.sdm.main.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
