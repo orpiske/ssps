@@ -33,6 +33,9 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
 
+import static net.orpiske.ssps.sdm.utils.PrintUtils.*;
+
+
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
@@ -45,6 +48,8 @@ public class Search extends ActionInterface {
 	
 	private boolean isHelp;
 	private boolean installed;
+	private boolean all;
+	private boolean parseable;
 	private String packageName;
 	
 	public Search(String[] args) {
@@ -60,6 +65,8 @@ public class Search extends ActionInterface {
 		options.addOption("h", "help", false, "prints the help");
 		options.addOption("i", "installed", false, "searches for installed packages");
 		options.addOption("p", "package", true, "package name");
+		options.addOption("a", "all", false, "searches for all installed packages");
+		options.addOption(null, "parseable", false, "print using machine-readable output");
 
 		try {
 			cmdLine = parser.parse(options, args);
@@ -69,9 +76,11 @@ public class Search extends ActionInterface {
 		
 		isHelp = cmdLine.hasOption("help");
 		installed = cmdLine.hasOption('i');
+		all = cmdLine.hasOption('a');
+		parseable = cmdLine.hasOption("parseable");
 		
 		packageName = cmdLine.getOptionValue('p');
-		if (packageName == null) {
+		if (packageName == null && !all) {
 			help(options, -1);
 		}
 	}
@@ -87,15 +96,8 @@ public class Search extends ActionInterface {
 			throw new SspsException("Package not found: " + packageName);
 		}
 		
-		for (PackageInfo packageInfo : packages) { 
-	
-			System.out.println("------");
-			System.out.println("Group ID: " + packageInfo.getGroupId());
-			System.out.println("Name: " + packageInfo.getName());
-			System.out.println("Version: " + packageInfo.getVersion());
-			System.out.println("Type: " + packageInfo.getPackageType());
-			System.out.println("File: " + packageInfo.getPath());
-		}
+		
+		printPackageList(packages, parseable);
 	}
 
 	/**
@@ -106,24 +108,22 @@ public class Search extends ActionInterface {
 			RegistryException {
 		RegistryManager registryManager = new RegistryManager();
 		
-		List<SoftwareInventoryDto> list = registryManager.search(packageName);
+		List<SoftwareInventoryDto> list = null; 
 		
-		for (SoftwareInventoryDto dto : list) { 
-			
-			if (dto == null) {
-				System.out.println("The package " + packageName + " is not installed");
-				
-				return;
-			}
-			
-			System.out.println("------");
-			System.out.println("Group ID: " + dto.getGroupId());
-			System.out.println("Name: " + dto.getName());
-			System.out.println("Version: " + dto.getVersion());
-			System.out.println("Type: " + dto.getType());
-			System.out.println("Installation date: " + dto.getInstallDate());
-			System.out.println("Installation directory: " + dto.getInstallDir());
+		if (all) { 
+			list = registryManager.search();
 		}
+		else {
+			list = registryManager.search(packageName);
+		}
+		
+		if (list.size() == 0 && !all) {
+			System.out.println("The package " + packageName + " is not installed");
+			
+			return;
+		}
+		
+		printInventoryList(list, parseable);
 	}
 
 	@Override

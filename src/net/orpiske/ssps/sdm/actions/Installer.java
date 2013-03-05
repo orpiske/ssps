@@ -23,8 +23,6 @@ import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.registry.RegistryManager;
-import net.orpiske.sdm.registry.exceptions.RegistryException;
-import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
@@ -38,6 +36,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
+
+import static net.orpiske.ssps.sdm.utils.PrintUtils.*;
 
 
 /**
@@ -123,16 +123,7 @@ public class Installer extends ActionInterface {
 		System.out.println("More than one match found. Please specify either the "
 				+ "version (-v) or the group (-g) name: ");
 		
-		
-		for (PackageInfo packageInfo : packages) { 
-			
-			System.out.println("------");
-			System.out.println("Group ID: " + packageInfo.getGroupId());
-			System.out.println("Name: " + packageInfo.getName());
-			System.out.println("Version: " + packageInfo.getVersion());
-			System.out.println("Type: " + packageInfo.getPackageType());
-			System.out.println("File: " + packageInfo.getPath());
-		}
+		printPackageList(packages);
 	}
 
 	private void install() throws SspsException {
