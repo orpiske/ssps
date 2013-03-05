@@ -16,6 +16,7 @@
 package net.orpiske.ssps.sdm.actions;
 
 import java.io.File;
+import java.util.List;
 
 import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.Engine;
@@ -130,14 +131,38 @@ public class Installer extends ActionInterface {
 	
 	}
 	
-	
+	/**
+	 * @param packages
+	 */
+	private void printRepositoryPackages(List<PackageInfo> packages) {
+		System.out.println("More than one match found. Please specify either the "
+				+ "version (-v) or the group (-g) name: ");
+		
+		
+		for (PackageInfo packageInfo : packages) { 
+			
+			System.out.println("------");
+			System.out.println("Group ID: " + packageInfo.getGroupId());
+			System.out.println("Name: " + packageInfo.getName());
+			System.out.println("Version: " + packageInfo.getVersion());
+			System.out.println("Type: " + packageInfo.getPackageType());
+			System.out.println("File: " + packageInfo.getPath());
+		}
+	}
 
 	private void install() throws SspsException {
 		RepositoryFinder finder = new FileSystemRepositoryFinder();
-		PackageInfo packageInfo = finder.findFirst(packageName);
+		List<PackageInfo> packages = finder.find(groupId, packageName, version);
 		
-		if (packageInfo == null) {
+		if (packages.size() == 0) {
 			throw new SspsException("Package not found: " + packageName);
+		}
+		else {
+			if (packages.size() > 1) {
+				printRepositoryPackages(packages);
+				
+				throw new SspsException("Too many packages found: " + packageName);
+			}
 		}
 		
 		SoftwareInventoryDto dto = searchRegistry(); 
@@ -152,6 +177,7 @@ public class Installer extends ActionInterface {
 		Engine engine = new GroovyEngine();
 		RegistryManager registryManager = new RegistryManager();
 		
+		PackageInfo packageInfo = packages.get(0);
 		File file = new File(packageInfo.getPath());
 		
 		engine.run(file);
@@ -168,6 +194,9 @@ public class Installer extends ActionInterface {
 			System.out.println("\rAdding record into the registry ... Done");
 		}
 	}
+
+
+
 
 	/*
 	 * (non-Javadoc)

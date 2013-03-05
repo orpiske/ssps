@@ -56,7 +56,6 @@ public class Main {
 		System.out.println("   add-repository");
 		System.out.println("   install");
 		System.out.println("   uninstall");
-		;
 		System.out.println("   update");
 		System.out.println("   search");
 		System.out.println("----------");
@@ -208,7 +207,6 @@ public class Main {
 		}
 
 		help(1);
-
 	}
 
 }

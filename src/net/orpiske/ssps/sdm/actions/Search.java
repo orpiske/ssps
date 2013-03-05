@@ -15,6 +15,8 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
+import java.util.List;
+
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
@@ -79,18 +81,21 @@ public class Search extends ActionInterface {
 	 */
 	private void searchRepository() throws SspsException {
 		RepositoryFinder finder = new FileSystemRepositoryFinder();
-		PackageInfo packageInfo = finder.findFirst(packageName);
+		List<PackageInfo> packages = finder.find(packageName);
 		
-		if (packageInfo == null) {
+		if (packages.size() == 0) {
 			throw new SspsException("Package not found: " + packageName);
 		}
-
-		System.out.println("------");
-		System.out.println("Group ID: " + packageInfo.getGroupId());
-		System.out.println("Name: " + packageInfo.getName());
-		System.out.println("Version: " + packageInfo.getVersion());
-		System.out.println("Type: " + packageInfo.getPackageType());
-		System.out.println("File: " + packageInfo.getPath());
+		
+		for (PackageInfo packageInfo : packages) { 
+	
+			System.out.println("------");
+			System.out.println("Group ID: " + packageInfo.getGroupId());
+			System.out.println("Name: " + packageInfo.getName());
+			System.out.println("Version: " + packageInfo.getVersion());
+			System.out.println("Type: " + packageInfo.getPackageType());
+			System.out.println("File: " + packageInfo.getPath());
+		}
 	}
 
 	/**
