@@ -91,6 +91,8 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 			if (!packageInfo.getVersion().equals(version) && version != null) {
 				continue;
 			}
+			
+			ret.add(packageInfo);
 		}
 		
 		return ret;
