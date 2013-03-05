@@ -16,8 +16,9 @@
 package net.orpiske.sdm.lib;
 
 /**
+ * OS Utilities
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class OsUtils {
 	
@@ -36,7 +37,7 @@ public class OsUtils {
 	
 	/**
 	 * Returns the operating system name
-	 * @return
+	 * @return The operating system name
 	 * @see For details http://www.osgi.org/Specifications/Reference 
 	 */
 	public static String getOperatingSystemName() {

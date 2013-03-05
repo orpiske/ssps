@@ -16,9 +16,8 @@
 package net.orpiske.sdm.lib.exceptions;
 
 /**
- * Rule engine exception
+ * Unpack exception
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 @SuppressWarnings("serial")
 public class UnpackException extends RuntimeException {

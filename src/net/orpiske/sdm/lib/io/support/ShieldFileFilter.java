@@ -21,15 +21,17 @@ import org.apache.commons.io.filefilter.AbstractFileFilter;
 
 /**
  * Implements a file filter that checks whether a shield file exits. This file
- * filter works by checking whether a ${filenam}.shield file exists. If such 
+ * filter works by checking whether a ${filename}.shield file exists. If such 
  * file exists, then the input file is not accepted by the filter as it is 
  * "shielded".
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
+@Deprecated
 public class ShieldFileFilter extends AbstractFileFilter {
 
+	@Deprecated
 	@Override
 	public boolean accept(File dir, String name) {
 		boolean isShielded = ShieldUtils.isShielded(dir, name);
@@ -42,6 +44,7 @@ public class ShieldFileFilter extends AbstractFileFilter {
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public boolean accept(File file) {
 		boolean isShielded = ShieldUtils.isShielded(file);

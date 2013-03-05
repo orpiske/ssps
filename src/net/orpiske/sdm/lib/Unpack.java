@@ -32,9 +32,9 @@ import org.apache.log4j.Logger;
 
 
 /**
- * Implements the unpack rule
+ * Unpack utility class to handle tar.gz and tar.bz2 files
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class Unpack {
 	private static final Logger logger = Logger.getLogger(Unpack.class);

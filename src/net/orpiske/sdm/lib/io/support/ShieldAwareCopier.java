@@ -26,7 +26,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 /**
- * Implements a file copier that respect shielded files
+ * Implements a recursive directory copier that respect shielded files
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -85,6 +85,11 @@ public class ShieldAwareCopier extends DirectoryWalker {
 		}
 	}
 	
+	/**
+	 * The directory to copy
+	 * @param source A File object pointing to the source directory
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public void copy(final File source) throws IOException {
 		List results = new ArrayList();

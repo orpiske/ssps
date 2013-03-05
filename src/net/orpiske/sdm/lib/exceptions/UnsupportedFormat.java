@@ -16,7 +16,7 @@
 package net.orpiske.sdm.lib.exceptions;
 
 /**
- * Rule engine exception
+ * Unsupported file format exception
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */

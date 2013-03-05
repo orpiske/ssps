@@ -22,8 +22,9 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 
 /**
+ * Utility class to execute commands
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class Executable {
 	
@@ -45,9 +46,5 @@ public class Executable {
 		
 		int exitValue = executor.execute(cmd);
 		return exitValue;
-		
 	}
-
-
-
 }
