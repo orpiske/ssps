@@ -148,7 +148,7 @@ public class RegistryManager {
 	/**
 	 * Deletes a package from the registry
 	 * @param dto The package to be deleted
-	 * @throws RegistryException If unable to udpate the record in the DB
+	 * @throws RegistryException If unable to update the record in the DB
 	 */
 	public void delete(SoftwareInventoryDto dto) throws RegistryException {
 		try {
