@@ -21,6 +21,8 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 
 /**
+ * Print utilities
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -28,7 +30,10 @@ public class PrintUtils {
 	
 	private PrintUtils() {}
 
-	
+	/**
+	 * Prints package information
+	 * @param packageInfo
+	 */
 	public static void print(final PackageInfo packageInfo) {
 		System.out.println("Group ID: " + packageInfo.getGroupId());
 		System.out.println("Name: " + packageInfo.getName());
@@ -37,6 +42,11 @@ public class PrintUtils {
 		System.out.println("File: " + packageInfo.getPath());
 	}
 	
+	
+	/**
+	 * Prints parseable package information
+	 * @param packageInfo
+	 */
 	public static void printParseable(final PackageInfo packageInfo) {
 		System.out.printf("%-15s => %-32s => %-9s => %-1s => %s\n", 
 				packageInfo.getGroupId(), packageInfo.getName(), packageInfo.getVersion(),
@@ -44,6 +54,11 @@ public class PrintUtils {
 	}
 	
 	
+	/**
+	 * Prints a list of packages
+	 * @param list
+	 * @param parseable
+	 */
 	public static void printPackageList(final List<PackageInfo> list, boolean parseable) {
 		if (parseable) {
 			System.out.printf("%-15s    %-32s    %-9s    %-1s      %s\n", 
@@ -62,11 +77,21 @@ public class PrintUtils {
 		}
 	}
 	
+	
+	/**
+	 * Prints a package list
+	 * @param list
+	 */
 	public static void printPackageList(final List<PackageInfo> list) {
 		printPackageList(list, false);
 	}
 	
 	
+	
+	/**
+	 * Prints a software inventory record
+	 * @param dto
+	 */
 	public static void print(final SoftwareInventoryDto dto) {
 		System.out.println("Group ID: " + dto.getGroupId());
 		System.out.println("Name: " + dto.getName());
@@ -77,6 +102,11 @@ public class PrintUtils {
 	}
 	
 	
+	
+	/**
+	 * Prints parseable software inventory record information
+	 * @param dto
+	 */
 	public static void printParseable(final SoftwareInventoryDto dto) {
 		System.out.printf("%-15s => %-20s => %-9s => %-1s => %-23s => %s\n", 
 				dto.getGroupId(), dto.getName(), dto.getVersion(),
@@ -84,6 +114,12 @@ public class PrintUtils {
 	}
 	
 	
+	
+	/**
+	 * Prints a list of software inventory records
+	 * @param list
+	 * @param parseable
+	 */
 	public static void printInventoryList(final List<SoftwareInventoryDto> list, 
 			boolean parseable) {
 		
@@ -105,6 +141,11 @@ public class PrintUtils {
 	}
 	
 	
+	
+	/**
+	 * Prints a list of software inventory records
+	 * @param list
+	 */
 	public static void printInventoryList(final List<SoftwareInventoryDto> list) {
 		printInventoryList(list, false);
 	}
