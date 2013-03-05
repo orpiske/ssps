@@ -19,24 +19,32 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Map;
 
 import net.orpiske.ssps.common.db.AbstractDao;
 import net.orpiske.ssps.common.db.DatabaseManager;
+import net.orpiske.ssps.common.db.MultiRsHandler;
 import net.orpiske.ssps.common.db.SimpleRsHandler;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 
 import org.apache.commons.dbutils.QueryLoader;
 
 /**
+ * This DAO is used to interface with the software inventory table
+ * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- *
  */
 public class SoftwareInventoryDao extends AbstractDao {
 	
 	private Map<String, String> queries;
 	
-	
+	/**
+	 * Constructor
+	 * @param databaseManager The database manager
+	 * @throws DatabaseInitializationException if it fails to read the queries for this 
+	 * DAO.
+	 */
 	public SoftwareInventoryDao(final DatabaseManager databaseManager) throws DatabaseInitializationException {
 		super(databaseManager);
 		
@@ -51,17 +59,28 @@ public class SoftwareInventoryDao extends AbstractDao {
 		}
 	}
 	
+	
+	/**
+	 * Creates the tables 
+	 * @throws SQLException if unable to create the table
+	 */
 	public void createTable() throws SQLException {
 		DatabaseManager databaseManager = getDatabaseManager();
 		Connection conn = databaseManager.getConnection();
 		
-		String query = queries.get("createDb");
+		String query = queries.get("createTable");
 		
 		Statement s = conn.createStatement();
 		s.execute(query);
 	}
 
 	
+	/**
+	 * Inserts a record into the inventory
+	 * @param dto A DTO containing the data to insert into the DB
+	 * @return The number of affected records
+	 * @throws SQLException If unable to perform the query
+	 */
 	public int insert(final SoftwareInventoryDto dto) throws SQLException {
 		String query = queries.get("insert");
 		
@@ -70,16 +89,33 @@ public class SoftwareInventoryDao extends AbstractDao {
 	}
 	
 	
-	public SoftwareInventoryDto getByName(final String name) throws SQLException {
+	/**
+	 * Gets a list of packages with a given name 
+	 * @param name The name to look for
+	 * @return A list of all packages that have the given name
+	 * @throws SQLException If unable to perform the query
+	 */
+	public List<SoftwareInventoryDto> getByName(final String name) throws SQLException {
 		String query = queries.get("queryByName");
 		
-		SimpleRsHandler<SoftwareInventoryDto> handler = 
-				new SimpleRsHandler<SoftwareInventoryDto>(new SoftwareInventoryDto());
 		
-		return runQuery(query, handler, name);
+		MultiRsHandler<SoftwareInventoryDto> handler = 
+				new MultiRsHandler<SoftwareInventoryDto>(SoftwareInventoryDto.class);
+		
+		
+		return runQueryMany(query, handler, name);
 	}
 	
 	
+	/**
+	 * Gets a package by the primary keys
+	 * @param groupId The group ID
+	 * @param name The package name
+	 * @param version The package versin
+	 * @param type The package type
+	 * @return A DTO with the package information
+	 * @throws SQLException If unable to perform the query
+	 */
 	public SoftwareInventoryDto getByKeys(final String groupId, final String name, 
 			final String version, final String type) throws SQLException		
 	{
@@ -92,6 +128,12 @@ public class SoftwareInventoryDao extends AbstractDao {
 	}
 	
 	
+	/**
+	 * Deletes a package
+	 * @param dto An input DTO to delete
+	 * @return The number of affected records (should always be 1)
+	 * @throws SQLException If unable to perform the query
+	 */
 	public int delete(final SoftwareInventoryDto dto) throws SQLException {
 		String query = queries.get("deleteByKeys");
 		
@@ -100,6 +142,13 @@ public class SoftwareInventoryDao extends AbstractDao {
 	}
 	
 	
+	/**
+	 * Updates the package version
+	 * @param newVersion The new version
+	 * @param dto A DTO with the old version
+	 * @return A DTO with the new version
+	 * @throws SQLException If unable to perform the query
+	 */
 	public SoftwareInventoryDto updateVersion(final String newVersion, 
 			final SoftwareInventoryDto dto) throws SQLException 
 	{
@@ -116,6 +165,12 @@ public class SoftwareInventoryDao extends AbstractDao {
 	}
 	
 	
+	/**
+	 * Updates the package information for reinstalled packages
+	 * @param dto The DTO with the new information
+	 * @return The DTO with the new information or null if no records were changed
+	 * @throws SQLException If unable to perform the query
+	 */
 	public SoftwareInventoryDto updateReinstalled(final SoftwareInventoryDto dto) 
 			throws SQLException 
 	{
