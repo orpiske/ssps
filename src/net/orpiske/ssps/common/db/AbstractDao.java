@@ -17,9 +17,11 @@ package net.orpiske.ssps.common.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.AbstractListHandler;
 
 
 
@@ -73,6 +75,24 @@ public abstract class AbstractDao {
 		
 		T result = run.query(conn, query, rs, args);
 		return result;
+	}
+	
+	
+	/**
+	 * Runs a (SELECT) query that returns many results
+	 * @param query The query to run
+	 * @param rs The result set handler to use
+	 * @param args The arguments to the query
+	 * @return A list of previously specified (generic) DTO types
+	 * @throws SQLException
+	 */
+	protected <T> List<T> runQueryMany(String query, AbstractListHandler<T> rs, Object... args) throws SQLException {
+		Connection conn = databaseManager.getConnection();
+		
+		QueryRunner run = new QueryRunner();
+		
+		return run.query(conn, query, rs, args);
+
 	}
 	
 	
