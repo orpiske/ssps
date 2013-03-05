@@ -108,6 +108,23 @@ public class SoftwareInventoryDao extends AbstractDao {
 	
 	
 	/**
+	 * Gets all the records in the database
+	 * @return A list of all packages
+	 * @throws SQLException If unable to perform the query
+	 */
+	public List<SoftwareInventoryDto> getAll() throws SQLException {
+		String query = queries.get("queryAll");
+		
+		
+		MultiRsHandler<SoftwareInventoryDto> handler = 
+				new MultiRsHandler<SoftwareInventoryDto>(SoftwareInventoryDto.class);
+		
+		
+		return runQueryMany(query, handler);
+	}
+	
+	
+	/**
 	 * Gets a package by the primary keys
 	 * @param groupId The group ID
 	 * @param name The package name
