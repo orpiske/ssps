@@ -117,21 +117,6 @@ public class Installer extends ActionInterface {
 	
 	
 	/**
-	 * @throws DatabaseInitializationException
-	 * @throws RegistryException
-	 */
-	private SoftwareInventoryDto searchRegistry() throws DatabaseInitializationException,
-			RegistryException {
-		RegistryManager registryManager = new RegistryManager();
-		
-		SoftwareInventoryDto dto = registryManager.search(packageName);
-		
-		return dto;
-		
-	
-	}
-	
-	/**
 	 * @param packages
 	 */
 	private void printRepositoryPackages(List<PackageInfo> packages) {
@@ -165,7 +150,9 @@ public class Installer extends ActionInterface {
 			}
 		}
 		
-		SoftwareInventoryDto dto = searchRegistry(); 
+		RegistryManager registryManager = new RegistryManager();
+		
+		SoftwareInventoryDto dto = registryManager.searchRegistry(packageName, version, groupId); 
 		if (dto != null && !reinstall) {
 			System.err.println("The package " + packageName + " is already installed. " +
 					"Use --reinstall or remove it before trying again!");
@@ -173,9 +160,7 @@ public class Installer extends ActionInterface {
 			return;
 		}
 		
-		
 		Engine engine = new GroovyEngine();
-		RegistryManager registryManager = new RegistryManager();
 		
 		PackageInfo packageInfo = packages.get(0);
 		File file = new File(packageInfo.getPath());

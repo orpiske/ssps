@@ -88,19 +88,6 @@ public class Uninstall extends ActionInterface {
 		version = cmdLine.getOptionValue('v');
 	}
 	
-	/**
-	 * @throws DatabaseInitializationException
-	 * @throws RegistryException
-	 */
-	private SoftwareInventoryDto searchRegistry() throws DatabaseInitializationException,
-			RegistryException {
-		
-		
-		SoftwareInventoryDto dto = registryManager.search(packageName);
-		
-		return dto;
-	}
-	
 	private void runUninstallScript() throws EngineException {
 		RepositoryFinder finder = new FileSystemRepositoryFinder();
 		PackageInfo packageInfo = finder.findFirst(packageName);
@@ -119,7 +106,9 @@ public class Uninstall extends ActionInterface {
 	}
 	
 	private void uninstall() throws DatabaseInitializationException, RegistryException, EngineException {
-		SoftwareInventoryDto dto = searchRegistry();
+		SoftwareInventoryDto dto = registryManager.searchRegistry(packageName, version, 
+				groupId);
+				
 		
 		if (dto == null) {
 			System.err.println("The package " + packageName + " is not installed!");

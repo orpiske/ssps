@@ -106,20 +106,24 @@ public class Search extends ActionInterface {
 			RegistryException {
 		RegistryManager registryManager = new RegistryManager();
 		
-		SoftwareInventoryDto dto = registryManager.search(packageName);
+		List<SoftwareInventoryDto> list = registryManager.search(packageName);
 		
-		if (dto == null) {
-			System.out.println("The package " + packageName + " is not installed");
+		for (SoftwareInventoryDto dto : list) { 
 			
-			return;
+			if (dto == null) {
+				System.out.println("The package " + packageName + " is not installed");
+				
+				return;
+			}
+			
+			System.out.println("------");
+			System.out.println("Group ID: " + dto.getGroupId());
+			System.out.println("Name: " + dto.getName());
+			System.out.println("Version: " + dto.getVersion());
+			System.out.println("Type: " + dto.getType());
+			System.out.println("Installation date: " + dto.getInstallDate());
+			System.out.println("Installation directory: " + dto.getInstallDir());
 		}
-		
-		System.out.println("Group ID: " + dto.getGroupId());
-		System.out.println("Name: " + dto.getName());
-		System.out.println("Version: " + dto.getVersion());
-		System.out.println("Type: " + dto.getType());
-		System.out.println("Installation date: " + dto.getInstallDate());
-		System.out.println("Installation directory: " + dto.getInstallDir());
 	}
 
 	@Override
