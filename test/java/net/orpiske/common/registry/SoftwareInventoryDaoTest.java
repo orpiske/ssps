@@ -78,7 +78,7 @@ public class SoftwareInventoryDaoTest {
 		
 		dao.insert(dto);
 		
-		SoftwareInventoryDto readDto = dao.getByName("sdm");
+		SoftwareInventoryDto readDto = dao.getByName("sdm").get(0);
 		
 		assertEquals("net.orpiske.ssps", readDto.getGroupId());
 		assertEquals("sdm", readDto.getName());
@@ -102,7 +102,7 @@ public class SoftwareInventoryDaoTest {
 		
 		readDto2 = dao.updateVersion("0.2.1", readDto2);
 		
-		readDto = dao.getByName("sdm");
+		readDto = dao.getByName("sdm").get(0);
 		
 		assertEquals("0.2.1", readDto.getVersion());
 		
