@@ -18,6 +18,7 @@ package net.orpiske.sdm.registry;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
@@ -95,16 +96,29 @@ public class RegistryManager {
 	}
 	
 	
-	public SoftwareInventoryDto search(final String name) throws RegistryException {
-		SoftwareInventoryDto dto;
+	public List<SoftwareInventoryDto> search(final String name) throws RegistryException {
+		List<SoftwareInventoryDto> list;
 		
 		try {
-			dto = inventory.getByName(name);
+			list = inventory.getByName(name);
 		} catch (SQLException e) {
 			throw new RegistryException("Unable to search for " + name, e);
 		}
 		
-		return dto;
+		return list;
+	}
+	
+	
+	public List<SoftwareInventoryDto> search() throws RegistryException {
+		List<SoftwareInventoryDto> list;
+		
+		try {
+			list = inventory.getAll();
+		} catch (SQLException e) {
+			throw new RegistryException("Unable to search for all packages ", e);
+		}
+		
+		return list;
 	}
 	
 	
@@ -114,6 +128,34 @@ public class RegistryManager {
 		} catch (SQLException e) {
 			throw new RegistryException("Unable to delete package: " + e.getMessage(), e);
 		}
+	}
+	
+	
+	/**
+	 * @throws DatabaseInitializationException
+	 * @throws RegistryException
+	 */
+	public SoftwareInventoryDto searchRegistry(final String name, final String version, 
+			final String groupId) throws RegistryException 
+	{
+		
+		List<SoftwareInventoryDto> list = search(name);
+		
+		for (SoftwareInventoryDto dto : list) {
+			if (!dto.getVersion().equals(version) && version != null) {
+				continue;
+			}
+			
+			if (!dto.getGroupId().equals(groupId) && groupId != null) {
+				continue;
+			}
+			
+			return dto;
+		}
+		
+		return null;
+		
+	
 	}
 	
 
