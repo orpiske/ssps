@@ -173,15 +173,12 @@ public class RegistryManager {
 		List<SoftwareInventoryDto> list = search(name);
 		
 		for (SoftwareInventoryDto dto : list) {
-			if (!dto.getVersion().equals(version) && version != null) {
-				continue;
-			}
 			
-			if (!dto.getGroupId().equals(groupId) && groupId != null) {
-				continue;
+			if (dto.getVersion().equals(version)) {
+				if (dto.getGroupId().equals(groupId)) {
+					return dto;
+				}
 			}
-			
-			return dto;
 		}
 		
 		return null;
