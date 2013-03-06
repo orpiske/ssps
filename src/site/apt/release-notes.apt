@@ -7,6 +7,10 @@
 
 
 SSPS Version 0.2.0
+
+	* Switch to a Git-based or SVN-based repository format
+
+	* Updated the documentation
 	
 	* Replaced the XML rule mechanism with a more extensible Groovy-based mechanism
 	
