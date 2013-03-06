@@ -46,10 +46,13 @@ Installing packages
 sdm install -p <package name>
 ----------------------------------------
 
+	If there are collisions (ie: other packages with the same name), you will have 
+to inform the version (-v) and, eventually, the group id (-g).
+
 Learning About SSPS
 
-	To learn how to run SPM and install packages, please read the 
-{{{./run-spm.html}Run SPM}} page.
+	To learn how to run SDM and install packages, please read the 
+{{{./run-sdm.html}Run SDM}} page.
 
 	To learn how to write installation scripts and contribute to the SPM default
 repository, please read the {{{./writing-scripts.html}Writing Scripts}} page.
