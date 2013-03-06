@@ -7,7 +7,7 @@
 
 Obtaining Help	
 
-	You can always use the --help flag on each of the actions. That will 
+	You can always use the <<<--help>>> flag on each of the actions. That will 
 print a brief explanation of each of the flags.
 
 
@@ -46,7 +46,7 @@ sdm add-repository -n default -u git://github.com/orpiske/sdm-packages.git
 
 Install
 
-	This action installs a package on your ${HOME}/software directory
+	This action installs a package on your <<<${HOME}/software>>> directory
 
 ----------------------------------------
 sdm install -p apache-maven
@@ -101,6 +101,20 @@ Type: B
 Installation date: 2013-03-03 18:27:31.31
 Installation directory: /Users/otavio/software/apache-maven-3.0.5
 ----------------------------------------
+
+	You can also request for machine-parseable output using <<<--parseable>>>:
+
+----------------------------------------
+-> % sdm search -a -i --parseable                                            
+Group ID           Package Name            Version     Type  Install Date               Install Dir
+org.apache      => apache-ant           => 1.8.4     => B => 2013-03-03 18:27:48.366 => /Users/otavio/software/apache-ant-1.8.4
+org.apache      => apache-derby         => 10.9.1.0  => B => 2013-03-03 18:28:27.678 => /Users/otavio/software/apache-derby-10.9.1.0
+org.apache      => apache-maven         => 2.2.1     => B => 2013-03-05 21:20:22.866 => /Users/otavio/software/apache-maven-2.2.1
+org.apache      => apache-maven         => 3.0.5     => B => 2013-03-03 18:27:31.31  => /Users/otavio/software/apache-maven-3.0.5
+----------------------------------------	
+
+	The flag <<<-a>>> along with <<<-i>>> will print all installed packages
+
 
 Update
 
