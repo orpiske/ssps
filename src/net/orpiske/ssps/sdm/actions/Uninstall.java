@@ -15,7 +15,10 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
+
 import java.io.File;
+import java.util.List;
 
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
@@ -102,12 +105,43 @@ public class Uninstall extends ActionInterface {
 		Engine engine = new GroovyEngine();
 		File file = new File(packageInfo.getPath());
 		engine.runUninstall(file);
-		
 	}
 	
-	private void uninstall() throws DatabaseInitializationException, RegistryException, EngineException {
-		SoftwareInventoryDto dto = registryManager.searchRegistry(packageName, version, 
-				groupId);
+	
+	/**
+	 * @throws RegistryException
+	 * @throws SspsException
+	 */
+	private SoftwareInventoryDto checkIfInstalled() throws RegistryException, SspsException {
+		List<SoftwareInventoryDto> list = registryManager.search(packageName);
+		
+		if (list.size() == 1) {
+			return list.get(0);
+		}
+		
+	
+		if (list.size() > 1) {
+			if (version == null || groupId == null) {				
+				printInventoryList(list);
+				
+				throw new SspsException("Multiple installed packages found on the " 
+						+ "database (use -g and -v)");
+			}
+		}
+
+		for (SoftwareInventoryDto dto : list) {
+			if (dto.getVersion().equals(version) || version == null) {
+				if (dto.getGroupId().equals(groupId) || groupId == null) {
+					return dto;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	private void uninstall() throws SspsException {
+		SoftwareInventoryDto dto = checkIfInstalled();
 				
 		
 		if (dto == null) {
@@ -167,6 +201,8 @@ public class Uninstall extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to run script cleanup: " + e.getMessage(), e);
 			}
+		} catch (SspsException e) {
+			System.err.println(e.getMessage());
 		} 
 	}
 

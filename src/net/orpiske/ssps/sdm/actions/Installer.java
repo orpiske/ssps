@@ -23,6 +23,7 @@ import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.registry.RegistryManager;
+import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
@@ -60,6 +61,7 @@ public class Installer extends ActionInterface {
 	private String groupId;
 	private String packageName;
 	private String version;
+	private RegistryManager registryManager;
 
 	/**
 	 * Constructor
@@ -126,7 +128,12 @@ public class Installer extends ActionInterface {
 		printPackageList(packages);
 	}
 
-	private void install() throws SspsException {
+
+	/**
+	 * @return
+	 * @throws SspsException
+	 */
+	private List<PackageInfo> checkRepositoryColision() throws SspsException {
 		RepositoryFinder finder = new FileSystemRepositoryFinder();
 		List<PackageInfo> packages = finder.find(groupId, packageName, version);
 		
@@ -140,16 +147,39 @@ public class Installer extends ActionInterface {
 				throw new SspsException("Too many packages found: " + packageName);
 			}
 		}
-		
-		RegistryManager registryManager = new RegistryManager();
-		
-		SoftwareInventoryDto dto = registryManager.searchRegistry(packageName, version, groupId); 
-		if (dto != null && !reinstall) {
-			System.err.println("The package " + packageName + " is already installed. " +
-					"Use --reinstall or remove it before trying again!");
+		return packages;
+	}
+
+
+	/**
+	 * @throws RegistryException
+	 * @throws SspsException
+	 */
+	private void checkIfInstalled() throws RegistryException, SspsException {
+		List<SoftwareInventoryDto> list = registryManager.search(packageName);
 			
-			return;
+		for (SoftwareInventoryDto dto : list) {
+			if (dto.getVersion().equals(version) || version == null) {
+				if (dto.getGroupId().equals(groupId) || groupId == null) {
+					if (!reinstall) { 
+						System.err.printf("The package %s/%s-%s is already installed\n",
+								(groupId == null? dto.getGroupId() : groupId), 
+								packageName, 
+								(version == null? dto.getVersion() : version));
+						printInventoryList(list);
+						
+						throw new SspsException("Multiple installed packages found " 
+								+ packageName);
+					}
+				}
+			}
 		}
+	}
+
+	private void install() throws SspsException {
+		List<PackageInfo> packages = checkRepositoryColision();
+		
+		checkIfInstalled();
 		
 		Engine engine = new GroovyEngine();
 		
@@ -172,8 +202,6 @@ public class Installer extends ActionInterface {
 	}
 
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -186,6 +214,8 @@ public class Installer extends ActionInterface {
 				help(options, 1);
 			}
 			else {
+				registryManager = new RegistryManager();
+				
 				install();
 			}
 		
