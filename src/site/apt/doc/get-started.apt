@@ -7,7 +7,7 @@
 
 Introduction
 
-	After you have downloaded SPM, install it and add the bin folder to the 
+	After you have downloaded SDM, install it and add the bin folder to the 
 $PATH environment variable of your operating system. On Windows, this can be 
 done on My Computer. There are various ways of doing this on Unix, Linux and 
 Mac OS X, but it basically involves editing <<<~/.bashrc>>>, <<<$HOME/.profile>>>
@@ -16,7 +16,7 @@ or a similar file.
 	
 Add The Default Repository
 
-	The very first step before using SPM is to download a remote repository of
+	The very first step before using SDM is to download a remote repository of
 packages and install within your local repository. To add the default SPM 
 repository run the following command: 
 
