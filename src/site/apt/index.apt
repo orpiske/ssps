@@ -27,7 +27,7 @@ Why SDM?
 	In a world full of package managers (RPM, APT, Portage, Homebrew, etc) why 
 write another package manager tool? Because: 
 
-	* It's hard to run these tools without root access. SDM, on the other hand
+	* It's hard to run these tools without root access. SDM, on the other hand,
 can run as a regular user.
 	
 	* Most of the time they are specific to a certain operating system and/or 
@@ -35,7 +35,7 @@ Linux distribution. SDM, runs on a broad range of systems: Linux, Mac OS X,
 Solaris and Windows have been tested. It's very likely to run on other OS as 
 well.
 
-	* Sometimes they can be overly complex, overly powerful. SDM aims to be as
+	* Sometimes they can be overly complex and overly powerful. SDM aims to be as
 simple as possible (but not simpler than that).
 	
 	* Sometimes they have a very large dependency chain. SDM comes will all the 
