@@ -44,9 +44,7 @@ class ApacheMaven extends BinaryPackage {
 	def name = "apache-maven"
 	def url = "http://apache.mirror.pop-sc.rnp.br/apache/maven/maven-3/${version}/binaries/apache-maven-${version}-bin.tar.gz"
 	
-	void install(String artifactName) {		
-		String workdir = WorkdirUtils.getWorkDir()
-
+	void install() {
 		shield("${installDir}/${name}-${version}/conf/settings.xml")		
 		
 		performInstall("${name}", "${version}")
