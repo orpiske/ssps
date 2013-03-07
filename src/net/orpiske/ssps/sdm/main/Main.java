@@ -34,6 +34,7 @@ import net.orpiske.ssps.sdm.actions.Search;
 import net.orpiske.ssps.sdm.actions.Uninstall;
 import net.orpiske.ssps.sdm.actions.Update;
 import net.orpiske.ssps.sdm.utils.Constants;
+import net.orpiske.ssps.sdm.utils.net.ProxyHelper;
 
 import org.apache.commons.configuration.ConfigurationException;
 
@@ -131,6 +132,10 @@ public class Main {
 		}
 
 	}
+	
+	private static void initProxy() {
+		ProxyHelper.setup();
+	}
 
 	/**
 	 * @param args
@@ -163,6 +168,8 @@ public class Main {
 			e.printStackTrace();
 			System.exit(-2);
 		}
+		
+		initProxy();
 
 		if (first.equals("install")) {
 			Installer installer = new Installer(newArgs);
