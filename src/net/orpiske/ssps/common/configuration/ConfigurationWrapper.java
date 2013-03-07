@@ -18,6 +18,8 @@ package net.orpiske.ssps.common.configuration;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import net.orpiske.ssps.common.utils.Utils;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -52,9 +54,22 @@ public class ConfigurationWrapper {
 			throw new FileNotFoundException(
 					"The configuration dir was not found");
 		}
-
+		
 		config = new PropertiesConfiguration(configDir + File.separator
 				+ fileName);
+		
+		
+		// Appends an user config file, if exits ($HOME/.sdm/sdm.properties)
+		String userFilePath = Utils.getSdmDirectoryPath() + File.separator 
+				+ fileName;
+		File userFile = new File(userFilePath);
+		
+		if (userFile.exists()) { 
+			PropertiesConfiguration userConfiguration = 
+					new PropertiesConfiguration(userFile);
+			
+			config.append(userConfiguration);
+		}
 	}
 
 	/**
