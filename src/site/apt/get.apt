@@ -5,6 +5,13 @@
 	------
 	Jun, 2012
 
+Requirements
+
+	* Java 1.6
+
+	* Supported Operating Systems: Windows, Linux, Mac OS X and Solaris. It's 
+likely to support HP-UX, AIX and others. If they do, please let us know. 
+
 
 SDM Binary
 

@@ -1,0 +1,94 @@
+	------
+	Get Started
+	------
+	Otavio R. Piske
+	------
+	Jan, 2013
+	
+	
+Introduction
+
+	Corporate environments will, most likely, have a proxy server. You need to 
+setup them before being able to download and update. You can do so by editing 
+the global settings file <<<sdm.properties>>> or the user settings file 
+<<<$HOME/.sdm/sdm.properties>>> 
+
+HTTP Settings
+
+	Pretty simple: set the server addres and port. You can also provide a list
+of hosts that don't require proxy connection. The list values is separated by 
+"|" and accept * as wild cards.
+
+----------------------------------------
+# HTTP proxy server
+# http.proxy.server=server.com
+
+# HTTP Proxy Port
+# http.proxy.port=80
+
+# Non proxy hosts list
+# http.proxy.ignore=localhost|127.0.0.1|*.corp.mycompany.com
+----------------------------------------
+
+HTTPS Settings
+
+	If you want to use the same server for both HTTPS and HTTP, then leave this 
+commented. The application will pick HTTP settings by default. Otherwise, change
+the <<<https.proxy.dedicated>>> setting to true and configure the other settings
+accordingly.
+
+----------------------------------------
+# Whether HTTPS use a separate server for HTTPS connections (if false, it 
+# uses the same settings as HTTP)
+# 
+# https.proxy.dedicated=true
+
+# HTTPS proxy server
+# https.proxy.server=secure.server.com
+
+# HTTPS Proxy Port
+# https.proxy.port=80
+
+# Non proxy hosts list
+# https.proxy.ignore=localhost|127.0.0.1|*.corp.mycompany.com
+----------------------------------------
+
+FTP Settings
+
+	If you want to use the same server for both FTP and HTTP, then leave this 
+commented. The application will pick HTTP settings by default. Otherwise, change
+the <<<ftp.proxy.dedicated>>> setting to true and configure the other settings
+accordingly.
+
+----------------------------------------
+# Whether HTTPS use a separate server for HTTPS connections (if false, it 
+# uses the same settings as HTTP)
+# ftp.proxy.dedicated=true
+
+# FTP proxy server
+# ftp.proxy.server=server.com
+
+# FTP Proxy Port
+# ftp.proxy.port=80
+
+# Non proxy hosts list
+# ftp.proxy.ignore=localhost|127.0.0.1|*.corp.mycompany.com
+----------------------------------------
+
+Socks
+
+	Pretty straightforward. Even better, you don't have to setup the non-proxy
+hosts lists.
+
+----------------------------------------
+# Socks Proxy Server
+# socks.proxy.server=socks.server.com
+
+# Socks Proxy Port 
+# socs.proxy.port=1080
+----------------------------------------
+
+
+
+
+
