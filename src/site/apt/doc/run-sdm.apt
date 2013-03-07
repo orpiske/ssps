@@ -29,7 +29,7 @@ Actions:
    uninstall
    update
    search
-----------
+...
    help
    --version
 ----------------------------------------
@@ -46,16 +46,66 @@ sdm add-repository -n default -u git://github.com/orpiske/sdm-packages.git
 
 Install
 
-	This action installs a package on your <<<${HOME}/software>>> directory
+	This action installs a package on your <<<${HOME}/software>>> directory (or 
+whatever you configured in the <<<sdm.properties>>> file. For instance: 
 
 ----------------------------------------
 sdm install -p apache-maven
 ----------------------------------------
 
-	If the package is already installed, you'll need to reinstall it:
+	However, running the command above will cause a collision because multiple
+packages with that name exist:
 
 ----------------------------------------
-sdm install -p apache-maven --reinstall
+More than one match found. Please specify either the version (-v) or the group (-g) name: 
+...
+Group ID: org.apache
+Name: apache-maven
+Version: 2.2.1
+Type: BINARY
+File: /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/2.2.1/pkg/apache-maven.groovy
+...
+Group ID: org.apache
+Name: apache-maven
+Version: 3.0.5
+Type: BINARY
+File: /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.5/pkg/apache-maven.groovy
+Too many packages found: apache-maven
+----------------------------------------
+
+	To prevent collisions, so you'll need to inform the specific version 
+(<<<-v>>>) and, eventually, the group id (<<<-g>>>):
+
+----------------------------------------
+sdm install -p apache-maven -v 2.2.1
+----------------------------------------
+
+	Running the command above one more time, will cause a registry collision. 
+	
+----------------------------------------
+The package org.apache/apache-maven-2.2.1 is already installed
+
+Group ID: org.apache
+Name: apache-maven
+Version: 2.2.1
+Type: B
+Installation date: 2013-03-07 13:46:22.92
+Installation directory: /Users/otavio/software/apache-maven-2.2.1
+Multiple installed packages found apache-maven
+----------------------------------------
+ 
+	If you want to reinstall the package, <<<--reinstall>>> comes at your rescue:
+
+----------------------------------------
+sdm install -p apache-maven -v 2.2.1 --reinstall
+----------------------------------------
+
+
+	Finally, SDM caches the downloaded package. This may consume disk space. To 
+clean it up, you can provide <<<--cleanup>>> to the command-line:
+
+----------------------------------------
+sdm install -p apache-maven -v 2.2.1 --reinstall --cleanup
 ----------------------------------------
 
 Uninstall 
@@ -66,6 +116,8 @@ Uninstall
 sdm uninstall -p apache-maven 
 ----------------------------------------
 
+	Just like with install, there can be package collisions. Use <<<-g>>> and
+<<<-v>>> to resolve them.
 
 Search
 
@@ -115,7 +167,7 @@ org.apache      => apache-maven         => 3.0.5     => B => 2013-03-03 18:27:31
 
 	The flag <<<-a>>> along with <<<-i>>> will print all installed packages
 
-
+g
 Update
 
 	The update is used to refresh your local scripts with the remote repository data. To 
