@@ -15,11 +15,8 @@
 */
 package net.orpiske.sdm.util;
 
-import java.util.HashMap;
-
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.resource.DefaultResourceExchange;
-import net.orpiske.ssps.common.resource.DefaultResourceExchange.Properties;
 import net.orpiske.ssps.common.resource.ResourceExchange;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -41,23 +38,7 @@ public final class ResourceExchangeFactory {
 	public static ResourceExchange newResourceExchange() {
 		ResourceExchange resourceExchange;
 		
-		String proxyHost = config.getString("http.proxy.url");
-		
-		
-		if (proxyHost != null) {
-			Integer port = config.getInteger("http.proxy.port", 80);
-			
-			HashMap<String, Object> connectionProperties = 
-					new HashMap<String, Object>();
-			
-			connectionProperties.put(Properties.HTTP_PROXY, proxyHost);
-			connectionProperties.put(Properties.PROXY_PORT, port);
-			
-			resourceExchange = new DefaultResourceExchange(connectionProperties);
-		}
-		else {
-			resourceExchange = new DefaultResourceExchange();	
-		}
+		resourceExchange = new DefaultResourceExchange();
 		
 		return resourceExchange;
 		
