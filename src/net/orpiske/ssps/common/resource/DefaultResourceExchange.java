@@ -17,6 +17,7 @@ package net.orpiske.ssps.common.resource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ProxySelector;
 import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,11 +33,12 @@ import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.ProxySelectorRoutePlanner;
 import org.apache.log4j.Logger;
 
 /**
@@ -63,15 +65,20 @@ public class DefaultResourceExchange implements ResourceExchange {
 	}
 	
 	
-	private HttpClient httpclient = new DefaultHttpClient();
+	private AbstractHttpClient httpclient = new DefaultHttpClient();
 	
 	
 	
 	/**
-	 * Constructor
+	 * Default constructor: setups a default http client object and uses system
+	 * proxy information if available
 	 */
 	public DefaultResourceExchange() {
+		ProxySelectorRoutePlanner routePlanner = new ProxySelectorRoutePlanner(
+		        httpclient.getConnectionManager().getSchemeRegistry(),
+		        ProxySelector.getDefault());
 		
+		httpclient.setRoutePlanner(routePlanner);
 	}
 	
 	/**
@@ -83,6 +90,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 	public DefaultResourceExchange(HashMap<String, Object> connectionProperties) {
 		String proxy = (String) connectionProperties.get(Properties.HTTP_PROXY);
 		Integer port = (Integer) connectionProperties.get(Properties.PROXY_PORT);
+		
 		
 		if (proxy != null) { 
 			HttpHost proxyHost = new HttpHost(proxy,port.intValue());
