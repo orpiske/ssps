@@ -16,6 +16,8 @@ SSPS Version 0.2.0
 	
 	* Converted the XML rules to POJO and made them available via Groovy
 
+	* Unified and improved support for proxy servers
+
 	
 SSPS Version 0.1.0
 
