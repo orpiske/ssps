@@ -94,7 +94,10 @@ public class IOUtil {
 			if (!overwrite) {
 				return;
 			}
-			
+		}
+		
+		if (!fromFile.exists()) {
+			throw new IOException("File or directory not found: " + from);
 		}
 		
 		createParentDirectories(toFile);
