@@ -24,6 +24,7 @@ import net.orpiske.ssps.common.archive.Archive;
 import net.orpiske.ssps.common.archive.exceptions.SspsArchiveException;
 import net.orpiske.ssps.common.archive.tbz.TbzArchive;
 import net.orpiske.ssps.common.archive.tgz.TgzArchive;
+import net.orpiske.ssps.common.archive.zip.ZipArchive;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -68,7 +69,13 @@ public class Unpack {
 				archive = new TgzArchive();
 			}
 			else {
-				throw new UnsupportedFormat("Unsupported format: " + extension);
+				if (extension.equals("zip")) {
+					archive = new ZipArchive();
+				}
+				else { 
+					throw new UnsupportedFormat("Unsupported format: " 
+							+ extension);
+				}
 			}
 		}
 		
