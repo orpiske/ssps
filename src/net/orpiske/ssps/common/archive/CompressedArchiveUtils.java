@@ -20,13 +20,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Enumeration;
+
 
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorOutputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.archivers.zip.*;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -46,7 +50,7 @@ public class CompressedArchiveUtils {
 	 * @param destination
 	 * @throws IOException
 	 */
-	private static void prepareDestination(File destination)
+	public static void prepareDestination(File destination)
 			throws IOException {
 		File parent = destination.getParentFile();
 		
@@ -151,7 +155,7 @@ public class CompressedArchiveUtils {
 	
 	/**
 	 * Uncompress a file
-	r * @param source the source file to be uncompressed
+	 * @param source the source file to be uncompressed
 	 * @param destination the destination directory
 	 * @return the number of bytes read
 	 * @throws IOException for lower level I/O errors
@@ -190,5 +194,38 @@ public class CompressedArchiveUtils {
 		}
 	
 		return bzIn.getBytesRead();
+	}
+	
+	
+	/**
+	 * Uncompress a file
+	 * @param source the source file to be uncompressed
+	 * @param destination the destination directory
+	 * @return the number of bytes read
+	 * @throws IOException for lower level I/O errors
+	 */
+	public static long zipUncompress(File source, File destination) throws IOException {
+		prepareDestination(destination);
+		
+		ZipFile zipFile = new ZipFile(source);
+		
+		Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
+		ZipArchiveEntry entry = entries.nextElement();
+		
+		while (entry != null) {
+			InputStream fin = zipFile.getInputStream(entry);
+			BufferedInputStream bin = new BufferedInputStream(fin);
+			
+			FileOutputStream out = new FileOutputStream(destination);	
+			
+			IOUtils.copy(fin, out);
+			
+			IOUtils.closeQuietly(out);
+		
+			IOUtils.closeQuietly(fin);
+			IOUtils.closeQuietly(bin);
+		}
+		
+		return 0;
 	}
 }
