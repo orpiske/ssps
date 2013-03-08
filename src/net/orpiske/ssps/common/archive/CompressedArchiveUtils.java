@@ -20,17 +20,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
 
-
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorOutputStream;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.commons.compress.archivers.zip.*;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -59,57 +51,7 @@ public class CompressedArchiveUtils {
 		}
 	}
 
-	/**
-	 * Compress a file
-	 * 
-	 * @param source
-	 *            source file
-	 * @param destination
-	 *            destination file
-	 * @param format
-	 *            compression format
-	 * @throws CompressorException if the archiver name is not known
-	 * @throws IOException for lower level I/O errors
-	 */
-	public static void compress(File source, File destination, String format)
-			throws CompressorException, IOException {
-		CompressorStreamFactory factory = new CompressorStreamFactory();
-		OutputStream outStream = new FileOutputStream(destination);
-		CompressorOutputStream compressedOut = null;
 	
-		try {
-			compressedOut = factory
-					.createCompressorOutputStream(format, outStream);
-		} catch (CompressorException e) {
-			IOUtils.closeQuietly(compressedOut);
-	
-			throw e;
-		}
-	
-		FileInputStream fin = null;
-		BufferedInputStream bin = null;
-	
-		try {
-			fin = new FileInputStream(source);
-			bin = new BufferedInputStream(fin);
-	
-			IOUtils.copy(bin, compressedOut);
-	
-			compressedOut.flush();
-			compressedOut.close();
-	
-			bin.close();
-			fin.close();
-			outStream.close();
-		} catch (IOException e) {
-			IOUtils.closeQuietly(compressedOut);
-			IOUtils.closeQuietly(bin);
-			IOUtils.closeQuietly(fin);
-			IOUtils.closeQuietly(outStream);
-	
-			throw e;
-		}
-	}
 
 	/**
 	 * Uncompress a file
@@ -194,38 +136,5 @@ public class CompressedArchiveUtils {
 		}
 	
 		return bzIn.getBytesRead();
-	}
-	
-	
-	/**
-	 * Uncompress a file
-	 * @param source the source file to be uncompressed
-	 * @param destination the destination directory
-	 * @return the number of bytes read
-	 * @throws IOException for lower level I/O errors
-	 */
-	public static long zipUncompress(File source, File destination) throws IOException {
-		prepareDestination(destination);
-		
-		ZipFile zipFile = new ZipFile(source);
-		
-		Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
-		ZipArchiveEntry entry = entries.nextElement();
-		
-		while (entry != null) {
-			InputStream fin = zipFile.getInputStream(entry);
-			BufferedInputStream bin = new BufferedInputStream(fin);
-			
-			FileOutputStream out = new FileOutputStream(destination);	
-			
-			IOUtils.copy(fin, out);
-			
-			IOUtils.closeQuietly(out);
-		
-			IOUtils.closeQuietly(fin);
-			IOUtils.closeQuietly(bin);
-		}
-		
-		return 0;
 	}
 }
