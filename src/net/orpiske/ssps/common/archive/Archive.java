@@ -15,7 +15,6 @@
  */
 package net.orpiske.ssps.common.archive;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import net.orpiske.ssps.common.archive.exceptions.SspsArchiveException;
@@ -30,20 +29,6 @@ import org.apache.commons.compress.archivers.ArchiveException;
  */
 public interface Archive {
 
-	/**
-	 * Packs all the files in 'directory' into the 'destination' file
-	 * 
-	 * @param destination
-	 *            The destination file name. Must provide the full path
-	 * @param source
-	 *            The source directory containing the archive files
-	 * @return The number of bytes of the packed file
-	 * @throws FileNotFoundException
-	 * @throws ArchiveException
-	 * @throws IOException
-	 */
-	long pack(final String source, final String destination)
-			throws SspsArchiveException;
 
 	/**
 	 * Unpack 'file' to 'directory'

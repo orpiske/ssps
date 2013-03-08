@@ -26,8 +26,6 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.log4j.Logger;
 
 
@@ -45,22 +43,6 @@ public class TgzArchive implements Archive {
 	 */
 	public static final String TGZ_EXTENSION = ".gz";
 
-	private String getArchiveFileExtension(final String originalName) {
-		if (originalName.endsWith(TarArchiveUtils.TAR_EXTENSION)) {
-			return originalName;
-		}
-
-		return originalName + TarArchiveUtils.TAR_EXTENSION;
-	}
-
-	private String getCompressedFileExtension(final String originalName) {
-		if (originalName.endsWith(TGZ_EXTENSION)) {
-			return originalName;
-		}
-
-		return originalName + TGZ_EXTENSION;
-	}
-
 	private String replaceCompressedFileExtension(final String originalName) {
 		if (originalName.endsWith(".gz")) {
 			return originalName.replaceAll(".gz", "");
@@ -68,43 +50,7 @@ public class TgzArchive implements Archive {
 
 		return originalName;
 	}
-	
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.ssps.common.archive.Archive#pack(java.lang.String, java.lang.String)
-	 */
-	public long pack(String source, String destination)
-			throws SspsArchiveException {
-		File archiveFile = new File(getArchiveFileExtension(destination));
-
-		try {
-			TarArchiveUtils.pack(source, archiveFile);
-		} catch (ArchiveException e1) {
-			throw new SspsArchiveException("Unable to archive file", e1);
-		} catch (IOException e1) {
-			throw new SspsArchiveException("Unable to archive file: I/O error",
-					e1);
-		}
-
-		File compressedFile = new File(getCompressedFileExtension(destination));
-
-		try {
-			CompressedArchiveUtils.compress(archiveFile, compressedFile, CompressorStreamFactory.BZIP2);
-			
-			return 0;
-		} catch (CompressorException e) {
-			throw new SspsArchiveException("Unable to compress archive file", e);
-		} catch (IOException e) {
-			throw new SspsArchiveException(
-					"Unable to compress archive file: I/O error", e);
-		} finally {
-			if (archiveFile.exists()) {
-				archiveFile.delete();
-
-			}
-		}
-	}
 
 	/*
 	 * (non-Javadoc)

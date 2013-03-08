@@ -31,14 +31,13 @@ import net.orpiske.ssps.common.archive.CompressedArchiveUtils;
 import net.orpiske.ssps.common.archive.PermissionsUtils;
 import net.orpiske.ssps.common.archive.exceptions.SspsArchiveException;
 
+/**
+ * Zip archive support
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ */
 public class ZipArchive implements Archive {
 
-	@Override
-	public long pack(String source, String destination)
-			throws SspsArchiveException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	/**
 	 * Uncompress a file
