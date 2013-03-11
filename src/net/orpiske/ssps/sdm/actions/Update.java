@@ -15,7 +15,19 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.orpiske.sdm.registry.RegistryManager;
+import net.orpiske.sdm.registry.exceptions.RegistryException;
+import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
+import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
+import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.RepositoryManager;
+import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
+import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.sdm.update.Upgradeable;
+import net.orpiske.ssps.sdm.utils.PrintUtils;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -56,7 +68,32 @@ public class Update extends ActionInterface {
 		}
 		
 		isHelp = cmdLine.hasOption("help");
+	}
+	
+	
+	private List<Upgradeable> compare() throws RegistryException, DatabaseInitializationException {
+		RepositoryFinder finder = new FileSystemRepositoryFinder();
+		RegistryManager registryManager = new RegistryManager();
+		List<SoftwareInventoryDto> list = null;
 		
+		List<Upgradeable> ret = new ArrayList<Upgradeable>();
+		
+		list = registryManager.search();
+		
+		for (SoftwareInventoryDto dto : list) {
+			Upgradeable up = new Upgradeable(dto);
+			
+			List<PackageInfo> packages = finder.find(dto.getGroupId(), 
+					dto.getName(), null);
+			
+			for (PackageInfo packageInfo: packages) {
+				up.addCandidate(packageInfo);
+			}
+			
+			ret.add(up);
+		}
+		
+		return ret;
 	}
 
 	@Override
@@ -68,6 +105,19 @@ public class Update extends ActionInterface {
 		}
 		else {
 			repositoryManager.update();
+			
+			try {
+				List<Upgradeable> up = compare();
+				
+				PrintUtils.printUpgradeable(up);
+			} catch (RegistryException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DatabaseInitializationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	
 	}

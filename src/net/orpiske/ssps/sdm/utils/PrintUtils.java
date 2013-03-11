@@ -19,6 +19,7 @@ import java.util.List;
 
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
+import net.orpiske.ssps.sdm.update.Upgradeable;
 
 /**
  * Print utilities
@@ -111,6 +112,35 @@ public class PrintUtils {
 		System.out.printf("%-15s => %-20s => %-9s => %-1s => %-23s => %s\n", 
 				dto.getGroupId(), dto.getName(), dto.getVersion(),
 				dto.getType(), dto.getInstallDate(), dto.getInstallDir());
+	}
+	
+	
+	/**
+	 * Prints parseable software inventory record information
+	 * @param dto
+	 */
+	public static void printUpgradeable(final List<Upgradeable> list) {
+		if (list.size() == 0) {
+			System.out.println("No packages to upgrade");
+			
+			return;
+		}
+		
+		
+		System.out.println("These are all the packages candidates for upgrade");
+		
+		System.out.printf("%-15s    %-32s    %-9s    %-9s\n", 
+				"Group ID", "Package Name", "Older", "Newer");
+		
+		
+		for (Upgradeable up : list) { 
+			for (PackageInfo candidate : up.getCandidates()) { 
+				System.out.printf("%-15s => %-32s => %-9s => %-9s\n", 
+						up.getDto().getGroupId(), up.getDto().getName(), 
+						up.getDto().getVersion(), candidate.getVersion());
+			}
+		}
+		
 	}
 	
 	
