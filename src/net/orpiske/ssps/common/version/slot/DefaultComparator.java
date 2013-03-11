@@ -15,8 +15,20 @@
 */
 package net.orpiske.ssps.common.version.slot;
 
+/**
+ * Implements the default slot comparator. That means that it considers any 
+ * greater, no matter if in the same major or minor, as an upgrade. In other 
+ * words: there's no slot.
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class DefaultComparator implements SlotComparator {
 
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.version.slot.SlotComparator#fits(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public boolean fits(String v1, String v2) {
 		return true;

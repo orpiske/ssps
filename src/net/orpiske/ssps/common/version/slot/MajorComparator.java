@@ -15,8 +15,21 @@
 */
 package net.orpiske.ssps.common.version.slot;
 
+
+/**
+ * This class implements the comparator for MAJOR.MINOR version ranges. Hence
+ * given two versions "1.1.0" and "1.2.0", each would be on the same slot. On 
+ * the other hand, "1.0.0" and "2.0.0" are on a separate slot.
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class MajorComparator implements SlotComparator {
 
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.version.slot.SlotComparator#fits(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public boolean fits(String v1, String v2) {
 		String[] parts1;

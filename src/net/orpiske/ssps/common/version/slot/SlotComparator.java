@@ -15,7 +15,23 @@
 */
 package net.orpiske.ssps.common.version.slot;
 
+/**
+ * Describes the interface class for implementing slot comparators
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public interface SlotComparator {
 
+	
+	/**
+	 * Checks whether a given version fits in the same slot as another. For 
+	 * instance, given two versions "1.1.0" and "1.2.0", it checks whether the 
+	 * the second should be considered an upgrade to the first. 
+	 * 
+	 * @param v1 The version to check against
+	 * @param v2 The version to check into the slot
+	 * @return true if v2 fits into the same slot as v1.
+	 */
 	boolean fits(final String v1, final String v2);
 }
