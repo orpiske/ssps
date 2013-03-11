@@ -17,7 +17,7 @@ package net.orpiske.ssps.common.version;
 
 import java.util.Comparator;
 
-public class VersionComparator {
+public class DefaultVersionComparator {
 	
 	public static final int LESS_THAN = -1;
 	public static final int EQUALS = 0;
@@ -91,7 +91,7 @@ public class VersionComparator {
 
 	
 	public static int compareStatic(final String v1, final String v2) {
-		VersionComparator comparator = new VersionComparator();
+		DefaultVersionComparator comparator = new DefaultVersionComparator();
 		
 		return comparator.compare(v1, v2);
 	}
