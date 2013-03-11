@@ -24,7 +24,7 @@ package net.orpiske.ssps.common.version.slot;
  */
 public class MajorMinorComparator implements SlotComparator {
 
-	public boolean compare(String[] v1, String[] v2) {
+	private boolean compare(String[] v1, String[] v2) {
 		
 		if (v1[0].equals(v2[0])) {
 			if (v1[1].equals(v2[1])) {
