@@ -17,13 +17,11 @@ package net.orpiske.ssps.common.version;
 
 import java.util.Comparator;
 
-public class VersionComparator implements Comparator {
+public class VersionComparator {
 	
 	public static final int LESS_THAN = -1;
 	public static final int EQUALS = 0;
 	public static final int BIGGER_THAN = 1;
-	
-	private String baseVersion;
 	
 	private int getNumberForString(final String text) {
 		if (text == null) {
@@ -39,11 +37,11 @@ public class VersionComparator implements Comparator {
 		}
 		
 		if (newStr.contains("BETA")) {
-			return -2;
+			return -10;
 		}
 		
 		if (newStr.contains("SNAPSHOT")) {
-			return -3;
+			return -20;
 		}
 		
 		return 0;
@@ -91,10 +89,6 @@ public class VersionComparator implements Comparator {
 		return EQUALS;
 	}
 
-	@Override
-	public int compare(Object o1, Object o2) {
-		return compare((String) o1, (String) o2);
-	}
 	
 	public static int compareStatic(final String v1, final String v2) {
 		VersionComparator comparator = new VersionComparator();
