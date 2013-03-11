@@ -18,8 +18,8 @@ package net.orpiske.ssps.common.version.slot;
 public class DefaultComparator implements SlotComparator {
 
 	@Override
-	public int compare(String v1, String v2) {
-		return EQUALS;
+	public boolean fits(String v1, String v2) {
+		return true;
 	}
 
 }

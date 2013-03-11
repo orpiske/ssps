@@ -18,6 +18,9 @@ package net.orpiske.ssps.common.version;
 import net.orpiske.ssps.common.version.slot.SlotComparator;
 
 public class ComparisonStrategy {
+	public static final int LESS_THAN = -1;
+	public static final int EQUALS = 0;
+	public static final int GREATER_THAN = 1;
 	
 	private SlotComparator slotComparator;
 	private VersionComparator versionComparator;
@@ -32,14 +35,12 @@ public class ComparisonStrategy {
  	
 	
 	public int compare(final String v1, final String v2) {
-		int ret;
-		
-		ret = slotComparator.compare(v1, v2);
-		if (ret == 0) {
-			ret = versionComparator.compare(v1, v2);
+
+		if (slotComparator.fits(v1, v2)) {
+			return versionComparator.compare(v1, v2);
 		}
 		
-		return ret;
+		return EQUALS;
 	}
 	
 }

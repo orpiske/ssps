@@ -16,10 +16,6 @@
 package net.orpiske.ssps.common.version.slot;
 
 public interface SlotComparator {
-	
-	public static final int LESS_THAN = -1;
-	public static final int EQUALS = 0;
-	public static final int GREATER_THAN = 1;
 
-	int compare(final String v1, final String v2);
+	boolean fits(final String v1, final String v2);
 }
