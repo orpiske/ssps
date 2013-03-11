@@ -15,13 +15,8 @@
 */
 package net.orpiske.ssps.common.version;
 
-import java.util.Comparator;
 
-public class DefaultVersionComparator {
-	
-	public static final int LESS_THAN = -1;
-	public static final int EQUALS = 0;
-	public static final int BIGGER_THAN = 1;
+public class DefaultVersionComparator implements VersionComparator {
 	
 	private int getNumberForString(final String text) {
 		if (text == null) {
@@ -81,7 +76,7 @@ public class DefaultVersionComparator {
 			}
 			
 			if (n2 < n1) {
-				return BIGGER_THAN;
+				return GREATER_THAN;
 			}
 			
 		}

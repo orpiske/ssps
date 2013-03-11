@@ -16,22 +16,30 @@
 package net.orpiske.ssps.common.version;
 
 import net.orpiske.ssps.common.version.slot.SlotComparator;
-import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
 
 public class ComparisonStrategy {
 	
-	private String mask;
+	private SlotComparator slotComparator;
+	private VersionComparator versionComparator;
 	
-	public ComparisonStrategy(final String mask) {
-		this.mask = mask;
+	
+	public ComparisonStrategy(final SlotComparator slotComparator, 
+			final VersionComparator versionComparator) 
+	{
+		this.slotComparator = slotComparator;
+		this.versionComparator = versionComparator;
 	}
  	
 	
-	public boolean slotMatches(final String[] v1, final String[] v2) {
-		SlotComparator comparator = SlotComparatorFactory.create(mask);
+	public int compare(final String v1, final String v2) {
+		int ret;
 		
-		return comparator.compare(v1, v2);
+		ret = slotComparator.compare(v1, v2);
+		if (ret == 0) {
+			ret = versionComparator.compare(v1, v2);
+		}
+		
+		return ret;
 	}
 	
-
 }

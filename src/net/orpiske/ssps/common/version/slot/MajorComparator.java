@@ -18,12 +18,23 @@ package net.orpiske.ssps.common.version.slot;
 public class MajorComparator implements SlotComparator {
 
 	@Override
-	public boolean compare(String[] v1, String[] v2) {
-		if (v1[0].equals(v2[0])) {
-			return true;
+	public int compare(String v1, String v2) {
+		String[] parts1;
+		String[] parts2;
+		
+		if (v1 == null && v2 != null) {
+			return LESS_THAN;
+		}
+		else {
+			if (v1 != null && v2 == null) {
+				return GREATER_THAN;
+			}
 		}
 		
-		return false;
+		parts1 = v1.split("\\.");
+		parts2 = v2.split("\\.");
+		
+		return parts1[0].compareTo(parts2[0]);
 	}
 
 }
