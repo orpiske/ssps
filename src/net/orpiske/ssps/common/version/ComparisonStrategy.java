@@ -17,15 +17,36 @@ package net.orpiske.ssps.common.version;
 
 import net.orpiske.ssps.common.version.slot.SlotComparator;
 
+/**
+ * Implements a version comparison strategy which allows us to control how to 
+ * determine if one version should be considered an upgrade to another or not.
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ */
 public class ComparisonStrategy {
+	/**
+	 * Checked version is less than the base version
+	 */
 	public static final int LESS_THAN = -1;
+	
+	/**
+	 * The versions are the same
+	 */
 	public static final int EQUALS = 0;
+	
+	/**
+	 * The checked version is greater than the base version
+	 */
 	public static final int GREATER_THAN = 1;
 	
 	private SlotComparator slotComparator;
 	private VersionComparator versionComparator;
 	
-	
+	/**
+	 * Constructor
+	 * @param slotComparator The slot comparator
+	 * @param versionComparator The version comparator
+	 */
 	public ComparisonStrategy(final SlotComparator slotComparator, 
 			final VersionComparator versionComparator) 
 	{
@@ -34,8 +55,17 @@ public class ComparisonStrategy {
 	}
  	
 	
+	/**
+	 * Compares two versions to check it the last (v2) is an upgrade to the 
+	 * first (v1). With respect to the appropriate version slot.
+	 * 
+	 * @param v1 The version to check against (base version)
+	 * @param v2 The version to check
+	 * @return ComparisonStrategy.EQUALS if equals, ComparisonStrategy.LESS_THAN
+	 * if v2 is less than the base (v2) version or ComparisonStrategy.GREATER_THAN
+	 * otherwise.
+	 */
 	public int compare(final String v1, final String v2) {
-
 		if (slotComparator.fits(v1, v2)) {
 			return versionComparator.compare(v1, v2);
 		}

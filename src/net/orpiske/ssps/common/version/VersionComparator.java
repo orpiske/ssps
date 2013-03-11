@@ -15,10 +15,22 @@
 */
 package net.orpiske.ssps.common.version;
 
+/**
+ * Version comparator interface
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public interface VersionComparator {
-	public static final int LESS_THAN = -1;
-	public static final int EQUALS = 0;
-	public static final int GREATER_THAN = 1;
 	
+	/**
+	 * Compares two versions to check it the last (v2) is an upgrade to the 
+	 * first (v1).
+	 * 
+	 * @param v1 The version to check against (base version)
+	 * @param v2 The version to check
+	 * @return ComparisonStrategy.EQUALS if equals, ComparisonStrategy.LESS_THAN
+	 * if v2 is less than the base (v2) version or ComparisonStrategy.GREATER_THAN
+	 * otherwise.
+	 */
 	int compare(final String v1, final String v2);
 }

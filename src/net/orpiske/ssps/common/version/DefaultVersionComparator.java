@@ -15,8 +15,17 @@
 */
 package net.orpiske.ssps.common.version;
 
-
+/**
+ * Default version comparator. It breaks version strings (n.n.n) in parts 
+ * and check each one of them
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ */
 public class DefaultVersionComparator implements VersionComparator {
+	private static final int LESS_THAN = -1;
+	private static final int EQUALS = 0;
+	private static final int GREATER_THAN = 1;
+	
 	
 	private int getNumberForString(final String text) {
 		if (text == null) {
@@ -42,6 +51,11 @@ public class DefaultVersionComparator implements VersionComparator {
 		return 0;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.version.VersionComparator#compare(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public int compare(final String v1, final String v2) {
 		String[] parts1;
 		String[] parts2;
@@ -83,12 +97,4 @@ public class DefaultVersionComparator implements VersionComparator {
 		
 		return EQUALS;
 	}
-
-	
-	public static int compareStatic(final String v1, final String v2) {
-		DefaultVersionComparator comparator = new DefaultVersionComparator();
-		
-		return comparator.compare(v1, v2);
-	}
-
 }
