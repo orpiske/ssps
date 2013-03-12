@@ -22,8 +22,6 @@ import java.util.Collection;
 import java.util.List;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.exception.PackageInfoException;
-import net.orpiske.ssps.common.repository.utils.PackageDataUtils;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 
 import org.apache.commons.io.DirectoryWalker;
@@ -54,12 +52,6 @@ public class RepositoryWalker extends DirectoryWalker {
 		
 		if (("groovy").equals(ext)) {
 			PackageInfo packageInfo = RepositoryUtils.readPackageInfo(file);
-			try {
-				PackageDataUtils.read(file, packageInfo);
-			} catch (PackageInfoException e) {
-				throw new IOException("Unable to read " + file.getName() + ": "
-						+ e.getMessage(), e);
-			}
 		
 			packageList.add(packageInfo);
 		}

@@ -17,11 +17,14 @@ package net.orpiske.ssps.common.repository.utils;
 
 import java.io.File;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.utils.Utils;
+import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
 
 /**
  * Repository utilities
@@ -101,14 +104,35 @@ public class RepositoryUtils {
 				+ DEFAULT_REPOSITORY_NAME;
 	}
 	
+	private static void readPackageProperties(final File file, final PackageInfo packageInfo) {
+		File settingsFile = new File(file.getPath() + File.separator 
+				+ "package.properties");
+		
+		if (settingsFile.exists() && settingsFile.canRead()) { 
+			PropertiesConfiguration packageSettings;
+			try {
+				packageSettings = new PropertiesConfiguration(settingsFile);
+				
+				String slot = packageSettings.getString("package.default.slot", 
+						SlotComparatorFactory.DEFAULT_SLOT);
+				
+				packageInfo.setSlot(slot);
+			} catch (ConfigurationException e) {
+				logger.warn("Unable to read package configuration file at " 
+						+ settingsFile.getPath());
+			}
+		}
+		
+	}
+	
 	
 	public static PackageInfo readPackageInfo(final File file) {
 		PackageInfo packageInfo = new PackageInfo();
 		
-		/*
+		
 		String baseName = FilenameUtils.getBaseName(file.getName());
 		packageInfo.setName(baseName);
-		*/
+		
 		packageInfo.setPath(file.getPath());
 		
 		File typeDir = file.getParentFile();
@@ -118,13 +142,12 @@ public class RepositoryUtils {
 		}
 		
 		File versionDir = typeDir.getParentFile();
-		/*
 		String version = versionDir.getName();
 		packageInfo.setVersion(version);
-		*/
+		
 		
 		File packageNameDir = versionDir.getParentFile();
-		/*
+		readPackageProperties(packageNameDir, packageInfo);
 		String packageName = packageNameDir.getName(); 
 		
 		if (!packageName.equals(baseName)) {
@@ -132,7 +155,7 @@ public class RepositoryUtils {
 					"repository package dir '" + packageName + "' doesn't match. " + 
 					"This can lead to problems");
 		}
-		*/
+		
 		
 		File groupIdDir = packageNameDir.getParentFile();
 		String groupId = groupIdDir.getName();
