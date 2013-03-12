@@ -232,6 +232,7 @@ public class Installer extends ActionInterface {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
 		} catch (SspsException e) {
+			
 			System.err.println(e.getMessage());
 		}
 	}
