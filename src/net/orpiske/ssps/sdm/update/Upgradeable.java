@@ -18,27 +18,61 @@ package net.orpiske.ssps.sdm.update;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
+import net.orpiske.ssps.common.version.ComparisonStrategy;
+import net.orpiske.ssps.common.version.DefaultVersionComparator;
 import net.orpiske.ssps.common.version.VersionComparator;
+import net.orpiske.ssps.common.version.slot.SlotComparator;
+import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class Upgradeable {
+	private static final PropertiesConfiguration config = 
+			ConfigurationWrapper.getConfig();
 	
 	private SoftwareInventoryDto dto; 
 	private List<PackageInfo> candidates = new ArrayList<PackageInfo>();
 	
+	
 	public Upgradeable(final SoftwareInventoryDto dto) {
 		this.dto = dto;
+		
+		//String slot = dto.
+	}
+	
+	private String getSlot(final PackageInfo packageInfo) {
+		String slot = packageInfo.getSlot();
+		
+		if (slot == null) {
+			slot = config.getString("default.package.slot", 
+					SlotComparatorFactory.DEFAULT_SLOT);
+		}
+		
+		return slot;
 	}
 	
 	
 	public void addCandidate(final PackageInfo packageInfo) {
-		int result = VersionComparator.compareStatic(dto.getVersion(), 
+		ComparisonStrategy strategy;
+		
+		String slot = getSlot(packageInfo);
+		SlotComparator slotComparator = SlotComparatorFactory.create(slot);
+		
+		VersionComparator versionComparator = new DefaultVersionComparator();
+		
+		strategy = new ComparisonStrategy(slotComparator, versionComparator);
+		
+		int result = strategy.compare(dto.getVersion(), 
 				packageInfo.getVersion());
 		
-		if (result == VersionComparator.LESS_THAN) {
+		
+		if (result == ComparisonStrategy.LESS_THAN) {
 			candidates.add(packageInfo);
 		}
+		
 	}
 	
 	public SoftwareInventoryDto getDto() {
