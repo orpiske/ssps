@@ -70,7 +70,8 @@ public class RegistryManager {
 		try {
 			inventory.insert(dto);
 		} catch (SQLException e) {
-			throw new RegistryException("Unable to add new package to the inventory", e);
+			throw new RegistryException("Unable to add new package to the inventory: " 
+					+ e.getMessage(), e);
 		}
 	}
 	
@@ -103,7 +104,8 @@ public class RegistryManager {
 				inventory.insert(dto);
 			}
 		} catch (SQLException e) {
-			throw new RegistryException("Unable to add new package to the inventory", e);
+			throw new RegistryException("Unable to add new package to the inventory: " 
+					+ e.getMessage(), e);
 		}
 	}
 	
