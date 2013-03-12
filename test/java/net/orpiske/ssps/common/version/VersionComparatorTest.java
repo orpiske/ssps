@@ -17,6 +17,8 @@ package net.orpiske.ssps.common.version;
 
 import static org.junit.Assert.*;
 
+import java.util.Comparator;
+
 import org.junit.Test;
 
 public class VersionComparatorTest {
@@ -24,97 +26,97 @@ public class VersionComparatorTest {
 	@Test
 	public void testEquals() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.EQUALS);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.EQUALS);
 	}
 	
 	
 	@Test
 	public void testLessThanFix() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0", "1.1.1");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	
 	@Test
 	public void testLessThanMinor() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0", "1.2.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	
 	@Test
 	public void testLessThanMajor() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0", "2.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	@Test
 	public void testLessThanSize() {
 		int ret = DefaultVersionComparator.compareStatic("1.1", "2.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	@Test
 	public void testLessThanSnapshot() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0-SNAPSHOT", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	@Test
 	public void testLessThanSnapshotSize() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0-SNAPSHOT", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	
 	@Test
 	public void testLessThanRC() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0-rc", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	@Test
 	public void testLessThanRCSize() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.0-RC", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.LESS_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.LESS_THAN);
 	}
 	
 	@Test
 	public void testBiggerThanFix() {
 		int ret = DefaultVersionComparator.compareStatic("1.1.1", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.GREATER_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.GREATER_THAN);
 	}
 	
 	
 	@Test
 	public void testBiggerThanMinor() {
 		int ret = DefaultVersionComparator.compareStatic("1.2.0", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.GREATER_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.GREATER_THAN);
 	}
 	
 	
 	@Test
 	public void testBiggerThanMajor() {
 		int ret = DefaultVersionComparator.compareStatic("2.1.0", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.GREATER_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.GREATER_THAN);
 	}
 	
 	@Test
 	public void testBiggerThanSize() {
 		int ret = DefaultVersionComparator.compareStatic("2.1", "1.1.0");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.GREATER_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.GREATER_THAN);
 	}
 	
 	@Test
 	public void testBiggerThanSnapshot() {
 		int ret = DefaultVersionComparator.compareStatic("2.1.0", "2.1.0-SNAPSHOT");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.GREATER_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.GREATER_THAN);
 	}
 	
 	@Test
 	public void testBiggerThanSnapshotRc() {
 		int ret = DefaultVersionComparator.compareStatic("2.1.0-RC", "2.1.0-SNAPSHOT");
-		assertTrue("Versions did not match", ret == DefaultVersionComparator.GREATER_THAN);
+		assertTrue("Versions did not match", ret == ComparisonStrategy.GREATER_THAN);
 	}
 
 }
