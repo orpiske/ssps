@@ -97,4 +97,12 @@ public class DefaultVersionComparator implements VersionComparator {
 		
 		return EQUALS;
 	}
+	
+	
+	@Deprecated
+	public static int compareStatic(final String v1, final String v2) {
+		DefaultVersionComparator comparator = new DefaultVersionComparator();
+		
+		return comparator.compare(v1, v2);
+	}
 }

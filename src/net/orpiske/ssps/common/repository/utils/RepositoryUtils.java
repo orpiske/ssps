@@ -105,9 +105,10 @@ public class RepositoryUtils {
 	public static PackageInfo readPackageInfo(final File file) {
 		PackageInfo packageInfo = new PackageInfo();
 		
+		/*
 		String baseName = FilenameUtils.getBaseName(file.getName());
 		packageInfo.setName(baseName);
-		
+		*/
 		packageInfo.setPath(file.getPath());
 		
 		File typeDir = file.getParentFile();
@@ -117,10 +118,13 @@ public class RepositoryUtils {
 		}
 		
 		File versionDir = typeDir.getParentFile();
+		/*
 		String version = versionDir.getName();
 		packageInfo.setVersion(version);
+		*/
 		
 		File packageNameDir = versionDir.getParentFile();
+		/*
 		String packageName = packageNameDir.getName(); 
 		
 		if (!packageName.equals(baseName)) {
@@ -128,6 +132,7 @@ public class RepositoryUtils {
 					"repository package dir '" + packageName + "' doesn't match. " + 
 					"This can lead to problems");
 		}
+		*/
 		
 		File groupIdDir = packageNameDir.getParentFile();
 		String groupId = groupIdDir.getName();

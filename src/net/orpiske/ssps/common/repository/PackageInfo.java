@@ -32,6 +32,8 @@ public final class PackageInfo {
 	private String version;
 	private PackageType packageType = PackageInfo.PackageType.BINARY;
 	private String path;
+	private String url;
+	private String slot;
 	
 	private String repository;
 	
@@ -131,6 +133,41 @@ public final class PackageInfo {
 	 */
 	public void setRepository(String repository) {
 		this.repository = repository;
+	}
+	
+	/**
+	 * Gets the package download URL
+	 * @return the package download URL
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	
+	/**
+	 * Sets the package download URL
+	 * @param url the package download URL
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	
+	/**
+	 * Gets the package slot
+	 * @return the package version slot
+	 */
+	public String getSlot() {
+		return slot;
+	}
+
+	
+	/**
+	 * Sets the package version slot
+	 * @param slot the package version slot
+	 */
+	public void setSlot(String slot) {
+		this.slot = slot;
 	}
 
 	@Override
