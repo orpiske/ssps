@@ -98,6 +98,13 @@
 			<version>10.9.1.0</version>
 		</dependency>
 		
+		<!-- Groovy Support -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		
 		<!-- Git Repository Support -->
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
