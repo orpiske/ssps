@@ -73,6 +73,13 @@ public class RepositoryManager {
 		for (File repository : repositories) {
 			Provider provider = ProviderFactory.newProvider(repository);
 			
+			if (provider == null) {
+				logger.info("The repository " + repository.getName() + " doesn't seem to"
+						+ " to be valid. Ignoring ...");
+				
+				continue;
+			}
+			
 			try {
 				logger.info("Updating repository " + repository.getName());
 				provider.update();
