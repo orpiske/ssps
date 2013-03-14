@@ -167,7 +167,6 @@ org.apache      => apache-maven         => 3.0.5     => B => 2013-03-03 18:27:31
 
 	The flag <<<-a>>> along with <<<-i>>> will print all installed packages
 
-g
 Update
 
 	The update is used to refresh your local scripts with the remote repository data. To 
