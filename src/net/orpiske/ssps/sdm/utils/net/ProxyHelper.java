@@ -15,6 +15,9 @@
 */
 package net.orpiske.ssps.sdm.utils.net;
 
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -29,6 +32,25 @@ public final class ProxyHelper {
 	 */
 	private ProxyHelper() {
 		
+	}
+	
+	private static Authenticator getAuth(final String user, final String password) {
+		return new Authenticator() {
+			public PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(user, password.toCharArray());
+			}
+		};
+	}
+	
+	private static void setupAuth() {
+		boolean auth = config.getBoolean("proxy.auth.required", false);
+		
+		if (auth) {
+			String user = config.getString("proxy.auth.user");
+			String password = config.getString("proxy.auth.password");
+			
+			Authenticator.setDefault(getAuth(user, password));
+		}
 	}
 
 	
@@ -116,6 +138,7 @@ public final class ProxyHelper {
 	
 	
 	public static void setup() {
+		setupAuth();
 		setupHttpProxy();
 		setupHttpsProxy();
 		setupFtpProxy();
