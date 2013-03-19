@@ -27,6 +27,7 @@ import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
+import net.orpiske.ssps.common.version.Version;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -71,7 +72,7 @@ public class SoftwareInventoryDaoTest {
 		
 		dto.setGroupId("net.orpiske.ssps");
 		dto.setName("sdm");
-		dto.setVersion("0.2.0");
+		dto.setVersion(Version.toVersion("0.2.0"));
 		dto.setType("b");
 		dto.setInstallDir("/tmp/none");
 		dto.setInstallDate(new Date());
@@ -100,7 +101,7 @@ public class SoftwareInventoryDaoTest {
 		
 		assertNotNull(readDto2.getInstallDate());
 		
-		readDto2 = dao.updateVersion("0.2.1", readDto2);
+		readDto2 = dao.updateVersion(Version.toVersion("0.2.1"), readDto2);
 		
 		readDto = dao.getByName("sdm").get(0);
 		
