@@ -49,7 +49,6 @@ public class Search extends ActionInterface {
 	private boolean isHelp;
 	private boolean installed;
 	private boolean all;
-	private boolean parseable;
 	private String packageName;
 	
 	public Search(String[] args) {
@@ -66,7 +65,6 @@ public class Search extends ActionInterface {
 		options.addOption("i", "installed", false, "searches for installed packages");
 		options.addOption("p", "package", true, "package name");
 		options.addOption("a", "all", false, "searches for all installed packages");
-		options.addOption(null, "parseable", false, "print using machine-readable output");
 
 		try {
 			cmdLine = parser.parse(options, args);
@@ -77,7 +75,6 @@ public class Search extends ActionInterface {
 		isHelp = cmdLine.hasOption("help");
 		installed = cmdLine.hasOption('i');
 		all = cmdLine.hasOption('a');
-		parseable = cmdLine.hasOption("parseable");
 		
 		packageName = cmdLine.getOptionValue('p');
 		if (packageName == null && !all) {
@@ -97,7 +94,7 @@ public class Search extends ActionInterface {
 		}
 		
 		
-		printPackageList(packages, parseable);
+		printPackageList(packages, true);
 	}
 
 	/**
@@ -123,7 +120,7 @@ public class Search extends ActionInterface {
 			return;
 		}
 		
-		printInventoryList(list, parseable);
+		printInventoryList(list, true);
 	}
 
 	@Override
