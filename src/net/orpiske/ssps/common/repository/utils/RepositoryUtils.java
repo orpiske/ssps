@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.utils.Utils;
+import net.orpiske.ssps.common.version.Version;
 import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
 
 /**
@@ -143,7 +144,7 @@ public class RepositoryUtils {
 		
 		File versionDir = typeDir.getParentFile();
 		String version = versionDir.getName();
-		packageInfo.setVersion(version);
+		packageInfo.setVersion(Version.toVersion(version));
 		
 		
 		File packageNameDir = versionDir.getParentFile();

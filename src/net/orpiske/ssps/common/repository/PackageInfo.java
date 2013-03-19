@@ -15,6 +15,8 @@
 */
 package net.orpiske.ssps.common.repository;
 
+import net.orpiske.ssps.common.version.Version;
+
 /**
  * Abstracts package information from the repositories
  * 
@@ -29,7 +31,7 @@ public final class PackageInfo {
 	
 	private String groupId;
 	private String name;
-	private String version;
+	private Version version;
 	private PackageType packageType = PackageInfo.PackageType.BINARY;
 	private String path;
 	private String url;
@@ -73,7 +75,7 @@ public final class PackageInfo {
 	 * Gets the package version
 	 * @return the package version
 	 */
-	public String getVersion() {
+	public Version getVersion() {
 		return version;
 	}
 	
@@ -81,7 +83,7 @@ public final class PackageInfo {
 	 * Sets the package version
 	 * @param version the version
 	 */
-	public void setVersion(String version) {
+	public void setVersion(Version version) {
 		this.version = version;
 	}
 	
