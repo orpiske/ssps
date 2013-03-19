@@ -30,9 +30,7 @@ import org.apache.log4j.Logger;
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
-public class SimpleRsHandler<T> implements ResultSetHandler<T> {
-	private static final Logger logger = Logger.getLogger(SimpleRsHandler.class);
-	
+public class SimpleRsHandler<T> implements ResultSetHandler<T> {	
 	private T dto;
 	
 	/**
@@ -70,10 +68,8 @@ public class SimpleRsHandler<T> implements ResultSetHandler<T> {
         		
 				PropertyUtils.setSimpleProperty(dto, javaProperty, value);
 			} catch (Exception e) {
-				/*
 				throw new SQLException("Unable to set property " + name + " for bean" + 
 						dto.getClass(), e);
-				*/
 			}
         }
 

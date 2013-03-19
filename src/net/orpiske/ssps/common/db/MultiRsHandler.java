@@ -77,11 +77,8 @@ public class MultiRsHandler<T> extends AbstractListHandler<T> {
         		
 				PropertyUtils.setSimpleProperty(dto, javaProperty, value);
 			} catch (Exception e) {
-				// PropertyUtils.setN
-				/*
 				throw new SQLException("Unable to set property " + name + " for bean" + 
 						dto.getClass(), e);
-				*/
 			}
         }
 
