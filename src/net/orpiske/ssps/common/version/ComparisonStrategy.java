@@ -65,6 +65,7 @@ public class ComparisonStrategy {
 	 * if v2 is less than the base (v2) version or ComparisonStrategy.GREATER_THAN
 	 * otherwise.
 	 */
+	@Deprecated
 	public int compare(final String v1, final String v2) {
 		if (slotComparator.fits(v1, v2)) {
 			return versionComparator.compare(v1, v2);

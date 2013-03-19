@@ -23,6 +23,7 @@ import net.orpiske.ssps.common.utils.NameConverter;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.log4j.Logger;
 
 /**
  * Handles the result of a query
@@ -30,6 +31,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class SimpleRsHandler<T> implements ResultSetHandler<T> {
+	private static final Logger logger = Logger.getLogger(SimpleRsHandler.class);
 	
 	private T dto;
 	
@@ -68,8 +70,10 @@ public class SimpleRsHandler<T> implements ResultSetHandler<T> {
         		
 				PropertyUtils.setSimpleProperty(dto, javaProperty, value);
 			} catch (Exception e) {
+				/*
 				throw new SQLException("Unable to set property " + name + " for bean" + 
 						dto.getClass(), e);
+				*/
 			}
         }
 

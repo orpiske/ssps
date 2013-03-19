@@ -27,6 +27,7 @@ import net.orpiske.ssps.common.db.DatabaseManager;
 import net.orpiske.ssps.common.db.MultiRsHandler;
 import net.orpiske.ssps.common.db.SimpleRsHandler;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
+import net.orpiske.ssps.common.version.Version;
 
 import org.apache.commons.dbutils.QueryLoader;
 
@@ -84,8 +85,9 @@ public class SoftwareInventoryDao extends AbstractDao {
 	public int insert(final SoftwareInventoryDto dto) throws SQLException {
 		String query = queries.get("insert");
 		
-		return runUpdate(query, dto.getGroupId(), dto.getName(), dto.getVersion(),
-					dto.getType(), dto.getInstallDir(), dto.getInstallDate());
+		return runUpdate(query, dto.getGroupId(), dto.getName(), 
+					dto.getVersion().getValue(), dto.getType(), 
+					dto.getInstallDir(), dto.getInstallDate());
 	}
 	
 	
@@ -166,12 +168,13 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * @return A DTO with the new version
 	 * @throws SQLException If unable to perform the query
 	 */
-	public SoftwareInventoryDto updateVersion(final String newVersion, 
+	public SoftwareInventoryDto updateVersion(final Version newVersion, 
 			final SoftwareInventoryDto dto) throws SQLException 
 	{
 		String query = queries.get("updateVersion");
 		
-		int ret = runUpdate(query, newVersion, dto.getGroupId(), dto.getName(), dto.getVersion(), 
+		int ret = runUpdate(query, newVersion, dto.getGroupId(), dto.getName(), 
+				dto.getVersion().toString(), 
 				dto.getType());
 		
 		if (ret == 1) {

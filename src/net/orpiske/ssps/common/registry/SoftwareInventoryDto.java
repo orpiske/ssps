@@ -17,6 +17,8 @@ package net.orpiske.ssps.common.registry;
 
 import java.util.Date;
 
+import net.orpiske.ssps.common.version.Version;
+
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  * 
@@ -24,7 +26,7 @@ import java.util.Date;
 public class SoftwareInventoryDto {
 	private String groupId;
 	private String name;
-	private String version;
+	private Version version;
 	private String type;
 	private String installDir;
 	private Date installDate;
@@ -45,11 +47,15 @@ public class SoftwareInventoryDto {
 		this.name = name;
 	}
 
-	public String getVersion() {
+	public Version getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(String value) {
+		this.version = Version.toVersion(value);
+	}
+	
+	public void setVersion(Version version) {
 		this.version = version;
 	}
 
