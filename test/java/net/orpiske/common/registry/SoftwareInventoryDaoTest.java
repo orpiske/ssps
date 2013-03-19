@@ -83,7 +83,7 @@ public class SoftwareInventoryDaoTest {
 		
 		assertEquals("net.orpiske.ssps", readDto.getGroupId());
 		assertEquals("sdm", readDto.getName());
-		assertEquals("0.2.0", readDto.getVersion());
+		assertEquals(Version.toVersion("0.2.0"), readDto.getVersion());
 		assertEquals("b", readDto.getType());
 		assertEquals("/tmp/none", readDto.getInstallDir());
 		
@@ -95,7 +95,7 @@ public class SoftwareInventoryDaoTest {
 		
 		assertEquals("net.orpiske.ssps", readDto2.getGroupId());
 		assertEquals("sdm", readDto2.getName());
-		assertEquals("0.2.0", readDto2.getVersion());
+		assertEquals(Version.toVersion("0.2.0"), readDto2.getVersion());
 		assertEquals("b", readDto2.getType());
 		assertEquals("/tmp/none", readDto2.getInstallDir());
 		
@@ -105,7 +105,7 @@ public class SoftwareInventoryDaoTest {
 		
 		readDto = dao.getByName("sdm").get(0);
 		
-		assertEquals("0.2.1", readDto.getVersion());
+		assertEquals(Version.toVersion("0.2.1"), readDto.getVersion());
 		
 		dao.delete(readDto);
 	}

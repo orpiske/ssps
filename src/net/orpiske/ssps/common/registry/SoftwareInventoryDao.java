@@ -24,8 +24,8 @@ import java.util.Map;
 
 import net.orpiske.ssps.common.db.AbstractDao;
 import net.orpiske.ssps.common.db.DatabaseManager;
-import net.orpiske.ssps.common.db.MultiRsHandler;
-import net.orpiske.ssps.common.db.SimpleRsHandler;
+import net.orpiske.ssps.common.registry.MultiRsHandler;
+import net.orpiske.ssps.common.registry.SoftwareInventoryRsHandler;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.version.Version;
 
@@ -86,7 +86,7 @@ public class SoftwareInventoryDao extends AbstractDao {
 		String query = queries.get("insert");
 		
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
-					dto.getVersion().getValue(), dto.getType(), 
+					dto.getVersion().toString(), dto.getType(), 
 					dto.getInstallDir(), dto.getInstallDate());
 	}
 	
@@ -98,14 +98,9 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * @throws SQLException If unable to perform the query
 	 */
 	public List<SoftwareInventoryDto> getByName(final String name) throws SQLException {
-		String query = queries.get("queryByName");
+		String query = queries.get("queryByName");		
 		
-		
-		MultiRsHandler<SoftwareInventoryDto> handler = 
-				new MultiRsHandler<SoftwareInventoryDto>(SoftwareInventoryDto.class);
-		
-		
-		return runQueryMany(query, handler, name);
+		return runQueryMany(query, new MultiRsHandler(), name);
 	}
 	
 	
@@ -117,12 +112,7 @@ public class SoftwareInventoryDao extends AbstractDao {
 	public List<SoftwareInventoryDto> getAll() throws SQLException {
 		String query = queries.get("queryAll");
 		
-		
-		MultiRsHandler<SoftwareInventoryDto> handler = 
-				new MultiRsHandler<SoftwareInventoryDto>(SoftwareInventoryDto.class);
-		
-		
-		return runQueryMany(query, handler);
+		return runQueryMany(query, new MultiRsHandler());
 	}
 	
 	
@@ -140,8 +130,7 @@ public class SoftwareInventoryDao extends AbstractDao {
 	{
 		String query = queries.get("queryByKeys");
 		
-		SimpleRsHandler<SoftwareInventoryDto> handler = 
-				new SimpleRsHandler<SoftwareInventoryDto>(new SoftwareInventoryDto());
+		SoftwareInventoryRsHandler handler = new SoftwareInventoryRsHandler();
 		
 		return runQuery(query, handler, groupId, name, version, type);
 	}
@@ -156,7 +145,8 @@ public class SoftwareInventoryDao extends AbstractDao {
 	public int delete(final SoftwareInventoryDto dto) throws SQLException {
 		String query = queries.get("deleteByKeys");
 		
-		return runUpdate(query, dto.getGroupId(), dto.getName(), dto.getVersion(), 
+		return runUpdate(query, dto.getGroupId(), dto.getName(), 
+				dto.getVersion().toString(), 
 				dto.getType());
 	}
 	
@@ -173,9 +163,8 @@ public class SoftwareInventoryDao extends AbstractDao {
 	{
 		String query = queries.get("updateVersion");
 		
-		int ret = runUpdate(query, newVersion, dto.getGroupId(), dto.getName(), 
-				dto.getVersion().toString(), 
-				dto.getType());
+		int ret = runUpdate(query, newVersion.getValue(), dto.getGroupId(), 
+				dto.getName(), dto.getVersion().toString(), dto.getType());
 		
 		if (ret == 1) {
 			dto.setVersion(newVersion);
@@ -197,7 +186,8 @@ public class SoftwareInventoryDao extends AbstractDao {
 		String query = queries.get("updateReinstalled");
 		
 		int ret = runUpdate(query, dto.getInstallDate(), dto.getInstallDir(), 
-				dto.getGroupId(), dto.getName(), dto.getVersion(), dto.getType());
+				dto.getGroupId(), dto.getName(), dto.getVersion().toString(), 
+				dto.getType());
 		
 		if (ret == 1) {
 			return dto;
