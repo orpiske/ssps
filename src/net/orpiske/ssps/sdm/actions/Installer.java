@@ -15,20 +15,15 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
-import java.io.File;
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printPackageList;
+
 import java.util.List;
 
 import net.orpiske.sdm.common.WorkdirUtils;
-import net.orpiske.sdm.engine.Engine;
-import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
-import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
-import net.orpiske.ssps.common.exceptions.SspsException;
-import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
-import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 import net.orpiske.ssps.sdm.managers.InstallationManager;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
@@ -41,8 +36,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
-
-import static net.orpiske.ssps.sdm.utils.PrintUtils.*;
 
 
 /**
@@ -65,8 +58,7 @@ public class Installer extends ActionInterface {
 	private String groupId;
 	private String packageName;
 	private String version;
-	private RegistryManager registryManager;
-
+	
 	/**
 	 * Constructor
 	 * @param args Command-line arguments array
