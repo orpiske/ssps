@@ -168,7 +168,7 @@ public class RegistryManager {
 	 * @param groupId The group ID
 	 * @throws RegistryException If unable to search for the package in the DB
 	 */
-	public SoftwareInventoryDto searchRegistry(final String name, final String version, 
+	public SoftwareInventoryDto search(final String name, final String version, 
 			final String groupId) throws RegistryException 
 	{
 		
