@@ -21,6 +21,7 @@ import java.util.List;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
+import net.orpiske.ssps.common.version.Version;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
@@ -75,7 +76,7 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 	 */
 	@Override
 	public List<PackageInfo> find(String groupId, String packageName,
-			String version) {
+			String strVersion) {
 		ArrayList<PackageInfo> ret = new ArrayList<PackageInfo>();
 		
 		for (PackageInfo packageInfo : packageList) {
@@ -88,8 +89,12 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 			}
 			
 			
-			if (!packageInfo.getVersion().equals(version) && version != null) {
-				continue;
+			if (strVersion != null) {
+				Version version = Version.toVersion(strVersion);
+				
+				if (!packageInfo.getVersion().equals(version)) {
+					continue;
+				}
 			}
 			
 			ret.add(packageInfo);
@@ -119,7 +124,7 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 	 */
 	@Override
 	public PackageInfo findFirst(String groupId, String packageName,
-			String version) {
+			String strVersion) {
 		
 		for (PackageInfo packageInfo : packageList) {
 			if (!packageInfo.getName().equals(packageName) && packageName != null) {
@@ -130,8 +135,13 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 				continue;
 			}
 			
-			if (!packageInfo.getVersion().equals(version) && version != null) {
-				continue;
+			
+			if (strVersion != null) {
+				Version version = Version.toVersion(strVersion);
+				
+				if (!packageInfo.getVersion().equals(version)) {
+					continue;
+				}
 			}
 			
 			
