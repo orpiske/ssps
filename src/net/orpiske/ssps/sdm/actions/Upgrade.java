@@ -15,20 +15,19 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
-import java.util.ArrayList;
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printParseable;
+
+import java.io.IOException;
 import java.util.List;
 
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
+import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.RepositoryManager;
-import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
-import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.sdm.update.UpdateManager;
-import net.orpiske.ssps.sdm.update.Upgradeable;
-import net.orpiske.ssps.sdm.utils.PrintUtils;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -38,19 +37,23 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
 
 /**
- * Implements update action
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public class Update extends ActionInterface {
-	private static final Logger logger = Logger.getLogger(Update.class);
+public class Upgrade extends ActionInterface {
+	private static final Logger logger = Logger.getLogger(Upgrade.class);
 	
 	private CommandLine cmdLine;
 	private Options options;
 	
 	private boolean isHelp;
 	
-	public Update(String[] args) {
+	private String groupId;
+	private String packageName;
+	
+	private RegistryManager registryManager;
+	
+	public Upgrade(String[] args) {
 		processCommand(args);
 	}
 
@@ -61,6 +64,9 @@ public class Update extends ActionInterface {
 		options = new Options();
 
 		options.addOption("h", "help", false, "prints the help");
+		options.addOption("g", "groupid", true, "package group id");
+		options.addOption("p", "package", true, "package name");
+	
 
 		try {
 			cmdLine = parser.parse(options, args);
@@ -69,34 +75,66 @@ public class Update extends ActionInterface {
 		}
 		
 		isHelp = cmdLine.hasOption("help");
+		
+		packageName = cmdLine.getOptionValue('p');
+		if (packageName == null) {
+			help(options, -1);
+		}
+		
+		groupId = cmdLine.getOptionValue('g');
+		
 	}
 	
+	
+	/**
+	 * @throws RegistryException
+	 * @throws SspsException
+	 */
+	private List<SoftwareInventoryDto> getInventoryRecord() throws RegistryException, SspsException {
+		List<SoftwareInventoryDto> list = registryManager.search(packageName);
+		
+		
+		return list;
+	}
 
 	@Override
 	public void run() {
-		RepositoryManager repositoryManager = new RepositoryManager();
-			
-		if (isHelp) { 
-			help(options, 1);
-		}
-		else {
-			repositoryManager.update();
-			
-			try {
-				UpdateManager updateManager = new UpdateManager();
-				List<Upgradeable> up = updateManager.getAllNewerPackages();
-				
-				PrintUtils.printUpgradeable(up);
-			} catch (RegistryException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DatabaseInitializationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		
+		
+		
+		try {
+			if (isHelp) { 
+				help(options, 1);
 			}
-			
-		}
-	
+			else {
+				registryManager = new RegistryManager();
+				
+				List<SoftwareInventoryDto> list = getInventoryRecord();
+				
+				
+				UpdateManager updateManager = new UpdateManager();
+				
+				for (SoftwareInventoryDto dto: list) { 
+					PackageInfo info = updateManager.getLatest(dto);
+				
+					if (info != null) {
+						printParseable(info);
+					}
+				}
+			}
+		} catch (DatabaseInitializationException e) {
+			System.err.println("Database initialization error: " + e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Database initialization error: " + e.getMessage(), e);
+			}
+		} catch (SspsException e) {
+			System.err.println("Unhandled exception: " + e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Unhandled exception: " + e.getMessage(), e);
+			}
+		} 
 	}
 
 }

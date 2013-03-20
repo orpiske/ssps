@@ -33,6 +33,7 @@ import net.orpiske.ssps.sdm.actions.Installer;
 import net.orpiske.ssps.sdm.actions.Search;
 import net.orpiske.ssps.sdm.actions.Uninstall;
 import net.orpiske.ssps.sdm.actions.Update;
+import net.orpiske.ssps.sdm.actions.Upgrade;
 import net.orpiske.ssps.sdm.utils.Constants;
 import net.orpiske.ssps.sdm.utils.net.ProxyHelper;
 
@@ -58,6 +59,7 @@ public class Main {
 		System.out.println("   install");
 		System.out.println("   uninstall");
 		System.out.println("   update");
+		System.out.println("   upgrade");
 		System.out.println("   search");
 		System.out.println("----------");
 		System.out.println("   help");
@@ -196,6 +198,13 @@ public class Main {
 			Update update = new Update(newArgs);
 
 			update.run();
+			return;
+		}
+		
+		if (first.equals("upgrade")) {
+			Upgrade upgrade = new Upgrade(newArgs);
+
+			upgrade.run();
 			return;
 		}
 
