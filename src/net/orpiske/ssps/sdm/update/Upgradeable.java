@@ -99,6 +99,12 @@ public class Upgradeable {
 	}
 
 
-	
+	public boolean hasUpdates() {
+		if (candidates.size() > 0) {
+			return true;
+		}
+		
+		return false;
+	}
 
 }

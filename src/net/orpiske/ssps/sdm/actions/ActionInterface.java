@@ -34,7 +34,7 @@ public abstract class ActionInterface {
 	protected void help(final Options options, int code) {
 		HelpFormatter formatter = new HelpFormatter();
 
-		formatter.printHelp("spm", options);
+		formatter.printHelp("sdm", options);
 		System.exit(code);
 	}
 	

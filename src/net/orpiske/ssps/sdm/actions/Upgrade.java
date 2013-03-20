@@ -15,10 +15,6 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
-import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
-import static net.orpiske.ssps.sdm.utils.PrintUtils.printParseable;
-
-import java.io.IOException;
 import java.util.List;
 
 import net.orpiske.sdm.registry.RegistryManager;
@@ -26,8 +22,10 @@ import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
-import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.sdm.update.UpdateManager;
+import net.orpiske.ssps.sdm.managers.UpdateManager;
+import net.orpiske.ssps.sdm.managers.UpgradeManager;
+import net.orpiske.ssps.sdm.update.Upgradeable;
+import net.orpiske.ssps.sdm.utils.PrintUtils;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -47,11 +45,12 @@ public class Upgrade extends ActionInterface {
 	private Options options;
 	
 	private boolean isHelp;
+	private boolean view;
+	private boolean all;
 	
 	private String groupId;
 	private String packageName;
 	
-	private RegistryManager registryManager;
 	
 	public Upgrade(String[] args) {
 		processCommand(args);
@@ -66,6 +65,9 @@ public class Upgrade extends ActionInterface {
 		options.addOption("h", "help", false, "prints the help");
 		options.addOption("g", "groupid", true, "package group id");
 		options.addOption("p", "package", true, "package name");
+		options.addOption(null, "view", false, "do nothing: just view the packages to be" 
+				+ " upgraded");
+		options.addOption("a", "all", false, "upgrade all available packages");
 	
 
 		try {
@@ -75,50 +77,46 @@ public class Upgrade extends ActionInterface {
 		}
 		
 		isHelp = cmdLine.hasOption("help");
+		view = cmdLine.hasOption("view");
+		all = cmdLine.hasOption("all");
 		
-		packageName = cmdLine.getOptionValue('p');
-		if (packageName == null) {
-			help(options, -1);
+		if (!view && !all) {
+		
+			packageName = cmdLine.getOptionValue('p');
+			if (packageName == null) {
+				help(options, -1);
+			}
+			
+			groupId = cmdLine.getOptionValue('g');
 		}
 		
-		groupId = cmdLine.getOptionValue('g');
-		
 	}
-	
-	
-	/**
-	 * @throws RegistryException
-	 * @throws SspsException
-	 */
-	private List<SoftwareInventoryDto> getInventoryRecord() throws RegistryException, SspsException {
-		List<SoftwareInventoryDto> list = registryManager.search(packageName);
 		
-		
-		return list;
-	}
 
 	@Override
 	public void run() {
-		
-		
 		
 		try {
 			if (isHelp) { 
 				help(options, 1);
 			}
 			else {
-				registryManager = new RegistryManager();
-				
-				List<SoftwareInventoryDto> list = getInventoryRecord();
-				
-				
 				UpdateManager updateManager = new UpdateManager();
 				
-				for (SoftwareInventoryDto dto: list) { 
-					PackageInfo info = updateManager.getLatest(dto);
-				
-					if (info != null) {
-						printParseable(info);
+				if (view) {
+					List<Upgradeable> up = updateManager.getAllNewerPackages();
+					PrintUtils.printUpgradeable(up);
+					
+				}
+				else {
+
+					UpgradeManager manager = new UpgradeManager();
+					
+					if (all) {
+						manager.upgrade();
+					}
+					else {
+						manager.upgrade(groupId, packageName, null);
 					}
 				}
 			}

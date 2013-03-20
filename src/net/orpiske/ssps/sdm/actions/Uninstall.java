@@ -31,6 +31,9 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.sdm.managers.UninstallManager;
+import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
+import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -55,8 +58,6 @@ public class Uninstall extends ActionInterface {
 	private String groupId;
 	private String packageName;
 	private String version;
-	
-	private RegistryManager registryManager;
 	
 	public Uninstall(String[] args) {
 		processCommand(args);
@@ -91,86 +92,6 @@ public class Uninstall extends ActionInterface {
 		version = cmdLine.getOptionValue('v');
 	}
 	
-	private void runUninstallScript() throws EngineException {
-		RepositoryFinder finder = new FileSystemRepositoryFinder();
-		PackageInfo packageInfo = finder.findFirst(packageName);
-		
-		if (packageInfo == null) {
-			System.err.println("Package not found in the repository. Skipping script " +
-					"cleanup routines");
-			
-			return;
-		}
-		
-		Engine engine = new GroovyEngine();
-		File file = new File(packageInfo.getPath());
-		engine.runUninstall(file);
-	}
-	
-	
-	/**
-	 * @throws RegistryException
-	 * @throws SspsException
-	 */
-	private SoftwareInventoryDto checkIfInstalled() throws RegistryException, SspsException {
-		List<SoftwareInventoryDto> list = registryManager.search(packageName);
-		
-		if (list.size() == 1) {
-			return list.get(0);
-		}
-		
-	
-		if (list.size() > 1) {
-			if (version == null || groupId == null) {				
-				printInventoryList(list);
-				
-				throw new SspsException("Multiple installed packages found on the " 
-						+ "database (use -g and -v)");
-			}
-		}
-
-		for (SoftwareInventoryDto dto : list) {
-			if (dto.getVersion().equals(version) || version == null) {
-				if (dto.getGroupId().equals(groupId) || groupId == null) {
-					return dto;
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	private void uninstall() throws SspsException {
-		SoftwareInventoryDto dto = checkIfInstalled();
-				
-		
-		if (dto == null) {
-			System.err.println("The package " + packageName + " is not installed!");
-			
-			return;
-		}
-		
-		File file = new File(dto.getInstallDir());
-		
-		if (!file.exists()) {
-			System.err.println("The package " + packageName + " is marked as installed "
-					+ "but the installation dir could not be found");
-		}
-		else {
-			runUninstallScript();
-			
-			System.out.print("\rRemoving the package files from " + dto.getInstallDir() 
-					+ "...");
-			FileUtils.deleteQuietly(file);
-			System.out.println("\rRemoving the package files from " + dto.getInstallDir() 
-					+ "... Done");
-		}
-		
-		System.out.print("\nRemoving package from the registry ...");
-		registryManager.delete(dto);
-		System.out.println("\nRemoving package from the registry ... done");
-	}
-	
 	
 	@Override
 	public void run() {
@@ -178,10 +99,10 @@ public class Uninstall extends ActionInterface {
 			if (isHelp) { 
 				help(options, 1);
 			}
-			else {
-				registryManager = new RegistryManager();	
+			else {				
+				UninstallManager manager = new UninstallManager();
 				
-				uninstall();
+				manager.uninstall(groupId, packageName, version);
 			}
 		} catch (DatabaseInitializationException e) {
 			System.err.println("Unable to uninstall: " + e.getMessage());
@@ -201,7 +122,17 @@ public class Uninstall extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to run script cleanup: " + e.getMessage(), e);
 			}
-		} catch (SspsException e) {
+		} 
+		catch (MultipleInstalledPackages e) {
+			System.err.printf("The package %s/%s-%s is already installed\n",
+					(groupId == null? "{null}" : groupId), 
+					packageName, 
+					(version == null? "{version}" : version));
+			printInventoryList(e.getSoftwareList());
+		} catch (PackageNotFound e) {
+			System.err.println(e.getMessage());
+		}
+		catch (Exception e) {
 			System.err.println(e.getMessage());
 		} 
 	}

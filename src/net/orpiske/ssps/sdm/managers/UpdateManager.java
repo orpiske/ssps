@@ -27,6 +27,8 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
+import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 import net.orpiske.ssps.sdm.update.Upgradeable;
 
 /**
@@ -68,28 +70,19 @@ public class UpdateManager {
 	
 	
 	
-	public PackageInfo getLatest(final SoftwareInventoryDto dto) throws SspsException {	
+	public PackageInfo getLatest(final SoftwareInventoryDto dto) throws PackageNotFound {	
 		Upgradeable up = new Upgradeable(dto);
 		
 		List<PackageInfo> packages = finder.find(dto.getGroupId(), 
 					dto.getName(), null);
 		
 		if (packages.size() == 0) {
-			throw new SspsException("Package not found: " + dto.getName());
+			throw new PackageNotFound(dto.getName());
 		}
-		else {
-			/*
-			if (packages.size() > 1) {
-				
-				throw new SspsException("Too many packages found: " + dto.getName());
-			}
-			*/
-		}
-			
+		
 		for (PackageInfo packageInfo: packages) {
 			up.addCandidate(packageInfo);
 		}
-		
 
 		return up.getLatest();
 	}

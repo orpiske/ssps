@@ -26,7 +26,7 @@ import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.RepositoryManager;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
-import net.orpiske.ssps.sdm.update.UpdateManager;
+import net.orpiske.ssps.sdm.managers.UpdateManager;
 import net.orpiske.ssps.sdm.update.Upgradeable;
 import net.orpiske.ssps.sdm.utils.PrintUtils;
 

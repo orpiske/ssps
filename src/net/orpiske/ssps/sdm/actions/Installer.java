@@ -30,6 +30,10 @@ import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
+import net.orpiske.ssps.sdm.managers.InstallationManager;
+import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
+import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
+import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -129,79 +133,6 @@ public class Installer extends ActionInterface {
 	}
 
 
-	/**
-	 * @return
-	 * @throws SspsException
-	 */
-	private List<PackageInfo> checkRepositoryColision() throws SspsException {
-		RepositoryFinder finder = new FileSystemRepositoryFinder();
-		List<PackageInfo> packages = finder.find(groupId, packageName, version);
-		
-		if (packages.size() == 0) {
-			throw new SspsException("Package not found: " + packageName);
-		}
-		else {
-			if (packages.size() > 1) {
-				printRepositoryPackages(packages);
-				
-				throw new SspsException("Too many packages found: " + packageName);
-			}
-		}
-		return packages;
-	}
-
-
-	/**
-	 * @throws RegistryException
-	 * @throws SspsException
-	 */
-	private void checkIfInstalled() throws RegistryException, SspsException {
-		List<SoftwareInventoryDto> list = registryManager.search(packageName);
-			
-		for (SoftwareInventoryDto dto : list) {
-			if (dto.getVersion().equals(version) || version == null) {
-				if (dto.getGroupId().equals(groupId) || groupId == null) {
-					if (!reinstall) { 
-						System.err.printf("The package %s/%s-%s is already installed\n",
-								(groupId == null? dto.getGroupId() : groupId), 
-								packageName, 
-								(version == null? dto.getVersion() : version));
-						printInventoryList(list);
-						
-						throw new SspsException("Multiple installed packages found " 
-								+ packageName);
-					}
-				}
-			}
-		}
-	}
-
-	private void install() throws SspsException {
-		List<PackageInfo> packages = checkRepositoryColision();
-		
-		checkIfInstalled();
-		
-		Engine engine = new GroovyEngine();
-		
-		PackageInfo packageInfo = packages.get(0);
-		File file = new File(packageInfo.getPath());
-		
-		engine.run(file);
-		
-		if (reinstall) {
-			
-			System.out.print("\rUpdating record into the registry ...");
-			registryManager.reinstall(file);
-			System.out.println("\rUpdating record into the registry ... done");
-		}
-		else {
-			System.out.print("\rAdding record into the registry ...");
-			registryManager.register(file);
-			System.out.println("\rAdding record into the registry ... Done");
-		}
-	}
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -214,9 +145,9 @@ public class Installer extends ActionInterface {
 				help(options, 1);
 			}
 			else {
-				registryManager = new RegistryManager();
+				InstallationManager manager = new InstallationManager();
 				
-				install();
+				manager.install(groupId, packageName, version, reinstall);
 			}
 		
 			if (cleanup) {
@@ -225,14 +156,40 @@ public class Installer extends ActionInterface {
 				System.out.println("\rCleaning up workdir cache ... done!");
 			}
 		}
+		
 		catch (EngineException e) {
 			System.err.print("Unable to install: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
-		} catch (SspsException e) {
+		} catch (PackageNotFound e) {
+			System.err.print(e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error(e.getMessage(), e);
+			}
+		} catch (TooManyPackages e) {
+			printRepositoryPackages(e.getPackages());
 			
+			if (logger.isDebugEnabled()) {
+				logger.error(e.getMessage(), e);
+			}
+		} catch (RegistryException e) {
+			System.err.print(e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error(e.getMessage(), e);
+			}
+		} catch (MultipleInstalledPackages e) {
+		
+			System.err.printf("The package %s/%s-%s is already installed\n",
+					(groupId == null? "{null}" : groupId), 
+					packageName, 
+					(version == null? "{version}" : version));
+			printInventoryList(e.getSoftwareList());
+		}
+		catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 	}
