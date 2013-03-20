@@ -165,7 +165,7 @@ org.apache      => apache-maven         => 2.2.1     => B => 2013-03-05 21:20:22
 org.apache      => apache-maven         => 3.0.5     => B => 2013-03-03 18:27:31.31  => /Users/otavio/software/apache-maven-3.0.5
 ----------------------------------------	
 
-	The flag <<<-a>>> along with <<<-i>>> will print all installed packages
+	The option <<<-a>>> along with <<<-i>>> will print all installed packages
 
 Update
 
@@ -174,4 +174,16 @@ update your local repositories, run:
 
 ----------------------------------------
 sdm update
+----------------------------------------
+
+
+Upgrade
+
+	The upgrade is used to upgrade your local packages with the latest provided in the 
+repository. You can use the option <<<-a>>> to update all packages or inform the package 
+name using <<<-p>>>, <<<-g>>> or both. Outdated versions, in the same slot, will be 
+removed.
+
+----------------------------------------
+sdm upgrade -a
 ----------------------------------------
