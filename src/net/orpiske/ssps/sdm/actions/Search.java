@@ -95,7 +95,7 @@ public class Search extends ActionInterface {
 		}
 		
 		
-		printPackageList(packages, true);
+		printPackageList(packages);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class Search extends ActionInterface {
 			return;
 		}
 		
-		printInventoryList(list, true);
+		printInventoryList(list);
 	}
 
 	@Override

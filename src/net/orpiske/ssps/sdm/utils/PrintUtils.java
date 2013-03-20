@@ -31,18 +31,7 @@ public class PrintUtils {
 	
 	private PrintUtils() {}
 
-	/**
-	 * Prints package information
-	 * @param packageInfo
-	 */
-	public static void print(final PackageInfo packageInfo) {
-		System.out.println("Group ID: " + packageInfo.getGroupId());
-		System.out.println("Name: " + packageInfo.getName());
-		System.out.println("Version: " + packageInfo.getVersion());
-		System.out.println("Type: " + packageInfo.getPackageType());
-		System.out.println("File: " + packageInfo.getPath());
-	}
-	
+		
 	
 	/**
 	 * Prints parseable package information
@@ -58,48 +47,14 @@ public class PrintUtils {
 	/**
 	 * Prints a list of packages
 	 * @param list
-	 * @param parseable
-	 */
-	public static void printPackageList(final List<PackageInfo> list, boolean parseable) {
-		if (parseable) {
-			System.out.printf("%-15s    %-32s    %-9s    %-1s      %s\n", 
-					"Group ID", "Package Name", "Version", "Type", "Path");
-		}
-		
-		for (PackageInfo packageInfo : list) {
-			
-			if (!parseable) { 
-				System.out.println("------");
-				print(packageInfo);
-			}
-			else {
-				printParseable(packageInfo);
-			}
-		}
-	}
-	
-	
-	/**
-	 * Prints a package list
-	 * @param list
 	 */
 	public static void printPackageList(final List<PackageInfo> list) {
-		printPackageList(list, false);
-	}
-	
-	
-	
-	/**
-	 * Prints a software inventory record
-	 * @param dto
-	 */
-	public static void print(final SoftwareInventoryDto dto) {
-		System.out.println("Group ID: " + dto.getGroupId());
-		System.out.println("Name: " + dto.getName());
-		System.out.println("Version: " + dto.getVersion());
-		System.out.println("Type: " + dto.getType());
-		System.out.println("Installation date: " + dto.getInstallDate());
-		System.out.println("Installation directory: " + dto.getInstallDir());
+		System.out.printf("%-15s    %-32s    %-9s    %-1s      %s\n", 
+					"Group ID", "Package Name", "Version", "Type", "Path");
+				
+		for (PackageInfo packageInfo : list) {
+			printParseable(packageInfo);
+		}
 	}
 	
 	
@@ -148,35 +103,16 @@ public class PrintUtils {
 	/**
 	 * Prints a list of software inventory records
 	 * @param list
-	 * @param parseable
-	 */
-	public static void printInventoryList(final List<SoftwareInventoryDto> list, 
-			boolean parseable) {
-		
-		if (parseable) {
-			System.out.printf("%-15s    %-20s    %-9s   %-1s  %-23s    %s\n", 
-					"Group ID", "Package Name", "Version", "Type", "Install Date", 
-					"Install Dir");
-		}
-		
-		for (SoftwareInventoryDto dto : list) {
-			if (!parseable) {
-				System.out.println("------");
-				print(dto);
-			}
-			else {
-				printParseable(dto);
-			}
-		}
-	}
-	
-	
-	
-	/**
-	 * Prints a list of software inventory records
-	 * @param list
 	 */
 	public static void printInventoryList(final List<SoftwareInventoryDto> list) {
-		printInventoryList(list, false);
+		
+		System.out.printf("%-15s    %-20s    %-9s   %-1s  %-23s    %s\n", 
+				"Group ID", "Package Name", "Version", "Type", "Install Date", 
+				"Install Dir");
+	
+		
+		for (SoftwareInventoryDto dto : list) {
+			printParseable(dto);
+		}
 	}
 }
