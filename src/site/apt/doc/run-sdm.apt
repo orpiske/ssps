@@ -58,19 +58,10 @@ packages with that name exist:
 
 ----------------------------------------
 More than one match found. Please specify either the version (-v) or the group (-g) name: 
-...
-Group ID: org.apache
-Name: apache-maven
-Version: 2.2.1
-Type: BINARY
-File: /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/2.2.1/pkg/apache-maven.groovy
-...
-Group ID: org.apache
-Name: apache-maven
-Version: 3.0.5
-Type: BINARY
-File: /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.5/pkg/apache-maven.groovy
-Too many packages found: apache-maven
+Group ID           Package Name                        Version      Type      Path
+org.apache      => apache-maven                     => 3.0.4     => BINARY => /home/orpiske/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.4/pkg/apache-maven.groovy
+org.apache      => apache-maven                     => 2.2.1     => BINARY => /home/orpiske/.sdm/repositories/default/packages/org.apache/apache-maven/2.2.1/pkg/apache-maven.groovy
+org.apache      => apache-maven                     => 3.0.5     => BINARY => /home/orpiske/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.5/pkg/apache-maven.groovy
 ----------------------------------------
 
 	To prevent collisions, so you'll need to inform the specific version 
@@ -146,18 +137,7 @@ sdm search -p apache-maven -i
 	A sample output for the above command, could be:
 
 ----------------------------------------
-Group ID: org.apache
-Name: apache-maven
-Version: 3.0.5
-Type: B
-Installation date: 2013-03-03 18:27:31.31
-Installation directory: /Users/otavio/software/apache-maven-3.0.5
-----------------------------------------
-
-	You can also request for machine-parseable output using <<<--parseable>>>:
-
-----------------------------------------
--> % sdm search -a -i --parseable                                            
+-> % sdm search -a -i                                            
 Group ID           Package Name            Version     Type  Install Date               Install Dir
 org.apache      => apache-ant           => 1.8.4     => B => 2013-03-03 18:27:48.366 => /Users/otavio/software/apache-ant-1.8.4
 org.apache      => apache-derby         => 10.9.1.0  => B => 2013-03-03 18:28:27.678 => /Users/otavio/software/apache-derby-10.9.1.0
