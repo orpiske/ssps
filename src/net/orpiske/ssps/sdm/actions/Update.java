@@ -15,17 +15,11 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
-import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
-import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.RepositoryManager;
-import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
-import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.sdm.managers.UpdateManager;
 import net.orpiske.ssps.sdm.update.Upgradeable;
 import net.orpiske.ssps.sdm.utils.PrintUtils;

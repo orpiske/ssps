@@ -16,19 +16,16 @@
 package net.orpiske.ssps.sdm.managers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
-import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
-import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 import net.orpiske.ssps.sdm.update.Upgradeable;
 
 /**

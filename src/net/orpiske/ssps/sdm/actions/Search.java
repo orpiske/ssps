@@ -15,6 +15,9 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printPackageList;
+
 import java.util.List;
 
 import net.orpiske.sdm.registry.RegistryManager;
@@ -32,8 +35,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
-
-import static net.orpiske.ssps.sdm.utils.PrintUtils.*;
 
 
 /**

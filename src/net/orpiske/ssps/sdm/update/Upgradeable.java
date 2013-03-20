@@ -22,11 +22,7 @@ import java.util.List;
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.version.ComparisonStrategy;
-import net.orpiske.ssps.common.version.DefaultVersionComparator;
-import net.orpiske.ssps.common.version.VersionComparator;
 import net.orpiske.ssps.common.version.slot.Slot;
-import net.orpiske.ssps.common.version.slot.SlotComparator;
 import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
 
 import org.apache.commons.configuration.PropertiesConfiguration;

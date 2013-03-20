@@ -1,9 +1,6 @@
 package net.orpiske.ssps.sdm.managers;
 
-import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
-
 import java.io.File;
-import java.util.List;
 
 import net.orpiske.sdm.engine.Engine;
 import net.orpiske.sdm.engine.GroovyEngine;
@@ -11,7 +8,6 @@ import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
-import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;

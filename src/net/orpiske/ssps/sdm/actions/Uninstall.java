@@ -16,21 +16,9 @@
 package net.orpiske.ssps.sdm.actions;
 
 import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
-
-import java.io.File;
-import java.util.List;
-
-import net.orpiske.sdm.engine.Engine;
-import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
-import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
-import net.orpiske.ssps.common.exceptions.SspsException;
-import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
-import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
-import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.sdm.managers.UninstallManager;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
@@ -40,7 +28,6 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 /**
