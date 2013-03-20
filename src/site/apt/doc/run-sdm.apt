@@ -187,3 +187,5 @@ removed.
 ----------------------------------------
 sdm upgrade -a
 ----------------------------------------
+
+	You can also view the available packages for update using <<<--view>>> option. 
