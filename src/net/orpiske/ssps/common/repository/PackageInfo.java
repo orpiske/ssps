@@ -22,7 +22,7 @@ import net.orpiske.ssps.common.version.Version;
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
-public final class PackageInfo {
+public final class PackageInfo implements Comparable<PackageInfo> {
 	
 	public enum PackageType {
 		BINARY,
@@ -178,7 +178,92 @@ public final class PackageInfo {
 				+ ", version=" + version + ", packageType=" + packageType
 				+ ", path=" + path + ", repository=" + repository + "]";
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(PackageInfo obj) {
+		
+		if (obj == null) {
+			throw new NullPointerException("Cannot compare package information to a null "
+					+ "object");
+		}
+		
+		if (obj == this) {
+			return 0;
+		}
+		
+		if (getGroupId() == null) {
+			if (obj.getGroupId() != null) {
+				return -1;
+			}
+		}
+		else {
+			int groupIdDiff = getGroupId().compareTo(obj.getGroupId());
+			
+			if (groupIdDiff != 0) {
+				return groupIdDiff;
+			}
+		}
+		
+		if (getName() == null) {
+			if (obj.getName() != null) {
+				return -1;
+			}
+		}
+		else {
+			int nameDiff = getName().compareTo(obj.getName());
+			
+			if (nameDiff != 0) {
+				return nameDiff;
+			}
+		}
+		
+		
+		if (getVersion() == null) {
+			if (obj.getVersion() != null) {
+				return -1;
+			}
+		}
+		
+		return getVersion().compareTo(obj.getVersion());
+	}
 	
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+ 		
+		if (obj == null || obj.getClass() != getClass()) {
+			return false;
+		}
+		
+		
+		PackageInfo other = (PackageInfo) obj;
+		
+		if (getGroupId() == null) {
+			if (other.getGroupId() != null) {
+				return false;
+			}
+		}
+		
+		if (getName() == null) {
+			if (other.getName() != null) {
+				return false;
+			}
+		}
+		
+		
+		if (getVersion() == null) {
+			if (other.getVersion() != null) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 	
 }
