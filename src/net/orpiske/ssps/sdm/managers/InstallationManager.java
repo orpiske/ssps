@@ -14,6 +14,7 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.common.version.Version;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
 import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
@@ -60,7 +61,7 @@ public class InstallationManager {
 		List<SoftwareInventoryDto> list = registryManager.search(packageName);
 			
 		for (SoftwareInventoryDto dto : list) {
-			if (dto.getVersion().equals(version) || version == null) {
+			if (dto.getVersion().equals(Version.toVersion(version)) || version == null) {
 				if (dto.getGroupId().equals(groupId) || groupId == null) {
 					
 					throw new MultipleInstalledPackages(packageName, list);
