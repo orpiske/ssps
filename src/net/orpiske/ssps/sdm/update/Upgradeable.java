@@ -16,6 +16,7 @@
 package net.orpiske.ssps.sdm.update;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
@@ -24,6 +25,7 @@ import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.version.ComparisonStrategy;
 import net.orpiske.ssps.common.version.DefaultVersionComparator;
 import net.orpiske.ssps.common.version.VersionComparator;
+import net.orpiske.ssps.common.version.slot.Slot;
 import net.orpiske.ssps.common.version.slot.SlotComparator;
 import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
 
@@ -39,8 +41,6 @@ public class Upgradeable {
 	
 	public Upgradeable(final SoftwareInventoryDto dto) {
 		this.dto = dto;
-		
-		//String slot = dto.
 	}
 	
 	private String getSlot(final PackageInfo packageInfo) {
@@ -55,24 +55,17 @@ public class Upgradeable {
 	}
 	
 	
-	public void addCandidate(final PackageInfo packageInfo) {
-		ComparisonStrategy strategy;
+	public void addCandidate(final PackageInfo packageInfo) {	
+		String slotMask = getSlot(packageInfo);
+		Slot slot = new Slot(slotMask);
 		
-		String slot = getSlot(packageInfo);
-		SlotComparator slotComparator = SlotComparatorFactory.create(slot);
-		
-		VersionComparator versionComparator = new DefaultVersionComparator();
-		
-		strategy = new ComparisonStrategy(slotComparator, versionComparator);
-		
-		int result = strategy.compare(dto.getVersion(), 
-				packageInfo.getVersion());
-		
-		
-		if (result == ComparisonStrategy.LESS_THAN) {
-			candidates.add(packageInfo);
-		}
-		
+		if (slot.fits(dto.getVersion(), packageInfo.getVersion())) { 
+			int result = dto.getVersion().compareTo(packageInfo.getVersion());
+			
+			if (result == -1) {
+				candidates.add(packageInfo);
+			}
+		}	
 	}
 	
 	public SoftwareInventoryDto getDto() {
@@ -92,6 +85,17 @@ public class Upgradeable {
 
 	public void setCandidates(List<PackageInfo> candidates) {
 		this.candidates = candidates;
+	}
+	
+	
+	public PackageInfo getLatest() {
+		Collections.sort(candidates);
+		
+		if (candidates.size() == 0) {
+			return null;
+		}
+		
+		return candidates.get(candidates.size() - 1);
 	}
 
 
