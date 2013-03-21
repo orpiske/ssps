@@ -79,13 +79,11 @@ public class PackageDataUtils {
 	
 		String name = groovyObject.getProperty("name").toString();
 		String version = groovyObject.getProperty("version").toString();
-		String slot = groovyObject.getProperty("slot").toString();
 		String url = groovyObject.getProperty("url").toString();
 		
 		
+		
 		packageInfo.setName(name);
-		// packageInfo.setVersion(version);
 		packageInfo.setUrl(url);
-		packageInfo.setSlot(slot);
 	}	
 }
