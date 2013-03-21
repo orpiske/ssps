@@ -163,7 +163,7 @@ public class SoftwareInventoryDao extends AbstractDao {
 	{
 		String query = queries.get("updateVersion");
 		
-		int ret = runUpdate(query, newVersion.getValue(), dto.getGroupId(), 
+		int ret = runUpdate(query, newVersion.toString(), dto.getGroupId(), 
 				dto.getName(), dto.getVersion().toString(), dto.getType());
 		
 		if (ret == 1) {
