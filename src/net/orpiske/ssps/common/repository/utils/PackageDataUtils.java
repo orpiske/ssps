@@ -20,12 +20,15 @@ import groovy.lang.GroovyObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.exception.PackageInfoException;
 
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
+import org.codehaus.groovy.runtime.metaclass.MissingPropertyExceptionNoStack;
 
 /**
  * The Groovy script engine
@@ -54,6 +57,13 @@ public class PackageDataUtils {
 			throw new PackageInfoException("Input/output error: " + e.getMessage(),
 					e);
 		}
+		finally {
+			try {
+				loader.close();
+			} catch (IOException e) {
+				
+			}
+		}
 
 		GroovyObject groovyObject;
 		try {
@@ -66,6 +76,7 @@ public class PackageDataUtils {
 					e);
 		}
 		
+		
 		return groovyObject;
 	}
 		
@@ -77,13 +88,23 @@ public class PackageDataUtils {
 	public static void read(final File file, final PackageInfo packageInfo) throws PackageInfoException {
 		GroovyObject groovyObject = getObject(file);
 	
-		String name = groovyObject.getProperty("name").toString();
-		String version = groovyObject.getProperty("version").toString();
 		String url = groovyObject.getProperty("url").toString();
 		
-		
-		
-		packageInfo.setName(name);
+		try { 
+			Object o = groovyObject.getProperty("dependencies");
+						
+			if (o instanceof LinkedHashMap) { 
+				@SuppressWarnings("unchecked")
+				LinkedHashMap<String, String> dependencies =
+					(LinkedHashMap<String, String>) o;
+				
+				packageInfo.setDependencies(dependencies);
+			}
+		}
+		catch (MissingPropertyExceptionNoStack e) {
+			logger.debug("Property " + e.getProperty() + " undefined for " + file.getName());
+		}
+
 		packageInfo.setUrl(url);
 	}	
 }
