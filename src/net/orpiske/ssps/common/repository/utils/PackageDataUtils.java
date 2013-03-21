@@ -21,7 +21,6 @@ import groovy.lang.GroovyObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.exception.PackageInfoException;
