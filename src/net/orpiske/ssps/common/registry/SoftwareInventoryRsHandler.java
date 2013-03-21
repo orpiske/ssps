@@ -24,7 +24,6 @@ import net.orpiske.ssps.common.version.Version;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.dbutils.ResultSetHandler;
-import org.apache.log4j.Logger;
 
 /**
  * Handles the result of a query
