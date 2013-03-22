@@ -15,10 +15,24 @@
 */
 package net.orpiske.ssps.common.version;
 
+
+/**
+ * Range class implements support for evaluating whether a given version number fits 
+ * within a certain range (ie.: for the range (4.3.1,4.3.99), it checks whether a value is 
+ * bigger than or equals to 4.3.1 and smaller than or equal to 4.3.99.
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ */
 public class Range {
 	private Version minimumVersion;
 	private Version maximumVersion;
 	
+	
+	/**
+	 * Constructor
+	 * @param minimum Mininum version string
+	 * @param maximum Maximum version string
+	 */
 	public Range(final String minimum, final String maximum) {
 		if (minimum != null) { 
 			minimumVersion = Version.toVersion(minimum);
@@ -30,14 +44,23 @@ public class Range {
 	}
 
 	
+	/**
+	 * Gets the mininum version in this range
+	 * @return the mininum version
+	 */
 	public Version getMinimumVersion() {
 		return minimumVersion;
 	}
 
 
+	/**
+	 * Gets thee maximum version in this range
+	 * @return the maximum version 
+	 */
 	public Version getMaximumVersion() {
 		return maximumVersion;
 	}
+
 
 	
 	protected static String toVersionString(final String str) {
@@ -57,6 +80,12 @@ public class Range {
 		return ret;
 	}
 	
+	
+	/**
+	 * Checks whether a given version fits in the range
+	 * @param v1 the version to check
+	 * @return true if the version (v1) is in range or false otherwise
+	 */
 	public boolean inRange(final Version v1) {
 		int eval = minimumVersion.compareTo(v1);
 		
@@ -69,7 +98,13 @@ public class Range {
 		
 		return false;
 	}
+
 	
+	/**
+	 * Gets the mininum version in a range string
+	 * @param rangeString the range string
+	 * @return the mininum version value
+	 */
 	public static String minimum(final String rangeString) {
 		String[] parts = rangeString.split(","); 
 		
@@ -77,12 +112,23 @@ public class Range {
 	}
 	
 	
+	/**
+	 * Gets the maximum version in a range string
+	 * @param rangeString the range string
+	 * @return the maximum version value
+	 */
 	public static String maximum(final String rangeString) {
 		String[] parts = rangeString.split(","); 
 		
 		return toVersionString(parts[1]);
 	}
 	
+	
+	/**
+	 * Constructs a new Range object from a version range string
+	 * @param rangeString the range string
+	 * @return a new Range object
+	 */
 	public static Range toRange(final String rangeString) {
 		String minimum = minimum(rangeString);
 		String maximum = maximum(rangeString);
