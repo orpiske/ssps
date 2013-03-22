@@ -12,6 +12,8 @@ $PATH environment variable of your operating system. On Windows, this can be
 done on My Computer. There are various ways of doing this on Unix, Linux and 
 Mac OS X, but it basically involves editing <<<~/.bashrc>>>, <<<$HOME/.profile>>>
 or a similar file. 
+	<<Note>>: Windows users, DO NOT install it on directory containing spaces, such as 
+<<<C:\Program Files>>> and others. 
 
 	
 Add The Default Repository
