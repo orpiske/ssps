@@ -63,7 +63,7 @@ public class Range {
 
 
 	
-	protected static String toVersionString(final String str) {
+	private static String toVersionString(final String str) {
 		String ret = null;
 		
 		if (str == null) {
