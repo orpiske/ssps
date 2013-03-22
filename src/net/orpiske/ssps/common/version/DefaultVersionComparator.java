@@ -72,14 +72,14 @@ public class DefaultVersionComparator implements VersionComparator {
 			int n2;
 			
 			try {
-				n1 = Integer.valueOf(parts1[i]);
+				n1 = Integer.valueOf(parts1[i].trim());
 			}
 			catch (Exception e) {
 				n1 = getNumberForString(parts1[i]);
 			}
 			
 			try {
-				n2 = Integer.valueOf(parts2[i]);
+				n2 = Integer.valueOf(parts2[i].trim());
 			}
 			catch (Exception e) {
 				n2 = getNumberForString(parts2[i]);
@@ -89,7 +89,7 @@ public class DefaultVersionComparator implements VersionComparator {
 				return LESS_THAN;
 			}
 			
-			if (n2 < n1) {
+			if (n1 > n2) {
 				return GREATER_THAN;
 			}
 			
