@@ -15,7 +15,7 @@
 */
 package net.orpiske.ssps.common.repository;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 import net.orpiske.ssps.common.version.Version;
 
@@ -38,7 +38,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	private String path;
 	private String url;
 	private String slot;
-	private LinkedHashMap<String, String> dependencies;
+	private HashMap<String, String> dependencies;
 	
 	private String repository;
 	
@@ -273,11 +273,11 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 		return true;
 	}
 
-	public LinkedHashMap<String, String> getDependencies() {
+	public HashMap<String, String> getDependencies() {
 		return dependencies;
 	}
 
-	public void setDependencies(LinkedHashMap<String, String> dependencies) {
+	public void setDependencies(HashMap<String, String> dependencies) {
 		this.dependencies = dependencies;
 	}
 }
