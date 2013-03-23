@@ -121,7 +121,11 @@ public class InstallationManager {
 		}
 		
 		PackageInfo packageInfo = packages.get(0);
-		install(packageInfo, reinstall);
+		
+		DependencyManager dependencyManager = new DependencyManager();
+		dependencyManager.resolve(packageInfo);
+		
+		// install(packageInfo, reinstall);
 	}
 
 }
