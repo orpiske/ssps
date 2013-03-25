@@ -237,6 +237,17 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 		return getVersion().compareTo(obj.getVersion());
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+
+		result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
+		return result;
+	}
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -276,6 +287,10 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	public HashMap<String, String> getDependencies() {
 		return dependencies;
 	}
+
+	
+
+	
 
 	public void setDependencies(HashMap<String, String> dependencies) {
 		this.dependencies = dependencies;
