@@ -56,13 +56,7 @@ public class PackageDataUtils {
 			throw new PackageInfoException("Input/output error: " + e.getMessage(),
 					e);
 		}
-		finally {
-			try {
-				loader.close();
-			} catch (IOException e) {
-				
-			}
-		}
+		
 
 		GroovyObject groovyObject;
 		try {
