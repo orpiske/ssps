@@ -16,6 +16,7 @@
 package net.orpiske.ssps.sdm.managers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -23,8 +24,13 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 
 
+import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.repository.PackageInfo;
+import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
+import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.common.repository.utils.PackageUtils;
+import net.orpiske.ssps.common.version.Range;
+import net.orpiske.ssps.common.version.Version;
 
 public class DependencyManager {
 	private static final Logger logger = Logger.getLogger(DependencyManager.class);
@@ -35,25 +41,62 @@ public class DependencyManager {
 		
 	}
 	
-	public List<PackageInfo> resolve(final PackageInfo packageInfo) {
+	
+	private PackageInfo resolve(final String groupId, final String packageName, 
+			final String versionRange) 
+	{
+		Range range = Range.toRange(versionRange);
+		
+		
+		RepositoryFinder finder = new FileSystemRepositoryFinder();
+		List<PackageInfo> packages = finder.find(groupId, packageName, null);
+		Collections.sort(packages);
+		
+		for (int i = packages.size() - 1; i != 0; i--) {
+			PackageInfo packageInfo = packages.get(i);
+			
+			
+			Version packageVersion = packageInfo.getVersion();
+			int comparison = packageVersion.compareTo(range.getMaximumVersion());
+			
+			if (comparison <= 0) {
+				comparison = packageVersion.compareTo(range.getMinimumVersion());
+				
+				if (comparison >= 0) {
+					return packageInfo;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public Dependency resolve(final PackageInfo packageInfo) {
 		HashMap<String, String> map = null;
 		
+		Dependency dependency = new Dependency(packageInfo);
+		
 		map = packageInfo.getDependencies();
-		for (Entry<String, String> dependency : map.entrySet()) { 
-			String packageFqdn = dependency.getKey();
-			String versionRange = dependency.getValue();
+		for (Entry<String, String> entry : map.entrySet()) { 
+			String packageFqdn = entry.getKey();
+			String versionRange = entry.getValue();
 			
 			String groupId = PackageUtils.getGroupId(packageFqdn);
 			String packageName = PackageUtils.getPackageName(packageFqdn);
 			
-			// logger.debug("Resolving " + groupId + "/" + packageName);
 			System.out.println("Group ID: " + groupId);
 			System.out.println("Package name: " + packageName);
 			System.out.println("Version range: " + versionRange);
+			
+			PackageInfo dependencyPackageInfo = resolve(groupId, packageName, 
+					versionRange);
+						
+			Dependency dependencyPackage = resolve(packageInfo);
+			
+			dependency.addDependency(dependencyPackage);
 		}
 		
-		
-		return null;
+		return dependency;
 	}
 
 }
