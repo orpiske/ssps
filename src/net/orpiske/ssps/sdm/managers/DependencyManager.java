@@ -52,8 +52,8 @@ public class DependencyManager {
 		List<PackageInfo> packages = finder.find(groupId, packageName, null);
 		Collections.sort(packages);
 		
-		for (int i = packages.size() - 1; i != 0; i--) {
-			PackageInfo packageInfo = packages.get(i);
+		for (int i = packages.size(); i != 0; i--) {
+			PackageInfo packageInfo = packages.get(i - 1);
 			
 			
 			Version packageVersion = packageInfo.getVersion();
@@ -77,6 +77,10 @@ public class DependencyManager {
 		Dependency dependency = new Dependency(packageInfo);
 		
 		map = packageInfo.getDependencies();
+		if (map == null) {
+			return dependency;
+		}
+		
 		for (Entry<String, String> entry : map.entrySet()) { 
 			String packageFqdn = entry.getKey();
 			String versionRange = entry.getValue();
@@ -91,7 +95,7 @@ public class DependencyManager {
 			PackageInfo dependencyPackageInfo = resolve(groupId, packageName, 
 					versionRange);
 						
-			Dependency dependencyPackage = resolve(packageInfo);
+			Dependency dependencyPackage = resolve(dependencyPackageInfo);
 			
 			dependency.addDependency(dependencyPackage);
 		}
