@@ -17,7 +17,6 @@ package net.orpiske.sdm.packages;
 
 import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
-import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
