@@ -36,14 +36,15 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void fetch(String url) {
-		logger.info("Downloading " + url);
-		
-		try {
-			download(url);
-		} catch (ResourceExchangeException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-		
+		if (url != null && !url.trim().equals("")) { 
+			logger.info("Downloading " + url);
+			
+			try {
+				download(url);
+			} catch (ResourceExchangeException e) {
+				throw new RuntimeException(e.getMessage(), e);
+			}
+		}	
 	}
 
 	/* (non-Javadoc)
