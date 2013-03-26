@@ -15,11 +15,8 @@
 */
 package net.orpiske.sdm.util;
 
-import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.resource.DefaultResourceExchange;
 import net.orpiske.ssps.common.resource.ResourceExchange;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * Factory for resource exchanges
@@ -27,9 +24,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
  *
  */
 public final class ResourceExchangeFactory {
-	
-	private static final PropertiesConfiguration config  
-		= ConfigurationWrapper.getConfig();
+
 	
 	/**
 	 * Creates a new ResourceExchange object, sets the proxy, etc.
