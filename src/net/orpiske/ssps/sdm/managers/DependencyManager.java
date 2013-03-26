@@ -15,14 +15,10 @@
 */
 package net.orpiske.ssps.sdm.managers;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.apache.log4j.Logger;
-
 
 import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.repository.PackageInfo;
@@ -32,11 +28,7 @@ import net.orpiske.ssps.common.repository.utils.PackageUtils;
 import net.orpiske.ssps.common.version.Range;
 import net.orpiske.ssps.common.version.Version;
 
-public class DependencyManager {
-	private static final Logger logger = Logger.getLogger(DependencyManager.class);
-	
-	private List<PackageInfo> dependencies = new ArrayList<PackageInfo>();
-	
+public class DependencyManager {	
 	public DependencyManager() {
 		
 	}
