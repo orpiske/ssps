@@ -20,6 +20,12 @@ SSPS Version 0.2.0
 
 	* Added support for zip files
 	
+	* Added support for dependencies
+	
+	* Added support for meta-packages
+	
+	* Added support for Apache Derby as a software inventory database
+	
 	
 SSPS Version 0.1.0
 
