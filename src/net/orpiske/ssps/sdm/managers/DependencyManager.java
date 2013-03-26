@@ -88,10 +88,6 @@ public class DependencyManager {
 			String groupId = PackageUtils.getGroupId(packageFqdn);
 			String packageName = PackageUtils.getPackageName(packageFqdn);
 			
-			System.out.println("Group ID: " + groupId);
-			System.out.println("Package name: " + packageName);
-			System.out.println("Version range: " + versionRange);
-			
 			PackageInfo dependencyPackageInfo = resolve(groupId, packageName, 
 					versionRange);
 						
