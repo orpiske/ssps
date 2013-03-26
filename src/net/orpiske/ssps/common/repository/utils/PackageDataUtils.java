@@ -95,6 +95,7 @@ public class PackageDataUtils {
 			}
 		}
 		catch (MissingPropertyExceptionNoStack e) {
+			packageInfo.setDependencies(new LinkedHashMap<String, String>());
 			logger.debug("Property " + e.getProperty() + " undefined for " + file.getName());
 		}
 
