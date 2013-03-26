@@ -176,6 +176,14 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	}
 
 	
+	/**
+	 * Returns the fully qualified package name
+	 * @return
+	 */
+	public String fqn() {
+		return groupId + "/" + name + "/" + version;
+	}
+	
 
 	@Override
 	public String toString() {
