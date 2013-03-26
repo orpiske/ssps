@@ -24,14 +24,14 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipException;
 
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.apache.commons.io.IOUtils;
-
 import net.orpiske.ssps.common.archive.Archive;
 import net.orpiske.ssps.common.archive.CompressedArchiveUtils;
 import net.orpiske.ssps.common.archive.PermissionsUtils;
 import net.orpiske.ssps.common.archive.exceptions.SspsArchiveException;
+
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Zip archive support

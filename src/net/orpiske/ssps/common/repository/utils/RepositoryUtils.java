@@ -17,15 +17,15 @@ package net.orpiske.ssps.common.repository.utils;
 
 import java.io.File;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
-
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.utils.Utils;
 import net.orpiske.ssps.common.version.Version;
 import net.orpiske.ssps.common.version.slot.SlotComparatorFactory;
+
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 
 /**
  * Repository utilities

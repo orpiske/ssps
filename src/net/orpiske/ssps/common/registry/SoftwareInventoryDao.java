@@ -24,8 +24,6 @@ import java.util.Map;
 
 import net.orpiske.ssps.common.db.AbstractDao;
 import net.orpiske.ssps.common.db.DatabaseManager;
-import net.orpiske.ssps.common.registry.MultiRsHandler;
-import net.orpiske.ssps.common.registry.SoftwareInventoryRsHandler;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.version.Version;
 
