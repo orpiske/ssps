@@ -28,8 +28,7 @@ import org.apache.commons.dbutils.handlers.AbstractListHandler;
  * Handles the result of a query
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- * @param <T>
- * @param <T>
+ * @param <T> The type of the DTO
  */
 public class MultiRsHandler<T> extends AbstractListHandler<T> {
 
@@ -37,7 +36,7 @@ public class MultiRsHandler<T> extends AbstractListHandler<T> {
 	
 	/**
 	 * Constructor
-	 * @param dto The DTO to handle
+	 * @param clazz The class of the DTO to handle
 	 */
 	public MultiRsHandler(Class<T> clazz) {
 		this.clazz = clazz;

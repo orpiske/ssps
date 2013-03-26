@@ -91,8 +91,8 @@ public class Version implements Comparable<Version>{
 	
 	/**
 	 * Constructs a version object from a String
-	 * @param value
-	 * @return
+	 * @param value the version number/value
+	 * @return A new Version object with the input value
 	 */
 	public static Version toVersion(final String value) {
 		Version version = new Version();

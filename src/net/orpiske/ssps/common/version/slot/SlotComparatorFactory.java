@@ -45,8 +45,8 @@ public final class SlotComparatorFactory {
 	
 	/**
 	 * Constructs a new slot comparator based on an input mask
-	 * @param mask
-	 * @return
+	 * @param mask the input mask representing the slot
+	 * @return A slot comparator for that mask or the default comparator if not valid
 	 */
 	public static SlotComparator create(final String mask) {
 		if (mask.equals(MAJOR)) {

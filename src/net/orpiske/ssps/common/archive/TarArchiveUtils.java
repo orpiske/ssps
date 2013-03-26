@@ -54,9 +54,6 @@ public abstract class TarArchiveUtils implements Archive {
 	 *            source file
 	 * @param destination
 	 *            destination file
-	 * @param stripPath
-	 *            whether or not to strip part of the path (used by the
-	 *            UsaArchiver)
 	 * @return the number of bytes processed
 	 * @throws ArchiveException
 	 * @throws IOException

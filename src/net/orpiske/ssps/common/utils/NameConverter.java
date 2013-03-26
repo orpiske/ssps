@@ -32,8 +32,8 @@ public class NameConverter {
 	 * 
 	 * It also converts the name from upper case to lower case.
 	 * 
-	 * @param sqlString
-	 * @return
+	 * @param sqlString A string with the resource name
+	 * @return A string with the converted resource name
 	 */
 	public static String sqlToProperty(final String sqlString) {
 		StringBuffer buffer = new StringBuffer(64);

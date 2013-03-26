@@ -25,21 +25,36 @@ public class ResourceInfo {
 	private long lastModified;
 	
 	/**
-	 * Resource size
-	 * @return
+	 * Gets the resource size
+	 * @return the size in bytes
 	 */
 	public long getSize() {
 		return size;
 	}
 	
+	
+	/**
+	 * Sets the resource size
+	 * @param size the size in bytes
+	 */
 	public void setSize(long size) {
 		this.size = size;
 	}
 	
+	
+	/**
+	 * Gets the last modified value (in epoch) for the resource
+	 * @return the last modified value (in epoch) for the resource
+	 */
 	public long getLastModified() {
 		return lastModified;
 	}
 	
+	
+	/**
+	 * Sets the last modified value (in epoch) for the resource
+	 * @param lastModified the last modified value (in epoch) for the resource
+	 */
 	public void setLastModified(long lastModified) {
 		this.lastModified = lastModified;
 	}

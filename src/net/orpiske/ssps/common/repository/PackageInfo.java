@@ -108,7 +108,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	
 	/**
 	 * Gets the package path (ie.: the path to the .groovy file in the file system)
-	 * @return
+	 * @return the package path (ie.: the path to the .groovy file in the file system)
 	 */
 	public String getPath() {
 		return path;
@@ -134,7 +134,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	
 	/**
 	 * Sets the name of the repository which contains/should contain the package 
-	 * @return the name of the repository
+	 * @param repository the name of the repository
 	 */
 	public void setRepository(String repository) {
 		this.repository = repository;
@@ -178,7 +178,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	
 	/**
 	 * Returns the fully qualified package name
-	 * @return
+	 * @return the fully qualified package name as a string (ie.: groupid/name/version)
 	 */
 	public String fqn() {
 		return groupId + "/" + name + "/" + version;
