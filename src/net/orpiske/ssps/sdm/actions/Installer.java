@@ -182,6 +182,7 @@ public class Installer extends ActionInterface {
 			printInventoryList(e.getSoftwareList());
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			System.err.println(e.getMessage());
 		}
 	}

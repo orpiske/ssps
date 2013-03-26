@@ -24,6 +24,7 @@ import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
+import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
@@ -85,6 +86,14 @@ public class InstallationManager {
 		}
 	}
 	
+	
+	private void checkInventoryCollision(final PackageInfo packageInfo) 
+			throws RegistryException, MultipleInstalledPackages 
+	{
+		checkInventoryCollision(packageInfo.getGroupId(), packageInfo.getName(), 
+				packageInfo.getVersion().toString());
+	}
+	
 	public void install(PackageInfo packageInfo, boolean reinstall) throws EngineException, RegistryException  {
 		File file = new File(packageInfo.getPath());
 		Engine engine = new GroovyEngine();
@@ -102,6 +111,31 @@ public class InstallationManager {
 			registryManager.register(file);
 			System.out.println("\rAdding record into the registry ... Done");
 		}
+	}
+	
+	private void installDependency(PackageInfo packageInfo) throws EngineException, RegistryException {
+		System.out.println("Checking if package " + packageInfo.fqn() + " is installed");
+		
+		try {
+			checkInventoryCollision(packageInfo);
+		} 
+		catch (MultipleInstalledPackages e) {
+			System.out.println("Package " + packageInfo.fqn() + " is already installed");
+			
+			return;
+		}
+		
+		
+		install(packageInfo, false);
+	}
+	
+	private void installDependencies(Dependency dependency) throws EngineException, RegistryException {
+		
+		for (Dependency subDependency : dependency.getDependencies()) {
+			installDependencies(subDependency);
+		}
+		
+		installDependency(dependency.getPackageInfo());
 	}
 	
 	
@@ -123,7 +157,8 @@ public class InstallationManager {
 		PackageInfo packageInfo = packages.get(0);
 		
 		DependencyManager dependencyManager = new DependencyManager();
-		dependencyManager.resolve(packageInfo);
+		Dependency dependency = dependencyManager.resolve(packageInfo);
+		installDependencies(dependency);
 		
 		// install(packageInfo, reinstall);
 	}

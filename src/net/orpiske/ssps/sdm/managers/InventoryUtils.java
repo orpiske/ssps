@@ -20,6 +20,7 @@ import java.util.List;
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
+import net.orpiske.ssps.common.version.Version;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 
 public class InventoryUtils {
@@ -47,7 +48,7 @@ public class InventoryUtils {
 
 		
 		for (SoftwareInventoryDto dto : list) {
-			if (dto.getVersion().equals(version) || version == null) {
+			if (dto.getVersion().equals(Version.toVersion(version)) || version == null) {
 				if (dto.getGroupId().equals(groupId) || groupId == null) {
 					return dto;
 				}
