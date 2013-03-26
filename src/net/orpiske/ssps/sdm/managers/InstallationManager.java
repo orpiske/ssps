@@ -159,8 +159,6 @@ public class InstallationManager {
 		DependencyManager dependencyManager = new DependencyManager();
 		Dependency dependency = dependencyManager.resolve(packageInfo);
 		installDependencies(dependency);
-		
-		// install(packageInfo, reinstall);
 	}
 
 }
