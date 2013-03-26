@@ -29,6 +29,7 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
+import net.orpiske.ssps.common.version.Version;
 
 /**
  * Registry manager abstracts the interface with the registry
@@ -176,7 +177,7 @@ public class RegistryManager {
 		
 		for (SoftwareInventoryDto dto : list) {
 			
-			if (dto.getVersion().equals(version)) {
+			if (dto.getVersion().equals(Version.toVersion(version))) {
 				if (dto.getGroupId().equals(groupId)) {
 					return dto;
 				}
