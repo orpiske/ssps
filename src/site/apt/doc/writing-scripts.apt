@@ -87,15 +87,15 @@ package.default.slot=n.*
 	* Major/Minor Slot: <<<n.n.*>>>
 	
 
-<Default Slot>: declares a single slot for all the versions of a package. Hence, 1.2.0, 
+	<Default Slot>: declares a single slot for all the versions of a package. Hence, 1.2.0, 
 1.3.0, 2.0.0, etc all fall within the same slot. Due to that, versions such as 1.2.0 may 
 be upgraded to 2.x.x if packages are available.
 
-<Major Slot>: this slot considers that versions in different major releases are different. 
+	<Major Slot>: this slot considers that versions in different major releases are different. 
 For instance, in this slot definition 1.2.0 is different than 2.3.0. On the other hand, 
 1.2.0 and 1.3.0 are on the same slot.
 	 
-<Minor Slot>: this slot considers that versions in different major and minor releases are
+	<Minor Slot>: this slot considers that versions in different major and minor releases are
 different. For instance, in this slot definition 1.2.0 is different than 1.3.0 or 2.3.0. 
 On the other hand, 1.2.0 and 1.2.1 are on the same slot.	
 	
