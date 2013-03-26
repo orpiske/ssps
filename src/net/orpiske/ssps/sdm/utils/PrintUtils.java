@@ -71,8 +71,8 @@ public class PrintUtils {
 	
 	
 	/**
-	 * Prints parseable software inventory record information
-	 * @param dto
+	 * Prints a list of packages candidate for upgrade
+	 * @param list the list of packages
 	 */
 	public static void printUpgradeable(final List<Upgradeable> list) {
 		if (list.size() == 0) {
