@@ -104,8 +104,10 @@ public class GroovyEngine implements Engine {
 		String artifactName = null;
 		
 		try {
-			artifactName = URLUtils.getFilename(url.toString());
-			artifactName = WorkdirUtils.getWorkDir() + File.separator + artifactName;
+			if (url != null && !url.toString().equals("")) { 
+				artifactName = URLUtils.getFilename(url.toString());
+				artifactName = WorkdirUtils.getWorkDir() + File.separator + artifactName;
+			}
 			
 		} catch (MalformedURLException e) {
 			throw new EngineException("The package URL is invalid: " + e.getMessage(),
