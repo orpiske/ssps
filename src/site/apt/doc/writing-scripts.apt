@@ -66,6 +66,40 @@ also be set in the sdm.properties file.
 to reference the package name and version, so it's easier to bump them when new 
 versions are released.
 
+Slots
+
+	It's safe to assume that you will need to handle package versions with SDM. Hence, it 
+has a feature called version slots. Version slots allow you to define how it will behave 
+regarding upgrades. 
+	The slots can be defined in the repository structure by creating a file named 
+<<<package.properties>>>. This file should be within the <<<group id/package name>>> 
+directory. And it should declare the <<<package.default.slot>>> property. Here's an 
+example:
+
+----------------------------------------
+package.default.slot=n.*
+----------------------------------------
+
+	The following slots are accepted:
+
+	* Default Slot: <<<*>>>
+	* Major Slot: <<<n.*>>>
+	* Major/Minor Slot: <<<n.n.*>>>
+	
+
+<Default Slot>: declares a single slot for all the versions of a package. Hence, 1.2.0, 
+1.3.0, 2.0.0, etc all fall within the same slot. Due to that, versions such as 1.2.0 may 
+be upgraded to 2.x.x if packages are available.
+
+<Major Slot>: this slot considers that versions in different major releases are different. 
+For instance, in this slot definition 1.2.0 is different than 2.3.0. On the other hand, 
+1.2.0 and 1.3.0 are on the same slot.
+	 
+<Minor Slot>: this slot considers that versions in different major and minor releases are
+different. For instance, in this slot definition 1.2.0 is different than 1.3.0 or 2.3.0. 
+On the other hand, 1.2.0 and 1.2.1 are on the same slot.	
+	
+
 The API
 
 	You can check the API docs {{{http://www.orpiske.net/ssps/sdm-common/apidocs/}here}}.
@@ -147,5 +181,40 @@ class ApacheMaven extends BinaryPackage {
 			exec("unlink", "${installDir}/${name}")
 		}
 	}
+}
+----------------------------------------
+
+Dependencies
+
+
+	You can declare dependecies of a package by declaring the <<<dependencies>>> variable.
+For instance, if you have a package that depends on Apache Maven and Apache Ant, an 
+acceptable dependency declaration would be: 
+
+----------------------------------------
+def dependencies = [
+			"org.apache/apache-maven":"(3.0.0, 3.0.99)",
+			"org.apache/apache-ant":"(1.8.4,1.8.99)"];	
+----------------------------------------	
+
+Meta Packages
+
+	Meta packages are packages that do not contain an artifact, instead they declare a set
+of packages as a dependency. This is ver useful to group components in a single name. For 
+instance, if you wanted to create a meta package to install both Apache Maven and Apache 
+Ant, you could created it like this: 
+
+----------------------------------------
+import net.orpiske.sdm.packages.MetaPackage;
+
+import static net.orpiske.sdm.lib.Core.*;
+
+class ApacheAnt extends MetaPackage {
+	def version = "1.0.0"
+	def name = "devevn"	
+	def url = ""
+
+	def dependencies = ["org.apache/apache-maven":"(3.0.0, 3.0.99)",
+			"org.apache/apache-ant":"(1.8.4,1.8.99)"];	
 }
 ----------------------------------------
