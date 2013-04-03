@@ -82,9 +82,6 @@ public class Main {
 			}
 			
 			
-			
-			
-			
 			if (first.equals("--version")) {
 				System.out.println("Simple Software Provisioning System: spm " +
 						Constants.VERSION);
