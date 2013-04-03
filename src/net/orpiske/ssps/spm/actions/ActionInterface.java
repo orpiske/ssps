@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.spm.actions;
+package net.orpiske.ssps.spm.actions;
 
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;

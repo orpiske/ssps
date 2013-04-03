@@ -119,7 +119,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>../lib</classpathPrefix>
-							<mainClass>org.ssps.spm.main.Main</mainClass>
+							<mainClass>net.orpiske.ssps.spm.main.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

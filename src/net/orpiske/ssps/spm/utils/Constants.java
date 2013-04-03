@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.spm.utils;
+package net.orpiske.ssps.spm.utils;
 
 import java.io.File;
 

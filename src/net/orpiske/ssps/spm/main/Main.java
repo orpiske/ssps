@@ -13,16 +13,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.ssps.spm.main;
+package net.orpiske.ssps.spm.main;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.logger.LoggerUtils;
+import net.orpiske.ssps.spm.utils.Constants;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.ssps.spm.utils.Constants;
 
 public class Main {
 
