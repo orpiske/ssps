@@ -68,24 +68,13 @@
 
 	<dependencies>
 		<!-- Internal project dependencies -->
-		<dependency>
-			<groupId>net.orpiske</groupId>
-			<artifactId>ssps-types</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
-		</dependency>
-		
+	
 		<dependency>
 			<groupId>net.orpiske</groupId>
 			<artifactId>ssps-common</artifactId>
 			<version>0.2.0-SNAPSHOT</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>net.orpiske</groupId>
-			<artifactId>sdm-common</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
-		</dependency>
-
 		<!-- Required by Sardine -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -97,12 +86,6 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.googlecode.sardine</groupId>
-			<artifactId>sardine</artifactId>
-			<version>314</version>
 		</dependency>
 
 		<!-- Apache Commons: CLI -->

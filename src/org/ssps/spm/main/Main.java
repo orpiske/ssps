@@ -22,7 +22,6 @@ import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.logger.LoggerUtils;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.ssps.spm.actions.Publisher;
 import org.ssps.spm.utils.Constants;
 
 public class Main {
@@ -83,13 +82,7 @@ public class Main {
 			}
 			
 			
-			if (first.equals("publish")) {
-				Publisher publisher = new Publisher(newArgs);
-				
-				publisher.run();
-				
-				return;
-			}
+			
 			
 			
 			if (first.equals("--version")) {
