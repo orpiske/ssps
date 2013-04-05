@@ -37,6 +37,10 @@ public class Create extends AbstractAction {
 	private String name;
 	private String outputPath;
 	private String version;
+	
+	public Create(String[] args) {
+		processCommand(args);
+	}
 
 
 	@Override

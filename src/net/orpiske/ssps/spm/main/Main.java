@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.logger.LoggerUtils;
+import net.orpiske.ssps.spm.actions.Create;
 import net.orpiske.ssps.spm.utils.Constants;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -50,8 +51,7 @@ public class Main {
 		System.out.println("Usage: spm <action>\n");
 		
 		System.out.println("Actions:");
-		System.out.println("   publish");
-		System.out.println("   delete");
+		System.out.println("   create");
 		
 		System.exit(code);
 	}
@@ -79,6 +79,12 @@ public class Main {
 
 			if (first.equals("help")) {
 				help(1);
+			}
+			
+			if (first.equals("create")) {
+				Create create = new Create(newArgs);
+				
+				create.run();
 			}
 			
 			
