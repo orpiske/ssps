@@ -15,7 +15,11 @@
 */
 package net.orpiske.ssps.spm.actions;
 
+import java.io.IOException;
+
+import net.orpiske.ssps.spm.managers.CreateManager;
 import net.orpiske.ssps.spm.template.Template;
+import net.orpiske.ssps.spm.template.exceptions.TemplateException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -30,8 +34,10 @@ public class Create extends AbstractAction {
 	
 	private boolean isHelp;
 	
-	private Template template;
-	
+	private String name;
+	private String outputPath;
+	private String version;
+
 
 	@Override
 	protected void processCommand(String[] args) {
@@ -40,9 +46,9 @@ public class Create extends AbstractAction {
 		options = new Options();
 
 		options.addOption("h", "help", false, "prints the help");
-		options.addOption("i", "installed", false, "searches for installed packages");
-		options.addOption("t", "template", true, "template name");
-		
+		options.addOption("n", "name", true, "template name");
+		options.addOption("o", "output", true, "output path");
+		options.addOption("v", "version", true, "version");
 
 		try {
 			cmdLine = parser.parse(options, args);
@@ -53,16 +59,45 @@ public class Create extends AbstractAction {
 		isHelp = cmdLine.hasOption("help");
 		
 		
-		String name = cmdLine.getOptionValue('t');
+		String name = cmdLine.getOptionValue('n');
 		if (name == null) {
 			help(options, -1);
 		}
 		
+		
+		String outputPath = cmdLine.getOptionValue('o');
+		if (outputPath == null) {
+			help(options, -1);
+		}
+		
+		String version = cmdLine.getOptionValue('v');
+		if (version == null) {
+			help(options, -1);
+		}
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		
+		try {
+			if (isHelp) { 
+				help(options, 1);
+			}
+			else {		
+				CreateManager manager = new CreateManager();
+				
+				manager.create(name, outputPath, version);
+			}
+		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			
+		}
 		
 	}
 
