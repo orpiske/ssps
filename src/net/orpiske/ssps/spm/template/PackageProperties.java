@@ -12,31 +12,36 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 package net.orpiske.ssps.spm.template;
 
-import java.io.File;
+public class PackageProperties {
+	private String groupId;
+	private String name;
+	private String type;
 
-public class Template {
-	
-	private PackageProperties packageInfo;
-	
-	private File templateFile;
-
-	public PackageProperties getPackageInfo() {
-		return packageInfo;
+	public String getGroupId() {
+		return groupId;
 	}
 
-	public void setPackageInfo(PackageProperties packageInfo) {
-		this.packageInfo = packageInfo;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
-	public File getTemplateFile() {
-		return templateFile;
+	public String getName() {
+		return name;
 	}
 
-	public void setTemplateFile(File templateFile) {
-		this.templateFile = templateFile;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

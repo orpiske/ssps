@@ -1,5 +1,5 @@
 /**
-   Copyright 2013 Otavio Rodolfo Piske
+   Copyright 2012 Otavio Rodolfo Piske
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -12,36 +12,32 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+*/
+package net.orpiske.ssps.spm.template.exceptions;
+
+import java.io.FileNotFoundException;
+
+/**
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
  */
-package net.orpiske.ssps.spm.template;
+@SuppressWarnings("serial")
+public class TemplateNotFound extends FileNotFoundException {
 
-public class Package {
-	private String groupId;
-	private String name;
-	private String type;
-
-	public String getGroupId() {
-		return groupId;
+	/**
+	 * 
+	 */
+	public TemplateNotFound() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
+	/**
+	 * @param arg0
+	 */
+	public TemplateNotFound(String arg0) {
+		super(arg0);
+		// TODO Auto-generated constructor stub
 	}
 
 }

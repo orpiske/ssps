@@ -15,9 +15,38 @@
 */
 package net.orpiske.ssps.spm.template;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.configuration.ConfigurationException;
+
+import net.orpiske.ssps.spm.template.exceptions.TemplateException;
+import net.orpiske.ssps.spm.template.exceptions.TemplateNotFound;
+import net.orpiske.ssps.spm.template.finder.FSTemplateFinder;
+import net.orpiske.ssps.spm.template.finder.TemplateFinder;
+
 public class TemplateFactory {
 
-	public static Template create(final String name) {
-		return null;
+	public static Template create(final String name) throws TemplateException, TemplateNotFound {
+		PackageProperties properties = null;
+		TemplateFinder finder = new FSTemplateFinder();
+		File file = null;
+		
+		try {
+			file = finder.find(name);
+			properties = PackageInfoLoader.read(file.getParentFile());
+		} catch (ConfigurationException e) {
+			throw new TemplateException("The template settings for " + name + 
+					" is invalid", e);
+		} catch (IOException e) {
+			throw new TemplateNotFound(name);
+		}
+		
+		Template template = new Template();
+		
+		template.setPackageInfo(properties);
+		template.setTemplateFile(file);
+		
+		return template;
 	}
 }
