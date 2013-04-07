@@ -19,6 +19,7 @@ public class PackageProperties {
 	private String groupId;
 	private String name;
 	private String type;
+	private String version;
 
 	public String getGroupId() {
 		return groupId;
@@ -42,6 +43,14 @@ public class PackageProperties {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 }
