@@ -62,7 +62,7 @@ public class FSTemplateFinder implements TemplateFinder {
 	}
 
 	public File find(String name) throws IOException {
-		File ret = new File(templateDir, name);
+		File ret = new File(templateDir, name + File.separator + name + ".groovy.vm");
 		
 		if (!ret.exists()) {
 			throw new IOException("The file " + ret.getPath() + " does not exist");
