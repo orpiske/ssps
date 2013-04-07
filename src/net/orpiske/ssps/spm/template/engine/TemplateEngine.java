@@ -35,7 +35,7 @@ public class TemplateEngine {
 		context = new VelocityContext();
 		
 		Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, 
-				org.apache.velocity.runtime.log.NullLogSystem.class);
+				org.apache.velocity.runtime.log.Log4JLogSystem.class);
 		
 		Velocity.setProperty("resource.loader", "file");
 		Velocity.setProperty("resource.loader.class", FileResourceLoader.class);
@@ -54,7 +54,8 @@ public class TemplateEngine {
 		}
 		
 		for (Object obj : arguments) {
-			context.put(obj.getClass().getName().toLowerCase(), obj);
+			String key = obj.getClass().getSimpleName().toLowerCase();
+			context.put(key, obj);
 		}
 		
 		template.merge(context, writer);
