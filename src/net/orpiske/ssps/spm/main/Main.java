@@ -85,8 +85,8 @@ public class Main {
 				Create create = new Create(newArgs);
 				
 				create.run();
+				return;
 			}
-			
 			
 			if (first.equals("--version")) {
 				System.out.println("Simple Software Provisioning System: spm " +
