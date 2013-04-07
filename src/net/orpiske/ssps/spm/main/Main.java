@@ -15,6 +15,7 @@
 */
 package net.orpiske.ssps.spm.main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
@@ -22,6 +23,7 @@ import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.logger.LoggerUtils;
 import net.orpiske.ssps.spm.actions.Create;
 import net.orpiske.ssps.spm.utils.Constants;
+import net.orpiske.ssps.spm.utils.Utils;
 
 import org.apache.commons.configuration.ConfigurationException;
 
@@ -45,6 +47,16 @@ public class Main {
 			System.err.println(e.getMessage());
 			System.exit(-3);
 		}
+	}
+	
+	
+	private static void initUserSpmDirectory() {
+		File userDirectory = Utils.getSpmDirectoryPathFile();
+
+		if (!userDirectory.exists()) {
+			userDirectory.mkdirs();
+		}
+
 	}
 
 	public static void help(int code) {
@@ -76,6 +88,8 @@ public class Main {
 				System.exit(-1);
 			}
 			initConfig();
+			
+			initUserSpmDirectory();
 
 			if (first.equals("help")) {
 				help(1);
