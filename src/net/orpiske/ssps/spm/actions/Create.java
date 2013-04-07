@@ -20,14 +20,17 @@ import java.io.IOException;
 import net.orpiske.ssps.spm.managers.CreateManager;
 import net.orpiske.ssps.spm.template.Template;
 import net.orpiske.ssps.spm.template.exceptions.TemplateException;
+import net.orpiske.ssps.spm.template.exceptions.TemplateNotFound;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.log4j.Logger;
 
 public class Create extends AbstractAction {
+	private static final Logger logger = Logger.getLogger(Create.class);
 	
 	private CommandLine cmdLine;
 	private Options options;
@@ -63,18 +66,18 @@ public class Create extends AbstractAction {
 		isHelp = cmdLine.hasOption("help");
 		
 		
-		String name = cmdLine.getOptionValue('n');
+		name = cmdLine.getOptionValue('n');
 		if (name == null) {
 			help(options, -1);
 		}
 		
 		
-		String outputPath = cmdLine.getOptionValue('o');
+		outputPath = cmdLine.getOptionValue('o');
 		if (outputPath == null) {
 			help(options, -1);
 		}
 		
-		String version = cmdLine.getOptionValue('v');
+		version = cmdLine.getOptionValue('v');
 		if (version == null) {
 			help(options, -1);
 		}
@@ -93,11 +96,24 @@ public class Create extends AbstractAction {
 				manager.create(name, outputPath, version);
 			}
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.print(e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error(e.getMessage(), e);
+			}
+		} catch (TemplateNotFound e) {
+			System.err.println("The template for '" + name + "' was not found");
+
+			if (logger.isDebugEnabled()) {
+				logger.error(e.getMessage(), e);
+			}
+		}
+		catch (IOException e) {
+			System.err.print(e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error(e.getMessage(), e);
+			}
 		}
 		finally {
 			
