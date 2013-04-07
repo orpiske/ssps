@@ -23,7 +23,7 @@ public class Template {
 	
 	private File templateFile;
 
-	public PackageProperties getPackageInfo() {
+	public PackageProperties getPackageProperties() {
 		return packageProperties;
 	}
 

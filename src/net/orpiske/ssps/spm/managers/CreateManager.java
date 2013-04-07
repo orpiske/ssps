@@ -35,7 +35,7 @@ public class CreateManager {
 	public File getOuputFile(final Template template, final String repository, 
 			final String version)
 	{
-		PackageProperties packageProperties = template.getPackageInfo();
+		PackageProperties packageProperties = template.getPackageProperties();
 		
 		String outPath = repository + File.separator + "packages" + File.separator +
 				packageProperties.getGroupId() + File.separator + 
@@ -65,7 +65,7 @@ public class CreateManager {
 		
 		FileWriter writer = new FileWriter(outFile);
 		
-		engine.create(writer, template.getPackageInfo());
+		engine.create(writer, template.getPackageProperties());
 		
 		writer.close();
 	} 
