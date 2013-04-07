@@ -49,7 +49,7 @@ public class CreateManager {
 		return ret;
 	}
 	
-	public void create(final String name, final String repository, final String version) throws TemplateException, IOException {
+	public void create(final String name, final String repository, final String version) throws TemplateException, TemplateNotFound, IOException {
 		Template template = TemplateFactory.create(name);
 		
 		TemplateEngine engine = new TemplateEngine(template.getTemplateFile());
