@@ -19,16 +19,16 @@ import java.io.File;
 
 public class Template {
 	
-	private PackageProperties packageInfo;
+	private PackageProperties packageProperties;
 	
 	private File templateFile;
 
 	public PackageProperties getPackageInfo() {
-		return packageInfo;
+		return packageProperties;
 	}
 
-	public void setPackageInfo(PackageProperties packageInfo) {
-		this.packageInfo = packageInfo;
+	public void setPackageProperties(PackageProperties packageProperties) {
+		this.packageProperties = packageProperties;
 	}
 
 	public File getTemplateFile() {

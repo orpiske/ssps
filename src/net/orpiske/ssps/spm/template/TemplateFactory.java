@@ -44,7 +44,7 @@ public class TemplateFactory {
 		
 		Template template = new Template();
 		
-		template.setPackageInfo(properties);
+		template.setPackageProperties(properties);
 		template.setTemplateFile(file);
 		
 		return template;
