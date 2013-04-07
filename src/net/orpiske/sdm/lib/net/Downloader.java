@@ -61,7 +61,7 @@ public class Downloader {
 				double percentComplete = 0;
 				
 				if (i > 0) {
-					percentComplete = i / (total /100);
+					percentComplete = i / ((double) total /100.0);
 				}
 				else {
 					percentComplete = 0.0;
@@ -87,7 +87,8 @@ public class Downloader {
 	 * @return
 	 * @throws MalformedURLException
 	 * @throws URISyntaxException
-	 * @throws IOException
+	 * @throws IOException if unable to create the output directory, file or remove an 
+	 * existent file
 	 */
 	private static File setupOutputFile(String url, boolean overwrite)
 			throws MalformedURLException, URISyntaxException, IOException {
@@ -97,13 +98,26 @@ public class Downloader {
 
 		File outputFile = new File(fullName);
 
-		outputFile.getParentFile().mkdirs();
+		if (!outputFile.getParentFile().exists()) { 
+			if (!outputFile.getParentFile().mkdirs()) {
+				throw new IOException("Unable to create output directory " + fullName);
+			}
+		}
+		
 		if (!outputFile.exists()) {
-			outputFile.createNewFile();
+			if (!outputFile.createNewFile()) {
+				throw new IOException("Unable to create file " + fullName);
+			}
 		} else {
 			if (overwrite) {
-				outputFile.delete();
-				outputFile.createNewFile();
+				if (outputFile.delete()) {
+					if (!outputFile.createNewFile()) {
+						throw new IOException("Unable to create file " + fullName);
+					}
+				}
+				else {
+					throw new IOException("Unable to delete existing file " + fullName);
+				}
 			} else {
 				logger.info("Destination file " + fullName + " already exists");
 			}
@@ -127,8 +141,11 @@ public class Downloader {
 			output = new FileOutputStream(outputFile);
 
 			copy(resource, output);
-			outputFile.setLastModified(resource.getResourceInfo()
-					.getLastModified());
+			long lastModified = resource.getResourceInfo().getLastModified();
+			if (!outputFile.setLastModified(lastModified)) {
+				logger.info("Unable to set the last modified date for " + 
+						outputFile.getPath());
+			}
 		} finally {
 
 			IOUtils.closeQuietly(output);

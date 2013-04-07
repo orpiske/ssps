@@ -31,10 +31,12 @@ import org.apache.commons.io.FileUtils;
  */
 public class IOUtil {
 	
-	private static void createParentDirectories(File dir) {
+	private static boolean createParentDirectories(File dir) {
 		if (!dir.exists()) {
-			dir.getParentFile().mkdirs();
+			return dir.getParentFile().mkdirs();
 		}
+		
+		return true;
 	}
 	
 	
@@ -56,7 +58,9 @@ public class IOUtil {
 	
 		if (!shielded.exists()) {
 			
-			shielded.createNewFile();
+			if (!shielded.createNewFile()) {
+				System.err.println("Unable to create shield file " + shielded.getPath());
+			}
 				
 			System.out.println("Resource " + resource + " was shielded");
 		}
@@ -100,7 +104,9 @@ public class IOUtil {
 			throw new IOException("File or directory not found: " + from);
 		}
 		
-		createParentDirectories(toFile);
+		if (!createParentDirectories(toFile)) {
+			throw new IOException("Unable to create parent directories: " + toFile.getParent());
+		}
 		
 		if (fromFile.isDirectory()) {
 			
@@ -125,14 +131,16 @@ public class IOUtil {
 	 * Creates a directory
 	 * @param directory the directory to create
 	 */
-	public static void mkdir(final String directory) {
+	public static boolean mkdir(final String directory) {
 		File dir = new File(directory);
 		
 		if (!dir.exists()) { 
-			dir.mkdirs();
+			return dir.mkdirs();
 		}
 		else {
 			System.out.println("Directory " + directory + " already exists");
 		}
+		
+		return false;
 	}
 }

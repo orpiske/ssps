@@ -58,8 +58,14 @@ public class ShieldAwareCopier extends DirectoryWalker {
 		}
 		
 		File destinationDir = new File(destination, directory.getName());
-		destinationDir.mkdirs();
 		
+		if (!destinationDir.exists()) {
+			if (!destinationDir.mkdirs()) {
+				throw new IOException("Unable to create destination directory " 
+						+ destinationDir.getPath());
+			}
+		}
+	
 		ShieldAwareCopier copier = new ShieldAwareCopier(destinationDir);
 		
 		copier.copy(directory);
