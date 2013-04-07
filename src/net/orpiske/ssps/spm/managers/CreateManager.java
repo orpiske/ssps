@@ -44,9 +44,16 @@ public class CreateManager {
 				packageProperties.getName() + ".groovy";
 		
 		File ret = new File(outPath);
-		ret.mkdirs();
+		
+		prepareOutputDirectory(ret.getParentFile());
 		
 		return ret;
+	}
+	
+	private void prepareOutputDirectory(final File dir) {
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 	}
 	
 	public void create(final String name, final String repository, final String version) throws TemplateException, TemplateNotFound, IOException {
@@ -54,6 +61,8 @@ public class CreateManager {
 		
 		TemplateEngine engine = new TemplateEngine(template.getTemplateFile());
 		File outFile = getOuputFile(template, repository, version);
+		
+		
 		FileWriter writer = new FileWriter(outFile);
 		
 		engine.create(writer, template.getPackageInfo());
