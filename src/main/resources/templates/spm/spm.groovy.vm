@@ -12,7 +12,7 @@ import static net.orpiske.sdm.lib.Core.*;
 
 class Spm extends BinaryPackage {
 	def version = "${packageproperties.version}"
-	def name = "${packageproperties.name}"	
+	def name = "${packageproperties.name}"
 	def url = "http://orpiske.net/ssps/files/net/orpiske/${name}/${version}/${name}-${version}-bin.tar.bz2"
 
 	void install() {
