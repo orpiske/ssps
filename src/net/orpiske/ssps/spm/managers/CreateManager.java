@@ -59,13 +59,16 @@ public class CreateManager {
 	public void create(final String name, final String repository, final String version) throws TemplateException, TemplateNotFound, IOException {
 		Template template = TemplateFactory.create(name);
 		
+		PackageProperties properties = template.getPackageProperties();
+		properties.setVersion(version);
+				
 		TemplateEngine engine = new TemplateEngine(template.getTemplateFile());
 		File outFile = getOuputFile(template, repository, version);
 		
 		
 		FileWriter writer = new FileWriter(outFile);
 		
-		engine.create(writer, template.getPackageProperties());
+		engine.create(writer, properties);
 		
 		writer.close();
 	} 
