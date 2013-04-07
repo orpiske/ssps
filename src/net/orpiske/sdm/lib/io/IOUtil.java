@@ -32,7 +32,7 @@ import org.apache.commons.io.FileUtils;
 public class IOUtil {
 	
 	private static boolean createParentDirectories(File dir) {
-		if (!dir.exists()) {
+		if (!dir.getParentFile().exists()) {
 			return dir.getParentFile().mkdirs();
 		}
 		
