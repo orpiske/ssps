@@ -32,9 +32,7 @@ public class DefaultVersionComparator implements VersionComparator {
 			return 0;
 		}
 		
-		text.replaceFirst("-", "");
-		String newStr = text.toUpperCase();
-		
+		String newStr = text.replaceFirst("-", "").toUpperCase();
 		
 		if (newStr.contains("RC")) {
 			return -1;
@@ -62,6 +60,16 @@ public class DefaultVersionComparator implements VersionComparator {
 		
 		if (v1 == null && v2 != null) {
 			return LESS_THAN;
+		}
+		else {
+			if (v1 == null && v2 == null) {
+				return EQUALS;
+			}
+			else {
+				if (v1 != null && v2 == null) {
+					return GREATER_THAN;
+				}	
+			}
 		}
 		
 		parts1 = v1.split("\\.");
