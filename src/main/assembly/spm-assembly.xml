@@ -49,6 +49,7 @@
 				<include>**/*.*</include>
 				<include>**/spm</include>
 			</includes>
+			<fileMode>0755</fileMode>
 		</fileSet>
 		
 		<fileSet>
