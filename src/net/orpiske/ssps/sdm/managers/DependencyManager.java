@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
+
 import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
@@ -28,7 +30,9 @@ import net.orpiske.ssps.common.repository.utils.PackageUtils;
 import net.orpiske.ssps.common.version.Range;
 import net.orpiske.ssps.common.version.Version;
 
-public class DependencyManager {	
+public class DependencyManager {
+	private static final Logger logger = Logger.getLogger(DependencyManager.class);
+	
 	public DependencyManager() {
 		
 	}
@@ -82,10 +86,16 @@ public class DependencyManager {
 			
 			PackageInfo dependencyPackageInfo = resolve(groupId, packageName, 
 					versionRange);
-						
-			Dependency dependencyPackage = resolve(dependencyPackageInfo);
 			
-			dependency.addDependency(dependencyPackage);
+			if (dependencyPackageInfo == null) {
+				logger.warn("The package for " + groupId + "/" + packageName 
+						+ " wasn't found"); 
+			}
+			else { 			
+				Dependency dependencyPackage = resolve(dependencyPackageInfo);
+				
+				dependency.addDependency(dependencyPackage);
+			}
 		}
 		
 		return dependency;
