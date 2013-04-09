@@ -119,7 +119,10 @@ public abstract class TarArchiveUtils implements Archive {
 			ArchiveException, IOException {
 		
 		if (!destination.exists()) {
-			destination.mkdirs();
+			if (!destination.mkdirs()) {
+				throw new IOException("Unable to create destination directory: " 
+						+ destination.getPath());
+			}
 		}
 		else {
 			if (!destination.isDirectory()) {
@@ -137,10 +140,12 @@ public abstract class TarArchiveUtils implements Archive {
 			archiveStream = factory.createArchiveInputStream(
 					format, inputFileStream);
 		} catch (ArchiveException e) {
-			IOUtils.closeQuietly(inputFileStream);
-
 			throw e;
 		}
+		finally {
+			IOUtils.closeQuietly(inputFileStream);
+		}
+		
 
 		OutputStream outStream = null;
 		try {
@@ -183,11 +188,12 @@ public abstract class TarArchiveUtils implements Archive {
 			inputFileStream.close();
 			archiveStream.close();
 		} catch (IOException e) {
+			throw e;
+		}
+		finally {
 			IOUtils.closeQuietly(outStream);
 			IOUtils.closeQuietly(inputFileStream);
 			IOUtils.closeQuietly(archiveStream);
-
-			throw e;
 		}
 
 		return archiveStream.getBytesRead();
