@@ -76,7 +76,11 @@ public class SoftwareInventoryDto {
 	}
 
 	public Date getInstallDate() {
-		return installDate;
+		if (installDate != null) {
+			return new Date(installDate.getTime());
+		}
+		
+		return null;
 	}
 
 	public void setInstallDate(Date installDate) {
