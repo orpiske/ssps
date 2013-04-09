@@ -17,7 +17,6 @@ package net.orpiske.ssps.common.version;
 
 import static org.junit.Assert.*;
 
-import java.util.Comparator;
 
 import org.junit.Test;
 

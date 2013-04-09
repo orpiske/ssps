@@ -20,8 +20,6 @@ import static org.junit.Assert.assertEquals;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import net.orpiske.ssps.common.utils.URLUtils;
-
 import org.junit.Test;
 
 /**

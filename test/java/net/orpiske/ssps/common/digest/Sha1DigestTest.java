@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import net.orpiske.ssps.common.digest.Sha1Digest;
-
 import org.junit.Test;
 
 /**
