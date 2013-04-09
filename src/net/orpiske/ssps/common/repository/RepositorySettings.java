@@ -52,8 +52,13 @@ public class RepositorySettings {
 			if (!file.exists()) { 
 			
 				try {
-					file.getParentFile().mkdirs();
-					file.createNewFile();
+					if (!file.getParentFile().mkdirs()) {
+						throw new SspsException("Unable to create parent directories");
+					}
+					
+					if (!file.createNewFile()) {
+						throw new SspsException("Unable to create repository settings file");
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
