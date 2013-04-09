@@ -8,5 +8,13 @@
     <menu name="Documentation">
       <item name="API" href="apidocs/index.html"/>
     </menu>
+    
+    <menu name="Project">
+      <item name="Detailed Information" href="project-info.html"/>
+      <item name="License" href="license.html"/>
+      <item name="Issues" href="issue-tracking.html"/>
+      <item name="Reports" href="project-reports.html"/>
+      <item name="Summary" href="project-summary.html"/>
+    </menu>
   </body>
 </project>
