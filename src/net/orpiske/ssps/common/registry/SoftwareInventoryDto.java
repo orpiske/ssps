@@ -84,7 +84,7 @@ public class SoftwareInventoryDto {
 	}
 
 	public void setInstallDate(Date installDate) {
-		this.installDate = installDate;
+		this.installDate = (installDate == null) ? null : new Date(installDate.getTime());
 	}
 
 }
