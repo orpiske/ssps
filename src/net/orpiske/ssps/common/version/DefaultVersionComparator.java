@@ -119,7 +119,6 @@ public class DefaultVersionComparator implements VersionComparator {
 	}
 	
 	
-	@Deprecated
 	public static int compareStatic(final String v1, final String v2) {
 		DefaultVersionComparator comparator = new DefaultVersionComparator();
 		
