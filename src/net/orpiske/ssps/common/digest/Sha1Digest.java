@@ -33,7 +33,7 @@ import org.apache.log4j.Logger;
 public class Sha1Digest implements MessageDigest {
 	private static Logger logger = Logger.getLogger(Sha1Digest.class);
 	
-	public static String HASH_NAME = "sha1";
+	public static final String HASH_NAME = "sha1";
 	
 	public String calculate(final InputStream inputStream) throws IOException {
 		logger.info("Calculating message digest");
