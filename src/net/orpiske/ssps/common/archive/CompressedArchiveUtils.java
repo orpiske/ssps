@@ -47,7 +47,10 @@ public class CompressedArchiveUtils {
 		File parent = destination.getParentFile();
 		
 		if (!parent.exists()) {
-			parent.mkdirs();
+			if (!parent.mkdirs()) {
+				throw new IOException("Unable to create destination directory: " 
+						+ parent.getPath());
+			}
 		}
 	}
 
