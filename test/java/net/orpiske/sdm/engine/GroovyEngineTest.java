@@ -15,8 +15,6 @@
 */
 package net.orpiske.sdm.engine;
 
-import net.orpiske.sdm.engine.Engine;
-import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 
 import org.junit.Ignore;
