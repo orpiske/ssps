@@ -112,10 +112,16 @@ public class Sha1Digest implements MessageDigest {
 			File file = new File(source + "." + HASH_NAME);
 			
 			if (file.exists()) {
-				file.delete();
+				if (!file.delete()) {
+					throw new IOException("Unable to delete an existent file: " 
+							+ file.getPath());
+				}
 			}
 			else {
-				file.createNewFile();
+				if (!file.createNewFile()) {
+					throw new IOException("Unable to create a new file: " 
+							+ file.getPath());
+				}
 			}
 			
 			output = new FileOutputStream(file);
