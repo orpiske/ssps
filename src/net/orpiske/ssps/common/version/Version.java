@@ -20,7 +20,7 @@ package net.orpiske.ssps.common.version;
  * @author Otavio R. Piske
  *
  */
-public class Version implements Comparable<Version>{
+public final class Version implements Comparable<Version>{
 	
 	private String value;
 	
@@ -71,11 +71,11 @@ public class Version implements Comparable<Version>{
 		if (obj == this) {
 			return true;
 		}
- 		
-		if (obj == null || obj.getClass() != getClass()) {
+		
+		if (!(obj instanceof Version)) {
 			return false;
 		}
-		
+ 				
 		Version other = (Version) obj;
 		if (getValue() == null) {
 			if (other.getValue() == null) { 
