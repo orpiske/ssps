@@ -23,6 +23,11 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 
 	<developers>
 		<developer>
@@ -39,7 +44,7 @@
 		</developer>
 	</developers>
 
-	<dependencies>	
+	<dependencies>
 		<!-- Apache Log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -71,13 +76,13 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.6</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.8.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-dbutils</groupId>
 			<artifactId>commons-dbutils</artifactId>
@@ -90,28 +95,28 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.1.1</version>
 		</dependency>
-		
+
 		<!-- Apache Derby -->
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
 			<version>10.9.1.0</version>
 		</dependency>
-		
+
 		<!-- Groovy Support -->
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>2.1.1</version>
 		</dependency>
-		
+
 		<!-- Git Repository Support -->
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
 			<version>2.2.0.201212191850-r</version>
 		</dependency>
-		
+
 		<!-- SVN Repository Support -->
 		<dependency>
 			<groupId>org.tmatesoft.svnkit</groupId>
@@ -158,10 +163,13 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
 		</plugins>
-		
+
 		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
@@ -178,12 +186,29 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.8.1</version>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5.2</version>
+			</plugin>
 		</plugins>
 	</reporting>
-	
+
 	<scm>
 		<url>scm:git:git@github.com:orpiske/ssps-common.git</url>
 	</scm>
+	
+	<mailingLists>
+		<mailingList>
+			<name>User List</name>
+			<subscribe>ssps-users+subscribe@googlegroups.com</subscribe>
+			<unsubscribe>ssps-users+subscribe@googlegroups.com</unsubscribe>
+			<post>ssps-users@googlegroups.com</post>
+			<archive>https://groups.google.com/forum/#!forum/ssps-users</archive>
+		</mailingList>
+	</mailingLists>
+	
 	<issueManagement>
 		<system>GitHub</system>
 		<url>https://github.com/orpiske/ssps-common/</url>
