@@ -130,7 +130,7 @@ public class GroovyEngine implements Engine {
 		
 		start = System.currentTimeMillis();
 		
-		System.out.println("");;
+		System.out.println("");
 		printPhaseHeader("build");
 		groovyObject.invokeMethod("build", null);
 		
