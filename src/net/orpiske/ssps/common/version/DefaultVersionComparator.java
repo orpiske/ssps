@@ -119,6 +119,15 @@ public class DefaultVersionComparator implements VersionComparator {
 	}
 	
 	
+	/**
+	 * Utility method to compare two (version) strings and check if whether one (v1) is 
+	 * bigger, smaller or equal to than the other (v2)
+	 * @param v1 The version to compare
+	 * @param v2 The version to compare against
+	 * @return ComparisonStrategy.EQUALS if equals, ComparisonStrategy.LESS_THAN
+	 * if v2 is less than the base (v2) version or ComparisonStrategy.GREATER_THAN
+	 * otherwise.
+	 */
 	public static int compareStatic(final String v1, final String v2) {
 		DefaultVersionComparator comparator = new DefaultVersionComparator();
 		
