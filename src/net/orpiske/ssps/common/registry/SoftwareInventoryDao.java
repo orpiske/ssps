@@ -79,7 +79,6 @@ public class SoftwareInventoryDao extends AbstractDao {
 		}
 		finally { 
 			DbUtils.close(s);
-			DbUtils.close(conn);
 		}
 	}
 
