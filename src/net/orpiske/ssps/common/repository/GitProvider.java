@@ -52,7 +52,7 @@ public class GitProvider implements Provider {
 	
 	
 	
-	private void create(final File repositoryDir) throws RepositoryUpdateException {
+	private void clone(final File repositoryDir) throws RepositoryUpdateException {
 		CloneCommand cloneCommand = Git.cloneRepository();
 		cloneCommand.setURI(repositoryInfo.getUrl());
 		cloneCommand.setDirectory(repositoryDir);
@@ -83,17 +83,29 @@ public class GitProvider implements Provider {
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#create()
 	 */
-	public void create() throws RepositoryUpdateException {
+	private void create(boolean ignore) throws RepositoryUpdateException {
 		File repositoryDir = new File(repositoryInfo.getLocalPath());
 		
 		if (!repositoryDir.exists()) {
-			repositoryDir.mkdirs();
+			if (!repositoryDir.mkdirs()) {
+				throw new RepositoryUpdateException("Unable to create repository directory");
+			}
 			
-			create(repositoryDir);
+			clone(repositoryDir);
 		}
 		else {
-			logger.warn("The local repository already exists and will not be recreated");
+			if (!ignore) { 
+				logger.warn("The local repository already exists and will not be recreated");
+			}
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.Provider#create()
+	 */
+	public void create() throws RepositoryUpdateException {
+		create(false);
 	}
 	
 	
@@ -142,9 +154,7 @@ public class GitProvider implements Provider {
 		File repositoryDir = new File(repositoryInfo.getLocalPath());
 		
 		if (!repositoryDir.exists()) {
-			repositoryDir.mkdirs();
-			
-			create(repositoryDir);
+			create(true);
 		}
 		else {
 			File gitDir = new File(repositoryInfo.getLocalPath() + File.separator + ".git");
