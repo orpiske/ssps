@@ -107,7 +107,8 @@ public class RepositorySettings {
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
-				
+				throw new RepositorySetupException("Unable to create user configuration "
+						+ "file", e);
 			}
 		}
 		else {

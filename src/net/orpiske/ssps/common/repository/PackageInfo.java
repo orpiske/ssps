@@ -262,11 +262,10 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 		if (obj == this) {
 			return true;
 		}
- 		
-		if (obj == null || obj.getClass() != getClass()) {
+		
+		if (!(obj instanceof PackageInfo)) {
 			return false;
 		}
-		
 		
 		PackageInfo other = (PackageInfo) obj;
 		
