@@ -169,7 +169,10 @@ public abstract class TarArchiveUtils implements Archive {
 				} else {
 					File parent = outFile.getParentFile();
 					if (!parent.exists()) { 
-						parent.mkdirs();
+						if (!parent.mkdirs()) {
+							throw new IOException("Unable to create parent directories "
+									+ parent.getPath());
+						}
 					}
 					
 					outStream = new FileOutputStream(outFile);
