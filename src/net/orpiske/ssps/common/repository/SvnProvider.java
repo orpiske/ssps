@@ -78,7 +78,9 @@ public class SvnProvider implements Provider {
 		File repositoryDir = new File(repositoryPath);
 		
 		if (!repositoryDir.exists()) {
-			repositoryDir.mkdirs();
+			if (!repositoryDir.mkdirs()) {
+				throw new RepositoryUpdateException("Unable to create repository directory");
+			}
 			
 			create(repositoryDir);
 		}
@@ -129,7 +131,9 @@ public class SvnProvider implements Provider {
 		File repositoryDir = new File(repositoryPath);
 		
 		if (!repositoryDir.exists()) {
-			repositoryDir.mkdirs();
+			if (!repositoryDir.mkdirs()) {
+				throw new RepositoryUpdateException("Unable to create repository directory");
+			}
 			
 			create(repositoryDir);
 		}
