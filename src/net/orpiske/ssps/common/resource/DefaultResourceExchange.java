@@ -116,6 +116,10 @@ public class DefaultResourceExchange implements ResourceExchange {
 			date = dateFormat.parse(tmp);
 		} catch (ParseException e) {
 			logger.warn("The last modified date provided by the server is invalid");
+			if (logger.isDebugEnabled()) {
+				logger.debug(e.getMessage(), e);
+			}
+			
 			return 0;
 		}
 		
@@ -136,6 +140,10 @@ public class DefaultResourceExchange implements ResourceExchange {
 		}
 		catch (NumberFormatException e) {
 			logger.warn("The server provided an invalid content lenght value");
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug(e.getMessage(), e);
+			}
 		}
 		
 		return 0;

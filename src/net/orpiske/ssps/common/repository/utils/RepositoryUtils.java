@@ -121,6 +121,10 @@ public class RepositoryUtils {
 			} catch (ConfigurationException e) {
 				logger.warn("Unable to read package configuration file at " 
 						+ settingsFile.getPath());
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug(e.getMessage(), e);
+				}
 			}
 		}
 		

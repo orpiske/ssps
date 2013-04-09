@@ -15,6 +15,8 @@
 */
 package net.orpiske.ssps.common.version;
 
+import org.apache.log4j.Logger;
+
 /**
  * Default version comparator. It breaks version strings (n.n.n) in parts 
  * and check each one of them
@@ -22,6 +24,8 @@ package net.orpiske.ssps.common.version;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class DefaultVersionComparator implements VersionComparator {
+	private static final Logger logger = Logger.getLogger(DefaultVersionComparator.class);
+	
 	private static final int LESS_THAN = -1;
 	private static final int EQUALS = 0;
 	private static final int GREATER_THAN = 1;
@@ -84,6 +88,10 @@ public class DefaultVersionComparator implements VersionComparator {
 			}
 			catch (Exception e) {
 				n1 = getNumberForString(parts1[i]);
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug(e.getMessage(), e);
+				}
 			}
 			
 			try {
@@ -91,6 +99,10 @@ public class DefaultVersionComparator implements VersionComparator {
 			}
 			catch (Exception e) {
 				n2 = getNumberForString(parts2[i]);
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug(e.getMessage(), e);
+				}
 			}
 			
 			if (n1 < n2) {
