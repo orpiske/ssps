@@ -64,15 +64,21 @@ public class GitProvider implements Provider {
 			
 			cloneCommand.call();
 		} catch (InvalidRemoteException e) {
-			e.printStackTrace();
+			if (logger.isDebugEnabled()) {
+				logger.debug(e.getMessage(), e);
+			}
 			
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		} catch (TransportException e) {
-			e.printStackTrace();
+			if (logger.isDebugEnabled()) {
+				logger.debug(e.getMessage(), e);
+			}
 			
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		} catch (GitAPIException e) {
-			e.printStackTrace();
+			if (logger.isDebugEnabled()) {
+				logger.debug(e.getMessage(), e);
+			}
 			
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		}
