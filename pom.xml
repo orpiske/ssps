@@ -23,7 +23,10 @@
 		</license>
 	</licenses>
 
-
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 
 	<dependencies>
 		<!-- Internal project dependencies -->
@@ -80,6 +83,9 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
 
@@ -144,6 +150,12 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.8.1</version>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5.2</version>
+			</plugin>
 		</plugins>
 	</reporting>
 
@@ -178,4 +190,30 @@
 			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
 		</site>
 	</distributionManagement>
+	
+	<profiles>
+		<profile>
+			<id>Delivery</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
