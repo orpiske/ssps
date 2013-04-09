@@ -27,6 +27,7 @@ import net.orpiske.ssps.common.db.DatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.version.Version;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryLoader;
 
 /**
@@ -69,8 +70,17 @@ public class SoftwareInventoryDao extends AbstractDao {
 		
 		String query = queries.get("createTable");
 		
-		Statement s = conn.createStatement();
-		s.execute(query);
+		
+		Statement s = null;
+		
+		try { 
+			s = conn.createStatement();
+			s.execute(query);
+		}
+		finally { 
+			DbUtils.close(s);
+			DbUtils.close(conn);
+		}
 	}
 
 	
