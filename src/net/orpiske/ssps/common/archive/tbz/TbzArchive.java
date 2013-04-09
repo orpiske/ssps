@@ -100,7 +100,9 @@ public class TbzArchive implements Archive {
 					"Unable to uncompress archive file: I/O error", e);
 		} finally {
 			if (uncompressedArchiveFile.exists()) {
-				uncompressedArchiveFile.delete();
+				if (!uncompressedArchiveFile.delete()) {
+					uncompressedArchiveFile.deleteOnExit();
+				}
 			}
 		}
 
