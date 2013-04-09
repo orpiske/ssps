@@ -52,7 +52,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 	/**
 	 * Exchange properties
 	 */
-	public class Properties {
+	public static class Properties {
 		/**
 		 * HTTP Proxy URL
 		 */
