@@ -7,17 +7,4 @@
 
 Welcome to Simple Software Publication System (SSPS)
 
-	The SSPS is a Software Publication System. It helps developers and 
-configuration management personnel to automate the jobs related to publish and 
-deployment of custom-built software packages. It is composed of two modules: a
-publication module called SPM and a software deployment module called SDM.
-	This project is still in its infancy and under a lot of development. If 
-this software is useful for you, {{{./about.html}please me know}}.
-
-Learning About SSPS
-
-	The best way to learn SSPS is to focus on the module that interests you most. 
-To learn about how to modify your project so that your artifacts can be published
-and managed on a repository, read the {{{./doc/use-ssps.html}Use SSPS}} and the 
-{{{./doc/run-spm.html}Run SPM Guide}}. To learn how to use SSPS to automate the steps 
-of software deployment, please read the {{{./doc/run-sdm.html}Run SDM Guide}}.
+	SPM package.

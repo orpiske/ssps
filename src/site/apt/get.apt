@@ -5,48 +5,37 @@
 	------
 	Jun, 2012
 
+Requirements
+
+	* Java 1.6
+
+	* Supported Operating Systems: Windows, Linux, Mac OS X and Solaris. It's 
+likely to support HP-UX, AIX and others. If they do, please let us know. 
 
 
-SPM Binary 
+SPM Binary
 
-	* SPM 0.0.1 (bin tar.gz): {{{http://www.orpiske.net/ssps/files/0.0.x/spm-0.0.1-bin.tar.gz}Download}}
+	* SPM 0.2.0-SNAPSHOT (bin): {{{http://orpiske.net/ssps/files/net/orpiske/spm/0.2.0-SNAPSHOT/}Download}}
 	
-	* SPM 0.0.1 (sha1 hash): {{{http://www.orpiske.net/ssps/files/0.0.x/spm-0.0.1-bin.tar.gz.sha1}Download}}
-	
-	* SPM 0.0.1 (bin tar.bz2): {{{http://www.orpiske.net/ssps/files/0.0.x/spm-0.0.1-bin.tar.bz2}Download}}
-	
-	* SPM 0.0.1 (sha1 hash): {{{http://www.orpiske.net/ssps/files/0.0.x/spm-0.0.1-bin.tar.bz2.sha1}Download}}
-	
-	* SPM 0.0.1 (bin zip): {{{http://www.orpiske.net/ssps/files/0.0.x/spm-0.0.1-bin.zip}Download}}
-	
-	* SPM 0.0.1 (sha1 hash): {{{http://www.orpiske.net/ssps/files/0.0.x/spm-0.0.1-bin.zip.sha1}Download}}
 	
 SPM Source
 
 	The SPM code can be downloaded from source from the project's github 
 {{{https://github.com/orpiske/spm}repository}}.
-	
-SDM Binary
 
-	* SDM 0.0.1 (bin tar.gz): {{{http://www.orpiske.net/ssps/files/0.0.x/sdm-0.0.1-bin.tar.gz}Download}}
-	
-	* SDM 0.0.1 (sha1 hash): {{{http://www.orpiske.net/ssps/files/0.0.x/sdm-0.0.1-bin.tar.gz.sha1}Download}}
-	
-	* SDM 0.0.1 (bin tar.bz2): {{{http://www.orpiske.net/ssps/files/0.0.x/sdm-0.0.1-bin.tar.bz2}Download}}
-	
-	* SDM 0.0.1 (sha1 hash): {{{http://www.orpiske.net/ssps/files/0.0.x/sdm-0.0.1-bin.tar.bz2.sha1}Download}}
-	
-	* SDM 0.0.1 (bin zip): {{{http://www.orpiske.net/ssps/files/0.0.x/sdm-0.0.1-bin.zip}Download}}
-	
-	* SDM 0.0.1 (sha1 hash): {{{http://www.orpiske.net/ssps/files/0.0.x/sdm-0.0.1-bin.zip.sha1}Download}}
-	
-SDM Source
 
-	The SDM code can be downloaded from source from the project's github 
-{{{https://github.com/orpiske/sdm}repository}}.
+SPM Common
 
+	The SPM Common code can be downloaded from source from the project's github 
+{{{https://github.com/orpiske/spm-common}repository}}.
 
 SSPS Common Source
 
 	The SSPS Commons code can be downloaded from source from the project's github 
 {{{https://github.com/orpiske/ssps-common}repository}}.
+
+
+SPM Packages
+
+	The SPM Packages code can be downloaded from source from the project's github 
+{{{https://github.com/orpiske/spm-packages}repository}}.
