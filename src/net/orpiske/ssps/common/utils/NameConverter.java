@@ -39,11 +39,6 @@ public class NameConverter {
 		StringBuffer buffer = new StringBuffer(64);
 		String[] parts = sqlString.split("_");
 		
-		
-		if (parts == null) {
-			return sqlString.toLowerCase();
-		}
-		
 		if (parts.length == 1) {
 			return sqlString.toLowerCase();
 		}
