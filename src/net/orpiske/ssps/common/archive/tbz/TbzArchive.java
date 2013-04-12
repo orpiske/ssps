@@ -66,9 +66,11 @@ public class TbzArchive implements Archive {
 
 		File uncompressedArchiveFile = new File(uncompressedArchiveFileName);
 		if (uncompressedArchiveFile.exists()) {
-			throw new SspsArchiveException(
+			if (!uncompressedArchiveFile.delete()) { 
+				throw new SspsArchiveException(
 					"A previously uncompressed file exists: "
 							+ uncompressedArchiveFile);
+			}
 		}
 
 		if (logger.isDebugEnabled()) { 
@@ -97,7 +99,8 @@ public class TbzArchive implements Archive {
 			throw new SspsArchiveException("Unable to unpack file", e);
 		} catch (IOException e) {
 			throw new SspsArchiveException(
-					"Unable to uncompress archive file: I/O error", e);
+					"Unable to uncompress archive file due to an I/O error: " 
+							+ e.getMessage(), e);
 		} finally {
 			if (uncompressedArchiveFile.exists()) {
 				if (!uncompressedArchiveFile.delete()) {
