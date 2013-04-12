@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import net.orpiske.ssps.common.exceptions.SspsException;
+import net.orpiske.ssps.common.repository.exception.RepositoryExistsException;
 import net.orpiske.ssps.common.repository.exception.RepositorySetupException;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 
@@ -138,6 +139,14 @@ public class RepositorySettings {
 	
 	
 	public static void addNewRepository(final RepositoryInfo repositoryInfo) throws RepositorySetupException {
+		String repositoryPath = RepositoryUtils.getUserRepository();
+		File repositoryDir = new File(repositoryPath);
+		
+		if (repositoryDir.exists()) {
+			throw new RepositoryExistsException("The repository '" 
+					+ repositoryInfo.getName() + "' already exists");
+		}
+		
 		addUserConfig(repositoryInfo);
 	}
 
