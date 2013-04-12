@@ -140,11 +140,10 @@ public abstract class TarArchiveUtils implements Archive {
 			archiveStream = factory.createArchiveInputStream(
 					format, inputFileStream);
 		} catch (ArchiveException e) {
+			IOUtils.closeQuietly(inputFileStream);
 			throw e;
 		}
-		finally {
-			IOUtils.closeQuietly(inputFileStream);
-		}
+		
 		
 
 		OutputStream outStream = null;
