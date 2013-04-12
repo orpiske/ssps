@@ -38,6 +38,7 @@ import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 public class InstallationManager {
 	
 	private RegistryManager registryManager;
+
 	
 	public InstallationManager() throws DatabaseInitializationException {
 		registryManager = new RegistryManager();
@@ -113,29 +114,30 @@ public class InstallationManager {
 		}
 	}
 	
-	private void installDependency(PackageInfo packageInfo) throws EngineException, RegistryException {
+	private void installDependency(PackageInfo packageInfo, boolean reinstall) throws EngineException, RegistryException {
 		System.out.println("Checking if package " + packageInfo.fqn() + " is installed");
 		
 		try {
 			checkInventoryCollision(packageInfo);
 		} 
 		catch (MultipleInstalledPackages e) {
-			System.out.println("Package " + packageInfo.fqn() + " is already installed");
-			
-			return;
+			if (!reinstall) { 
+				System.out.println("Package " + packageInfo.fqn() + " is already installed");
+				return;
+			}
 		}
 		
 		
-		install(packageInfo, false);
+		install(packageInfo, reinstall);
 	}
 	
-	private void installDependencies(Dependency dependency) throws EngineException, RegistryException {
+	private void installDependencies(Dependency dependency, boolean reinstall) throws EngineException, RegistryException {
 		
 		for (Dependency subDependency : dependency.getDependencies()) {
-			installDependencies(subDependency);
+			installDependencies(subDependency, reinstall);
 		}
 		
-		installDependency(dependency.getPackageInfo());
+		installDependency(dependency.getPackageInfo(), reinstall);
 	}
 	
 	
@@ -158,7 +160,7 @@ public class InstallationManager {
 		
 		DependencyManager dependencyManager = new DependencyManager();
 		Dependency dependency = dependencyManager.resolve(packageInfo);
-		installDependencies(dependency);
+		installDependencies(dependency, reinstall);
 	}
 
 }
