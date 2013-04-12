@@ -66,14 +66,15 @@ public class Downloader {
 				else {
 					percentComplete = 0.0;
 				}
-					
-				System.out.print("\r" + percentComplete + "% complete (" + i + " of " 
+				
+			
+				System.out.print("\r" + (int) percentComplete + "% complete (" + i + " of " 
 						+ total + ")");
 			}
 		}
 		
 		System.out.print("\r100% complete (" + i + " of " + total + ")\n");
-
+		
 		output.flush();
 
 	}
