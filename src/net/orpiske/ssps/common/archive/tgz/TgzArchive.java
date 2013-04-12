@@ -66,9 +66,10 @@ public class TgzArchive implements Archive {
 
 		File uncompressedArchiveFile = new File(uncompressedArchiveFileName);
 		if (uncompressedArchiveFile.exists()) {
-			throw new SspsArchiveException(
-					"A previously uncompressed file exists: "
-							+ uncompressedArchiveFile);
+			if (!uncompressedArchiveFile.delete()) { 
+				throw new SspsArchiveException("A previously uncompressed file exists: "
+							+ uncompressedArchiveFile + " and couldn't be deleted");
+			}
 		}
 
 		if (logger.isDebugEnabled()) { 
