@@ -178,7 +178,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	
 	/**
 	 * Returns the fully qualified package name
-	 * @return the fully qualified package name as a string (ie.: groupid/name/version)
+	 * @return the fully qualified package name as a string (ie.: groupId/name/version)
 	 */
 	public String fqn() {
 		return groupId + "/" + name + "/" + version;
@@ -240,6 +240,8 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 			if (obj.getVersion() != null) {
 				return -1;
 			}
+
+			return 0;
 		}
 		
 		return getVersion().compareTo(obj.getVersion());
