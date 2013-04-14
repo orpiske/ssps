@@ -138,9 +138,7 @@ public class Main {
 		ProxyHelper.setup();
 	}
 
-	/**
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
 
 		if (args.length == 0) {
