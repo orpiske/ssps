@@ -25,7 +25,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 public final class ProxyHelper {
 	
 	
-	private static PropertiesConfiguration config = ConfigurationWrapper.getConfig();
+	private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 	
 	/**
 	 * Restricted constructor
