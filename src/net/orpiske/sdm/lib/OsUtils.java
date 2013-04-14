@@ -38,7 +38,7 @@ public class OsUtils {
 	/**
 	 * Returns the operating system name
 	 * @return The operating system name
-	 * @see For details http://www.osgi.org/Specifications/Reference 
+	 * @see http://www.osgi.org/Specifications/Reference
 	 */
 	public static String getOperatingSystemName() {
 		if (operatingSystem == null) {
