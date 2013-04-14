@@ -99,13 +99,13 @@ public class CompressedArchiveUtils {
 	}
 	
 	/**
-	 * Uncompress a file
+	 * Decompress a file
 	 * @param source the source file to be uncompressed
 	 * @param destination the destination directory
 	 * @return the number of bytes read
 	 * @throws IOException for lower level I/O errors
 	 */
-	public static long bzipUncompress(File source, File destination) throws IOException {
+	public static long bzipDecompress(File source, File destination) throws IOException {
 		FileOutputStream out; 
 		
 		prepareDestination(destination);

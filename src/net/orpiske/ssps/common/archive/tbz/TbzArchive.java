@@ -82,7 +82,7 @@ public class TbzArchive implements Archive {
 		}
 
 		try {
-			CompressedArchiveUtils.bzipUncompress(compressedFileSource, uncompressedArchiveFile);
+			CompressedArchiveUtils.bzipDecompress(compressedFileSource, uncompressedArchiveFile);
 		} catch (IOException e) {
 			throw new SspsArchiveException(
 					"Unable to decompress archive file: I/O error", e);
