@@ -71,7 +71,7 @@ public class ZipArchive implements Archive {
 	}
 	
 	/**
-	 * Uncompress a file
+	 * Decompress a file
 	 * @param source the source file to be uncompressed
 	 * @param destination the destination directory
 	 * @return the number of bytes read

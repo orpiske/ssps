@@ -127,7 +127,7 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * Gets a package by the primary keys
 	 * @param groupId The group ID
 	 * @param name The package name
-	 * @param version The package versin
+	 * @param version The package version
 	 * @param type The package type
 	 * @return A DTO with the package information
 	 * @throws SQLException If unable to perform the query

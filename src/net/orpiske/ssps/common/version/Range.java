@@ -30,7 +30,7 @@ public class Range {
 	
 	/**
 	 * Constructor
-	 * @param minimum Mininum version string
+	 * @param minimum Minimum version string
 	 * @param maximum Maximum version string
 	 */
 	public Range(final String minimum, final String maximum) {
@@ -45,8 +45,8 @@ public class Range {
 
 	
 	/**
-	 * Gets the mininum version in this range
-	 * @return the mininum version
+	 * Gets the minimum version in this range
+	 * @return the minimum version
 	 */
 	public Version getMinimumVersion() {
 		return minimumVersion;
@@ -101,9 +101,9 @@ public class Range {
 
 	
 	/**
-	 * Gets the mininum version in a range string
+	 * Gets the minimum version in a range string
 	 * @param rangeString the range string
-	 * @return the mininum version value
+	 * @return the minimum version value
 	 */
 	public static String minimum(final String rangeString) {
 		String[] parts = rangeString.split(","); 
