@@ -65,7 +65,7 @@ public class UpgradeManager {
 	}
 	
 	
-	public void upgrade() throws RegistryException, DatabaseInitializationException, PackageNotFound, MultipleInstalledPackages, EngineException {
+	public void upgrade() throws RegistryException, DatabaseInitializationException, PackageNotFound, EngineException {
 		UpdateManager updateManager = new UpdateManager();
 		List<Upgradeable> list = updateManager.getAllNewerPackages();
 	
