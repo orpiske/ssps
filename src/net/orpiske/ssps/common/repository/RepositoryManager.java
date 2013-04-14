@@ -83,7 +83,7 @@ public class RepositoryManager {
 			try {
 				logger.info("Updating repository " + repository.getName());
 				provider.update();
-				logger.info("Sucessfully updated repository " + repository.getName());
+				logger.info("Successfully updated repository " + repository.getName());
 			} catch (RepositoryUpdateException e) {
 				logger.error("Unable to update repository " + repository.getName() 
 						+ ": " + e.getMessage(), e);
