@@ -65,7 +65,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 	}
 	
 	
-	private AbstractHttpClient httpclient = new DefaultHttpClient();
+	private AbstractHttpClient httpClient = new DefaultHttpClient();
 	
 	
 	
@@ -75,10 +75,10 @@ public class DefaultResourceExchange implements ResourceExchange {
 	 */
 	public DefaultResourceExchange() {
 		ProxySelectorRoutePlanner routePlanner = new ProxySelectorRoutePlanner(
-		        httpclient.getConnectionManager().getSchemeRegistry(),
+		        httpClient.getConnectionManager().getSchemeRegistry(),
 		        ProxySelector.getDefault());
 		
-		httpclient.setRoutePlanner(routePlanner);
+		httpClient.setRoutePlanner(routePlanner);
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 		if (proxy != null) { 
 			HttpHost proxyHost = new HttpHost(proxy, port);
 			
-			httpclient.getParams().setParameter(
+			httpClient.getParams().setParameter(
 					ConnRoutePNames.DEFAULT_PROXY, proxyHost);
 		}
 	}
@@ -158,7 +158,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 		HttpHead httpHead = new HttpHead(uri);
 		HttpResponse response;
 		try {
-			response = httpclient.execute(httpHead);
+			response = httpClient.execute(httpHead);
 			
 			int statusCode = response.getStatusLine().getStatusCode(); 
 			
@@ -210,7 +210,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 		HttpResponse response;
 		try {
 			
-			response = httpclient.execute(httpget);
+			response = httpClient.execute(httpget);
 			
 			int statusCode = response.getStatusLine().getStatusCode(); 
 			
@@ -268,8 +268,8 @@ public class DefaultResourceExchange implements ResourceExchange {
 	 * @see org.ssps.common.resource.ResourceExchange#release()
 	 */
 	public void release() {
-		if (httpclient != null) { 
-			httpclient.getConnectionManager().shutdown();	
+		if (httpClient != null) {
+			httpClient.getConnectionManager().shutdown();
 		}
 	}
 
