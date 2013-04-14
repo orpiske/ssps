@@ -189,7 +189,7 @@ class ApacheMaven extends BinaryPackage {
 Dependencies
 
 
-	You can declare dependecies of a package by declaring the <<<dependencies>>> variable.
+	You can declare dependencies of a package by declaring the <<<dependencies>>> variable.
 For instance, if you have a package that depends on Apache Maven and Apache Ant, an 
 acceptable dependency declaration would be: 
 
