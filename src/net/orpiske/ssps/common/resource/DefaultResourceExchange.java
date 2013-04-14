@@ -84,7 +84,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 	/**
 	 * Constructor using connection properties (at the moment, it supports only
 	 * unauthenticated proxies).
-	 * @param connectionProperties A Hashmap of connection properties to use to 
+	 * @param connectionProperties A hash map of connection properties to use to
 	 * setup the connection (ex.: proxy)
 	 */
 	public DefaultResourceExchange(HashMap<String, Object> connectionProperties) {
@@ -139,7 +139,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 			return Long.parseLong(tmp);
 		}
 		catch (NumberFormatException e) {
-			logger.warn("The server provided an invalid content lenght value");
+			logger.warn("The server provided an invalid content length value");
 			
 			if (logger.isDebugEnabled()) {
 				logger.debug(e.getMessage(), e);
@@ -184,7 +184,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 					throw new ResourceExchangeException(
 							"Accessing the resource is forbidden");
 				case HttpStatus.SC_UNAUTHORIZED: 
-					throw new ResourceExchangeException("Unathorized");
+					throw new ResourceExchangeException("Unauthorized");
 				case HttpStatus.SC_INTERNAL_SERVER_ERROR:
 					throw new ResourceExchangeException("Internal server error");
 				default:
@@ -193,7 +193,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 				}
 			}
 		} catch (ClientProtocolException e) {
-			throw new ResourceExchangeException("Unhandled protocol erro: " 
+			throw new ResourceExchangeException("Unhandled protocol error: "
 					+ e.getMessage(), e);
 		} catch (IOException e) {		
 			throw new ResourceExchangeException("I/O error: " + e.getMessage(), 
