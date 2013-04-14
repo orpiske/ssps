@@ -32,7 +32,7 @@ public class Utils {
 	/**
 	 * Restricted constructor
 	 */
-	private Utils() {};
+	private Utils() {}
 
 	/**
 	 * Gets the user SDM directory path (ie.: $HOME/.sdm)

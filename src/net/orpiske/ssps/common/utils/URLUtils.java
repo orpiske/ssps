@@ -35,7 +35,7 @@ public final class URLUtils {
 	 * Restricted constructor
 	 */
 	private URLUtils() {
-	};
+	}
 
 	
 	/**

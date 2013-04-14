@@ -37,7 +37,7 @@ public class Sha1DigestTest {
 		URL url = Sha1DigestTest.class.getResource("message.txt");
 		
 		MESSAGE_FILE = url.getPath();
-	};
+	}
 	
 	private static final String MESSAGE_DIGEST = "6367c48dd193d56ea7b0baad25b19455e529f5ee";
 
