@@ -35,7 +35,7 @@ public class PrintUtils {
 	
 	/**
 	 * Prints parseable package information
-	 * @param packageInfo
+	 * @param packageInfo package information object
 	 */
 	public static void printParseable(final PackageInfo packageInfo) {
 		System.out.printf("%-15s => %-32s => %-9s => %-1s => %s\n", 
@@ -46,7 +46,7 @@ public class PrintUtils {
 	
 	/**
 	 * Prints a list of packages
-	 * @param list
+	 * @param list the list of packages
 	 */
 	public static void printPackageList(final List<PackageInfo> list) {
 		System.out.printf("%-15s    %-32s    %-9s    %-1s      %s\n", 
@@ -61,7 +61,7 @@ public class PrintUtils {
 	
 	/**
 	 * Prints parseable software inventory record information
-	 * @param dto
+	 * @param dto an inventory dto object
 	 */
 	public static void printParseable(final SoftwareInventoryDto dto) {
 		System.out.printf("%-15s => %-20s => %-9s => %-1s => %-23s => %s\n", 
@@ -102,7 +102,7 @@ public class PrintUtils {
 	
 	/**
 	 * Prints a list of software inventory records
-	 * @param list
+	 * @param list a list of software inventory records
 	 */
 	public static void printInventoryList(final List<SoftwareInventoryDto> list) {
 		
