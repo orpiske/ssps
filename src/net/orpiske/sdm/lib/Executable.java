@@ -44,7 +44,6 @@ public class Executable {
 		
 		DefaultExecutor executor = new DefaultExecutor();
 		
-		int exitValue = executor.execute(cmd);
-		return exitValue;
+		return executor.execute(cmd);
 	}
 }
