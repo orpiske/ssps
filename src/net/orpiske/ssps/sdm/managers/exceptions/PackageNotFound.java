@@ -35,6 +35,6 @@ public class PackageNotFound extends SspsException {
 	
 	
 	public PackageNotFound(PackageInfo packageInfo) {
-		super("Package not found: " + packageInfo == null? "null" : packageInfo.getName());
+		super("Package not found: " + (packageInfo == null? "null" : packageInfo.getName()));
 	}
 }
