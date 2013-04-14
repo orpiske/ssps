@@ -179,7 +179,6 @@ public class Downloader {
 					logger.info("Destination file and source file appears to be " + 
 							"the same. Using cached file instead.");
 
-					return;
 				} else {
 					Resource<InputStream> resource = resourceExchange.get(uri);
 					
