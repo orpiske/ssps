@@ -93,8 +93,7 @@ public class Main {
 		}
 	}
 
-	private static Properties initDatabase()
-			throws DatabaseInitializationException {
+	private static Properties initDatabase() {
 		DerbyDatabaseManager databaseManager = null;
 		Properties props = System.getProperties();
 		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
@@ -164,13 +163,7 @@ public class Main {
 		}
 
 		initUserSdmDirectory();
-		try {
-			initDatabase();
-		} catch (DatabaseInitializationException e) {
-			e.printStackTrace();
-			System.exit(-2);
-		}
-		
+		initDatabase();
 		initProxy();
 
 		if (first.equals("install")) {
