@@ -72,9 +72,8 @@ public abstract class AbstractDao {
 		Connection conn = databaseManager.getConnection();
 		
 		QueryRunner run = new QueryRunner();
-		
-		T result = run.query(conn, query, rs, args);
-		return result;
+
+		return run.query(conn, query, rs, args);
 	}
 	
 	
@@ -90,7 +89,7 @@ public abstract class AbstractDao {
 		Connection conn = databaseManager.getConnection();
 		
 		QueryRunner run = new QueryRunner();
-		
+
 		return run.query(conn, query, rs, args);
 
 	}
