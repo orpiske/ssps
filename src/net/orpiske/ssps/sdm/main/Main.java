@@ -129,7 +129,10 @@ public class Main {
 		File userDirectory = Utils.getSdmDirectoryPathFile();
 
 		if (!userDirectory.exists()) {
-			userDirectory.mkdirs();
+			if (!userDirectory.mkdirs()) {
+				System.err.println("Unable to create user directory");
+				System.exit(-6);
+			}
 		}
 
 	}
