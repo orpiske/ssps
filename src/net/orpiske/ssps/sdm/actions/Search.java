@@ -106,7 +106,7 @@ public class Search extends ActionInterface {
 			RegistryException {
 		RegistryManager registryManager = new RegistryManager();
 		
-		List<SoftwareInventoryDto> list = null; 
+		List<SoftwareInventoryDto> list;
 		
 		if (all) { 
 			list = registryManager.search();
