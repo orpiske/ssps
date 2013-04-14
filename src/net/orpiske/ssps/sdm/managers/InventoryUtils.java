@@ -23,9 +23,17 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.version.Version;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 
-public class InventoryUtils {
+
+/**
+ * Utilities to simplify working with the repository
+ */
+public final class InventoryUtils {
 	private RegistryManager registryManager;
-	
+
+	/**
+	 * Constructor
+	 * @param registryManager the registry manager
+	 */
 	public InventoryUtils(RegistryManager registryManager)  {
 		this.registryManager = registryManager;
 	}
