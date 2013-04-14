@@ -93,7 +93,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 		
 		
 		if (proxy != null) { 
-			HttpHost proxyHost = new HttpHost(proxy,port.intValue());
+			HttpHost proxyHost = new HttpHost(proxy, port);
 			
 			httpclient.getParams().setParameter(
 					ConnRoutePNames.DEFAULT_PROXY, proxyHost);
