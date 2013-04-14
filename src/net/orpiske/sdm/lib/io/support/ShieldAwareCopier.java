@@ -101,7 +101,6 @@ public class ShieldAwareCopier extends DirectoryWalker {
 		List results = new ArrayList();
 
 		walk(source, results);
-		return;
 	}
 
 }
