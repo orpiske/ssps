@@ -42,7 +42,7 @@ public class UpdateManager {
 		registryManager = new RegistryManager();
 	}
 	
-	public List<Upgradeable> getAllNewerPackages() throws RegistryException, DatabaseInitializationException {
+	public List<Upgradeable> getAllNewerPackages() throws RegistryException {
 		List<SoftwareInventoryDto> list = null;
 		
 		List<Upgradeable> ret = new ArrayList<Upgradeable>();
