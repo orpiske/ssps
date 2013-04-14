@@ -43,7 +43,7 @@ public class UpdateManager {
 	}
 	
 	public List<Upgradeable> getAllNewerPackages() throws RegistryException {
-		List<SoftwareInventoryDto> list = null;
+		List<SoftwareInventoryDto> list;
 		
 		List<Upgradeable> ret = new ArrayList<Upgradeable>();
 		
