@@ -68,7 +68,7 @@ public class DependencyManager {
 	}
 	
 	public Dependency resolve(final PackageInfo packageInfo) {
-		HashMap<String, String> map = null;
+		HashMap<String, String> map;
 		
 		Dependency dependency = new Dependency(packageInfo);
 		
