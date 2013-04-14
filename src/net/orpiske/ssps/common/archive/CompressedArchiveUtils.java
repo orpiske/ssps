@@ -63,7 +63,7 @@ public class CompressedArchiveUtils {
 	 * @return the number of bytes read
 	 * @throws IOException for lower level I/O errors
 	 */
-	public static long gzUncompress(File source, File destination) throws IOException {
+	public static long gzDecompress(File source, File destination) throws IOException {
 		FileOutputStream out;
 		
 		prepareDestination(destination);

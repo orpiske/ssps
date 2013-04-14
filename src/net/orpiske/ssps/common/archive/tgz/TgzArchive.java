@@ -81,7 +81,7 @@ public class TgzArchive implements Archive {
 		}
 
 		try {
-			CompressedArchiveUtils.gzUncompress(compressedFileSource, uncompressedArchiveFile);
+			CompressedArchiveUtils.gzDecompress(compressedFileSource, uncompressedArchiveFile);
 		} catch (IOException e) {
 			throw new SspsArchiveException(
 					"Unable to decompress archive file: I/O error", e);
