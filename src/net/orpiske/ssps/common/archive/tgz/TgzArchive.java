@@ -67,7 +67,7 @@ public class TgzArchive implements Archive {
 		File uncompressedArchiveFile = new File(uncompressedArchiveFileName);
 		if (uncompressedArchiveFile.exists()) {
 			if (!uncompressedArchiveFile.delete()) { 
-				throw new SspsArchiveException("A previously uncompressed file exists: "
+				throw new SspsArchiveException("A previously decompressed file exists: "
 							+ uncompressedArchiveFile + " and couldn't be deleted");
 			}
 		}
@@ -84,7 +84,7 @@ public class TgzArchive implements Archive {
 			CompressedArchiveUtils.gzUncompress(compressedFileSource, uncompressedArchiveFile);
 		} catch (IOException e) {
 			throw new SspsArchiveException(
-					"Unable to uncompress archive file: I/O error", e);
+					"Unable to decompress archive file: I/O error", e);
 		}
 
 		File destinationDirectory = new File(destination);
@@ -98,7 +98,7 @@ public class TgzArchive implements Archive {
 			throw new SspsArchiveException("Unable to unpack file", e);
 		} catch (IOException e) {
 			throw new SspsArchiveException(
-					"Unable to uncompress archive file: I/O error", e);
+					"Unable to decompress archive file: I/O error", e);
 		} finally {
 			if (uncompressedArchiveFile.exists()) {
 				if (!uncompressedArchiveFile.delete()) {
