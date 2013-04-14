@@ -189,8 +189,6 @@ public abstract class TarArchiveUtils implements Archive {
 
 			inputFileStream.close();
 			archiveStream.close();
-		} catch (IOException e) {
-			throw e;
 		}
 		finally {
 			IOUtils.closeQuietly(outStream);
