@@ -128,13 +128,12 @@ public class Downloader {
 	
 	/**
 	 * Saves the downloaded file
-	 * @param outputFile
-	 * @param resource
-	 * @throws FileNotFoundException
-	 * @throws IOException
+	 * @param outputFile the output file
+	 * @param resource the resource to save
+	 * @throws IOException if the file is not found or unable to save the file
 	 */
 	private static void saveDownload(File outputFile, Resource<InputStream> resource)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 		FileOutputStream output = null;
 		
 		try {
@@ -159,7 +158,7 @@ public class Downloader {
 	 * Download a file
 	 * @param url the URL to the file
 	 * @param overwrite whether or not to overwrite existent files
-	 * @throws ResourceExchangeException if uanble to download the file
+	 * @throws ResourceExchangeException if unable to download the file
 	 */
 	public static void download(final String url, boolean overwrite) throws ResourceExchangeException {
 		try {
@@ -203,7 +202,7 @@ public class Downloader {
 	/**
 	 * Download a file overwriting existent ones
 	 * @param url the URL to the file
-	 * @throws ResourceExchangeException if uanble to download the file
+	 * @throws ResourceExchangeException if unable to download the file
 	 */
 	public static void download(final String url) throws ResourceExchangeException {
 		download(url, false);
