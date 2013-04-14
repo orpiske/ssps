@@ -15,7 +15,7 @@ the global settings file <<<sdm.properties>>> or the user settings file
 
 HTTP Settings
 
-	Pretty simple: set the server addres and port. You can also provide a list
+	Pretty simple: set the server address and port. You can also provide a list
 of hosts that don't require proxy connection. The list values is separated by 
 "|" and accept * as wild cards.
 
