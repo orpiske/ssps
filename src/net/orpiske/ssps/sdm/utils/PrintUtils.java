@@ -38,7 +38,7 @@ public class PrintUtils {
 	 * @param packageInfo package information object
 	 */
 	public static void printParseable(final PackageInfo packageInfo) {
-		System.out.printf("%-15s => %-32s => %-9s => %-1s => %s\n", 
+		System.out.printf("%-15s => %-32s => %-9s => %-1s => %s%n",
 				packageInfo.getGroupId(), packageInfo.getName(), packageInfo.getVersion(),
 				packageInfo.getPackageType(), packageInfo.getPath());
 	}
@@ -49,7 +49,7 @@ public class PrintUtils {
 	 * @param list the list of packages
 	 */
 	public static void printPackageList(final List<PackageInfo> list) {
-		System.out.printf("%-15s    %-32s    %-9s    %-1s      %s\n", 
+		System.out.printf("%-15s    %-32s    %-9s    %-1s      %s%n",
 					"Group ID", "Package Name", "Version", "Type", "Path");
 				
 		for (PackageInfo packageInfo : list) {
@@ -64,7 +64,7 @@ public class PrintUtils {
 	 * @param dto an inventory dto object
 	 */
 	public static void printParseable(final SoftwareInventoryDto dto) {
-		System.out.printf("%-15s => %-20s => %-9s => %-1s => %-23s => %s\n", 
+		System.out.printf("%-15s => %-20s => %-9s => %-1s => %-23s => %s%n",
 				dto.getGroupId(), dto.getName(), dto.getVersion(),
 				dto.getType(), dto.getInstallDate(), dto.getInstallDir());
 	}
@@ -84,13 +84,13 @@ public class PrintUtils {
 		
 		System.out.println("These are all the packages candidates for upgrade");
 		
-		System.out.printf("%-15s    %-32s    %-9s    %-9s\n", 
+		System.out.printf("%-15s    %-32s    %-9s    %-9s%n",
 				"Group ID", "Package Name", "Older", "Newer");
 		
 		
 		for (Upgradeable up : list) { 
 			for (PackageInfo candidate : up.getCandidates()) { 
-				System.out.printf("%-15s => %-32s => %-9s => %-9s\n", 
+				System.out.printf("%-15s => %-32s => %-9s => %-9s%n",
 						up.getDto().getGroupId(), up.getDto().getName(), 
 						up.getDto().getVersion(), candidate.getVersion());
 			}
@@ -106,7 +106,7 @@ public class PrintUtils {
 	 */
 	public static void printInventoryList(final List<SoftwareInventoryDto> list) {
 		
-		System.out.printf("%-15s    %-20s    %-9s   %-1s  %-23s    %s\n", 
+		System.out.printf("%-15s    %-20s    %-9s   %-1s  %-23s    %s%n",
 				"Group ID", "Package Name", "Version", "Type", "Install Date", 
 				"Install Dir");
 	

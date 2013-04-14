@@ -111,7 +111,7 @@ public class Uninstall extends ActionInterface {
 			}
 		} 
 		catch (MultipleInstalledPackages e) {
-			System.err.printf("The package %s/%s-%s is already installed\n",
+			System.err.printf("The package %s/%s-%s is already installed%n",
 					(groupId == null? "{null}" : groupId), 
 					packageName, 
 					(version == null? "{version}" : version));
