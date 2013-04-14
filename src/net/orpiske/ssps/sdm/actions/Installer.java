@@ -24,7 +24,6 @@ import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 import net.orpiske.ssps.sdm.managers.InstallationManager;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
@@ -52,8 +51,6 @@ public class Installer extends ActionInterface {
 	private boolean isHelp;
 	private boolean reinstall;
 	private boolean cleanup;
-	
-	private String repositoryPath;
 	
 	private String groupId;
 	private String packageName;
@@ -83,7 +80,6 @@ public class Installer extends ActionInterface {
 		options.addOption("h", "help", false, "prints the help");
 		options.addOption("g", "groupid", true, "package group id");
 		options.addOption("p", "package", true, "package name");
-		options.addOption("r", "repository", true, "repository path");
 		options.addOption(null, "cleanup", false, "cleanup the work directory after finished");
 		options.addOption(null, "reinstall", false, "reinstall already installed packages");
 		options.addOption("v", "version", true, "version");
@@ -98,12 +94,6 @@ public class Installer extends ActionInterface {
 		reinstall = cmdLine.hasOption("reinstall");
 		cleanup = cmdLine.hasOption("cleanup");
 		
-		
-		repositoryPath = cmdLine.getOptionValue('r');
-		if (repositoryPath == null) {
-			repositoryPath = RepositoryUtils.getUserRepository();
-		}
-		
 		packageName = cmdLine.getOptionValue('p');
 		if (packageName == null) {
 			help(options, -1);
@@ -113,10 +103,7 @@ public class Installer extends ActionInterface {
 		version = cmdLine.getOptionValue('v');
 	}
 	
-	
-	/**
-	 * @param packages
-	 */
+
 	private void printRepositoryPackages(List<PackageInfo> packages) {
 		System.out.println("More than one match found. Please specify either the "
 				+ "version (-v) or the group (-g) name: ");
