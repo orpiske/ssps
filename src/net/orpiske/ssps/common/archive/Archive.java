@@ -15,12 +15,7 @@
  */
 package net.orpiske.ssps.common.archive;
 
-import java.io.IOException;
-
 import net.orpiske.ssps.common.archive.exceptions.SspsArchiveException;
-import net.orpiske.ssps.common.exceptions.SspsException;
-
-import org.apache.commons.compress.archivers.ArchiveException;
 
 /**
  * SSPS Archive interface
@@ -38,9 +33,8 @@ public interface Archive {
 	 * @param destination
 	 *            The destination directory
 	 * @return The number of bytes unpacked
-	 * @throws IOException
-	 * @throws ArchiveException
-	 * @throws SspsException
+	 * @throws SspsArchiveException if any the unpack operation is unable to continue. Underlying exception will be
+	 * provided as the cause if applicable
 	 */
 	long unpack(final String source, final String destination)
 			throws SspsArchiveException;
