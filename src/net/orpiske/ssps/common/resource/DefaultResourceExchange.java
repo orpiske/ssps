@@ -245,7 +245,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 					throw new ResourceExchangeException(
 							"Accessing the resource is forbidden");
 				case HttpStatus.SC_UNAUTHORIZED: 
-					throw new ResourceExchangeException("Unathorized");
+					throw new ResourceExchangeException("Unauthorized");
 				case HttpStatus.SC_INTERNAL_SERVER_ERROR:
 					throw new ResourceExchangeException("Internal server error");
 				default:
@@ -254,7 +254,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 				}
 			}
 		} catch (ClientProtocolException e) {
-			throw new ResourceExchangeException("Unhandled protocol erro: " 
+			throw new ResourceExchangeException("Unhandled protocol error: "
 					+ e.getMessage(), e);
 		} catch (IOException e) {		
 			throw new ResourceExchangeException("I/O error: " + e.getMessage(), 
