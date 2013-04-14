@@ -80,7 +80,7 @@ public class AddRepository extends ActionInterface {
 		}
 		repositoryInfo.setUrl(url);
 		
-		String userName = cmdLine.getOptionValue("usename");
+		String userName = cmdLine.getOptionValue("username");
 		repositoryInfo.setUserName(userName);
 		
 		
