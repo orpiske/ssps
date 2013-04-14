@@ -129,7 +129,6 @@ public class Downloader {
 	/**
 	 * Saves the downloaded file
 	 * @param outputFile
-	 * @param resourceInfo
 	 * @param resource
 	 * @throws FileNotFoundException
 	 * @throws IOException
