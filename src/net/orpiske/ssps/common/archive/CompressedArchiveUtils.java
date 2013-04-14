@@ -26,7 +26,7 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.io.IOUtils;
 
 /**
- * Utilites for manipulating compressed archives
+ * Utilities for manipulating compressed archives
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
@@ -57,7 +57,7 @@ public class CompressedArchiveUtils {
 	
 
 	/**
-	 * Uncompress a file
+	 * Decompress a file
 	 * @param source the source file to be uncompressed
 	 * @param destination the destination directory
 	 * @return the number of bytes read
