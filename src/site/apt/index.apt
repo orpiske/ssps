@@ -11,7 +11,7 @@ Welcome to SPM.
 package manager. It helps developers and configuration management personnel to
 automate the jobs related to install software packages. It allows you to perform
 the same procedures no matter what OS you are running. Among other things, it 
-allows you to easily create package repositories for (both stable and prodution)
+allows you to easily create package repositories for (both stable and production)
 that can be distributed to development and configuration management teams.
 	This project is still in its infancy and under a lot of development. If 
 this software is useful for you, {{{./about.html}please me know}}.
