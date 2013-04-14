@@ -44,10 +44,7 @@ public class InstallationManager {
 		registryManager = new RegistryManager();
 	}
 	
-	/**
-	 * @return
-	 * @throws SspsException
-	 */
+
 	private List<PackageInfo> checkRepositoryCollision(final String groupId, 
 			final String packageName, final String version) throws PackageNotFound, TooManyPackages
 	{
@@ -66,12 +63,6 @@ public class InstallationManager {
 	}
 
 
-	/**
-	 * @return 
-	 * @throws RegistryException
-	 * @throws MultipleInstalledPackages 
-	 * @throws SspsException
-	 */
 	private void checkInventoryCollision(final String groupId, final String packageName, 
 			final String version) throws RegistryException, MultipleInstalledPackages 
 	{
