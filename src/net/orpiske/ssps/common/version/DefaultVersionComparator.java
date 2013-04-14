@@ -62,17 +62,17 @@ public class DefaultVersionComparator implements VersionComparator {
 		String[] parts1;
 		String[] parts2;
 		
-		if (v1 == null && v2 != null) {
-			return LESS_THAN;
-		}
-		else {
-			if (v1 == null && v2 == null) {
+		if (v1 == null) {
+			if (v2 == null) {
 				return EQUALS;
 			}
 			else {
-				if (v1 != null && v2 == null) {
-					return GREATER_THAN;
-				}	
+				return LESS_THAN;
+			}
+		}
+		else {
+			if (v2 == null) {
+				return GREATER_THAN;
 			}
 		}
 		
