@@ -123,10 +123,9 @@ public class Sha1Digest implements MessageDigest {
 							+ file.getPath());
 				}
 			}
-			
+
 			output = new FileOutputStream(file);
-			output.write(digest.getBytes());
-			output.flush();
+            IOUtils.write(digest, output);
 		}
 		finally { 
 			IOUtils.closeQuietly(output);
