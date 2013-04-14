@@ -36,14 +36,14 @@ public class NameConverter {
 	 * @return A string with the converted resource name
 	 */
 	public static String sqlToProperty(final String sqlString) {
-		StringBuffer buffer = new StringBuffer(64);
+		StringBuilder builder = new StringBuilder(64);
 		String[] parts = sqlString.split("_");
 		
 		if (parts.length == 1) {
 			return sqlString.toLowerCase();
 		}
 		
-		buffer.append(parts[0].toLowerCase());
+		builder.append(parts[0].toLowerCase());
 		
 		for (int i = 1; i < parts.length; i++) {
 			String part = parts[i];
@@ -51,12 +51,12 @@ public class NameConverter {
 			String initial = part.substring(0, 1).toUpperCase();
 			String rest = part.substring(1, part.length()).toLowerCase();
 			
-			buffer.append(initial);
-			buffer.append(rest);
+			builder.append(initial);
+			builder.append(rest);
 		}
 				
 				
-		return buffer.toString();
+		return builder.toString();
 	}
 
 }
