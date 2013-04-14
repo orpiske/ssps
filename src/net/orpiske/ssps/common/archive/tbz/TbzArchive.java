@@ -68,7 +68,7 @@ public class TbzArchive implements Archive {
 		if (uncompressedArchiveFile.exists()) {
 			if (!uncompressedArchiveFile.delete()) { 
 				throw new SspsArchiveException(
-					"A previously uncompressed file exists: "
+					"A previously decompressed file exists: "
 							+ uncompressedArchiveFile);
 			}
 		}
