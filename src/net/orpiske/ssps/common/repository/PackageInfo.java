@@ -181,7 +181,9 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	 * @return the fully qualified package name as a string (ie.: groupId/name/version)
 	 */
 	public String fqn() {
-		return groupId + "/" + name + "/" + version;
+		return ((groupId == null) ? "" : groupId + "/") 
+					+ name +
+					((version == null) ? "" : "/" + version);
 	}
 	
 
