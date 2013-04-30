@@ -16,9 +16,12 @@ extends BinaryPackage and implements one or more of the following methods:
 ----------------------------------------
 	void fetch(final String url);
 	void extract(final String artifactName);
-	void prepare();
+	void build();
 	void verify();
+	void prepare();
 	void install();
+	void finish();
+	void cleanup();
 	
 	void uninstall(final String path);
 ----------------------------------------
@@ -33,13 +36,15 @@ parameter to the phase method.
 	* Extract: extracts the artifact of the package. The full path to the 
 artifact is passed as a parameter to the method
 
-	* Prepare: runs any pre-build preparation steps.
-	
-	* Builds: builds the package, if necessary.
+	* Build: builds the package, if necessary.
 	
 	* Verify: verify the build, if necessary.
+
+	* Prepare: runs any pre-build preparation steps.
 	
 	* Install: installs the package, from the work dir to the install dir.
+	
+	* Cleanup: cleanup any resource used to install the package.
 	
 	* Uninstall: this phase is run during package removal. It responsible for 
 cleaning up the package installation.
@@ -185,6 +190,19 @@ class ApacheMaven extends BinaryPackage {
 	}
 }
 ----------------------------------------
+
+Package Super-classes
+
+
+	Currently, there are four package super-classes:
+
+	* BinaryPackage: for binary packages
+	
+	* MetaPackage: for meta packages
+	
+	* SourcePackage: for source packages
+	
+	* VoidPackage: for other types of packages (ie.: configuration files)
 
 Dependencies
 
