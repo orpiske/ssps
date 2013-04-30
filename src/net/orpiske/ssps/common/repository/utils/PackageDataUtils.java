@@ -48,6 +48,9 @@ public class PackageDataUtils {
 		
 		Class<?> groovyClass;
 		try {
+			loader.addClasspath(file.getParent() + File.separator + "files");
+			loader.addClasspath(file.getParent());
+			
 			groovyClass = loader.parseClass(file);
 		} catch (CompilationFailedException e) {
 			throw new PackageInfoException("The script has errors: " + e.getMessage(),
@@ -73,12 +76,28 @@ public class PackageDataUtils {
 		return groovyObject;
 	}
 		
+	
+	private static boolean isLib(final File file) {
+		File parent = file.getParentFile(); 
+		
+		if (parent.getName().equals("local") || parent.getName().equals("files")) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
 	 */
 	public static void read(final File file, final PackageInfo packageInfo) throws PackageInfoException {
+		
+		if (isLib(file)) {
+			return;
+		}
+		
+		
 		GroovyObject groovyObject = getObject(file);
 	
 		String url = groovyObject.getProperty("url").toString();
