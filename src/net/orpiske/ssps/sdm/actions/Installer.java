@@ -162,10 +162,10 @@ public class Installer extends ActionInterface {
 			}
 		} catch (MultipleInstalledPackages e) {
 		
-			System.err.printf("The package %s/%s-%s is already installed%n",
-					(groupId == null? "{null}" : groupId), 
+			System.err.printf("The package %s%s%s is already installed%n",
+					(groupId == null? "" : groupId + "/"), 
 					packageName, 
-					(version == null? "{version}" : version));
+					(version == null? "" : "-" + version));
 			printInventoryList(e.getSoftwareList());
 		}
 		catch (Exception e) {
