@@ -22,7 +22,6 @@ import java.util.Properties;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
-import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.logger.LoggerUtils;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDao;

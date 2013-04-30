@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
-
 import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
@@ -29,6 +27,8 @@ import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.common.repository.utils.PackageUtils;
 import net.orpiske.ssps.common.version.Range;
 import net.orpiske.ssps.common.version.Version;
+
+import org.apache.log4j.Logger;
 
 public class DependencyManager {
 	private static final Logger logger = Logger.getLogger(DependencyManager.class);
