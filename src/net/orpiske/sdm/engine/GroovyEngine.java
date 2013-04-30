@@ -80,26 +80,38 @@ public class GroovyEngine implements Engine {
 		System.out.println("------------------------");
 	}
 	
+	/**
+	 * @param groovyObject
+	 */
+	private long runPhase(GroovyObject groovyObject, String name, Object ... arguments) {
+		long start;
+		long finish;
+		long elapsed;
+		start = System.currentTimeMillis();
+		
+		System.out.println("");
+		printPhaseHeader(name);
+		
+		groovyObject.invokeMethod(name, arguments);
+		
+		finish = System.currentTimeMillis();
+		elapsed = finish - start;
+		logger.info("Phase " + name + " run in " + elapsed + " ms");
+		return elapsed;
+	}
+	
 	
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
 	 */
 	public void run(final File file) throws EngineException {
-		long start;
-		long finish;
 		long total = 0;
 		
 		GroovyObject groovyObject = getObject(file);
 		
-		start = System.currentTimeMillis();
-		
 		Object url = groovyObject.getProperty("url");
-		printPhaseHeader("fetch");
-		groovyObject.invokeMethod("fetch", url);
-		finish = System.currentTimeMillis(); 
-		total += (finish - start);
-		logger.info("Fetch phase run in " + (finish - start) + " ms");
+		total += runPhase(groovyObject, "fetch", url); 
 		
 		String artifactName = null;
 		
@@ -117,52 +129,21 @@ public class GroovyEngine implements Engine {
 					e);
 		}
 		
-		start = System.currentTimeMillis();
+
+		total += runPhase(groovyObject, "extract", artifactName); 
+		total += runPhase(groovyObject, "build", (Object[]) null); 
+		total += runPhase(groovyObject, "verify", (Object[]) null);
+		total += runPhase(groovyObject, "prepare", (Object[]) null); 
+		total += runPhase(groovyObject, "install", (Object[]) null);
+		total += runPhase(groovyObject, "finish", (Object[]) null);
+		total += runPhase(groovyObject, "cleanup", (Object[]) null);
 		
-		System.out.println("");
-		printPhaseHeader("extract");
-		groovyObject.invokeMethod("extract", artifactName);
-		
-		finish = System.currentTimeMillis(); 
-		total += (finish - start);
-		logger.info("Extract phase run in " + (finish - start) + " ms");
-		
-		
-		start = System.currentTimeMillis();
-		
-		System.out.println("");
-		printPhaseHeader("build");
-		groovyObject.invokeMethod("build", null);
-		
-		finish = System.currentTimeMillis(); 
-		total += (finish - start);
-		logger.info("Build phase run in " + (finish - start) + " ms");
-		
-		start = System.currentTimeMillis();
-		
-		System.out.println("");
-		printPhaseHeader("verify");
-		groovyObject.invokeMethod("verify", null);
-		
-		finish = System.currentTimeMillis(); 
-		total += (finish - start);
-		logger.info("Verify phase run in " + (finish - start) + " ms");
-		
-		start = System.currentTimeMillis();
-		
-		System.out.println("");
-		printPhaseHeader("install");
-		groovyObject.invokeMethod("install", null);
-		
-		finish = System.currentTimeMillis(); 
-		total += (finish - start);
-		logger.info("Install phase run in " + (finish - start) + " ms");
-		
-		System.out.println("");
 		printPhaseHeader("install completed");
 		logger.info("Installation completed in " + total + " ms");
 		
 	}
+
+	
 	
 	/*
 	 * (non-Javadoc)
