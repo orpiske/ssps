@@ -59,6 +59,16 @@ public interface Package {
 	 */
 	void install();
 	
+	/**
+	 * Complete phase
+	 */
+	void finish();
+	
+	/**
+	 * Cleanup phase
+	 */
+	void cleanup();
+	
 	
 	/**
 	 * Uninstall phase

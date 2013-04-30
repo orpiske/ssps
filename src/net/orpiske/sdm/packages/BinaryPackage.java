@@ -94,4 +94,22 @@ public class BinaryPackage implements Package {
 	public void uninstall(final String path) {
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#finish()
+	 */
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#cleanup()
+	 */
+	@Override
+	public void cleanup() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -79,4 +79,22 @@ public class MetaPackage implements Package {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#finish()
+	 */
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.sdm.packages.Package#cleanup()
+	 */
+	@Override
+	public void cleanup() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
