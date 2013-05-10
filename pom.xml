@@ -17,6 +17,12 @@
     <description>The SDM Common library</description>
 	<url>http://www.orpiske.net/ssps/</url>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -172,29 +178,6 @@
 		<system>GitHub</system>
 		<url>https://github.com/orpiske/sdm-common/</url>
 	</issueManagement>
-
-    <distributionManagement>
-        <downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>orpiske.net</id>
-            <name>Internal1</name>
-            <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>true</uniqueVersion>
-            <id>orpiske.net</id>
-            <name>Internal2</name>
-            <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
-            <layout>default</layout>
-        </snapshotRepository>
-        <site>
-            <id>orpiske.net</id>
-            <name>SDM Common Site</name>
-            <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
-        </site>
-    </distributionManagement>
 	
 	<profiles>
 		<profile>
