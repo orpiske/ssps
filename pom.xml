@@ -12,6 +12,9 @@
 	<groupId>net.orpiske</groupId>
 	<artifactId>sdm-common</artifactId>
 	<version>0.2.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>SSPS :: SDM :: Common</name>
+    <description>The SDM Common library</description>
 	<url>http://www.orpiske.net/ssps/</url>
 
 	<licenses>
@@ -159,8 +162,10 @@
 		</plugins>
 	</reporting>
 
-	<scm>
-		<url>scm:git:git@github.com:orpiske/sdm-common.git</url>
+    <scm>
+        <connection>scm:git:git@github.com:orpiske/sdm-common.git</connection>
+        <developerConnection>scm:git:git@github.com:orpiske/sdm-common.git</developerConnection>
+        <url>git@github.com:orpiske/sdm-common.git</url>
 	</scm>
 	
 	<issueManagement>
@@ -168,28 +173,28 @@
 		<url>https://github.com/orpiske/sdm-common/</url>
 	</issueManagement>
 
-	<distributionManagement>
-		<downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>orpiske.net</id>
-			<name>Internal1</name>
-			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
-			<layout>default</layout>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>true</uniqueVersion>
-			<id>orpiske.net</id>
-			<name>Internal2</name>
-			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
-			<layout>default</layout>
-		</snapshotRepository>
-		<site>
-			<id>orpiske.net</id>
-			<name>SDM Common Site</name>
-			<url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
-		</site>
-	</distributionManagement>
+    <distributionManagement>
+        <downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>orpiske.net</id>
+            <name>Internal1</name>
+            <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+            <layout>default</layout>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>true</uniqueVersion>
+            <id>orpiske.net</id>
+            <name>Internal2</name>
+            <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+            <layout>default</layout>
+        </snapshotRepository>
+        <site>
+            <id>orpiske.net</id>
+            <name>SDM Common Site</name>
+            <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
+        </site>
+    </distributionManagement>
 	
 	<profiles>
 		<profile>
@@ -214,6 +219,50 @@
 					</plugin>
 				</plugins>
 			</build>
+
+
+            <distributionManagement>
+                <downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+              
+                <site>
+                    <id>orpiske.net</id>
+                    <name>SDM Common Site</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
+                </site>
+            </distributionManagement>
 		</profile>
+
+        <profile>
+            <id>Development</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <distributionManagement>
+                <downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+                <repository>
+                    <uniqueVersion>false</uniqueVersion>
+                    <id>orpiske.net</id>
+                    <name>Internal1</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+                    <layout>default</layout>
+                </repository>
+                <snapshotRepository>
+                    <uniqueVersion>true</uniqueVersion>
+                    <id>orpiske.net</id>
+                    <name>Internal2</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/files</url>
+                    <layout>default</layout>
+                </snapshotRepository>
+                <site>
+                    <id>orpiske.net</id>
+                    <name>SDM Common Site</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
+                </site>
+            </distributionManagement>
+
+        </profile>
+
+        
 	</profiles>
 </project>
