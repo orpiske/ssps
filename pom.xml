@@ -13,6 +13,9 @@
 	<groupId>net.orpiske</groupId>
 	<artifactId>ssps-common</artifactId>
 	<version>0.2.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>SSPS :: Common</name>
+    <description>The SSPS Common library</description>
 	<url>http://www.orpiske.net/ssps-common</url>
 
 	<licenses>
@@ -190,7 +193,8 @@
 	</reporting>
 
 	<scm>
-		<url>scm:git:git@github.com:orpiske/ssps-common.git</url>
+		<connection>scm:git:git@github.com:orpiske/ssps-common.git</connection>
+        <url>https://github.com/orpiske/ssps-common</url>
 	</scm>
 
 	<mailingLists>
