@@ -200,7 +200,8 @@
 
 	<scm>
 		<connection>scm:git:git@github.com:orpiske/ssps-common.git</connection>
-        <url>https://github.com/orpiske/ssps-common</url>
+        <developerConnection>scm:git:git@github.com:orpiske/ssps-common.git</developerConnection>
+        <url>git@github.com:orpiske/ssps-common.git</url>
 	</scm>
 
 	<mailingLists>
