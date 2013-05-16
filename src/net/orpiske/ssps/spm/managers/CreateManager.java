@@ -56,18 +56,28 @@ public class CreateManager {
 		}
 	}
 	
-	public void create(final String name, final String repository, final String version) throws TemplateException, TemplateNotFound, IOException {
+	
+	/**
+	 * Creates the script
+	 * @param name The package name
+	 * @param repository The repository name
+	 * @param version The new version to create
+	 * @throws TemplateException
+	 * @throws TemplateNotFound
+	 * @throws IOException
+	 */
+	public void create(final String name, final String repository, final String version)
+			throws TemplateException, TemplateNotFound, IOException 
+	{
 		Template template = TemplateFactory.create(name);
 		
 		PackageProperties properties = template.getPackageProperties();
 		properties.setVersion(version);
-				
-		TemplateEngine engine = new TemplateEngine(template.getTemplateFile());
+
 		File outFile = getOuputFile(template, repository, version);
-		
-		
 		FileWriter writer = new FileWriter(outFile);
 		
+		TemplateEngine engine = new TemplateEngine(template.getTemplateFile());
 		engine.create(writer, properties);
 		
 		writer.close();
