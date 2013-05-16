@@ -32,7 +32,7 @@ import net.orpiske.ssps.spm.template.exceptions.TemplateNotFound;
  */
 public class CreateManager {
 	
-	public File getOuputFile(final Template template, final String repository, 
+	private File getOuputFile(final Template template, final String repository, 
 			final String version)
 	{
 		PackageProperties packageProperties = template.getPackageProperties();
