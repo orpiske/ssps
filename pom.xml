@@ -44,7 +44,7 @@
         <dependency>
             <groupId>net.orpiske</groupId>
             <artifactId>ssps-common</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>[0.2.0, 0.2.99)</version>
         </dependency>
 
         <dependency>
