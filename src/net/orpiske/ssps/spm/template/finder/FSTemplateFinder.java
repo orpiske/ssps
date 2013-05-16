@@ -18,22 +18,35 @@ package net.orpiske.ssps.spm.template.finder;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.configuration.PropertiesConfiguration;
-
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
-import net.orpiske.ssps.spm.template.Template;
 import net.orpiske.ssps.spm.utils.Utils;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+/**
+ * Implementation of a template finder that looks up for templates in the FS
+ * 
+ * @author Otavio R. Piske <angusyoung@gmail.com>
+ *
+ */
 public class FSTemplateFinder implements TemplateFinder {
 	
 	private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 	
 	private File templateDir;
 	
+	/**
+	 * Default constructor
+	 */
 	public FSTemplateFinder() {
 		setTemplateDirectory(null);
 	}
 	
+	
+	/**
+	 * Constructor
+	 * @param templateDir the directory containing the template
+	 */
 	public FSTemplateFinder(final String templateDir) {
 		setTemplateDirectory(templateDir);
 	}
@@ -61,6 +74,11 @@ public class FSTemplateFinder implements TemplateFinder {
 		
 	}
 
+	
+	/**
+	 * Finds the template by name
+	 * @param name the template name
+	 */
 	public File find(String name) throws IOException {
 		File ret = new File(templateDir, name + File.separator + name + ".groovy.vm");
 		
