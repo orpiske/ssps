@@ -42,6 +42,13 @@ class PackageInfoLoader {
 		return ret;
 	}
 	
+	
+	/**
+	 * Reads the package properties (name, groupid, type, etc) from the input file
+	 * @param dir The directory containing the template.properties file
+	 * @return A new PackageProperties file containing the template properties
+	 * @throws ConfigurationException if the template.properties file is broken
+	 */
 	public static PackageProperties read(File dir) throws ConfigurationException {
 		File propertiesFile = new File(dir, "template.properties");
 		PropertiesConfiguration properties = null;
