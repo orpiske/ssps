@@ -142,11 +142,6 @@ public class RepositorySettings {
 		String repositoryPath = RepositoryUtils.getUserRepository();
 		File repositoryDir = new File(repositoryPath);
 		
-		if (repositoryDir.exists()) {
-			throw new RepositoryExistsException("The repository '" 
-					+ repositoryInfo.getName() + "' already exists");
-		}
-		
 		addUserConfig(repositoryInfo);
 	}
 
