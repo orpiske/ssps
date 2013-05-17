@@ -5,6 +5,9 @@
 	------
 	Jan, 2012
 
+SSPS Version 0.2.1
+
+	* Fixed incorrect launch scripts that were referencing the snapshot versions
 
 SSPS Version 0.2.0
 

@@ -16,7 +16,7 @@
 localdir=`dirname $0`
 installdir=`dirname $localdir`
 
-MAIN_JAR=sdm-0.2.0-SNAPSHOT.jar
+MAIN_JAR=sdm-0.2.1.jar
 
 if [[ "$installdir" == "." ]] ; then
 	installdir=".."
