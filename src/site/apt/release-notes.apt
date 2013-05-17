@@ -8,6 +8,8 @@
 SSPS Version 0.2.1
 
 	* Fixed incorrect launch scripts that were referencing the snapshot versions
+	
+	* Fixed the "The repository already exists" error while trying to add a new repositoryg
 
 SSPS Version 0.2.0
 
