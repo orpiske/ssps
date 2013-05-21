@@ -36,6 +36,7 @@ public class Create extends AbstractAction {
 	private Options options;
 	
 	private boolean isHelp;
+	private boolean autoCommit;
 	
 	private String name;
 	private String outputPath;
@@ -56,6 +57,7 @@ public class Create extends AbstractAction {
 		options.addOption("n", "name", true, "template name");
 		options.addOption("o", "output", true, "output path");
 		options.addOption("v", "version", true, "version");
+		options.addOption("", "auto-commit", true, "automatically commits the file/dir to the repository");
 
 		try {
 			cmdLine = parser.parse(options, args);
@@ -81,6 +83,8 @@ public class Create extends AbstractAction {
 		if (version == null) {
 			help(options, -1);
 		}
+		
+		autoCommit = cmdLine.hasOption("auto-commit");
 	}
 
 	@Override

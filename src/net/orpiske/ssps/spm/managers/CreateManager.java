@@ -32,6 +32,8 @@ import net.orpiske.ssps.spm.template.exceptions.TemplateNotFound;
  */
 public class CreateManager {
 	
+	private boolean autoCommit;
+	
 	private File getOuputFile(final Template template, final String repository, 
 			final String version)
 	{
@@ -81,6 +83,10 @@ public class CreateManager {
 		engine.create(writer, properties);
 		
 		writer.close();
+		
+		if (autoCommit) {
+			
+		}
 	} 
 
 }
