@@ -139,9 +139,6 @@ public class RepositorySettings {
 	
 	
 	public static void addNewRepository(final RepositoryInfo repositoryInfo) throws RepositorySetupException {
-		String repositoryPath = RepositoryUtils.getUserRepository();
-		File repositoryDir = new File(repositoryPath);
-		
 		addUserConfig(repositoryInfo);
 	}
 

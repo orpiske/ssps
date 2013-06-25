@@ -22,6 +22,8 @@ import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
 import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import org.tmatesoft.svn.core.wc2.SvnCheckout;
 import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
@@ -45,10 +47,23 @@ public class SvnProvider implements Provider {
 	public SvnProvider(final RepositoryInfo repositoryInfo) {
 		this.repositoryInfo = repositoryInfo;
 	}
-	
 
-	private void create(final File repositoryDir) throws RepositoryUpdateException {	
-		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
+    private SvnOperationFactory newSvnOperationFactory() {
+        final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
+
+        ISVNAuthenticationManager authenticationManager =
+                SVNWCUtil.createDefaultAuthenticationManager(repositoryInfo.getUserName(),
+                        repositoryInfo.getPassword());
+
+        svnOperationFactory.setAuthenticationManager(authenticationManager);
+
+        return svnOperationFactory;
+    }
+
+	private void create(final File repositoryDir) throws RepositoryUpdateException {
+		final SvnOperationFactory svnOperationFactory = newSvnOperationFactory();
+
+
 		final SvnCheckout checkout = svnOperationFactory.createCheckout();
 		
 		logger.info("Repository does not exist. Checking out from " 
@@ -56,6 +71,8 @@ public class SvnProvider implements Provider {
 		
 		checkout.setSingleTarget(SvnTarget.fromFile(repositoryDir));
 		try {
+
+
 			checkout.setSource(SvnTarget.fromURL(
 					SVNURL.parseURIEncoded(repositoryInfo.getUrl())));
 			checkout.run();
@@ -91,7 +108,7 @@ public class SvnProvider implements Provider {
 	
 	
 	private void update(final File repositoryDir) throws RepositoryUpdateException {	
-		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
+		final SvnOperationFactory svnOperationFactory = newSvnOperationFactory();
 		final SvnUpdate update = svnOperationFactory.createUpdate();
 		
 		logger.info("Refreshing local repository with remote copy from " + 
