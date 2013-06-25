@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #   Copyright 2012 Otavio Rodolfo Piske
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,11 +17,11 @@
 localdir=`dirname $0`
 installdir=`dirname $localdir`
 
-if [[ "$installdir" == "." ]] ; then
+if [ "$installdir" = "." ] ; then
 	installdir=".."
 fi
 
-MAIN_JAR=spm-0.2.0-SNAPSHOT.jar
+MAIN_JAR=spm*.jar
 
 java -Dorg.ssps.spm.home="$installdir" -jar "$installdir"/bin/${MAIN_JAR} $@
 
