@@ -57,46 +57,46 @@ public class GitProvider implements Provider {
 		cloneCommand.setURI(repositoryInfo.getUrl());
 		cloneCommand.setDirectory(repositoryDir);
 		cloneCommand.setProgressMonitor(new TextProgressMonitor());
-		
+
 		try {
 			logger.info("Repository does not exist. Cloning from " 
 					+ repositoryInfo.getUrl());
-			
+
 			cloneCommand.call();
 		} catch (InvalidRemoteException e) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(e.getMessage(), e);
 			}
-			
+
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		} catch (TransportException e) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(e.getMessage(), e);
 			}
-			
+
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		} catch (GitAPIException e) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(e.getMessage(), e);
 			}
-			
+
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		}
 	}
-	
-	
+
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#create()
 	 */
 	private void create(boolean ignore) throws RepositoryUpdateException {
 		File repositoryDir = new File(repositoryInfo.getLocalPath());
-		
+
 		if (!repositoryDir.exists()) {
 			if (!repositoryDir.mkdirs()) {
 				throw new RepositoryUpdateException("Unable to create repository directory");
 			}
-			
+
 			clone(repositoryDir);
 		}
 		else {
@@ -105,7 +105,7 @@ public class GitProvider implements Provider {
 			}
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#create()
@@ -113,12 +113,12 @@ public class GitProvider implements Provider {
 	public void create() throws RepositoryUpdateException {
 		create(false);
 	}
-	
-	
+
+
 	private void update(final File repositoryDir) throws RepositoryUpdateException {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository repository = null;
-		
+
 		try {
 			repository = builder.setGitDir(repositoryDir)
 					.readEnvironment() 
@@ -127,22 +127,22 @@ public class GitProvider implements Provider {
 		} catch (IOException e) {
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		}
-		
+
 		Git git = new Git(repository);
 		PullCommand pullCommand = git.pull();
-		
+
 		pullCommand.setProgressMonitor(new TextProgressMonitor());
-		
-		
+
+
 		try {
 			pullCommand.call();
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 			throw new RepositoryUpdateException(e.getMessage(), e);
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#update()
@@ -151,14 +151,14 @@ public class GitProvider implements Provider {
 		File gitDir = new File(repositoryInfo.getLocalPath() + File.separator + ".git");
 		update(gitDir);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#initialize()
 	 */
 	public void initialize() throws RepositoryUpdateException {
 		File repositoryDir = new File(repositoryInfo.getLocalPath());
-		
+
 		if (!repositoryDir.exists()) {
 			create(true);
 		}
@@ -167,5 +167,4 @@ public class GitProvider implements Provider {
 			update(gitDir);
 		}
 	}
-	
 }
