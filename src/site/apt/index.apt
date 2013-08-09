@@ -5,9 +5,9 @@
 	------
 	Jun, 2012
 
-Welcome to SPM.
+Welcome to SDM.
 
-	The SPM is an operating system agnostic, Java-focused (but not limited to), 
+	The SDM is an operating system agnostic, Java-focused (but not limited to),
 package manager. It helps developers and configuration management personnel to
 automate the jobs related to install software packages. It allows you to perform
 the same procedures no matter what OS you are running. Among other things, it 
