@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #   Copyright 2012 Otavio Rodolfo Piske
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,9 @@
 localdir=`dirname $0`
 installdir=`dirname $localdir`
 
-MAIN_JAR=sdm-0.2.1.jar
+MAIN_JAR=sdm-*.jar
 
-if [[ "$installdir" == "." ]] ; then
+if [ "$installdir" == "." ] ; then
 	installdir=".."
 fi
 
