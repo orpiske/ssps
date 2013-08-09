@@ -130,8 +130,7 @@
 			<url>http://orpiske.net</url>
 			<organization>N/A</organization>
 			<roles>
-				<role>architect</role>
-				<role>developer</role>
+				<role>lead developer</role>
 			</roles>
 			<timezone>-3</timezone>
 		</developer>
