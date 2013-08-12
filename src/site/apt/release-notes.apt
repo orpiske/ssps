@@ -5,9 +5,13 @@
 	------
 	Jan, 2012
 
+SDM Version 0.2.3
+
+    * The assembly descriptor was including the sources and javadoc jars within the bin folder which caused problems in the launch script
+
 SDM Version 0.2.2
 
-	* Fixed the launch scripts, which were dependent on the jar version/name
+    * Fixed the launch scripts, which were dependent on the jar version/name
 
     * Fixed the output of <<<--version>>>
 
