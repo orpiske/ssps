@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.orpiske</groupId>
 	<artifactId>sdm</artifactId>
-	<version>0.2.2</version>
+	<version>0.2.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>SSPS :: SDM :: Main</name>
     <description>The SDM Application</description>
