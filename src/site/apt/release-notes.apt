@@ -5,11 +5,17 @@
 	------
 	Jan, 2012
 
+SSPS Version 0.2.2
+
+	* Fixed the launch scripts, which were dependent on the jar version/name
+
+    * Fixed the output of --version
+
 SSPS Version 0.2.1
 
 	* Fixed incorrect launch scripts that were referencing the snapshot versions
 	
-	* Fixed the "The repository already exists" error while trying to add a new repositoryg
+	* Fixed the "The repository already exists" error while trying to add a new repository
 
 SSPS Version 0.2.0
 
