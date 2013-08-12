@@ -5,19 +5,19 @@
 	------
 	Jan, 2012
 
-SSPS Version 0.2.2
+SDM Version 0.2.2
 
 	* Fixed the launch scripts, which were dependent on the jar version/name
 
-    * Fixed the output of --version
+    * Fixed the output of <<<--version>>>
 
-SSPS Version 0.2.1
+SDM Version 0.2.1
 
 	* Fixed incorrect launch scripts that were referencing the snapshot versions
 	
 	* Fixed the "The repository already exists" error while trying to add a new repository
 
-SSPS Version 0.2.0
+SDM Version 0.2.0
 
 	* Switch to a Git-based or SVN-based repository format
 
@@ -38,7 +38,7 @@ SSPS Version 0.2.0
 	* Added support for Apache Derby as a software inventory database
 	
 	
-SSPS Version 0.1.0
+SDM Version 0.1.0
 
 	* Removed the SPM module to reduce application scope.
 	
@@ -48,6 +48,6 @@ SSPS Version 0.1.0
 
 	* Several minor usability improvements
 	
-SSPS Version 0.0.1 (Jun 2012)
+SDM Version 0.0.1 (Jun 2012)
 
 	* Initial release
