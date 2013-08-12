@@ -40,6 +40,10 @@
 			<includes>
 				<include>*.jar</include>
 			</includes>
+            <excludes>
+                <exclude>*sources*</exclude>
+                <exclude>*javadoc*</exclude>
+            </excludes>
 		</fileSet>
 		<fileSet>
 			<directory>${project.basedir}/src/main/scripts</directory>
