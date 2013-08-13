@@ -27,10 +27,13 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
+import net.orpiske.ssps.common.dependencies.Dependency;
 
 import org.apache.commons.io.FileUtils;
+import java.util.List;
 
 public class UninstallManager {
 	
@@ -39,8 +42,6 @@ public class UninstallManager {
 	public UninstallManager() throws DatabaseInitializationException {
 		registryManager = new RegistryManager();
 	}
-	
-	
 	
 	public void runUninstallScript(PackageInfo packageInfo) throws EngineException {
 		if (packageInfo == null) {
@@ -86,15 +87,64 @@ public class UninstallManager {
 		registryManager.delete(dto);
 		System.out.println("\nRemoving package from the registry ... done");
 	}
-	
+
+	private PackageInfo getPackage(final String groupId, final String packageName, 
+								   final String version)
+	{
+		RepositoryFinder finder = new FileSystemRepositoryFinder();
+		List<PackageInfo> packages = finder.find(groupId, packageName, version);
+
+		if (packages.size() == 0) {
+			System.err.printf("Unable to calculate dependencies because there is no "
+					+ "package file for %s%n", 
+					RepositoryUtils.getFQPN(groupId, packageName, version));
+			return null;
+		}
+		else {
+			if (packages.size() > 1) {
+				System.err.println("Unable to resolve dependencies because there are %i "
+						+ "packages with the same name. The package will be removed but " 
+						+ "you will have to remove the dependencies one by one");
+				
+				return null;
+			}
+		}
+		
+		return packages.get(0);
+	}
+
+
 	public void uninstall(final String groupId, final String packageName, 
-			final String version) throws RegistryException, MultipleInstalledPackages, PackageNotFound, EngineException  {
+			final String version, boolean deep) throws RegistryException, MultipleInstalledPackages, PackageNotFound, EngineException
+	{
 		SoftwareInventoryDto dto = (new InventoryUtils(registryManager))
 					.getInstalledRecord(groupId, packageName, version);
 				
 		
 		if (dto == null) {
 			throw new PackageNotFound(packageName);
+		}
+		
+		if (deep) {
+			DependencyManager dependencyManager = new DependencyManager();
+			PackageInfo packageInfo = getPackage(groupId,packageName,version);
+			
+			if (packageInfo != null) {
+				Dependency dependency = dependencyManager.resolve(packageInfo);
+				
+				
+				for (Dependency removableDependency : dependency.getDependencies()) {
+					PackageInfo removablePackage = removableDependency.getPackageInfo();
+					
+					try { 
+						uninstall(removablePackage.getGroupId(), removablePackage.getName(),
+							removablePackage.getVersion().toString(), false);
+					}
+					catch (PackageNotFound pnfException) {
+						System.err.printf(pnfException.getMessage() + " (ignored)");
+					}
+				}
+			}
 		}
 		
 		uninstall(dto);

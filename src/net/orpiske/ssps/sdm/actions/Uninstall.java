@@ -46,6 +46,8 @@ public class Uninstall extends ActionInterface {
 	private String packageName;
 	private String version;
 	
+	private boolean deep;
+	
 	public Uninstall(String[] args) {
 		processCommand(args);
 	}
@@ -60,6 +62,7 @@ public class Uninstall extends ActionInterface {
 		options.addOption("g", "groupid", true, "package group id");
 		options.addOption("p", "package", true, "package name");
 		options.addOption("v", "version", true, "version");
+		options.addOption(null, "deep", false, "deep uninstall (removes dependencies)");
 	
 
 		try {
@@ -77,6 +80,8 @@ public class Uninstall extends ActionInterface {
 		
 		groupId = cmdLine.getOptionValue('g');
 		version = cmdLine.getOptionValue('v');
+		
+		deep = cmdLine.hasOption("deep");
 	}
 	
 	
@@ -89,7 +94,7 @@ public class Uninstall extends ActionInterface {
 			else {				
 				UninstallManager manager = new UninstallManager();
 				
-				manager.uninstall(groupId, packageName, version);
+				manager.uninstall(groupId, packageName, version, deep);
 			}
 		} catch (DatabaseInitializationException e) {
 			System.err.println("Unable to uninstall: " + e.getMessage());
