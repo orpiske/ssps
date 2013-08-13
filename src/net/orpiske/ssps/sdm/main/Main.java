@@ -92,7 +92,7 @@ public class Main {
 		}
 	}
 
-	private static Properties initDatabase() {
+	private static void initDatabase() {
 		DerbyDatabaseManager databaseManager = null;
 		Properties props = System.getProperties();
 		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
@@ -120,8 +120,6 @@ public class Main {
 				databaseManager.close();
 			}
 		}
-
-		return props;
 	}
 
 	private static void initUserSdmDirectory() {
