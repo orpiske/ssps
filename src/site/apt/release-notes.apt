@@ -5,6 +5,10 @@
 	------
 	Jan, 2012
 
+SDM Version 0.3.0
+
+    * Added support for Git branches
+
 SDM Version 0.2.2
 
 	* Fixed the launch scripts, which were dependent on the jar version/name
