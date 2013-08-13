@@ -119,6 +119,10 @@ sdm uninstall -p apache-maven
 	Just like with install, there can be package collisions. Use <<<-g>>> and
 <<<-v>>> to resolve them.
 
+    It's also possible to inform dependencies to be removed. You can do so with the 
+<<<-deep>>> flag. Note that this can be a dangerous operation because SDM will not check
+against "in use" dependencies (ie.: if the dependency is required elsewhere).
+
 Search
 
 	To search for an available package, run:
