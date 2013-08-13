@@ -34,14 +34,14 @@ import org.apache.log4j.Logger;
  */
 public class AddRepository extends ActionInterface {
 	private static final Logger logger = Logger.getLogger(AddRepository.class);
-	
+
 	private CommandLine cmdLine;
 	private Options options;
-	
+
 	private boolean isHelp;
-	
+
 	private RepositoryInfo repositoryInfo;
-	
+
 	public AddRepository(String[] args) {
 		processCommand(args);
 	}
@@ -57,47 +57,52 @@ public class AddRepository extends ActionInterface {
 		options.addOption("u", "url", true, "repository url");
 		options.addOption(null, "username", true, "repository user name");
 		options.addOption(null, "password", true, "repository password");
+        options.addOption(null, "branch", true, "(git only) repository branch");
+
 
 		try {
 			cmdLine = parser.parse(options, args);
 		} catch (ParseException e) {
 			help(options, -1);
 		}
-		
+
 		isHelp = cmdLine.hasOption("help");
-		
+
 		String name = cmdLine.getOptionValue('n');
 		if (name == null) {
 			help(options, -1);
 		}
-		
+
 		repositoryInfo = new RepositoryInfo(name);
-		
-		
+
+
 		String url = cmdLine.getOptionValue('u');
 		if (url == null) {
 			help(options, -1);
 		}
 		repositoryInfo.setUrl(url);
-		
+
 		String userName = cmdLine.getOptionValue("username");
 		repositoryInfo.setUserName(userName);
-		
-		
+
+
 		String password = cmdLine.getOptionValue("password");
 		repositoryInfo.setPassword(password);
+
+		String branch = cmdLine.getOptionValue("branch");
+		repositoryInfo.setRepositoryVersion(branch);
 	}
 
 	@Override
 	public void run() {
-		
+
 		try {
-			if (isHelp) { 
+			if (isHelp) {
 				help(options, 1);
 			}
-			else {		
+			else {
 				RepositoryManager repositoryManager = new RepositoryManager();
-				
+
 				repositoryManager.add(repositoryInfo);
 			}
 		} catch (RepositoryUpdateException e) {
