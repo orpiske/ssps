@@ -51,7 +51,7 @@ clone process using the <<<--branch>>> option:
 sdm add-repository -n default -u git://github.com/orpiske/sdm-devel-packages.git --branch 0.3.0
 ----------------------------------------
 
-    Obs.: since the branches are part of the SVN repository, this command-line parameter is not necessary.
+    Obs.: since the branch are part of the SVN URL, this command-line parameter is not necessary.
 
 Install
 
