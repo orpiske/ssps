@@ -44,6 +44,15 @@ step before using sdm.
 sdm add-repository -n default -u git://github.com/orpiske/sdm-packages.git
 ----------------------------------------
 
+	For Git repositories, it's now possible to inform the desired branch to use during the
+clone process using the <<<--branch>>> option:
+
+----------------------------------------
+sdm add-repository -n default -u git://github.com/orpiske/sdm-devel-packages.git --branch 0.3.0
+----------------------------------------
+
+    Obs.: since the branches are part of the SVN repository, this command-line parameter is not necessary.
+
 Install
 
 	This action installs a package on your <<<${HOME}/software>>> directory (or 
