@@ -109,6 +109,9 @@ public class GroovyEngine implements Engine {
 		long total = 0;
 		
 		GroovyObject groovyObject = getObject(file);
+		groovyObject.setProperty("file", file);
+		groovyObject.setProperty("path", file.getPath());
+		
 		
 		Object url = groovyObject.getProperty("url");
 		total += runPhase(groovyObject, "fetch", url); 

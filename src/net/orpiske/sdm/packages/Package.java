@@ -18,6 +18,8 @@ package net.orpiske.sdm.packages;
 import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
 
+import java.io.File;
+
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
@@ -26,6 +28,9 @@ public interface Package {
 	
 	public static final String workDir = WorkdirUtils.getWorkDir();
 	public static final String installDir = InstallDirUtils.getInstallDir();
+	
+	public String path = null;
+	public File file = null;
 	
 	/**
 	 * Fetch phase: downloads the package file/files
