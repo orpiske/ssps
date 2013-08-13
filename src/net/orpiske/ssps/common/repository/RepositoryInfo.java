@@ -31,8 +31,10 @@ public class RepositoryInfo {
 	private String password;
 	
 	private String localPath;
-	
-	private Object payload;
+
+    private String repositoryVersion;
+
+    private Object payload;
 
 	
 	public RepositoryInfo(final String name) {
@@ -132,6 +134,26 @@ public class RepositoryInfo {
 		
 		return localPath;
 	}
-	
 
+
+    /**
+     * Gets the repository version (aka branch) to use. For SVN, the branch is part of
+     * the URL, hence this field is not needed: just pass the whole URL.
+     *
+     * @return The repository version or null if head/trunk/master
+     */
+    public String getRepositoryVersion() {
+        return repositoryVersion;
+    }
+
+
+    /**
+     * Sets the repository version (aka branch) to use. For SVN, the branch is part of
+     * the URL, hence this field is not needed: just pass is via the URL.
+     *
+     * @param repositoryVersion The repository version or null if head/trunk/master
+     */
+    public void setRepositoryVersion(final String repositoryVersion) {
+        this.repositoryVersion = repositoryVersion;
+    }
 }

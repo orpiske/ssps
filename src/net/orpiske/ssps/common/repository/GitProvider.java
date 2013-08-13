@@ -57,6 +57,11 @@ public class GitProvider implements Provider {
 		cloneCommand.setURI(repositoryInfo.getUrl());
 		cloneCommand.setDirectory(repositoryDir);
 		cloneCommand.setProgressMonitor(new TextProgressMonitor());
+
+        final String branch = repositoryInfo.getRepositoryVersion();
+        if (branch != null && branch.length() > 0) {
+            cloneCommand.setBranch(branch);
+        }
 		
 		try {
 			logger.info("Repository does not exist. Cloning from " 
