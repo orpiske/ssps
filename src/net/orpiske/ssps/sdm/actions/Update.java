@@ -37,8 +37,6 @@ import org.apache.log4j.Logger;
  *
  */
 public class Update extends ActionInterface {
-	private static final Logger logger = Logger.getLogger(Update.class);
-	
 	private CommandLine cmdLine;
 	private Options options;
 	
