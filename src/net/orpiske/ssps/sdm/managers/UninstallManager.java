@@ -43,7 +43,7 @@ public class UninstallManager {
 		registryManager = new RegistryManager();
 	}
 	
-	public void runUninstallScript(PackageInfo packageInfo) throws EngineException {
+	private void runUninstallScript(PackageInfo packageInfo) throws EngineException {
 		if (packageInfo == null) {
 			System.err.println("Package not found in the repository. Skipping script " +
 					"cleanup routines");

@@ -46,11 +46,11 @@ import org.apache.commons.configuration.ConfigurationException;
  */
 public class Main {
 
-	public static void initLogger() throws FileNotFoundException {
+	private static void initLogger() throws FileNotFoundException {
 		LoggerUtils.initLogger(Constants.SDM_CONFIG_DIR);
 	}
 
-	public static void help(int code) {
+	private static void help(int code) {
 		System.out.println("Usage: sdm <action>\n");
 
 		System.out.println("Actions:");
