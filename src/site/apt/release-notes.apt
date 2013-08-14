@@ -9,6 +9,8 @@ SDM Version 0.3.0
 
     * Added support for Git branches
 
+    * Added support for deep package removal (ie.: when removing a package, it also removes the dependencies)
+
 SDM Version 0.2.2
 
 	* Fixed the launch scripts, which were dependent on the jar version/name
