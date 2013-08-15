@@ -7,11 +7,11 @@
 
 The Script File
 
-	The script file is what SDM interprets and run to install or uninstall a 
-package.  
-	
+	The script file is what SDM interprets and run to install or uninstall a
+package.
+
 	The script is, basically, a {{{http://groovy.codehaus.org}Groovy}} file that
-extends BinaryPackage and implements one or more of the following methods: 
+extends BinaryPackage and implements one or more of the following methods:
 
 ----------------------------------------
 	void fetch(final String url);
@@ -22,7 +22,7 @@ extends BinaryPackage and implements one or more of the following methods:
 	void install();
 	void finish();
 	void cleanup();
-	
+
 	void uninstall(final String path);
 ----------------------------------------
 
@@ -30,55 +30,105 @@ Phases
 
 	These are the installation phases, in the order they are executed:
 
-	* Fetch: downloads the components of the package. The URL is passed as a 
+	* Fetch: downloads the components of the package. The URL is passed as a
 parameter to the phase method.
 
-	* Extract: extracts the artifact of the package. The full path to the 
+	* Extract: extracts the artifact of the package. The full path to the
 artifact is passed as a parameter to the method
 
 	* Build: builds the package, if necessary.
-	
+
 	* Verify: verify the build, if necessary.
 
 	* Prepare: runs any pre-build preparation steps.
-	
+
 	* Install: installs the package, from the work dir to the install dir.
-	
+
 	* Cleanup: cleanup any resource used to install the package.
-	
-	* Uninstall: this phase is run during package removal. It responsible for 
+
+	* Uninstall: this phase is run during package removal. It responsible for
 cleaning up the package installation.
-	
+
 Variables
 
 	The following variables are exposed to the scripts:
-	
-	* ${installDir}: this is the installation directory. By default, it is set 
-to ${HOME}/software, however this can be set in sdm.properties and point to 
-whatever the user want. 
 
-	* ${workDir}: this is the work directory - the path where the files are 
-downloaded and extracted. By default it points to the ${TMPDIR}/work and can 
+	* ${installDir}: this is the installation directory. By default, it is set
+to ${HOME}/software, however this can be set in sdm.properties and point to
+whatever the user want.
+
+	* ${workDir}: this is the work directory - the path where the files are
+downloaded and extracted. By default it points to the ${TMPDIR}/work and can
 also be set in the sdm.properties file.
 
-	When writing the script, three other variables must be defined as well: 
-	
+	When writing the script, three other variables must be defined as well:
+
 	* version: the version of the package
-	
+
 	* name: the name of the package (must match the package directory name)
-	
-	* url: the URL to the download. Ideally, it should use ${name} and ${version} 
-to reference the package name and version, so it's easier to bump them when new 
+
+	* url: the URL to the download. Ideally, it should use ${name} and ${version}
+to reference the package name and version, so it's easier to bump them when new
 versions are released.
+
+Runtime Data
+
+	The engine exposes relevant runtime information that can be used for the scripts. They are accessible via the
+the rdc instance variable.
+
+	* script.dir: this key contains the directory for the installation script (ie.: <<</path/to/repo/packages/org.apache/apache-maven/3.0.5/pkg>>>)
+
+	* script.resources.dir: this key contains the resource directory for the installation script. (ie.: <<</path/to/repo/packages/org.apache/apache-maven/3.0.5/pkg/resources>>>)
+
+	* package.dir: this key contains the directory for the package (ie.: <<</path/to/repo/packages/org.apache/apache-maven/>>>)
+
+	* package.resources.dir: this key contains the resource directory for the package (ie.: <<</path/to/repo/packages/org.apache/apache-maven/resources>>>)
+
+	* group.dir: this key contains the directory for the package group (ie.: <<</path/to/repo/packages/org.apache/>>>)
+
+	* group.resources.dir: this key contains the resource directory for the package group (ie.: <<</path/to/repo/packages/org.apache/resources>>>)
+
+	* repository.dir: this key contains the directory for the package group (ie.: <<</path/to/repo>>>)
+
+	* repository.resources.dir: this key contains the resource directory for the package group (ie.: <<</path/to/repo/resources>>>)
+
+	The code snippet below demonstrates how to access the runtime data container as well as its keys.
+
+----------------------------------------
+		String path = rdc.getContainer().get("script.dir");
+		println "The script directory is ${path}"
+
+		String resourcesPath = rdc.getContainer().get("script.resources.dir")
+		println "The script resources directory is ${resourcesPath}"
+
+		String ne = rdc.getContainer().get("doesnotexist")
+		println "No-existent keys return null ${ne}"
+----------------------------------------
+
+	The result should be similar to this:
+
+----------------------------------------
+The script directory is /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.5/pkg
+The script resources directory is /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.5/pkg/resources
+No-existent keys return null null
+----------------------------------------
+
+	Finally, you may also access properties set on <<<sdm.properties>>> file provided they start with <<<runtime>>>. For
+example:
+
+----------------------------------------
+		String myVariable = rdc.getContainer().get("runtime.test.variable");
+		println "The value of my variable is ${myVariable}"
+----------------------------------------
 
 Slots
 
-	It's safe to assume that you will need to handle package versions with SDM. Hence, it 
-has a feature called version slots. Version slots allow you to define how it will behave 
-regarding upgrades. 
-	The slots can be defined in the repository structure by creating a file named 
-<<<package.properties>>>. This file should be within the <<<group id/package name>>> 
-directory. And it should declare the <<<package.default.slot>>> property. Here's an 
+	It's safe to assume that you will need to handle package versions with SDM. Hence, it
+has a feature called version slots. Version slots allow you to define how it will behave
+regarding upgrades.
+	The slots can be defined in the repository structure by creating a file named
+<<<package.properties>>>. This file should be within the <<<group id/package name>>>
+directory. And it should declare the <<<package.default.slot>>> property. Here's an
 example:
 
 ----------------------------------------
@@ -88,24 +138,24 @@ package.default.slot=n.*
 	The following slots are accepted:
 
 	* Default Slot: <<<*>>>
-	
+
 	* Major Slot: <<<n.*>>>
-	
+
 	* Major/Minor Slot: <<<n.n.*>>>
 
 
-	<<Default Slot>>: declares a single slot for all the versions of a package. Hence, 1.2.0, 
-1.3.0, 2.0.0, etc all fall within the same slot. Due to that, versions such as 1.2.0 may 
+	<<Default Slot>>: declares a single slot for all the versions of a package. Hence, 1.2.0,
+1.3.0, 2.0.0, etc all fall within the same slot. Due to that, versions such as 1.2.0 may
 be upgraded to 2.x.x if packages are available.
 
-	<<Major Slot>>: this slot considers that versions in different major releases are different. 
-For instance, in this slot definition 1.2.0 is different than 2.3.0. On the other hand, 
+	<<Major Slot>>: this slot considers that versions in different major releases are different.
+For instance, in this slot definition 1.2.0 is different than 2.3.0. On the other hand,
 1.2.0 and 1.3.0 are on the same slot.
-	 
+
 	<<Minor Slot>>: this slot considers that versions in different major and minor releases are
-different. For instance, in this slot definition 1.2.0 is different than 1.3.0 or 2.3.0. 
-On the other hand, 1.2.0 and 1.2.1 are on the same slot.	
-	
+different. For instance, in this slot definition 1.2.0 is different than 1.3.0 or 2.3.0.
+On the other hand, 1.2.0 and 1.2.1 are on the same slot.
+
 
 The API
 
@@ -114,23 +164,23 @@ The API
 
 Unpack
 
-	By default, SDM will try to unpack the file for you. It considers that the 
-package will unpack itself to ${workDir}/${name}-${version} 
+	By default, SDM will try to unpack the file for you. It considers that the
+package will unpack itself to ${workDir}/${name}-${version}
 (ie.: /tmp/work/groovy-2.1.1). If that's not the case for your package, then you
-need to implement your own unpack method. 
+need to implement your own unpack method.
 	For instance, a package that extracts the files in the same directory would
-end up with their files in ${workDir} instead of ${workDir}/${name}-${version}. 
-To resolve this, you would have to create the dir, and then call unpack into that 
+end up with their files in ${workDir} instead of ${workDir}/${name}-${version}.
+To resolve this, you would have to create the dir, and then call unpack into that
 directory. Here's an example:
 
 ----------------------------------------
 	void extract(String artifactName) {
 		def tempWorkDir = "${workDir}/${name}-${version}"
-		
-		
+
+
 		// Creates the ${workDir}/${name}-${version}
 		mkdir("${tempWorkDir}")
-		
+
 		// Unpacks the artifact straight into the ${workDir}/${name}-${version}
 		unpack(artifactName, ${tempWorkDir}")
 	}
@@ -138,20 +188,20 @@ directory. Here's an example:
 
 Install
 
-	Install copies the files from ${workDir}/${name}-${version} into the 
+	Install copies the files from ${workDir}/${name}-${version} into the
 ${installDir}. Ideally, it would also create symlinks if required and any other
 installation step.
 
 Uninstall
 
-	The uninstall should cleanup the steps done during install. For instance, 
+	The uninstall should cleanup the steps done during install. For instance,
 if symlinks were created, then they should be removed.
 
 
 Sample Script
-	
-	This is what a script looks like: 
- 
+
+	This is what a script looks like:
+
 ----------------------------------------
 import net.orpiske.sdm.packages.BinaryPackage;
 
@@ -164,24 +214,24 @@ class ApacheMaven extends BinaryPackage {
 	def version = "3.0.5"
 	def name = "apache-maven"
 	def url = "http://apache.mirror.pop-sc.rnp.br/apache/maven/maven-3/${version}/binaries/apache-maven-${version}-bin.tar.gz"
-	
+
 	void install() {
 		// Protects the file from being overwritten during reinstall
-		shield("${installDir}/${name}-${version}/conf/settings.xml")		
-		
-		
+		shield("${installDir}/${name}-${version}/conf/settings.xml")
+
+
 		// Installs ${workDir}/${name}-${version} into ${workDir}
 		performInstall("${name}", "${version}")
-		
+
 		// If is a Unix-like system ...
 		if (isNix()) {
-		
+
 			// ... then create symlinks
 			println "Creating symlinks"
 			exec("ln", "-sf ${installDir}/${name}-${version} ${installDir}/${name}")
 		}
 	}
-	
+
 	void uninstall(String path) {
 		if (isNix()) {
 			println "Removing symlinks"
@@ -197,38 +247,38 @@ Package Super-classes
 	Currently, there are four package super-classes:
 
 	* BinaryPackage: for binary packages
-	
+
 	* MetaPackage: for meta packages
-	
+
 	* SourcePackage: for source packages
-	
+
 	* VoidPackage: for other types of packages (ie.: configuration files)
 
 Dependencies
 
 
 	You can declare dependencies of a package by declaring the <<<dependencies>>> variable.
-For instance, if you have a package that depends on Apache Maven and Apache Ant, an 
-acceptable dependency declaration would be: 
+For instance, if you have a package that depends on Apache Maven and Apache Ant, an
+acceptable dependency declaration would be:
 
 ----------------------------------------
 def dependencies = [
 			"org.apache/apache-maven":"(3.0.0, 3.0.99)",
 			"org.apache/apache-ant":"(1.8.4,1.8.99)"
-			];	
-----------------------------------------	
+			];
+----------------------------------------
 
 
-	The dependencies variables is a Groovy hash map, in the form of a String/String 
-container. The key is the package group id + name and the value is the version range. The 
+	The dependencies variables is a Groovy hash map, in the form of a String/String
+container. The key is the package group id + name and the value is the version range. The
 range is in the form (minimum acceptable version, maximum acceptable version).
 
 Meta Packages
 
 	Meta packages are packages that do not contain an artifact, instead they declare a set
-of packages as a dependency. This is ver useful to group components in a single name. For 
-instance, if you wanted to create a meta package to install both Apache Maven and Apache 
-Ant, you could created it like this: 
+of packages as a dependency. This is ver useful to group components in a single name. For
+instance, if you wanted to create a meta package to install both Apache Maven and Apache
+Ant, you could created it like this:
 
 ----------------------------------------
 import net.orpiske.sdm.packages.MetaPackage;
@@ -237,10 +287,10 @@ import static net.orpiske.sdm.lib.Core.*;
 
 class MyMetaPackage extends MetaPackage {
 	def version = "1.0.0"
-	def name = "devevn"	
+	def name = "devevn"
 	def url = ""
 
 	def dependencies = ["org.apache/apache-maven":"(3.0.0, 3.0.99)",
-			"org.apache/apache-ant":"(1.8.4,1.8.99)"];	
+			"org.apache/apache-ant":"(1.8.4,1.8.99)"];
 }
 ----------------------------------------

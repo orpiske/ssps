@@ -7,9 +7,11 @@
 
 SDM Version 0.3.0
 
-    * Added support for Git branches
+	* Added support for Git branches
 
-    * Added support for deep package removal (ie.: when removing a package, it also removes the dependencies)
+	* Added support for deep package removal (ie.: when removing a package, it also removes the dependencies)
+
+	* Added support for accessing some runtime information within the scripts
 
 SDM Version 0.2.2
 
@@ -20,7 +22,7 @@ SDM Version 0.2.2
 SDM Version 0.2.1
 
 	* Fixed incorrect launch scripts that were referencing the snapshot versions
-	
+
 	* Fixed the "The repository already exists" error while trying to add a new repository
 
 SDM Version 0.2.0
@@ -28,32 +30,32 @@ SDM Version 0.2.0
 	* Switch to a Git-based or SVN-based repository format
 
 	* Updated the documentation
-	
+
 	* Replaced the XML rule mechanism with a more extensible Groovy-based mechanism
-	
+
 	* Converted the XML rules to POJO and made them available via Groovy
 
 	* Unified and improved support for proxy servers
 
 	* Added support for zip files
-	
+
 	* Added support for dependencies
-	
+
 	* Added support for meta-packages
-	
+
 	* Added support for Apache Derby as a software inventory database
-	
-	
+
+
 SDM Version 0.1.0
 
 	* Removed the SPM module to reduce application scope.
-	
+
 	* Added support for downloading remote ADM files from HTTP servers
 
 	* Removed support for remote repositories
 
 	* Several minor usability improvements
-	
+
 SDM Version 0.0.1 (Jun 2012)
 
 	* Initial release
