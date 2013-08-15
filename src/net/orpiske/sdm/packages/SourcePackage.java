@@ -27,7 +27,7 @@ public class SourcePackage implements Package {
 	 */
 	@Override
 	public void fetch(String url) {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class SourcePackage implements Package {
 	 */
 	@Override
 	public void extract(String artifactName) {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -43,11 +43,11 @@ public class SourcePackage implements Package {
 	 */
 	@Override
 	public void prepare() {
-		
+
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#build()
+	 * @see net.orpiske.sdm.packages.Package#load()
 	 */
 	@Override
 	public void build() {
@@ -75,7 +75,7 @@ public class SourcePackage implements Package {
 	 */
 	@Override
 	public void uninstall(final String path) {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -84,7 +84,7 @@ public class SourcePackage implements Package {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -93,6 +93,6 @@ public class SourcePackage implements Package {
 	@Override
 	public void cleanup() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

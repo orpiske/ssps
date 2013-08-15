@@ -25,6 +25,7 @@ import java.net.URISyntaxException;
 
 import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.exceptions.EngineException;
+import net.orpiske.sdm.lib.rdc.RuntimeDataLoader;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
 import net.orpiske.ssps.common.utils.URLUtils;
 
@@ -33,21 +34,26 @@ import org.codehaus.groovy.control.CompilationFailedException;
 
 /**
  * The Groovy script engine
- * 
+ *
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class GroovyEngine implements Engine {
-	
+
 	private static Logger logger = Logger.getLogger(GroovyEngine.class);
-	
+
 	public GroovyEngine() {
-		
+
 	}
-	
+
 	private GroovyObject getObject(final File file) throws EngineException {
 		ClassLoader parent = getClass().getClassLoader();
 		GroovyClassLoader loader = new GroovyClassLoader(parent);
-		
+
+		// Loads shared runtime data
+		RuntimeDataLoader rdl = new RuntimeDataLoader(file);
+		rdl.load();
+
+		// Parses the class
 		Class<?> groovyClass;
 		try {
 			groovyClass = loader.parseClass(file);
@@ -59,27 +65,28 @@ public class GroovyEngine implements Engine {
 					e);
 		}
 
+		// Instantiate the object
 		GroovyObject groovyObject;
 		try {
 			groovyObject = (GroovyObject) groovyClass.newInstance();
 		} catch (InstantiationException e) {
-			throw new EngineException("Unable to instantiate object: " 
+			throw new EngineException("Unable to instantiate object: "
 					+ e.getMessage(), e);
 		} catch (IllegalAccessException e) {
 			throw new EngineException("Illegal access: " + e.getMessage(),
 					e);
 		}
-		
+
 		return groovyObject;
 	}
-	
-	
+
+
 	private void printPhaseHeader(final String name) {
 		System.out.println("------------------------");
 		System.out.println(name.toUpperCase());
 		System.out.println("------------------------");
 	}
-	
+
 	/**
 	 * @param groovyObject
 	 */
@@ -88,42 +95,39 @@ public class GroovyEngine implements Engine {
 		long finish;
 		long elapsed;
 		start = System.currentTimeMillis();
-		
+
 		System.out.println("");
 		printPhaseHeader(name);
-		
+
 		groovyObject.invokeMethod(name, arguments);
-		
+
 		finish = System.currentTimeMillis();
 		elapsed = finish - start;
 		logger.info("Phase " + name + " run in " + elapsed + " ms");
 		return elapsed;
 	}
-	
-	
+
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
 	 */
 	public void run(final File file) throws EngineException {
 		long total = 0;
-		
+
 		GroovyObject groovyObject = getObject(file);
-		groovyObject.setProperty("file", file);
-		groovyObject.setProperty("path", file.getPath());
-		
-		
+
 		Object url = groovyObject.getProperty("url");
-		total += runPhase(groovyObject, "fetch", url); 
-		
+		total += runPhase(groovyObject, "fetch", url);
+
 		String artifactName = null;
-		
+
 		try {
-			if (url != null && !url.toString().equals("")) { 
+			if (url != null && !url.toString().equals("")) {
 				artifactName = URLUtils.getFilename(url.toString());
 				artifactName = WorkdirUtils.getWorkDir() + File.separator + artifactName;
 			}
-			
+
 		} catch (MalformedURLException e) {
 			throw new EngineException("The package URL is invalid: " + e.getMessage(),
 					e);
@@ -131,34 +135,32 @@ public class GroovyEngine implements Engine {
 			throw new EngineException("The URL syntax is invalid: " + e.getMessage(),
 					e);
 		}
-		
 
-		total += runPhase(groovyObject, "extract", artifactName); 
-		total += runPhase(groovyObject, "build", (Object[]) null); 
+		total += runPhase(groovyObject, "extract", artifactName);
+		total += runPhase(groovyObject, "prepare", (Object[]) null);
 		total += runPhase(groovyObject, "verify", (Object[]) null);
-		total += runPhase(groovyObject, "prepare", (Object[]) null); 
+		total += runPhase(groovyObject, "prepare", (Object[]) null);
 		total += runPhase(groovyObject, "install", (Object[]) null);
 		total += runPhase(groovyObject, "finish", (Object[]) null);
 		total += runPhase(groovyObject, "cleanup", (Object[]) null);
-		
+
 		printPhaseHeader("install completed");
 		logger.info("Installation completed in " + total + " ms");
-		
 	}
 
-	
-	
+
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.sdm.engine.Engine#run(java.lang.String)
 	 */
 	public void run(final String path) throws EngineException {
 		File file = new File(path);
-		
+
 		run(file);
 	}
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see net.orpiske.sdm.engine.Engine#runCleanup(java.io.File)
 	 */
@@ -167,13 +169,13 @@ public class GroovyEngine implements Engine {
 		long start;
 		long finish;
 		String installDir = InstallDirUtils.getInstallDir();
-		
+
 		GroovyObject groovyObject = getObject(file);
-		
+
 		start = System.currentTimeMillis();
 		printPhaseHeader("uninstall");
 		groovyObject.invokeMethod("uninstall", installDir);
-		finish = System.currentTimeMillis(); 
+		finish = System.currentTimeMillis();
 		logger.info("Uninstall phase run in " + (finish - start) + " ms");
 		printPhaseHeader("uninstall complete");
 	}
@@ -184,10 +186,10 @@ public class GroovyEngine implements Engine {
 	@Override
 	public void runUninstall(String path) throws EngineException {
 		File file = new File(path);
-		
+
 		runUninstall(file);
-		
+
 	}
 
-	
+
 }

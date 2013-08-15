@@ -16,70 +16,78 @@
 package net.orpiske.sdm.packages;
 
 import net.orpiske.sdm.common.WorkdirUtils;
+import net.orpiske.sdm.lib.rdc.RuntimeDataContainer;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
-
-import java.io.File;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
 public interface Package {
-	
+
+	/**
+	 * The temporary work directory
+	 */
 	public static final String workDir = WorkdirUtils.getWorkDir();
+
+	/**
+	 * The installation directory
+	 */
 	public static final String installDir = InstallDirUtils.getInstallDir();
-	
-	public String path = null;
-	public File file = null;
-	
+
+	/**
+	 * The run time data container holds relevant run time data that can be used by the scripts
+	 */
+	public RuntimeDataContainer rdc = RuntimeDataContainer.getInstance();
+
 	/**
 	 * Fetch phase: downloads the package file/files
 	 * @param url The file address
 	 */
 	void fetch(final String url);
-	
+
 	/**
 	 * Extract phase: extracts the package resources
 	 * @param artifactName The path to the file to extract
 	 */
 	void extract(final String artifactName);
-	
+
 	/**
 	 * Run the preparation steps
 	 */
 	void prepare();
-	
+
 	/**
 	 * Build phase
 	 */
 	void build();
-	
+
 	/**
 	 * Verify phase
 	 */
 	void verify();
-	
+
 	/**
 	 * Install phase
 	 */
 	void install();
-	
+
 	/**
 	 * Complete phase
 	 */
 	void finish();
-	
+
 	/**
 	 * Cleanup phase
 	 */
 	void cleanup();
-	
-	
+
+
 	/**
 	 * Uninstall phase
 	 * @param path The installation path of the package
 	 */
 	void uninstall(final String path);
-	
-	
+
+
 }

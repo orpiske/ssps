@@ -16,7 +16,7 @@
 package net.orpiske.sdm.packages;
 
 /**
- * Base class for meta-packages. Meta packages are packages that do no nothing, but they 
+ * Base class for meta-packages. Meta packages are packages that do no nothing, but they
  * contain several dependencies and are used to simplify installation of multiple packages
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
@@ -36,7 +36,7 @@ public class MetaPackage implements Package {
 	 */
 	@Override
 	public void extract(String artifactName) {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -48,11 +48,11 @@ public class MetaPackage implements Package {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#build()
+	 * @see net.orpiske.sdm.packages.Package#load()
 	 */
 	@Override
 	public void build() {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -60,7 +60,7 @@ public class MetaPackage implements Package {
 	 */
 	@Override
 	public void verify() {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -68,7 +68,7 @@ public class MetaPackage implements Package {
 	 */
 	@Override
 	public void install() {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +76,7 @@ public class MetaPackage implements Package {
 	 */
 	@Override
 	public void uninstall(String path) {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +85,7 @@ public class MetaPackage implements Package {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +94,7 @@ public class MetaPackage implements Package {
 	@Override
 	public void cleanup() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

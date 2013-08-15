@@ -25,7 +25,7 @@ import net.orpiske.ssps.common.resource.exceptions.ResourceExchangeException;
 
 /**
  * Base class for binary packages
- * 
+ *
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class BinaryPackage implements Package {
@@ -36,15 +36,15 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void fetch(String url) {
-		if (url != null && !url.trim().equals("")) { 
+		if (url != null && !url.trim().equals("")) {
 			logger.info("Downloading " + url);
-			
+
 			try {
 				download(url);
 			} catch (ResourceExchangeException e) {
 				throw new RuntimeException(e.getMessage(), e);
 			}
-		}	
+		}
 	}
 
 	/* (non-Javadoc)
@@ -60,15 +60,15 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void prepare() {
-		
+
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.sdm.packages.Package#build()
+	 * @see net.orpiske.sdm.packages.Package#load()
 	 */
 	@Override
 	public void build() {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +76,7 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void verify() {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -84,7 +84,7 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void install() {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -92,7 +92,7 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void uninstall(final String path) {
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +101,7 @@ public class BinaryPackage implements Package {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -110,6 +110,6 @@ public class BinaryPackage implements Package {
 	@Override
 	public void cleanup() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
