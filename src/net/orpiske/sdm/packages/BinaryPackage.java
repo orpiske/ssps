@@ -36,7 +36,7 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void fetch(String url) {
-		if (url != null && !url.trim().equals("")) {
+		if (url != null && !url.trim().isEmpty()) {
 			logger.info("Downloading " + url);
 
 			try {
