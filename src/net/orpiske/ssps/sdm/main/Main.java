@@ -20,9 +20,11 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Properties;
 
+import groovy.lang.GroovyClassLoader;
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.exceptions.SspsException;
+import net.orpiske.ssps.common.groovy.GroovyClasspathHelper;
 import net.orpiske.ssps.common.logger.LoggerUtils;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 import net.orpiske.ssps.common.repository.RepositorySettings;
@@ -40,9 +42,9 @@ import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * Main class
- * 
+ *
  * @author Otavio R. Piske <angusyoung@gmail.com>
- * 
+ *
  */
 public class Main {
 
@@ -131,13 +133,25 @@ public class Main {
 				System.exit(-6);
 			}
 		}
-
 	}
-	
+
 	private static void initProxy() {
 		ProxyHelper.setup();
 	}
 
+	private static void initGroovyClasspath() {
+		GroovyClasspathHelper helper = GroovyClasspathHelper.getInstance();
+
+		String home = System.getProperty(Constants.HOME_PROPERTY);
+		File extraLibsDir = new File(home + File.separator + "extra" +
+				File.separator + "plugins");
+
+		if (extraLibsDir.exists()) {
+			helper.addClasspath(extraLibsDir.getPath());
+		}
+
+		helper.addClasspath(Utils.getSdmDirectoryPath() + File.separator + "plugins");
+	}
 
 	public static void main(String[] args) {
 
@@ -163,6 +177,7 @@ public class Main {
 		initUserSdmDirectory();
 		initDatabase();
 		initProxy();
+		initGroovyClasspath();
 
 		if (first.equals("install")) {
 			Installer installer = new Installer(newArgs);
@@ -191,7 +206,7 @@ public class Main {
 			update.run();
 			return;
 		}
-		
+
 		if (first.equals("upgrade")) {
 			Upgrade upgrade = new Upgrade(newArgs);
 

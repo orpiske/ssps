@@ -1,7 +1,7 @@
 <assembly
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">	
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
 <!--
    Copyright 2012 Otavio Rodolfo Piske
 
@@ -54,7 +54,7 @@
 			</includes>
 			<fileMode>0755</fileMode>
 		</fileSet>
-		
+
 		<fileSet>
 			<directory>${project.basedir}/src/main/config</directory>
 			<outputDirectory>/conf</outputDirectory>
@@ -66,6 +66,13 @@
 			<directory>${project.build.directory}/site</directory>
 			<outputDirectory>docs</outputDirectory>
 		</fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/groovy</directory>
+            <outputDirectory>/extra/plugins</outputDirectory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </fileSet>
 	</fileSets>
 
 	<includeBaseDirectory>true</includeBaseDirectory>
