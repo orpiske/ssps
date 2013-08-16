@@ -297,3 +297,33 @@ class MyMetaPackage extends MetaPackage {
 			"org.apache/apache-ant":"(1.8.4,1.8.99)"];
 }
 ----------------------------------------
+
+
+Plugins
+
+	SDM 0.3.0 and above support plugins: they are just regular Groovy classes located in the <<<extra/plugins>>> or
+<<<$HOME/.sdm/plugins>>> directory that can be instantiated from the installation scripts. Here's a sample code provided
+with SDM:
+
+----------------------------------------
+package net.orpiske.sdm.test;
+
+class Hello {
+
+	public void sayHello() {
+		println "Hello world!"
+	}
+}
+----------------------------------------
+
+	To use this code in a package script, simply instantiate the class and run the methods you need:
+
+----------------------------------------
+	void install() {
+		def hello = new Hello();
+
+		hello.sayHello();
+
+		// ... other code
+	}
+----------------------------------------
