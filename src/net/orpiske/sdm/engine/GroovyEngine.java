@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
 import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.lib.rdc.RuntimeDataLoader;
+import net.orpiske.ssps.common.groovy.GroovyClasspathHelper;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
 import net.orpiske.ssps.common.utils.URLUtils;
 
@@ -46,8 +47,8 @@ public class GroovyEngine implements Engine {
 	}
 
 	private GroovyObject getObject(final File file) throws EngineException {
-		ClassLoader parent = getClass().getClassLoader();
-		GroovyClassLoader loader = new GroovyClassLoader(parent);
+		GroovyClasspathHelper classpathHelper = GroovyClasspathHelper.getInstance();
+		GroovyClassLoader loader = classpathHelper.getLoader();
 
 		// Loads shared runtime data
 		RuntimeDataLoader rdl = new RuntimeDataLoader(file);
