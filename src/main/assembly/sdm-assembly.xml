@@ -29,7 +29,7 @@
 			<directory>${project.basedir}</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>README.TXT</include>
+				<include>README.txt</include>
 				<include>LICENSE*</include>
 				<include>NOTICE*</include>
 			</includes>
