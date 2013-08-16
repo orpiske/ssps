@@ -13,6 +13,8 @@ SDM Version 0.3.0
 
 	* Added support for accessing some runtime information within the scripts
 
+	* Added support for plugins
+
 SDM Version 0.2.2
 
 	* Fixed the launch scripts, which were dependent on the jar version/name
