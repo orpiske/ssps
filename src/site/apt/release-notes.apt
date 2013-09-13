@@ -14,6 +14,10 @@ SDM Version 0.3.0
 	* Added support for accessing some runtime information within the scripts
 
 	* Added support for plugins
+	
+	* Improved the support for building projects from source
+	
+	* Improved the way the project handles SVN credentials 
 
 SDM Version 0.2.2
 
