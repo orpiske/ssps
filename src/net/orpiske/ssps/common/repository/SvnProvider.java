@@ -19,14 +19,16 @@ import java.io.File;
 
 import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
 
+import net.orpiske.ssps.common.scm.DefaultCredentials;
+import net.orpiske.ssps.common.scm.ScmCredentials;
+import net.orpiske.ssps.common.scm.exceptions.DuplicateCheckoutException;
+import net.orpiske.ssps.common.scm.exceptions.ScmCheckoutException;
+import net.orpiske.ssps.common.scm.exceptions.ScmUpdateException;
+import net.orpiske.ssps.common.scm.svn.SvnSCM;
 import org.apache.log4j.Logger;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.wc2.SvnCheckout;
-import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
-import org.tmatesoft.svn.core.wc2.SvnUpdate;
 
+
+import net.orpiske.ssps.common.scm.Scm;
 /**
  * Svn Repository Provider
  * @author Otavio R. Piske <angusyoung@gmail.com>
@@ -37,6 +39,7 @@ public class SvnProvider implements Provider {
 	private static Logger logger = Logger.getLogger(SvnProvider.class);
 	
 	private RepositoryInfo repositoryInfo;
+	private Scm scm = new SvnSCM();
 	
 	/**
 	 * Default constructor
@@ -44,28 +47,10 @@ public class SvnProvider implements Provider {
 	 */
 	public SvnProvider(final RepositoryInfo repositoryInfo) {
 		this.repositoryInfo = repositoryInfo;
-	}
-	
 
-	private void create(final File repositoryDir) throws RepositoryUpdateException {	
-		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
-		final SvnCheckout checkout = svnOperationFactory.createCheckout();
-		
-		logger.info("Repository does not exist. Checking out from " 
-				+ repositoryInfo.getUrl());
-		
-		checkout.setSingleTarget(SvnTarget.fromFile(repositoryDir));
-		try {
-			checkout.setSource(SvnTarget.fromURL(
-					SVNURL.parseURIEncoded(repositoryInfo.getUrl())));
-			checkout.run();
-		} 
-		catch (SVNException e) {
-			throw new RepositoryUpdateException(e.getMessage(), e);
-		}
-		finally {
-			svnOperationFactory.dispose();
-		}
+		ScmCredentials credentials = new DefaultCredentials(
+				repositoryInfo.getUserName(), repositoryInfo.getPassword());
+		scm.setCredentials(credentials);
 	}
 	
 	
@@ -76,49 +61,29 @@ public class SvnProvider implements Provider {
 	public void create() throws RepositoryUpdateException {
 		String repositoryPath = repositoryInfo.getLocalPath();
 		File repositoryDir = new File(repositoryPath);
-		
-		if (!repositoryDir.exists()) {
-			if (!repositoryDir.mkdirs()) {
-				throw new RepositoryUpdateException("Unable to create repository directory");
-			}
-			
-			create(repositoryDir);
-		}
-		else {
-			logger.warn("The local repository already exists and will not be recreated");
-		}
-	}
-	
-	
-	private void update(final File repositoryDir) throws RepositoryUpdateException {	
-		final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
-		final SvnUpdate update = svnOperationFactory.createUpdate();
-		
-		logger.info("Refreshing local repository with remote copy from " + 
-				repositoryInfo.getUrl());
-		
-		update.setSingleTarget(SvnTarget.fromFile(repositoryDir));
+
 		try {
-			update.run();
-		} 
-		catch (SVNException e) {
-			throw new RepositoryUpdateException(e.getMessage(), e);
-		}
-		finally {
-			svnOperationFactory.dispose();
+			scm.checkout(repositoryInfo.getUrl(), repositoryDir);
+		} catch (ScmCheckoutException e) {
+			throw new RepositoryUpdateException("Unable to checkout repository", e);
+		} catch (DuplicateCheckoutException e) {
+			logger.warn("The local repository already exists and will not be recreated", e);
 		}
 	}
+
 	
 	
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#update()
 	 */
-	public void update() throws RepositoryUpdateException {	
-		String repositoryPath = repositoryInfo.getLocalPath();
-		File repositoryDir = new File(repositoryPath);
-		
-		update(repositoryDir);
+	public void update() throws RepositoryUpdateException {
+		try {
+			scm.update(repositoryInfo.getLocalPath());
+		} catch (ScmUpdateException e) {
+			throw new RepositoryUpdateException("Unable to update repository", e);
+		}
+
 	}
 	
 	
@@ -131,14 +96,10 @@ public class SvnProvider implements Provider {
 		File repositoryDir = new File(repositoryPath);
 		
 		if (!repositoryDir.exists()) {
-			if (!repositoryDir.mkdirs()) {
-				throw new RepositoryUpdateException("Unable to create repository directory");
-			}
-			
-			create(repositoryDir);
+			create();
 		}
 		else {
-			update(repositoryDir);
+			update();
 		}
 	}
 }

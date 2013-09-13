@@ -20,6 +20,12 @@ import java.io.IOException;
 
 import net.orpiske.ssps.common.repository.exception.RepositoryUpdateException;
 
+import net.orpiske.ssps.common.scm.Scm;
+import net.orpiske.ssps.common.scm.exceptions.DuplicateCheckoutException;
+import net.orpiske.ssps.common.scm.exceptions.ScmCheckoutException;
+import net.orpiske.ssps.common.scm.exceptions.ScmUpdateException;
+import net.orpiske.ssps.common.scm.git.GitSCM;
+import net.orpiske.ssps.common.scm.svn.SvnSCM;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
@@ -49,112 +55,40 @@ public class GitProvider implements Provider {
 	public GitProvider(final RepositoryInfo repositoryInfo) {
 		this.repositoryInfo = repositoryInfo;
 	}
-	
-	
-	
-	private void clone(final File repositoryDir) throws RepositoryUpdateException {
-		CloneCommand cloneCommand = Git.cloneRepository();
-		cloneCommand.setURI(repositoryInfo.getUrl());
-		cloneCommand.setDirectory(repositoryDir);
-		cloneCommand.setProgressMonitor(new TextProgressMonitor());
-
-        final String branch = repositoryInfo.getRepositoryVersion();
-        if (branch != null && branch.length() > 0) {
-            cloneCommand.setBranch(branch);
-        }
 		
-		try {
-			logger.info("Repository does not exist. Cloning from " 
-					+ repositoryInfo.getUrl());
-			
-			cloneCommand.call();
-		} catch (InvalidRemoteException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug(e.getMessage(), e);
-			}
-			
-			throw new RepositoryUpdateException(e.getMessage(), e);
-		} catch (TransportException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug(e.getMessage(), e);
-			}
-			
-			throw new RepositoryUpdateException(e.getMessage(), e);
-		} catch (GitAPIException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug(e.getMessage(), e);
-			}
-			
-			throw new RepositoryUpdateException(e.getMessage(), e);
-		}
-	}
-	
-	
-	/*
-	 * (non-Javadoc)
-	 * @see net.orpiske.ssps.common.repository.Provider#create()
-	 */
-	private void create(boolean ignore) throws RepositoryUpdateException {
-		File repositoryDir = new File(repositoryInfo.getLocalPath());
 		
-		if (!repositoryDir.exists()) {
-			if (!repositoryDir.mkdirs()) {
-				throw new RepositoryUpdateException("Unable to create repository directory");
-			}
-			
-			clone(repositoryDir);
-		}
-		else {
-			if (!ignore) { 
-				logger.warn("The local repository already exists and will not be recreated");
-			}
-		}
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#create()
 	 */
 	public void create() throws RepositoryUpdateException {
-		create(false);
-	}
-	
-	
-	private void update(final File repositoryDir) throws RepositoryUpdateException {
-		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		Repository repository = null;
-		
+		Scm scm = new GitSCM();
+
+		String repositoryPath = repositoryInfo.getLocalPath();
+		File repositoryDir = new File(repositoryPath);
+
 		try {
-			repository = builder.setGitDir(repositoryDir)
-					.readEnvironment() 
-					.findGitDir()
-					.build();
-		} catch (IOException e) {
-			throw new RepositoryUpdateException(e.getMessage(), e);
-		}
-		
-		Git git = new Git(repository);
-		PullCommand pullCommand = git.pull();
-		
-		pullCommand.setProgressMonitor(new TextProgressMonitor());
-		
-		
-		try {
-			pullCommand.call();
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-			throw new RepositoryUpdateException(e.getMessage(), e);
+			scm.checkout(repositoryInfo.getUrl(), repositoryDir);
+		} catch (ScmCheckoutException e) {
+			throw new RepositoryUpdateException("Unable to checkout repository", e);
+		} catch (DuplicateCheckoutException e) {
+			logger.warn("The local repository already exists and will not be recreated", e);
 		}
 	}
+	
 	
 	/*
 	 * (non-Javadoc)
 	 * @see net.orpiske.ssps.common.repository.Provider#update()
 	 */
 	public void update() throws RepositoryUpdateException {
-		File gitDir = new File(repositoryInfo.getLocalPath() + File.separator + ".git");
-		update(gitDir);
+		Scm scm = new GitSCM();
+
+		try {
+			scm.update(repositoryInfo.getLocalPath());
+		} catch (ScmUpdateException e) {
+			throw new RepositoryUpdateException("Unable to update repository", e);
+		}
 	}
 	
 	/*
@@ -165,11 +99,10 @@ public class GitProvider implements Provider {
 		File repositoryDir = new File(repositoryInfo.getLocalPath());
 		
 		if (!repositoryDir.exists()) {
-			create(true);
+			create();
 		}
 		else {
-			File gitDir = new File(repositoryInfo.getLocalPath() + File.separator + ".git");
-			update(gitDir);
+			update();
 		}
 	}
 	

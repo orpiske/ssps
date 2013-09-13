@@ -18,6 +18,7 @@ package net.orpiske.ssps.common.repository;
 import java.io.File;
 
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * Holds repository information
@@ -34,6 +35,7 @@ public class RepositoryInfo {
 
     private String repositoryVersion;
 
+	// private PropertiesConfiguration userProperties;
     private Object payload;
 
 	

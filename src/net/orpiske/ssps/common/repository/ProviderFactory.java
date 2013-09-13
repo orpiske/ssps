@@ -15,6 +15,11 @@
 */
 package net.orpiske.ssps.common.repository;
 
+import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 
 /**
@@ -22,6 +27,7 @@ import java.io.File;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class ProviderFactory {
+	private static final Logger logger = Logger.getLogger(ProviderFactory.class);
 	
 	private static final String GIT_METADATA_DIR = ".git";
 	private static final String SVN_METADATA_DIR = ".svn";
@@ -71,6 +77,30 @@ public class ProviderFactory {
 	}
 	
 	
+	private static void setRepositoryCredentials(RepositoryInfo repositoryInfo) {
+		String repositoryPath = RepositoryUtils.getUserRepository();
+
+		String path = repositoryPath + File.separator + repositoryInfo.getName() 
+				+ File.separator + "user.conf";
+
+		try {
+			PropertiesConfiguration userConfig = new PropertiesConfiguration(path);
+			
+			String userName = userConfig.getString(repositoryInfo.getName() 
+					+ ".auth.user");
+			repositoryInfo.setUserName(userName);
+			
+			String password = userConfig.getString(repositoryInfo.getName() 
+					+ ".auth.password");
+			repositoryInfo.setPassword(password);
+			
+		} catch (ConfigurationException e) {
+			logger.warn("Unable to load user configuration settings for " + 
+					repositoryInfo.getName() + "repository");
+		}
+	}
+	
+	
 	/**
 	 * Creates a new repository provider based on the information available in the 
 	 * repository dir
@@ -80,7 +110,9 @@ public class ProviderFactory {
 	 */
 	public static Provider newProvider(final File repositoryPath) {
 		RepositoryInfo repositoryInfo = new RepositoryInfo(repositoryPath.getName());
+		
 		repositoryInfo.setUrl("file://" + repositoryPath.getPath());
+		setRepositoryCredentials(repositoryInfo);
 		
 		if (isGit(repositoryPath)) {
 			return new GitProvider(repositoryInfo);
