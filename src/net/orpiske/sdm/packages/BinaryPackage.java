@@ -52,7 +52,9 @@ public class BinaryPackage implements Package {
 	 */
 	@Override
 	public void extract(String artifactName) {
-		unpack(artifactName);
+		if (artifactName != null && !artifactName.isEmpty()) { 
+			unpack(artifactName);
+		}
 	}
 
 	/* (non-Javadoc)

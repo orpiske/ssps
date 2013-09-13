@@ -119,12 +119,12 @@ public class GroovyEngine implements Engine {
 		GroovyObject groovyObject = getObject(file);
 
 		Object url = groovyObject.getProperty("url");
-		total += runPhase(groovyObject, "fetch", url);
 
+		total += runPhase(groovyObject, "fetch", url);
 		String artifactName = null;
 
 		try {
-			if (url != null && !url.toString().equals("")) {
+			if (url != null && !url.toString().isEmpty()) {
 				artifactName = URLUtils.getFilename(url.toString());
 				artifactName = WorkdirUtils.getWorkDir() + File.separator + artifactName;
 			}
@@ -136,8 +136,9 @@ public class GroovyEngine implements Engine {
 			throw new EngineException("The URL syntax is invalid: " + e.getMessage(),
 					e);
 		}
-
+		
 		total += runPhase(groovyObject, "extract", artifactName);
+		total += runPhase(groovyObject, "build", (Object[]) null);
 		total += runPhase(groovyObject, "prepare", (Object[]) null);
 		total += runPhase(groovyObject, "verify", (Object[]) null);
 		total += runPhase(groovyObject, "prepare", (Object[]) null);
