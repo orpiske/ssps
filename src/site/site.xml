@@ -6,7 +6,7 @@
   </bannerLeft>
   <body>
     <menu name="Documentation">
-      <item name="API" href="apidocs/index.html"/>
+      <item name="API Reference" href="apidocs/index.html"/>
     </menu>
     
     <menu name="Project">
