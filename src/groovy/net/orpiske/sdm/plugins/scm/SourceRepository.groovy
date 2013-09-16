@@ -23,8 +23,8 @@ import net.orpiske.ssps.common.scm.svn.SvnSCM
 
 
 class SourceRepository {
-    private String username;
-    private String password;
+    private String username = null;
+    private String password = null;
     
     public SourceRepository() {
         
@@ -46,11 +46,11 @@ class SourceRepository {
         }
 
         if (url.startsWith("svn://")) {
-            return new SvnSCM(repositoryInfo);
+            return new SvnSCM();
         }
 
         /* Defaults to SvnProvider because, well, most git repositories end with ".git" */
-        return new SvnSCM(repositoryInfo);
+        return new SvnSCM();
 
     }
     
