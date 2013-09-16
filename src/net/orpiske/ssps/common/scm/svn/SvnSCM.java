@@ -95,8 +95,12 @@ public class SvnSCM implements Scm {
 	}
 
 	private ISVNAuthenticationManager newAuthManager() {
-		return SVNWCUtil.createDefaultAuthenticationManager(credentials.getUserName(),
+		if (credentials != null) { 
+			return SVNWCUtil.createDefaultAuthenticationManager(credentials.getUserName(),
 				credentials.getPassword());
+		}
+		
+		return null;
 	}
 
 	@Override
