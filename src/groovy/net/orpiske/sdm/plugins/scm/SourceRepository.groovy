@@ -15,22 +15,67 @@
  */
 package net.orpiske.sdm.plugins.scm
 
+import net.orpiske.ssps.common.scm.DefaultCredentials
 import net.orpiske.ssps.common.scm.Scm
+import net.orpiske.ssps.common.scm.ScmCredentials
 import net.orpiske.ssps.common.scm.git.GitSCM
+import net.orpiske.ssps.common.scm.svn.SvnSCM
 
 
 class SourceRepository {
+    private String username;
+    private String password;
+    
+    public SourceRepository() {
+        
+    }
+
+    public SourceRepository(final String username, final String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
+     * Creates a new repository provider based on the repository information
+     * @param repositoryInfo repository information
+     * @return A repository provider object
+     */
+    public Scm newScm(final String url) {
+        if (url.endsWith(".git") || url.startsWith("git://")) {
+            return new GitSCM();
+        }
+
+        if (url.startsWith("svn://")) {
+            return new SvnSCM(repositoryInfo);
+        }
+
+        /* Defaults to SvnProvider because, well, most git repositories end with ".git" */
+        return new SvnSCM(repositoryInfo);
+
+    }
+    
+    
+    private void setCredentials(final Scm scm) {
+        ScmCredentials credentials = new DefaultCredentials(username, password);
+        
+        scm.setCredentials(credentials)
+    }
     
  
     public void checkout(String url, String path) {
         File filePath = new File(path);
-        
+
         checkout(url, filePath)
     }
 
 
     public void checkout(String url, File path) {
-        Scm scm = new GitSCM();
+        Scm scm = newScm(url);
+
+        if (username != null) {
+            setCredentials(scm)
+        }
+
 
         scm.checkout(url, path)
     }
