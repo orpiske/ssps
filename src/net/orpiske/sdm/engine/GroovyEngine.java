@@ -28,6 +28,7 @@ import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.lib.rdc.RuntimeDataLoader;
 import net.orpiske.ssps.common.groovy.GroovyClasspathHelper;
 import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
+import net.orpiske.ssps.common.scm.ScmUrlUtils;
 import net.orpiske.ssps.common.utils.URLUtils;
 
 import org.apache.log4j.Logger;
@@ -130,8 +131,12 @@ public class GroovyEngine implements Engine {
 			}
 
 		} catch (MalformedURLException e) {
-			throw new EngineException("The package URL is invalid: " + e.getMessage(),
-					e);
+			String urlString = url.toString();
+			if (!ScmUrlUtils.isValid(urlString)) {
+				throw new EngineException("The package URL is invalid: " + e.getMessage(),
+						e);	
+			}
+			
 		} catch (URISyntaxException e) {
 			throw new EngineException("The URL syntax is invalid: " + e.getMessage(),
 					e);
