@@ -96,6 +96,8 @@ public class IOUtil {
 		
 		if (toFile.exists()) {
 			if (!overwrite) {
+				System.out.println("Ignoring copy from " + from + " to " + to + 
+						" because overwrite flag is not set");
 				return;
 			}
 		}
@@ -110,6 +112,10 @@ public class IOUtil {
 		
 		if (fromFile.isDirectory()) {
 			
+			if (!toFile.isDirectory()) {
+				throw new IOException("Illegal copy: trying to copy a directory into a file");
+			}
+			
 			ShieldAwareCopier copier = new ShieldAwareCopier(toFile);
 			
 			copier.copy(fromFile);
@@ -119,8 +125,13 @@ public class IOUtil {
 			if (ShieldUtils.isShielded(toFile)) {
 				System.out.println("Ignoring shielded file " + to);
 			}
-			else { 
-				FileUtils.copyFile(fromFile, toFile);
+			else {
+				if (toFile.isDirectory()) { 
+					FileUtils.copyFileToDirectory(fromFile, toFile);
+				}
+				else {
+					FileUtils.copyFile(fromFile, toFile);
+				}
 			}
 		}
 		
@@ -144,3 +155,4 @@ public class IOUtil {
 		return false;
 	}
 }
+ 
