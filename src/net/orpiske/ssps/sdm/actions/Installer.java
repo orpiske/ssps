@@ -137,13 +137,13 @@ public class Installer extends ActionInterface {
 		}
 		
 		catch (EngineException e) {
-			System.err.print("Unable to install: " + e.getMessage());
+			System.err.print("Unable to install: " + e.getMessage() +  '\n');
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
 		} catch (PackageNotFound e) {
-			System.err.print(e.getMessage());
+			System.err.print(e.getMessage() + '\n');
 
 			if (logger.isDebugEnabled()) {
 				logger.error(e.getMessage(), e);
