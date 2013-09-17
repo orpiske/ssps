@@ -16,28 +16,46 @@
 package net.orpiske.ssps.common.repository.search;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.utils.RepositoryUtils;
 import net.orpiske.ssps.common.version.Version;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.log4j.Logger;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
 public class FileSystemRepositoryFinder implements RepositoryFinder {
+	private static final Logger logger = 
+			Logger.getLogger(FileSystemRepositoryFinder.class);
 	
-	List<PackageInfo> packageList;
+	List<PackageInfo> packageList = new ArrayList<PackageInfo>();
 	
 	
 	public FileSystemRepositoryFinder() {
 		String path = RepositoryUtils.getUserRepository();
-		File repository = new File(path);
+		File repositoryRoot = new File(path);
+
+
+		File[] allRepositories =
+				repositoryRoot.listFiles((FileFilter) DirectoryFileFilter.INSTANCE);
 		
-		RepositoryWalker walker = new RepositoryWalker();
-		packageList = walker.load(repository);
+		for (File repository: allRepositories) {
+			logger.info("Searching repository " + repository.getName());
+		
+			RepositoryWalker walker = new RepositoryWalker();
+			List<PackageInfo> tmpList = walker.load(repository);
+			
+			packageList.addAll(tmpList);
+		}
+		
+		
+		/// packageList = walker.load(repository);
 	}
 
 	/* (non-Javadoc)
