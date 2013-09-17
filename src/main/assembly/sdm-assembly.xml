@@ -68,7 +68,7 @@
 		</fileSet>
         <fileSet>
             <directory>${project.basedir}/src/groovy</directory>
-            <outputDirectory>/extra/plugins</outputDirectory>
+            <outputDirectory>/extra/plugins/ssps</outputDirectory>
             <includes>
                 <include>**/*.*</include>
             </includes>

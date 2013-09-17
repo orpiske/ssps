@@ -16,6 +16,7 @@
 package net.orpiske.ssps.sdm.main;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Properties;
@@ -39,6 +40,7 @@ import net.orpiske.ssps.sdm.utils.Constants;
 import net.orpiske.ssps.sdm.utils.net.ProxyHelper;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 /**
  * Main class
@@ -142,15 +144,14 @@ public class Main {
 	private static void initGroovyClasspath() {
 		GroovyClasspathHelper helper = GroovyClasspathHelper.getInstance();
 
-		String home = System.getProperty(Constants.HOME_PROPERTY);
-		File extraLibsDir = new File(home + File.separator + "extra" +
+		File userHome = new File(Utils.getSdmDirectoryPath() + File.separator + "extra" +
 				File.separator + "plugins");
+		PluginRepositoryHelper.addToGroovyClasspath(userHome);
 
-		if (extraLibsDir.exists()) {
-			helper.addClasspath(extraLibsDir.getPath());
-		}
-
-		helper.addClasspath(Utils.getSdmDirectoryPath() + File.separator + "plugins");
+		String sdmHomePath = System.getProperty(Constants.HOME_PROPERTY);
+		File sdmHome = new File(sdmHomePath + File.separator + "extra" +
+				File.separator + "plugins");
+		PluginRepositoryHelper.addToGroovyClasspath(sdmHome);
 	}
 
 	public static void main(String[] args) {

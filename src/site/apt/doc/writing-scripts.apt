@@ -301,9 +301,10 @@ class MyMetaPackage extends MetaPackage {
 
 Plugins
 
-	SDM 0.3.0 and above support plugins: they are just regular Groovy classes located in the <<<extra/plugins>>> or
-<<<$HOME/.sdm/plugins>>> directory that can be instantiated from the installation scripts. Here's a sample code provided
-with SDM:
+	SDM 0.3.0 and above support plugins: they are just regular Groovy classes located in 
+any of the subdirectories within <<<extra/plugins>>> or <<<$HOME/.sdm/plugins>>> (eg.:
+<<<$HOME/.sdm/plugins/myProjectPlugins>>> that can be instantiated from the installation
+scripts. Here's a sample code provided with SDM:
 
 ----------------------------------------
 package net.orpiske.sdm.test;
