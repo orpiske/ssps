@@ -76,7 +76,15 @@ public class RepositoryWalker extends DirectoryWalker {
 		}
 		
 		try {
-			walk(repository, new ArrayList());
+			File packagesDir = new File(repository, "packages");
+			
+			if (packagesDir.exists()) { 			
+				walk(packagesDir, new ArrayList());
+			}
+			else {
+				logger.error("The packages directory does not exist in the repository: " 
+						+ packagesDir.getPath());
+			}
 		} catch (IOException e) {
 			logger.error("Unable to walk the whole directory: " + e.getMessage(), e);
 			logger.error("Returning a partial list of all the repository data due to errors");
