@@ -146,9 +146,9 @@ public class Installer extends ActionInterface {
 			}
 		
 			if (cleanup) {
-				System.out.print("\rCleaning up workdir cache ...");
+				System.out.print("\rCleaning up workdir search ...");
 				WorkdirUtils.cleanup();
-				System.out.println("\rCleaning up workdir cache ... done!");
+				System.out.println("\rCleaning up workdir search ... done!");
 			}
 		}
 		

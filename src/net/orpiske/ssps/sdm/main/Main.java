@@ -24,11 +24,14 @@ import java.util.Properties;
 import groovy.lang.GroovyClassLoader;
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
+import net.orpiske.ssps.common.db.version.DbVersionDao;
+import net.orpiske.ssps.common.db.version.DbVersionDto;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.groovy.GroovyClasspathHelper;
 import net.orpiske.ssps.common.logger.LoggerUtils;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 import net.orpiske.ssps.common.repository.RepositorySettings;
+import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.common.utils.Utils;
 import net.orpiske.ssps.sdm.actions.AddRepository;
 import net.orpiske.ssps.sdm.actions.Installer;
@@ -97,34 +100,10 @@ public class Main {
 	}
 
 	private static void initDatabase() {
-		DerbyDatabaseManager databaseManager = null;
-		Properties props = System.getProperties();
-		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
-
-		try {
-			File dbDir = new File(Utils.getSdmDirectoryPath() + File.separator
-					+ "registry");
-
-			if (!dbDir.exists()) {
-				System.out.println("This appears to be the first time you are"
-						+ " using SDM. Creating database ...");
-				databaseManager = new DerbyDatabaseManager("registry", props);
-				SoftwareInventoryDao inventory = new SoftwareInventoryDao(
-						databaseManager);
-
-				inventory.createTable();
-				System.out.println("Database created successfully");
-			}
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.exit(-5);
-		} finally {
-			if (databaseManager != null) {
-				databaseManager.close();
-			}
-		}
-	}
+		DbInitializationHelper dbInitializationHelper = new DbInitializationHelper();
+		
+		dbInitializationHelper.initDatabase();
+	}	
 
 	private static void initUserSdmDirectory() {
 		File userDirectory = Utils.getSdmDirectoryPathFile();
@@ -231,5 +210,7 @@ public class Main {
 
 		help(1);
 	}
+
+	
 
 }
