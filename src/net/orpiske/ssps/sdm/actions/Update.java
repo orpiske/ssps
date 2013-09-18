@@ -24,11 +24,7 @@ import net.orpiske.ssps.sdm.managers.UpdateManager;
 import net.orpiske.ssps.sdm.update.Upgradeable;
 import net.orpiske.ssps.sdm.utils.PrintUtils;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.apache.log4j.Logger;
 
 /**
@@ -41,6 +37,7 @@ public class Update extends ActionInterface {
 	private Options options;
 	
 	private boolean isHelp;
+	private String[] repositories;
 	
 	public Update(String[] args) {
 		processCommand(args);
@@ -54,6 +51,12 @@ public class Update extends ActionInterface {
 
 		options.addOption("h", "help", false, "prints the help");
 
+		Option reposOptions = OptionBuilder.withLongOpt("repository").create();
+		reposOptions.setArgs(255);
+		reposOptions.setRequired(false);
+		reposOptions.setDescription("the repository(ies) to update");
+		options.addOption(reposOptions);
+		
 		try {
 			cmdLine = parser.parse(options, args);
 		} catch (ParseException e) {
@@ -61,6 +64,9 @@ public class Update extends ActionInterface {
 		}
 		
 		isHelp = cmdLine.hasOption("help");
+
+
+		repositories = cmdLine.getOptionValues("repository");
 	}
 	
 
@@ -72,10 +78,18 @@ public class Update extends ActionInterface {
 			help(options, 1);
 		}
 		else {
-			repositoryManager.update();
+			
+			if (repositories == null) {
+				repositoryManager.update();
+			}
+			else {
+				repositoryManager.update(repositories);
+			}
 			
 			try {
 				UpdateManager updateManager = new UpdateManager();
+				
+				
 				List<Upgradeable> up = updateManager.getAllNewerPackages();
 				
 				PrintUtils.printUpgradeable(up);
