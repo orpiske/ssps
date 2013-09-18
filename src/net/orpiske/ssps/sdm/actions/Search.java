@@ -91,8 +91,15 @@ public class Search extends ActionInterface {
 	private void searchRepository() throws SspsException, SQLException {
 		DerbyDatabaseManager databaseManager = DerbyManagerFactory.newInstance();
 		PackageCacheDao dao = new PackageCacheDao(databaseManager);
-
-		List<PackageInfo> packages = dao.getByNameOrSimilar(packageName);
+		List<PackageInfo> packages;
+		
+		if (all) {
+			packages = dao.getAll();
+			
+		}
+		else {
+			packages = dao.getByNameOrSimilar(packageName);
+		}
 		
 		printPackageList(packages);
 	}
