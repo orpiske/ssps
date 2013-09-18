@@ -94,44 +94,36 @@ public class IOUtil {
 		File fromFile = new File(from);
 		File toFile = new File(to);
 		
-		if (toFile.exists()) {
-			if (!overwrite) {
-				System.out.println("Ignoring copy from " + from + " to " + to + 
-						" because overwrite flag is not set");
-				return;
-			}
-		}
+		
 		
 		if (!fromFile.exists()) {
 			throw new IOException("File or directory not found: " + from);
 		}
 		
-		if (!createParentDirectories(toFile)) {
-			throw new IOException("Unable to create parent directories: " + toFile.getParent());
-		}
-		
+				
 		if (fromFile.isDirectory()) {
 			
-			if (!toFile.isDirectory()) {
+			if (toFile.exists() && !toFile.isDirectory()) {
 				throw new IOException("Illegal copy: trying to copy a directory into a file");
 			}
-			
-			ShieldAwareCopier copier = new ShieldAwareCopier(toFile);
-			
-			copier.copy(fromFile);
-			
+			else {
+				FileUtils.copyDirectoryToDirectory(fromFile, toFile);
+			}
 		}
 		else {
-			if (ShieldUtils.isShielded(toFile)) {
-				System.out.println("Ignoring shielded file " + to);
+			if (toFile.isDirectory()) { 
+				FileUtils.copyFileToDirectory(fromFile, toFile);
 			}
 			else {
-				if (toFile.isDirectory()) { 
-					FileUtils.copyFileToDirectory(fromFile, toFile);
+				if (toFile.exists()) {
+					if (!overwrite) {
+						System.out.println("Ignoring copy from " + from + " to " + to +
+								" because overwrite flag is not set");
+						return;
+					}
 				}
-				else {
-					FileUtils.copyFile(fromFile, toFile);
-				}
+				
+				FileUtils.copyFile(fromFile, toFile);
 			}
 		}
 		

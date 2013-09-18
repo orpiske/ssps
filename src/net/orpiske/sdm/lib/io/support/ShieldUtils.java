@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
+@Deprecated
 public class ShieldUtils {
 	
 	private static final Logger logger = Logger.getLogger(ShieldUtils.class);
