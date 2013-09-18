@@ -13,7 +13,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package net.orpiske.ssps.common.registry;
+package net.orpiske.ssps.common.repository.search.cache;
+
+import net.orpiske.ssps.common.db.AbstractDao;
+import net.orpiske.ssps.common.db.DatabaseManager;
+import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
+import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
+import net.orpiske.ssps.common.repository.PackageInfo;
+import net.orpiske.ssps.common.version.Version;
+import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryLoader;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,36 +31,28 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
-import net.orpiske.ssps.common.db.AbstractDao;
-import net.orpiske.ssps.common.db.DatabaseManager;
-import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
-import net.orpiske.ssps.common.version.Version;
-
-import org.apache.commons.dbutils.DbUtils;
-import org.apache.commons.dbutils.QueryLoader;
-
 /**
  * This DAO is used to interface with the software inventory table
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
-public class SoftwareInventoryDao extends AbstractDao {
+public class PackageCacheDao extends AbstractDao {
 	
 	private Map<String, String> queries;
 	
 	/**
 	 * Constructor
 	 * @param databaseManager The database manager
-	 * @throws DatabaseInitializationException if it fails to read the queries for this 
+	 * @throws net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException if it fails to read the queries for this 
 	 * DAO.
 	 */
-	public SoftwareInventoryDao(final DatabaseManager databaseManager) throws DatabaseInitializationException {
+	public PackageCacheDao(final DatabaseManager databaseManager) throws DatabaseInitializationException {
 		super(databaseManager);
 		
 		QueryLoader queryLoader = QueryLoader.instance();
 		
 		try { 
-			queries = queryLoader.load("/net/orpiske/ssps/common/registry/SoftwareInventory.properties");
+			queries = queryLoader.load("/net/orpiske/ssps/common/repository/search/cache/PackageCache.properties");
 		}
 		catch (IOException e) {
 			throw new DatabaseInitializationException("Unable to load queries: " 
@@ -62,7 +63,7 @@ public class SoftwareInventoryDao extends AbstractDao {
 	
 	/**
 	 * Creates the tables 
-	 * @throws SQLException if unable to create the table
+	 * @throws java.sql.SQLException if unable to create the table
 	 */
 	public void createTable() throws SQLException {
 		DatabaseManager databaseManager = getDatabaseManager();
@@ -87,14 +88,14 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * Inserts a record into the inventory
 	 * @param dto A DTO containing the data to insert into the DB
 	 * @return The number of affected records
-	 * @throws SQLException If unable to perform the query
+	 * @throws java.sql.SQLException If unable to perform the query
 	 */
-	public int insert(final SoftwareInventoryDto dto) throws SQLException {
+	public int insert(final PackageInfo dto) throws SQLException {
 		String query = queries.get("insert");
-		
+		// 
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
-					dto.getVersion().toString(), dto.getType(), 
-					dto.getInstallDir(), dto.getInstallDate());
+					dto.getVersion().toString(), dto.getPackageType().toString(), 
+					dto.getRepository(), dto.getPath(), dto.getUrl(), dto.getSlot());
 	}
 	
 	
@@ -102,9 +103,9 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * Gets a list of packages with a given name 
 	 * @param name The name to look for
 	 * @return A list of all packages that have the given name
-	 * @throws SQLException If unable to perform the query
+	 * @throws java.sql.SQLException If unable to perform the query
 	 */
-	public List<SoftwareInventoryDto> getByName(final String name) throws SQLException {
+	public List<PackageInfo> getByName(final String name) throws SQLException {
 		String query = queries.get("queryByName");		
 		
 		return runQueryMany(query, new MultiRsHandler(), name);
@@ -114,9 +115,9 @@ public class SoftwareInventoryDao extends AbstractDao {
 	/**
 	 * Gets all the records in the database
 	 * @return A list of all packages
-	 * @throws SQLException If unable to perform the query
+	 * @throws java.sql.SQLException If unable to perform the query
 	 */
-	public List<SoftwareInventoryDto> getAll() throws SQLException {
+	public List<PackageInfo> getAll() throws SQLException {
 		String query = queries.get("queryAll");
 		
 		return runQueryMany(query, new MultiRsHandler());
@@ -130,14 +131,14 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * @param version The package version
 	 * @param type The package type
 	 * @return A DTO with the package information
-	 * @throws SQLException If unable to perform the query
+	 * @throws java.sql.SQLException If unable to perform the query
 	 */
-	public SoftwareInventoryDto getByKeys(final String groupId, final String name, 
+	public PackageInfo getByKeys(final String groupId, final String name, 
 			final String version, final String type) throws SQLException		
 	{
 		String query = queries.get("queryByKeys");
 		
-		SoftwareInventoryRsHandler handler = new SoftwareInventoryRsHandler();
+		PackageCacheRsHandler handler = new PackageCacheRsHandler();
 		
 		return runQuery(query, handler, groupId, name, version, type);
 	}
@@ -147,14 +148,14 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * Deletes a package
 	 * @param dto An input DTO to delete
 	 * @return The number of affected records (should always be 1)
-	 * @throws SQLException If unable to perform the query
+	 * @throws java.sql.SQLException If unable to perform the query
 	 */
-	public int delete(final SoftwareInventoryDto dto) throws SQLException {
+	public int delete(final PackageInfo dto) throws SQLException {
 		String query = queries.get("deleteByKeys");
 		
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
 				dto.getVersion().toString(), 
-				dto.getType());
+				dto.getPackageType());
 	}
 	
 	
@@ -163,7 +164,7 @@ public class SoftwareInventoryDao extends AbstractDao {
 	 * @param newVersion The new version
 	 * @param dto A DTO with the old version
 	 * @return A DTO with the new version
-	 * @throws SQLException If unable to perform the query
+	 * @throws java.sql.SQLException If unable to perform the query
 	 */
 	public SoftwareInventoryDto updateVersion(final Version newVersion, 
 			final SoftwareInventoryDto dto) throws SQLException 
@@ -179,34 +180,11 @@ public class SoftwareInventoryDao extends AbstractDao {
 		
 		return dto;
 	}
-	
-	
-	/**
-	 * Updates the package information for reinstalled packages
-	 * @param dto The DTO with the new information
-	 * @return The DTO with the new information or null if no records were changed
-	 * @throws SQLException If unable to perform the query
-	 */
-	public SoftwareInventoryDto updateReinstalled(final SoftwareInventoryDto dto) 
-			throws SQLException 
-	{
-		String query = queries.get("updateReinstalled");
-		
-		int ret = runUpdate(query, dto.getInstallDate(), dto.getInstallDir(), 
-				dto.getGroupId(), dto.getName(), dto.getVersion().toString(), 
-				dto.getType());
-		
-		if (ret == 1) {
-			return dto;
-		}
-		
-		return null;
-	}
 
 
 
 	/**
-	 * Gets the number of installed packages
+	 * Gets the number of packages in the DB
 	 * @return the number of packages in the DB
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
@@ -215,5 +193,4 @@ public class SoftwareInventoryDao extends AbstractDao {
 
 		return runQueryCount(query);
 	}
-
 }

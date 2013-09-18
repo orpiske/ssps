@@ -112,4 +112,23 @@ public abstract class AbstractDao {
 	}
 
 
+
+	/**
+	 * Runs an UPDATE/INSERT/DELETE statement
+	 * @param query The query (statement) to run
+	 * @param args The arguments to the query
+	 * @return The number of affected rows
+	 * @throws SQLException If unable to perform the operation
+	 */
+	protected int runQueryCount(String query, Object... args) throws SQLException {
+		Connection conn = databaseManager.getConnection();
+
+		QueryRunner run = new QueryRunner();
+		CountRsHandler rs = new CountRsHandler();
+
+		Integer count = run.query(conn, query, rs, args);
+		return count.intValue();
+	}
+
+
 }

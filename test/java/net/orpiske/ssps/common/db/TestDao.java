@@ -60,4 +60,9 @@ public class TestDao extends AbstractDao {
 		
 		return runQuery("SELECT * FROM TEST WHERE NAME = ?", handler, name);
 	}
+	
+	
+	public int count() throws SQLException {
+		return runQueryCount("SELECT count(*) from test");
+	}
 }

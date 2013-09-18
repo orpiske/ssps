@@ -27,6 +27,14 @@ public class TestDto {
 	private String name; 
 	private Date date;
 	private int value;
+
+	public TestDto() {}
+	
+	public TestDto(String name, Date date, int value) {
+		this.name = name;
+		this.date = date;
+		this.value = value;
+	}
 	
 	public String getName() {
 		return name;

@@ -16,10 +16,13 @@
 package net.orpiske.ssps.common.db;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Properties;
 
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
+
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -67,5 +70,33 @@ public class DatabaseTest {
 
 		dao.dropTable();
 	}
+
+	@Test
+	public void testDatabaseCount() throws DatabaseInitializationException,
+			SQLException {
+
+		DatabaseManager derby = new DerbyDatabaseManager("test", setup());
+		TestDao dao = new TestDao(derby);
+		
+		try {
+			dao.createTable();
+		}
+		catch (SQLException e) {
+			System.out.println("Possible error while trying to create the database");
+		}
+
+		int count = dao.count();
+		assertEquals(0, count);
+		
+		dao.insert(new TestDto("test1", new Date(), 1));
+		dao.insert(new TestDto("test2", new Date(), 2));
+		dao.insert(new TestDto("test3", new Date(), 3));
+
+
+		count = dao.count();
+		assertEquals(3, count);
+	}
+
+	
 
 }
