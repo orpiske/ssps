@@ -182,3 +182,18 @@ sdm upgrade -a
 ----------------------------------------
 
 	You can also view the available packages for update using <<<--view>>> option. 
+	
+	
+Advanced
+
+    If you want to run a particular install phase, you can use the <<<--phases>>> option.
+    
+   ----------------------------------------
+   sdm install -p apache-maven -v 2.2.1 --phases fetch extract build
+   ----------------------------------------
+
+    You may skip the installation of dependencies by using <<<--nodeps>>>
+    
+   ----------------------------------------
+   sdm install -p apache-maven -v 2.2.1 --nodeps
+   ----------------------------------------

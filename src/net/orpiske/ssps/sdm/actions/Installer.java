@@ -29,11 +29,7 @@ import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
 import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.*;
 import org.apache.log4j.Logger;
 
 
@@ -51,10 +47,12 @@ public class Installer extends ActionInterface {
 	private boolean isHelp;
 	private boolean reinstall;
 	private boolean cleanup;
+	private boolean nodeps;
 	
 	private String groupId;
 	private String packageName;
 	private String version;
+	private String[] phases;
 	
 	/**
 	 * Constructor
@@ -82,6 +80,16 @@ public class Installer extends ActionInterface {
 		options.addOption("p", "package", true, "package name");
 		options.addOption(null, "cleanup", false, "cleanup the work directory after finished");
 		options.addOption(null, "reinstall", false, "reinstall already installed packages");
+
+		Option phasesOptions = OptionBuilder.create("phases");
+		phasesOptions.setArgs(6);
+		phasesOptions.setRequired(false);
+		phasesOptions.setDescription("the install phase(s) to run (implies --nodeps)");
+				
+		options.addOption(phasesOptions);
+		
+		
+		options.addOption(null, "nodeps", false, "does not install dependencies");
 		options.addOption("v", "version", true, "version");
 
 		try {
@@ -101,6 +109,14 @@ public class Installer extends ActionInterface {
 		
 		groupId = cmdLine.getOptionValue('g');
 		version = cmdLine.getOptionValue('v');
+		phases = cmdLine.getOptionValues("phases");
+		
+		if (phases != null && phases.length > 0) {
+			nodeps = true;
+		}
+		else { 
+			nodeps = cmdLine.hasOption("nodeps");
+		}
 	}
 	
 
@@ -124,7 +140,7 @@ public class Installer extends ActionInterface {
 				help(options, 1);
 			}
 			else {
-				InstallationManager manager = new InstallationManager();
+				InstallationManager manager = new InstallationManager(phases, nodeps);
 				
 				manager.install(groupId, packageName, version, reinstall);
 			}

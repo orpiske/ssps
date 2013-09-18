@@ -37,10 +37,14 @@ import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 public class InstallationManager {
 	
 	private RegistryManager registryManager;
+	private String[] phases;
+	private boolean nodeps;
 
 	
-	public InstallationManager() throws DatabaseInitializationException {
+	public InstallationManager(String[] phases, boolean nodeps) throws DatabaseInitializationException {
 		registryManager = new RegistryManager();
+		this.phases = phases;
+		this.nodeps = nodeps;
 	}
 	
 
@@ -89,7 +93,12 @@ public class InstallationManager {
 		File file = new File(packageInfo.getPath());
 		Engine engine = new GroovyEngine();
 		
-		engine.run(file);
+		if (phases != null && phases.length > 0) {
+			engine.run(file, phases);
+		}
+		else { 
+			engine.run(file);
+		}
 		
 		if (reinstall) {
 			
@@ -145,12 +154,17 @@ public class InstallationManager {
 				throw me;
 			}
 		}
-		
+
 		PackageInfo packageInfo = packages.get(0);
 		
-		DependencyManager dependencyManager = new DependencyManager();
-		Dependency dependency = dependencyManager.resolve(packageInfo);
-		installDependencies(dependency, reinstall);
+		if (nodeps) {
+			install(packageInfo, reinstall);
+		}
+		else {		
+			DependencyManager dependencyManager = new DependencyManager();
+			Dependency dependency = dependencyManager.resolve(packageInfo);
+			installDependencies(dependency, reinstall);
+		}
 	}
 
 }

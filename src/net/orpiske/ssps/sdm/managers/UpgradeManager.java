@@ -39,7 +39,7 @@ public class UpgradeManager {
 			
 		UpdateManager updateManager = new UpdateManager();
 		UninstallManager uninstallManager = new UninstallManager();
-		InstallationManager installationManager = new InstallationManager();
+		InstallationManager installationManager = new InstallationManager(null, false);
 		
 			
 		PackageInfo info = updateManager.getLatest(dto);
