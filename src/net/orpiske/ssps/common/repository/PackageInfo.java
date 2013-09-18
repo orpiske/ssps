@@ -26,15 +26,10 @@ import net.orpiske.ssps.common.version.Version;
  */
 public final class PackageInfo implements Comparable<PackageInfo> {
 	
-	public enum PackageType {
-		BINARY,
-		SOURCE,
-	}
-	
 	private String groupId;
 	private String name;
 	private Version version;
-	private PackageType packageType = PackageInfo.PackageType.BINARY;
+	private String packageType = "BINARY";
 	private String path;
 	private String url;
 	private String slot;
@@ -94,7 +89,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	 * Gets the package type
 	 * @return the type
 	 */
-	public PackageType getPackageType() {
+	public String getType() {
 		return packageType;
 	}
 	
@@ -102,7 +97,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	 * Sets the package type
 	 * @param packageType the package type
 	 */
-	public void setPackageType(PackageType packageType) {
+	public void setType(String packageType) {
 		this.packageType = packageType;
 	}
 	
