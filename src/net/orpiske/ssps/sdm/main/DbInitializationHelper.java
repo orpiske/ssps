@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -56,6 +57,17 @@ public class DbInitializationHelper {
 		
 		try { 
 			DbVersionDto dto = dao.get();
+			
+			if (dto == null) {
+				System.out.println("Creating database version record");
+				dto = new DbVersionDto();
+				
+				dto.setCreationDate(new Date());
+				dto.setConversionDate(new Date());
+				dto.setVersion("0.3.x");
+				
+				dao.insert(dto);
+			}
 		}
 		catch (SQLException e) {
 			String err = e.getMessage();
