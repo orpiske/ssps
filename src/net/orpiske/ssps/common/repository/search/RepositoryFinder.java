@@ -30,6 +30,7 @@ public interface RepositoryFinder {
 	List<PackageInfo> find(final String groupId, final String packageName, final String version);
 	List<PackageInfo> find(final String packageName, final String version);
 	List<PackageInfo> find(final String packageName);
+	List<PackageInfo> allPackages();
 	
 	
 	PackageInfo findFirst(final String groupId, final String packageName, final String version);
