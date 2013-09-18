@@ -58,8 +58,22 @@ public class InstallationManager {
 
 	private List<PackageInfo> checkRepositoryCollision(final String groupId, 
 			final String packageName, final String version) throws PackageNotFound, TooManyPackages, SQLException {
-		List<PackageInfo> packages = dao.getByNameAndGroupAndVersion(groupId, packageName, 
-				version);
+			
+		
+		List<PackageInfo> packages; 
+		
+		if (groupId == null && version == null) {
+			packages = dao.getByName(packageName);	
+		}
+		else {
+			if (groupId != null && version == null) {
+				packages = dao.getByNameAndGroup(groupId, packageName);
+			}
+			else {
+				packages = dao.getByNameAndVersion(packageName, version);
+			}
+		}
+ 		
 		
 		if (packages.size() == 0) {
 			throw new PackageNotFound(packageName);
