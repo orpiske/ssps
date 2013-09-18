@@ -18,10 +18,13 @@ package net.orpiske.ssps.sdm.actions;
 import static net.orpiske.ssps.sdm.utils.PrintUtils.printInventoryList;
 import static net.orpiske.ssps.sdm.utils.PrintUtils.printPackageList;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
+import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
+import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
@@ -29,6 +32,7 @@ import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 
+import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
@@ -86,14 +90,20 @@ public class Search extends ActionInterface {
 	/**
 	 * @throws SspsException
 	 */
-	private void searchRepository() throws SspsException {
+	private void searchRepository() throws SspsException, SQLException {
+		/*
 		RepositoryFinder finder = new FileSystemRepositoryFinder();
 		List<PackageInfo> packages = finder.find(packageName);
 		
 		if (packages.size() == 0) {
 			throw new SspsException("Package not found: " + packageName);
 		}
-		
+		*/
+
+		DerbyDatabaseManager databaseManager = DerbyManagerFactory.newInstance();
+		PackageCacheDao dao = new PackageCacheDao(databaseManager);
+
+		List<PackageInfo> packages = dao.getByName(packageName);
 		
 		printPackageList(packages);
 	}
@@ -154,6 +164,9 @@ public class Search extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to read registry: " + e.getMessage(), e);
 			}
+		}
+		catch(SQLException e) {
+			System.err.println(e.getMessage());
 		}
 		catch(SspsException e) {
 			System.err.println(e.getMessage());

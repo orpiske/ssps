@@ -40,7 +40,7 @@ public class PrintUtils {
 	public static void printParseable(final PackageInfo packageInfo) {
 		System.out.printf("%-15s => %-32s => %-9s => %-1s => %s%n",
 				packageInfo.getGroupId(), packageInfo.getName(), packageInfo.getVersion(),
-				packageInfo.getPackageType(), packageInfo.getPath());
+				packageInfo.getType(), packageInfo.getPath());
 	}
 	
 	

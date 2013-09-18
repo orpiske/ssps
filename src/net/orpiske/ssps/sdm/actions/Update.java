@@ -15,6 +15,7 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import net.orpiske.sdm.registry.exceptions.RegistryException;
@@ -91,6 +92,9 @@ public class Update extends ActionInterface {
 				e.printStackTrace();
 			} catch (DatabaseInitializationException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
 			

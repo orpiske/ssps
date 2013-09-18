@@ -15,17 +15,21 @@
 */
 package net.orpiske.ssps.sdm.managers;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
+import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
+import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.RepositoryManager;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
 import net.orpiske.ssps.sdm.update.Upgradeable;
 
@@ -35,16 +39,16 @@ import net.orpiske.ssps.sdm.update.Upgradeable;
  */
 public class UpdateManager {
 	
-	private RepositoryFinder finder;
 	private RegistryManager registryManager;
 	private RepositoryManager repositoryManager = new RepositoryManager();
 	
 	public UpdateManager() throws DatabaseInitializationException {
-		finder = new FileSystemRepositoryFinder();
 		registryManager = new RegistryManager();
 	}
 	
+	@Deprecated
 	public List<Upgradeable> getAllNewerPackages() throws RegistryException {
+		RepositoryFinder finder =  new FileSystemRepositoryFinder();
 		List<SoftwareInventoryDto> list;
 		
 		List<Upgradeable> ret = new ArrayList<Upgradeable>();
@@ -68,8 +72,9 @@ public class UpdateManager {
 	}
 	
 	
-	
-	public PackageInfo getLatest(final SoftwareInventoryDto dto) throws PackageNotFound {	
+	@Deprecated
+	public PackageInfo getLatest(final SoftwareInventoryDto dto) throws PackageNotFound {
+		RepositoryFinder finder =  new FileSystemRepositoryFinder();
 		Upgradeable up = new Upgradeable(dto);
 		
 		List<PackageInfo> packages = finder.find(dto.getGroupId(), 
@@ -88,12 +93,37 @@ public class UpdateManager {
 
 	
 	
-	public void update(String...repositories) {
+	public void update(String...repositories) throws DatabaseInitializationException, SQLException {
+		DerbyDatabaseManager databaseManager = DerbyManagerFactory.newInstance();
+		PackageCacheDao dao = new PackageCacheDao(databaseManager);
+		
 		if (repositories == null) {
 			repositoryManager.update();
+
+			RepositoryFinder finder =  new FileSystemRepositoryFinder();
+
+			List<PackageInfo> packages = finder.allPackages();
+			
+			dao.deleteAll();
+			for (PackageInfo packageInfo: packages) {
+				dao.insert(packageInfo);
+			}
+			
 		}
 		else {
 			repositoryManager.update(repositories);
+			
+			
+			for (String repository: repositories) {
+				RepositoryFinder finder =  new FileSystemRepositoryFinder(repository);
+				
+				List<PackageInfo> packages = finder.allPackages();
+
+				dao.deleteByRepository(repository);
+				for (PackageInfo packageInfo: packages) {
+					dao.insert(packageInfo);
+				}
+			}
 		}
 
 	}
