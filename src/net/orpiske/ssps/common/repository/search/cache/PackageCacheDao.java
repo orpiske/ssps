@@ -94,7 +94,7 @@ public class PackageCacheDao extends AbstractDao {
 		String query = queries.get("insert");
 		// 
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
-					dto.getVersion().toString(), dto.getPackageType().toString(), 
+					dto.getVersion().toString(), dto.getType().toString(), 
 					dto.getRepository(), dto.getPath(), dto.getUrl(), dto.getSlot());
 	}
 	
@@ -142,6 +142,18 @@ public class PackageCacheDao extends AbstractDao {
 		
 		return runQuery(query, handler, groupId, name, version, type);
 	}
+
+
+	/**
+	 * Deletes a package
+	 * @return The number of affected records (should always be 1)
+	 * @throws java.sql.SQLException If unable to perform the query
+	 */
+	public int deleteAll() throws SQLException {
+		String query = queries.get("deleteAll");
+
+		return runUpdate(query);
+	}
 	
 	
 	/**
@@ -155,7 +167,20 @@ public class PackageCacheDao extends AbstractDao {
 		
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
 				dto.getVersion().toString(), 
-				dto.getPackageType());
+				dto.getType());
+	}
+
+
+	/**
+	 * Deletes all packages in the cache from a given repository
+	 * @param repository The name of the repository
+	 * @return The number of affected records (should always be 1)
+	 * @throws java.sql.SQLException If unable to perform the query
+	 */
+	public int deleteByRepository(final String repository) throws SQLException {
+		String query = queries.get("deleteByRepository");
+
+		return runUpdate(query, repository);
 	}
 	
 	

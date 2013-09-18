@@ -109,6 +109,12 @@ public class RepositoryUtils {
 		File settingsFile = new File(file.getPath() + File.separator 
 				+ "package.properties");
 		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Reading package properties for " + file.getPath());
+			logger.debug("Trying to open package.properties at " + settingsFile.getPath());
+		}
+		
+		
 		if (settingsFile.exists() && settingsFile.canRead()) { 
 			PropertiesConfiguration packageSettings;
 			try {
@@ -127,6 +133,9 @@ public class RepositoryUtils {
 				}
 			}
 		}
+		else {
+			packageInfo.setSlot(SlotComparatorFactory.DEFAULT_SLOT);
+		}
 		
 	}
 	
@@ -142,10 +151,7 @@ public class RepositoryUtils {
 		
 		File typeDir = file.getParentFile();
 		String type = typeDir.getName();
-		if (("src").equals(type)) {
-			packageInfo.setPackageType(PackageInfo.PackageType.SOURCE);
-		}
-		
+				
 		File versionDir = typeDir.getParentFile();
 		String version = versionDir.getName();
 		packageInfo.setVersion(Version.toVersion(version));
@@ -166,7 +172,7 @@ public class RepositoryUtils {
 		String groupId = groupIdDir.getName();
 		packageInfo.setGroupId(groupId);
 		
-		File repositoryDir = groupIdDir.getParentFile();
+		File repositoryDir = groupIdDir.getParentFile().getParentFile();
 		String repository = repositoryDir.getName();
 		packageInfo.setRepository(repository);
 		
