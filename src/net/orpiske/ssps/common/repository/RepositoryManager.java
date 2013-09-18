@@ -58,36 +58,62 @@ public class RepositoryManager {
 		RepositorySettings.addNewRepository(repositoryInfo);
 	}
 	
-	
-	
+
+
+	/**
+	 * Updates all the repositories
+	 */
+	public void update(File repository) {
+		Provider provider = ProviderFactory.newProvider(repository);
+
+		if (provider == null) {
+			logger.info("The repository " + repository.getName() + " doesn't seem to"
+					+ " to be valid. Ignoring ...");
+
+			return;
+		}
+
+		try {
+			logger.info("Updating repository " + repository.getName());
+			provider.update();
+			logger.info("Successfully updated repository " + repository.getName());
+		} catch (RepositoryUpdateException e) {
+			logger.error("Unable to update repository " + repository.getName()
+					+ ": " + e.getMessage(), e);
+		}
+		
+	}
+
+	/**
+	 * Updates all the repositories
+	 */
+	public void update(String...repositories) {
+		File userRepository = RepositoryUtils.getUserRepositoryFile();
+		
+		for (String repository : repositories) {
+			File repoDir = new File(userRepository, repository);
+			
+			if (repoDir.exists()) {
+				update(repoDir);
+			}
+			else {
+				logger.error("Repository " + repository + " does not exist");
+			}
+		}
+	}
+
 	/**
 	 * Updates all the repositories
 	 */
 	public void update() {
 		File userRepository = RepositoryUtils.getUserRepositoryFile();
-		
-		
-		File[] repositories = 
-					userRepository.listFiles((FileFilter) DirectoryFileFilter.INSTANCE);
+
+
+		File[] repositories =
+				userRepository.listFiles((FileFilter) DirectoryFileFilter.INSTANCE);
 
 		for (File repository : repositories) {
-			Provider provider = ProviderFactory.newProvider(repository);
-			
-			if (provider == null) {
-				logger.info("The repository " + repository.getName() + " doesn't seem to"
-						+ " to be valid. Ignoring ...");
-				
-				continue;
-			}
-			
-			try {
-				logger.info("Updating repository " + repository.getName());
-				provider.update();
-				logger.info("Successfully updated repository " + repository.getName());
-			} catch (RepositoryUpdateException e) {
-				logger.error("Unable to update repository " + repository.getName() 
-						+ ": " + e.getMessage(), e);
-			}
+			update(repository);
 		}
 	}
 
