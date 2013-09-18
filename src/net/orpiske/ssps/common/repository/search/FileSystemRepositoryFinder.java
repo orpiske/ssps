@@ -46,20 +46,31 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 				repositoryRoot.listFiles((FileFilter) DirectoryFileFilter.INSTANCE);
 		
 		for (File repository: allRepositories) {
-			logger.info("Searching repository " + repository.getName());
-		
-			RepositoryWalker walker = new RepositoryWalker();
-			List<PackageInfo> tmpList = walker.load(repository);
-			
-			packageList.addAll(tmpList);
+			search(repository);
 		}
-		
-		
-		/// packageList = walker.load(repository);
+	}
+
+
+
+	public FileSystemRepositoryFinder(final String repositoryName) {
+		String path = RepositoryUtils.getUserRepository();
+		File repositoryRoot = new File(path + File.separator + repositoryName);
+
+		search(repositoryRoot);
+	}
+	
+	
+	private void search(File repository) {
+		logger.info("Searching repository " + repository.getName());
+
+		RepositoryWalker walker = new RepositoryWalker();
+		List<PackageInfo> tmpList = walker.load(repository);
+
+		packageList.addAll(tmpList);
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#find(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#allPackages(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public PackageInfo find(String repositoryName, String groupId,
@@ -90,7 +101,7 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#find(java.lang.String, java.lang.String, java.lang.String)
+	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#allPackages(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public List<PackageInfo> find(String groupId, String packageName,
@@ -122,7 +133,7 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#find(java.lang.String, java.lang.String)
+	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#allPackages(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public List<PackageInfo> find(String packageName, String version) {
@@ -130,11 +141,21 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#find(java.lang.String)
+	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#allPackages(java.lang.String)
 	 */
 	@Override
 	public List<PackageInfo> find(String packageName) {
 		return find(null, packageName, null);
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.ssps.common.repository.search.RepositoryFinder#allPackages(java.lang.String)
+	 */
+	@Override
+	public List<PackageInfo> allPackages() {
+		return packageList;
 	}
 
 	/* (non-Javadoc)
