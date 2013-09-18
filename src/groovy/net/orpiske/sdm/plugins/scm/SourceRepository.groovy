@@ -26,10 +26,6 @@ class SourceRepository {
     private String username = null;
     private String password = null;
     
-    public SourceRepository() {
-        
-    }
-
     public SourceRepository(final String username, final String password) {
         this.username = username;
         this.password = password;
