@@ -72,23 +72,16 @@ public class Update extends ActionInterface {
 
 	@Override
 	public void run() {
-		RepositoryManager repositoryManager = new RepositoryManager();
+		
 			
 		if (isHelp) { 
 			help(options, 1);
 		}
 		else {
-			
-			if (repositories == null) {
-				repositoryManager.update();
-			}
-			else {
-				repositoryManager.update(repositories);
-			}
-			
 			try {
 				UpdateManager updateManager = new UpdateManager();
-				
+
+				updateManager.update(repositories);
 				
 				List<Upgradeable> up = updateManager.getAllNewerPackages();
 				

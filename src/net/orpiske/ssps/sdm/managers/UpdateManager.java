@@ -23,6 +23,7 @@ import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
+import net.orpiske.ssps.common.repository.RepositoryManager;
 import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
 import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
@@ -36,6 +37,7 @@ public class UpdateManager {
 	
 	private RepositoryFinder finder;
 	private RegistryManager registryManager;
+	private RepositoryManager repositoryManager = new RepositoryManager();
 	
 	public UpdateManager() throws DatabaseInitializationException {
 		finder = new FileSystemRepositoryFinder();
@@ -84,4 +86,15 @@ public class UpdateManager {
 		return up.getLatest();
 	}
 
+	
+	
+	public void update(String...repositories) {
+		if (repositories == null) {
+			repositoryManager.update();
+		}
+		else {
+			repositoryManager.update(repositories);
+		}
+
+	}
 }
