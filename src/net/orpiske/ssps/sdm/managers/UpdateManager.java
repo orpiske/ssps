@@ -41,14 +41,20 @@ public class UpdateManager {
 	
 	private RegistryManager registryManager;
 	private RepositoryManager repositoryManager = new RepositoryManager();
+
+	private DerbyDatabaseManager databaseManager;
+	private PackageCacheDao dao;
 	
 	public UpdateManager() throws DatabaseInitializationException {
 		registryManager = new RegistryManager();
+
+		databaseManager = DerbyManagerFactory.newInstance();
+		dao = new PackageCacheDao(databaseManager);
 	}
 	
-	@Deprecated
-	public List<Upgradeable> getAllNewerPackages() throws RegistryException {
-		RepositoryFinder finder =  new FileSystemRepositoryFinder();
+	public List<Upgradeable> getAllNewerPackages() throws RegistryException,
+			DatabaseInitializationException, SQLException 
+	{
 		List<SoftwareInventoryDto> list;
 		
 		List<Upgradeable> ret = new ArrayList<Upgradeable>();
@@ -57,9 +63,9 @@ public class UpdateManager {
 		
 		for (SoftwareInventoryDto dto : list) {
 			Upgradeable up = new Upgradeable(dto);
-			
-			List<PackageInfo> packages = finder.find(dto.getGroupId(), 
-					dto.getName(), null);
+
+			List<PackageInfo> packages = 
+					dao.getByNameAndGroup(dto.getGroupId(), dto.getName());
 			
 			for (PackageInfo packageInfo: packages) {
 				up.addCandidate(packageInfo);
@@ -72,18 +78,16 @@ public class UpdateManager {
 	}
 	
 	
-	@Deprecated
-	public PackageInfo getLatest(final SoftwareInventoryDto dto) throws PackageNotFound {
-		RepositoryFinder finder =  new FileSystemRepositoryFinder();
-		Upgradeable up = new Upgradeable(dto);
-		
-		List<PackageInfo> packages = finder.find(dto.getGroupId(), 
-					dto.getName(), null);
+	public PackageInfo getLatest(final SoftwareInventoryDto dto) throws PackageNotFound, 
+			DatabaseInitializationException, SQLException 
+	{
+		List<PackageInfo> packages = dao.getByNameAndGroup(dto.getGroupId(), dto.getName());
 		
 		if (packages.size() == 0) {
 			throw new PackageNotFound(dto.getName());
 		}
-		
+
+		Upgradeable up = new Upgradeable(dto);
 		for (PackageInfo packageInfo: packages) {
 			up.addCandidate(packageInfo);
 		}
@@ -94,16 +98,12 @@ public class UpdateManager {
 	
 	
 	public void update(String...repositories) throws DatabaseInitializationException, SQLException {
-		DerbyDatabaseManager databaseManager = DerbyManagerFactory.newInstance();
-		PackageCacheDao dao = new PackageCacheDao(databaseManager);
-		
 		if (repositories == null) {
 			repositoryManager.update();
 
 			RepositoryFinder finder =  new FileSystemRepositoryFinder();
-
 			List<PackageInfo> packages = finder.allPackages();
-			
+						
 			dao.deleteAll();
 			for (PackageInfo packageInfo: packages) {
 				dao.insert(packageInfo);

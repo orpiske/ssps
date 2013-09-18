@@ -15,15 +15,18 @@
 */
 package net.orpiske.ssps.sdm.managers;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
+import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
+import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
-import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.common.repository.utils.PackageUtils;
 import net.orpiske.ssps.common.version.Range;
 import net.orpiske.ssps.common.version.Version;
@@ -39,13 +42,14 @@ public class DependencyManager {
 	
 	
 	private PackageInfo resolve(final String groupId, final String packageName, 
-			final String versionRange) 
-	{
+			final String versionRange) throws SQLException, DatabaseInitializationException {
 		Range range = Range.toRange(versionRange);
 		
+		DerbyDatabaseManager databaseManager = DerbyManagerFactory.newInstance();
+		PackageCacheDao dao = new PackageCacheDao(databaseManager);
+
+		List<PackageInfo> packages = dao.getByNameAndGroup(groupId, packageName);
 		
-		RepositoryFinder finder = new FileSystemRepositoryFinder();
-		List<PackageInfo> packages = finder.find(groupId, packageName, null);
 		Collections.sort(packages);
 		
 		for (int i = packages.size(); i != 0; i--) {
@@ -67,7 +71,9 @@ public class DependencyManager {
 		return null;
 	}
 	
-	public Dependency resolve(final PackageInfo packageInfo) {
+	public Dependency resolve(final PackageInfo packageInfo) throws SQLException, 
+			DatabaseInitializationException 
+	{
 		HashMap<String, String> map;
 		
 		Dependency dependency = new Dependency(packageInfo);

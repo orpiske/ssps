@@ -15,6 +15,7 @@
 */
 package net.orpiske.ssps.sdm.managers;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import net.orpiske.sdm.engine.exceptions.EngineException;
@@ -35,7 +36,8 @@ public class UpgradeManager {
 	}
 	
 	
-	public void upgrade(final SoftwareInventoryDto dto) throws RegistryException, DatabaseInitializationException, PackageNotFound, EngineException {
+	public void upgrade(final SoftwareInventoryDto dto) throws RegistryException, 
+			DatabaseInitializationException, PackageNotFound, EngineException, SQLException {
 			
 		UpdateManager updateManager = new UpdateManager();
 		UninstallManager uninstallManager = new UninstallManager();
@@ -56,7 +58,9 @@ public class UpgradeManager {
 	}
 	
 	public void upgrade(final String groupId, final String packageName, 
-			final String version) throws RegistryException, DatabaseInitializationException, PackageNotFound, MultipleInstalledPackages, EngineException {
+			final String version) throws RegistryException, 
+			DatabaseInitializationException, PackageNotFound, MultipleInstalledPackages, 
+			EngineException, SQLException {
 			
 		SoftwareInventoryDto dto = (new InventoryUtils(registryManager))
 				.getInstalledRecord(groupId, packageName, version);
@@ -65,7 +69,8 @@ public class UpgradeManager {
 	}
 	
 	
-	public void upgrade() throws RegistryException, DatabaseInitializationException, PackageNotFound, EngineException {
+	public void upgrade() throws RegistryException, DatabaseInitializationException, 
+			PackageNotFound, EngineException, SQLException {
 		UpdateManager updateManager = new UpdateManager();
 		List<Upgradeable> list = updateManager.getAllNewerPackages();
 	

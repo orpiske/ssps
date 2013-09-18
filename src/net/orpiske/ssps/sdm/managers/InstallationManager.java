@@ -16,6 +16,7 @@
 package net.orpiske.ssps.sdm.managers;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 import net.orpiske.sdm.engine.Engine;
@@ -23,12 +24,13 @@ import net.orpiske.sdm.engine.GroovyEngine;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
+import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
+import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
-import net.orpiske.ssps.common.repository.search.RepositoryFinder;
+import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.common.version.Version;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
@@ -40,19 +42,24 @@ public class InstallationManager {
 	private String[] phases;
 	private boolean nodeps;
 
+	private DerbyDatabaseManager databaseManager;
+	private PackageCacheDao dao;
+
 	
 	public InstallationManager(String[] phases, boolean nodeps) throws DatabaseInitializationException {
 		registryManager = new RegistryManager();
 		this.phases = phases;
 		this.nodeps = nodeps;
+
+		databaseManager = DerbyManagerFactory.newInstance();
+		dao = new PackageCacheDao(databaseManager);
 	}
 	
 
 	private List<PackageInfo> checkRepositoryCollision(final String groupId, 
-			final String packageName, final String version) throws PackageNotFound, TooManyPackages
-	{
-		RepositoryFinder finder = new FileSystemRepositoryFinder();
-		List<PackageInfo> packages = finder.find(groupId, packageName, version);
+			final String packageName, final String version) throws PackageNotFound, TooManyPackages, SQLException {
+		List<PackageInfo> packages = dao.getByNameAndGroupAndVersion(groupId, packageName, 
+				version);
 		
 		if (packages.size() == 0) {
 			throw new PackageNotFound(packageName);
@@ -141,8 +148,7 @@ public class InstallationManager {
 	
 	
 	public void install(final String groupId, final String packageName, 
-			final String version, boolean reinstall) throws PackageNotFound, TooManyPackages, RegistryException, MultipleInstalledPackages, EngineException 
-		{
+			final String version, boolean reinstall) throws PackageNotFound, TooManyPackages, RegistryException, MultipleInstalledPackages, EngineException, SQLException, DatabaseInitializationException {
 		List<PackageInfo> packages = checkRepositoryCollision(groupId, packageName, version);
 		
 		

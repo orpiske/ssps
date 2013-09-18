@@ -15,6 +15,7 @@
 */
 package net.orpiske.ssps.sdm.actions;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
@@ -123,7 +124,14 @@ public class Upgrade extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Database initialization error: " + e.getMessage(), e);
 			}
-		} catch (SspsException e) {
+		} catch (SQLException e) {
+			System.err.println("Database exception: " + e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Database exception: " + e.getMessage(), e);
+			}
+		} 
+		catch (SspsException e) {
 			System.err.println("Unhandled exception: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {

@@ -29,8 +29,6 @@ import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.exceptions.SspsException;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
-import net.orpiske.ssps.common.repository.search.FileSystemRepositoryFinder;
-import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 
 import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import org.apache.commons.cli.CommandLine;
@@ -91,19 +89,10 @@ public class Search extends ActionInterface {
 	 * @throws SspsException
 	 */
 	private void searchRepository() throws SspsException, SQLException {
-		/*
-		RepositoryFinder finder = new FileSystemRepositoryFinder();
-		List<PackageInfo> packages = finder.find(packageName);
-		
-		if (packages.size() == 0) {
-			throw new SspsException("Package not found: " + packageName);
-		}
-		*/
-
 		DerbyDatabaseManager databaseManager = DerbyManagerFactory.newInstance();
 		PackageCacheDao dao = new PackageCacheDao(databaseManager);
 
-		List<PackageInfo> packages = dao.getByName(packageName);
+		List<PackageInfo> packages = dao.getByNameOrSimilar(packageName);
 		
 		printPackageList(packages);
 	}
