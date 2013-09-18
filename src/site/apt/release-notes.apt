@@ -18,6 +18,8 @@ SDM Version 0.3.0
 	* Improved the support for building projects from source
 	
 	* Improved the way the project handles SVN credentials 
+	
+	* Added support for specifying the install phase to run
 
 SDM Version 0.2.2
 
