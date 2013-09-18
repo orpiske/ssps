@@ -51,7 +51,7 @@ public class Update extends ActionInterface {
 
 		options.addOption("h", "help", false, "prints the help");
 
-		Option reposOptions = OptionBuilder.withLongOpt("repository").create();
+		Option reposOptions = OptionBuilder.withLongOpt("repositories").create();
 		reposOptions.setArgs(255);
 		reposOptions.setRequired(false);
 		reposOptions.setDescription("the repository(ies) to update");
@@ -66,7 +66,7 @@ public class Update extends ActionInterface {
 		isHelp = cmdLine.hasOption("help");
 
 
-		repositories = cmdLine.getOptionValues("repository");
+		repositories = cmdLine.getOptionValues("repositories");
 	}
 	
 
