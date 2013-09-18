@@ -81,7 +81,7 @@ public class Installer extends ActionInterface {
 		options.addOption(null, "cleanup", false, "cleanup the work directory after finished");
 		options.addOption(null, "reinstall", false, "reinstall already installed packages");
 
-		Option phasesOptions = OptionBuilder.create("phases");
+		Option phasesOptions = OptionBuilder.withLongOpt("phases").create();
 		phasesOptions.setArgs(6);
 		phasesOptions.setRequired(false);
 		phasesOptions.setDescription("the install phase(s) to run (implies --nodeps)");
