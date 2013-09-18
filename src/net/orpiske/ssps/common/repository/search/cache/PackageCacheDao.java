@@ -105,10 +105,43 @@ public class PackageCacheDao extends AbstractDao {
 	 * @return A list of all packages that have the given name
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
-	public List<PackageInfo> getByName(final String name) throws SQLException {
-		String query = queries.get("queryByName");		
+	public List<PackageInfo> getByNameOrSimilar(final String name) throws SQLException {
+		String query = queries.get("queryByNameOrSimilar");		
 		
 		return runQueryMany(query, new MultiRsHandler(), name);
+	}
+
+
+	/**
+	 * Gets a package by the primary keys
+	 * @param groupId The group ID
+	 * @param name The package name
+	 * @return A DTO with the package information
+	 * @throws java.sql.SQLException If unable to perform the query
+	 */
+	public List<PackageInfo> getByNameAndGroup(final String groupId, final String name) 
+			throws SQLException
+	{
+		String query = queries.get("queryByNameAndGroup");
+
+		return runQueryMany(query, new MultiRsHandler(), name, groupId);
+	}
+
+
+	/**
+	 * Gets a package by the primary keys
+	 * @param groupId The group ID
+	 * @param name The package name
+	 * @return A DTO with the package information
+	 * @throws java.sql.SQLException If unable to perform the query
+	 */
+	public List<PackageInfo> getByNameAndGroupAndVersion(final String groupId, 
+		final String name, final String version)
+			throws SQLException
+	{
+		String query = queries.get("queryByNameAndGroupAndVersion");
+
+		return runQueryMany(query, new MultiRsHandler(), name, groupId, version);
 	}
 	
 	
@@ -124,24 +157,7 @@ public class PackageCacheDao extends AbstractDao {
 	}
 	
 	
-	/**
-	 * Gets a package by the primary keys
-	 * @param groupId The group ID
-	 * @param name The package name
-	 * @param version The package version
-	 * @param type The package type
-	 * @return A DTO with the package information
-	 * @throws java.sql.SQLException If unable to perform the query
-	 */
-	public PackageInfo getByKeys(final String groupId, final String name, 
-			final String version, final String type) throws SQLException		
-	{
-		String query = queries.get("queryByKeys");
-		
-		PackageCacheRsHandler handler = new PackageCacheRsHandler();
-		
-		return runQuery(query, handler, groupId, name, version, type);
-	}
+	
 
 
 	/**
@@ -183,31 +199,6 @@ public class PackageCacheDao extends AbstractDao {
 		return runUpdate(query, repository);
 	}
 	
-	
-	/**
-	 * Updates the package version
-	 * @param newVersion The new version
-	 * @param dto A DTO with the old version
-	 * @return A DTO with the new version
-	 * @throws java.sql.SQLException If unable to perform the query
-	 */
-	public SoftwareInventoryDto updateVersion(final Version newVersion, 
-			final SoftwareInventoryDto dto) throws SQLException 
-	{
-		String query = queries.get("updateVersion");
-		
-		int ret = runUpdate(query, newVersion.toString(), dto.getGroupId(), 
-				dto.getName(), dto.getVersion().toString(), dto.getType());
-		
-		if (ret == 1) {
-			dto.setVersion(newVersion);
-		}
-		
-		return dto;
-	}
-
-
-
 	/**
 	 * Gets the number of packages in the DB
 	 * @return the number of packages in the DB
