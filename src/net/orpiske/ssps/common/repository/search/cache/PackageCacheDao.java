@@ -119,6 +119,36 @@ public class PackageCacheDao extends AbstractDao {
 	 * @return A DTO with the package information
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
+	public List<PackageInfo> getByName(final String name)
+			throws SQLException
+	{
+		String query = queries.get("queryByName");
+
+		return runQueryMany(query, new MultiRsHandler(), name);
+	}
+	
+	/**
+	 * Gets a package by the primary keys
+	 * @param name The package name
+	 * @param version The package version
+	 * @return A DTO with the package information
+	 * @throws java.sql.SQLException If unable to perform the query
+	 */
+	public List<PackageInfo> getByNameAndVersion(final String name, final String version)
+			throws SQLException
+	{
+		String query = queries.get("queryByNameAndVersion");
+
+		return runQueryMany(query, new MultiRsHandler(), name, version);
+	}
+	
+	/**
+	 * Gets a package by the primary keys
+	 * @param groupId The group ID
+	 * @param name The package name
+	 * @return A DTO with the package information
+	 * @throws java.sql.SQLException If unable to perform the query
+	 */
 	public List<PackageInfo> getByNameAndGroup(final String groupId, final String name) 
 			throws SQLException
 	{
