@@ -39,6 +39,15 @@ public interface Engine {
 	 * @throws EngineException if fails to process the script
 	 */
 	public void run(final File file) throws EngineException;
+
+
+	/**
+	 * Runs the package script in the file
+	 * @param file the package script
+	 * @param phases a list of install phase(s) to run   
+	 * @throws EngineException if fails to process the script
+	 */
+	public void run(final File file, String...phases) throws EngineException;
 	
 	
 	/**

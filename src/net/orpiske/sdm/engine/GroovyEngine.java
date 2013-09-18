@@ -31,6 +31,7 @@ import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
 import net.orpiske.ssps.common.scm.ScmUrlUtils;
 import net.orpiske.ssps.common.utils.URLUtils;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
 
@@ -114,14 +115,22 @@ public class GroovyEngine implements Engine {
 	 * (non-Javadoc)
 	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
 	 */
-	public void run(final File file) throws EngineException {
+	public void run(final File file, String... phases) throws EngineException {
 		long total = 0;
 
 		GroovyObject groovyObject = getObject(file);
 
 		Object url = groovyObject.getProperty("url");
 
-		total += runPhase(groovyObject, "fetch", url);
+		if (phases.length == 0) {
+			return;
+		}
+		
+		
+		if (ArrayUtils.contains(phases, "fetch")) { 
+			total += runPhase(groovyObject, "fetch", url);
+		}
+		
 		String artifactName = null;
 
 		try {
@@ -134,25 +143,59 @@ public class GroovyEngine implements Engine {
 			String urlString = url.toString();
 			if (!ScmUrlUtils.isValid(urlString)) {
 				throw new EngineException("The package URL is invalid: " + e.getMessage(),
-						e);	
+						e);
 			}
-			
+
 		} catch (URISyntaxException e) {
 			throw new EngineException("The URL syntax is invalid: " + e.getMessage(),
 					e);
 		}
-		
-		total += runPhase(groovyObject, "extract", artifactName);
-		total += runPhase(groovyObject, "build", (Object[]) null);
-		total += runPhase(groovyObject, "prepare", (Object[]) null);
-		total += runPhase(groovyObject, "verify", (Object[]) null);
-		total += runPhase(groovyObject, "prepare", (Object[]) null);
-		total += runPhase(groovyObject, "install", (Object[]) null);
-		total += runPhase(groovyObject, "finish", (Object[]) null);
-		total += runPhase(groovyObject, "cleanup", (Object[]) null);
+
+
+		if (ArrayUtils.contains(phases, "extract")) {
+			total += runPhase(groovyObject, "extract", artifactName);
+		}
+
+		if (ArrayUtils.contains(phases, "build")) {
+			total += runPhase(groovyObject, "build", (Object[]) null);
+		}
+
+		if (ArrayUtils.contains(phases, "prepare")) {
+			total += runPhase(groovyObject, "prepare", (Object[]) null);
+		}
+
+		if (ArrayUtils.contains(phases, "verify")) {
+			total += runPhase(groovyObject, "verify", (Object[]) null);
+		}
+
+		if (ArrayUtils.contains(phases, "prepare")) {
+			total += runPhase(groovyObject, "prepare", (Object[]) null);
+		}
+
+		if (ArrayUtils.contains(phases, "install")) {
+			total += runPhase(groovyObject, "install", (Object[]) null);
+		}
+
+		if (ArrayUtils.contains(phases, "finish")) {
+			total += runPhase(groovyObject, "finish", (Object[]) null);
+		}
+
+		if (ArrayUtils.contains(phases, "cleanup")) {
+			total += runPhase(groovyObject, "cleanup", (Object[]) null);
+		}
 
 		printPhaseHeader("install completed");
 		logger.info("Installation completed in " + total + " ms");
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
+	 */
+	public void run(final File file) throws EngineException {
+		run(file, "fetch", "extract", "build", "prepare", "verify", "install", 
+				"finish", "cleanup");
 	}
 
 
