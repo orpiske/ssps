@@ -4,6 +4,7 @@ import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.db.version.DbVersionDao;
 import net.orpiske.ssps.common.db.version.DbVersionDto;
+import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDao;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.common.utils.Utils;
@@ -101,12 +102,33 @@ public class DbInitializationHelper {
 			}
 		}
 	}
+
+
+	private void initializeDependencyCache() throws SQLException, DatabaseInitializationException {
+		DependencyCacheDao dao = new DependencyCacheDao(databaseManager);
+
+		try {
+			dao.getCount();
+		}
+		catch (SQLException e) {
+			String err = e.getMessage();
+
+			if (StringUtils.containsIgnoreCase(err, "does not exist")) {
+				dao.createTable();
+				System.out.println("Package cache table created successfully");
+			}
+			else {
+				throw e;
+			}
+		}
+	}
 	
 	
 	private void initializeTables() throws SQLException, DatabaseInitializationException{
 		initializeSoftwareInventory();
 		initializeDbVersion();
 		initializePackageCache();
+		initializeDependencyCache();
 		
 	}
 	

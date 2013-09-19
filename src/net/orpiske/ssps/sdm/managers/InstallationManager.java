@@ -36,6 +36,9 @@ import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
 import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 
+import static net.orpiske.ssps.sdm.utils.PrintUtils.printDependencies;
+
+
 public class InstallationManager {
 	
 	private RegistryManager registryManager;
@@ -183,8 +186,33 @@ public class InstallationManager {
 		else {		
 			DependencyManager dependencyManager = new DependencyManager();
 			Dependency dependency = dependencyManager.resolve(packageInfo);
+			
+			// 
 			installDependencies(dependency, reinstall);
 		}
+	}
+
+
+	public void view(final String groupId, final String packageName,
+						final String version) throws PackageNotFound, TooManyPackages, RegistryException, MultipleInstalledPackages, EngineException, SQLException, DatabaseInitializationException {
+		List<PackageInfo> packages = checkRepositoryCollision(groupId, packageName, version);
+
+
+		try {
+			checkInventoryCollision(groupId, packageName, version);
+		}
+		catch (MultipleInstalledPackages me) {
+			
+		}
+
+		PackageInfo packageInfo = packages.get(0);
+
+		
+		DependencyManager dependencyManager = new DependencyManager();
+		Dependency dependency = dependencyManager.resolve(packageInfo);
+
+		printDependencies(dependency);
+		
 	}
 
 }

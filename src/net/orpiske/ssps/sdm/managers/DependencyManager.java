@@ -25,6 +25,8 @@ import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.dependencies.Dependency;
+import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDao;
+import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.common.repository.utils.PackageUtils;
@@ -35,9 +37,16 @@ import org.apache.log4j.Logger;
 
 public class DependencyManager {
 	private static final Logger logger = Logger.getLogger(DependencyManager.class);
+
+	private DerbyDatabaseManager databaseManager;
+	private PackageCacheDao dao;
+	private DependencyCacheDao depCacheDao;
 	
-	public DependencyManager() {
+	public DependencyManager() throws DatabaseInitializationException {
+		databaseManager = DerbyManagerFactory.newInstance();
 		
+		dao = new PackageCacheDao(databaseManager);
+		depCacheDao = new DependencyCacheDao(databaseManager);
 	}
 	
 	
@@ -76,7 +85,10 @@ public class DependencyManager {
 	{
 		HashMap<String, String> map;
 		
-		Dependency dependency = new Dependency(packageInfo);
+		List<DependencyCacheDto> cached = depCacheDao.get(packageInfo.getGroupId(), 
+				packageInfo.getName(), packageInfo.getVersion().toString());
+		
+		Dependency dependency = Dependency.consolidate(packageInfo, cached);
 		
 		map = packageInfo.getDependencies();
 		if (map == null) {

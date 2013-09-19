@@ -17,6 +17,7 @@ package net.orpiske.ssps.sdm.utils;
 
 import java.util.List;
 
+import net.orpiske.ssps.common.dependencies.Dependency;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.sdm.update.Upgradeable;
@@ -97,8 +98,7 @@ public class PrintUtils {
 		}
 		
 	}
-	
-	
+		
 	
 	/**
 	 * Prints a list of software inventory records
@@ -114,5 +114,46 @@ public class PrintUtils {
 		for (SoftwareInventoryDto dto : list) {
 			printParseable(dto);
 		}
+	}
+
+
+
+	/**
+	 * Prints parseable package information
+	 * @param packageInfo package information object
+	 */
+	private static void printParseableSub(final PackageInfo packageInfo, int level) {
+		StringBuilder builder = new StringBuilder();
+		
+		for (int i = 0; i < level; i++) {
+			builder.append('-');
+		} 
+		
+		System.out.printf("%s%-15s => %-32s => %-15s => %s%n",
+				builder.toString(), packageInfo.getGroupId(), packageInfo.getName(), 
+				packageInfo.getVersion(),
+				packageInfo.getPath());
+	}
+
+
+	private static void printParseableSub(final Dependency parent, int level) {
+		printParseableSub(parent.getPackageInfo(), level);
+		
+		for (Dependency dependency : parent.getDependencies()) {
+			printParseableSub(dependency, level + 1);
+		}
+	}
+
+	/**
+	 * Prints a list of package dependencies
+	 * @param parent a list of package dependencies
+	 */
+	public static void printDependencies(final Dependency parent) {
+
+		System.out.printf("%-15s    %-20s    %-15s  %-23s%n",
+				"Group ID", "Package Name", "Version", "Install Date",
+				"Install Dir");
+
+		printParseableSub(parent, 0);
 	}
 }

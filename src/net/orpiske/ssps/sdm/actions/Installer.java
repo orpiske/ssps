@@ -48,6 +48,7 @@ public class Installer extends ActionInterface {
 	private boolean reinstall;
 	private boolean cleanup;
 	private boolean nodeps;
+	private boolean view;
 	
 	private String groupId;
 	private String packageName;
@@ -80,6 +81,7 @@ public class Installer extends ActionInterface {
 		options.addOption("p", "package", true, "package name");
 		options.addOption(null, "cleanup", false, "cleanup the work directory after finished");
 		options.addOption(null, "reinstall", false, "reinstall already installed packages");
+		options.addOption(null, "view", false, "only view the packages to be installed");
 
 		Option phasesOptions = OptionBuilder.withLongOpt("phases").create();
 		phasesOptions.setArgs(6);
@@ -101,6 +103,7 @@ public class Installer extends ActionInterface {
 		isHelp = cmdLine.hasOption("help");
 		reinstall = cmdLine.hasOption("reinstall");
 		cleanup = cmdLine.hasOption("cleanup");
+		view = cmdLine.hasOption("view");
 		
 		packageName = cmdLine.getOptionValue('p');
 		if (packageName == null) {
@@ -142,7 +145,13 @@ public class Installer extends ActionInterface {
 			else {
 				InstallationManager manager = new InstallationManager(phases, nodeps);
 				
-				manager.install(groupId, packageName, version, reinstall);
+				
+				if (view) {
+					manager.view(groupId, packageName, version);
+				}
+				else { 
+					manager.install(groupId, packageName, version, reinstall);
+				}
 			}
 		
 			if (cleanup) {

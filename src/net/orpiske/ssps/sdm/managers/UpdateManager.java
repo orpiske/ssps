@@ -17,13 +17,16 @@ package net.orpiske.ssps.sdm.managers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.orpiske.sdm.registry.RegistryManager;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.derby.DerbyManagerFactory;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
+import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDao;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.RepositoryManager;
@@ -32,6 +35,9 @@ import net.orpiske.ssps.common.repository.search.RepositoryFinder;
 import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
 import net.orpiske.ssps.sdm.update.Upgradeable;
+import net.orpiske.ssps.common.dependencies.Dependency;
+import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDto;
+import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDao;
 
 /**
  * @author Otavio R. Piske <angusyoung@gmail.com>
@@ -44,12 +50,14 @@ public class UpdateManager {
 
 	private DerbyDatabaseManager databaseManager;
 	private PackageCacheDao dao;
+	private DependencyCacheDao depCacheDao;
 	
 	public UpdateManager() throws DatabaseInitializationException {
 		registryManager = new RegistryManager();
 
 		databaseManager = DerbyManagerFactory.newInstance();
 		dao = new PackageCacheDao(databaseManager);
+		depCacheDao = new DependencyCacheDao(databaseManager);
 	}
 	
 	public List<Upgradeable> getAllNewerPackages() throws RegistryException,
@@ -96,7 +104,6 @@ public class UpdateManager {
 	}
 
 	
-	
 	public void update(String...repositories) throws DatabaseInitializationException, SQLException {
 		if (repositories == null) {
 			repositoryManager.update();
@@ -105,8 +112,11 @@ public class UpdateManager {
 			List<PackageInfo> packages = finder.allPackages();
 						
 			dao.deleteAll();
+			depCacheDao.deleteAll();
 			for (PackageInfo packageInfo: packages) {
 				dao.insert(packageInfo);
+
+				depCacheDao.insert(packageInfo);
 			}
 			
 		}
@@ -120,8 +130,10 @@ public class UpdateManager {
 				List<PackageInfo> packages = finder.allPackages();
 
 				dao.deleteByRepository(repository);
+				depCacheDao.deleteByRepository(repository);
 				for (PackageInfo packageInfo: packages) {
 					dao.insert(packageInfo);
+					depCacheDao.insert(packageInfo);
 				}
 			}
 		}
