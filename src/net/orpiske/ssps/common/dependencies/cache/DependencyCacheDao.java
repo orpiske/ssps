@@ -171,7 +171,7 @@ public class DependencyCacheDao extends AbstractDao {
 	{
 		String query = queries.get("queryByKeys");
 
-		return runQueryMany(query, new MultiRsHandler(),
+		return runQueryMany(query, new MultiRsHandler(), groupId,
 				name, version);
 
 

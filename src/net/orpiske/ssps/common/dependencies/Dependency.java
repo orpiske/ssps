@@ -16,9 +16,12 @@
 package net.orpiske.ssps.common.dependencies;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDto;
 import net.orpiske.ssps.common.repository.PackageInfo;
+import org.apache.log4j.Logger;
 
 /**
  * Abstracts the dependency graph
@@ -26,6 +29,8 @@ import net.orpiske.ssps.common.repository.PackageInfo;
  *
  */
 public class Dependency {
+	
+	private static final Logger logger = Logger.getLogger(Dependency.class);
 	
 	private PackageInfo packageInfo;	
 	private List<Dependency> dependencies = new ArrayList<Dependency>();
@@ -87,5 +92,48 @@ public class Dependency {
 		if (!declared(dependency)) { 
 			dependencies.add(dependency);
 		}
+	}
+
+
+	/**
+	 * Consolidates the dependencies retrieved from the database into a package info object
+	 * @param packageInfo The package info object
+	 * @param cache the dependencies to consolidate
+	 */
+	public static Dependency consolidate(PackageInfo packageInfo, List<DependencyCacheDto> cache) {
+		HashMap<String, String> dependencies = new HashMap<String, String>();
+		
+		if (packageInfo == null) {
+			logger.warn("Invalid package info object: null");
+			
+			return null;
+		}
+
+		if (cache == null) {
+			logger.warn("Invalid dependency cache info object: null");
+
+			return null;
+		}
+		
+		
+		for (DependencyCacheDto dto : cache) {
+			if (!packageInfo.getName().equals(dto.getName())) {
+				continue;
+			}
+			
+			if (!packageInfo.getGroupId().equals(dto.getGroupId())) {
+				continue;
+			}
+			
+			if (!packageInfo.getVersion().equals(dto.getVersion())) {
+				continue;
+			}
+			
+			dependencies.put(dto.getDependencyQualifiedName(), 
+					dto.getDependencyVersionRange());
+		}
+		
+		packageInfo.setDependencies(dependencies);
+		return new Dependency(packageInfo);
 	}
 }
