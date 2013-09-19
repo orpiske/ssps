@@ -1,5 +1,5 @@
 /**
-   Copyright 2012 Otavio Rodolfo Piske
+   Copyright 2013 Otavio Rodolfo Piske
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This DAO is used to interface with the software inventory table
+ * This DAO is used to interface with the package cache table
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
@@ -85,7 +85,7 @@ public class PackageCacheDao extends AbstractDao {
 
 	
 	/**
-	 * Inserts a record into the inventory
+	 * Inserts a record into the table
 	 * @param dto A DTO containing the data to insert into the DB
 	 * @return The number of affected records
 	 * @throws java.sql.SQLException If unable to perform the query
@@ -114,9 +114,8 @@ public class PackageCacheDao extends AbstractDao {
 
 	/**
 	 * Gets a package by the primary keys
-	 * @param groupId The group ID
 	 * @param name The package name
-	 * @return A DTO with the package information
+	 * @return A list of matching packages
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
 	public List<PackageInfo> getByName(final String name)
@@ -128,10 +127,10 @@ public class PackageCacheDao extends AbstractDao {
 	}
 	
 	/**
-	 * Gets a package by the primary keys
+	 * Gets a list of packages by the primary keys
 	 * @param name The package name
 	 * @param version The package version
-	 * @return A DTO with the package information
+	 * @return A list of matching packages
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
 	public List<PackageInfo> getByNameAndVersion(final String name, final String version)
@@ -143,10 +142,10 @@ public class PackageCacheDao extends AbstractDao {
 	}
 	
 	/**
-	 * Gets a package by the primary keys
+	 * Gets a list of packages by the primary keys
 	 * @param groupId The group ID
 	 * @param name The package name
-	 * @return A DTO with the package information
+	 * @return A list of matching packages
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
 	public List<PackageInfo> getByNameAndGroup(final String groupId, final String name) 
@@ -159,10 +158,10 @@ public class PackageCacheDao extends AbstractDao {
 
 
 	/**
-	 * Gets a package by the primary keys
+	 * Gets a list of package by the primary keys
 	 * @param groupId The group ID
 	 * @param name The package name
-	 * @return A DTO with the package information
+	 * @return A list of matching packages
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
 	public List<PackageInfo> getByNameAndGroupAndVersion(final String groupId, 
