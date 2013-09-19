@@ -38,9 +38,9 @@ public class PrintUtils {
 	 * @param packageInfo package information object
 	 */
 	public static void printParseable(final PackageInfo packageInfo) {
-		System.out.printf("%-15s => %-32s => %-9s => %-1s => %s%n",
+		System.out.printf("%-15s => %-32s => %-15s => %s%n",
 				packageInfo.getGroupId(), packageInfo.getName(), packageInfo.getVersion(),
-				packageInfo.getType(), packageInfo.getPath());
+				packageInfo.getPath());
 	}
 	
 	
@@ -49,8 +49,8 @@ public class PrintUtils {
 	 * @param list the list of packages
 	 */
 	public static void printPackageList(final List<PackageInfo> list) {
-		System.out.printf("%-15s    %-32s    %-9s    %-1s      %s%n",
-					"Group ID", "Package Name", "Version", "Type", "Path");
+		System.out.printf("%-15s    %-32s    %-15s    %s%n",
+					"Group ID", "Package Name", "Version", "Path");
 				
 		for (PackageInfo packageInfo : list) {
 			printParseable(packageInfo);
@@ -64,7 +64,7 @@ public class PrintUtils {
 	 * @param dto an inventory dto object
 	 */
 	public static void printParseable(final SoftwareInventoryDto dto) {
-		System.out.printf("%-15s => %-20s => %-9s => %-1s => %-23s => %s%n",
+		System.out.printf("%-15s => %-20s => %-15s => %-1s => %-23s => %s%n",
 				dto.getGroupId(), dto.getName(), dto.getVersion(),
 				dto.getType(), dto.getInstallDate(), dto.getInstallDir());
 	}
@@ -84,7 +84,7 @@ public class PrintUtils {
 		
 		System.out.println("These are all the packages candidates for upgrade");
 		
-		System.out.printf("%-15s    %-32s    %-9s    %-9s%n",
+		System.out.printf("%-15s    %-32s    %-15s    %-15s%n",
 				"Group ID", "Package Name", "Older", "Newer");
 		
 		
@@ -106,8 +106,8 @@ public class PrintUtils {
 	 */
 	public static void printInventoryList(final List<SoftwareInventoryDto> list) {
 		
-		System.out.printf("%-15s    %-20s    %-9s   %-1s  %-23s    %s%n",
-				"Group ID", "Package Name", "Version", "Type", "Install Date", 
+		System.out.printf("%-15s    %-20s    %-15s  %-23s%n",
+				"Group ID", "Package Name", "Version", "Install Date", 
 				"Install Dir");
 	
 		
