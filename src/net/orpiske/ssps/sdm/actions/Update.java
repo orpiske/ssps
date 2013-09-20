@@ -38,6 +38,7 @@ public class Update extends ActionInterface {
 	private Options options;
 	
 	private boolean isHelp;
+	private boolean rebuildCacheOnly;
 	private String[] repositories;
 	
 	public Update(String[] args) {
@@ -51,6 +52,8 @@ public class Update extends ActionInterface {
 		options = new Options();
 
 		options.addOption("h", "help", false, "prints the help");
+		options.addOption(null, "rebuild-cache-only", false, 
+				"only rebuilds the cache without updating from the remote repository");
 
 		Option reposOptions = OptionBuilder.withLongOpt("repositories").create();
 		reposOptions.setArgs(255);
@@ -65,6 +68,7 @@ public class Update extends ActionInterface {
 		}
 		
 		isHelp = cmdLine.hasOption("help");
+		rebuildCacheOnly = cmdLine.hasOption("rebuild-cache-only");
 
 
 		repositories = cmdLine.getOptionValues("repositories");
@@ -82,11 +86,21 @@ public class Update extends ActionInterface {
 			try {
 				UpdateManager updateManager = new UpdateManager();
 
-				updateManager.update(repositories);
+				if (rebuildCacheOnly) {
+					updateManager.rebuildCache(repositories);	
+				}
+				else {
+					updateManager.update(repositories);
+				}
 				
 				List<Upgradeable> up = updateManager.getAllNewerPackages();
 				
-				PrintUtils.printUpgradeable(up);
+				if (up.size() > 0) { 
+					PrintUtils.printUpgradeable(up);
+				}
+				else {
+					System.out.println("There are no packages to upgrade");
+				}
 			} catch (RegistryException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
