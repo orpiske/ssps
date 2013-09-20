@@ -107,10 +107,20 @@ public class UpdateManager {
 	public void update(String...repositories) throws DatabaseInitializationException, SQLException {
 		if (repositories == null) {
 			repositoryManager.update();
-
+		}
+		else {
+			repositoryManager.update(repositories);
+		}
+		
+		rebuildCache(repositories);
+	}
+	
+	
+	public void rebuildCache(String...repositories) throws SQLException {
+		if (repositories == null) {
 			RepositoryFinder finder =  new FileSystemRepositoryFinder();
 			List<PackageInfo> packages = finder.allPackages();
-						
+
 			dao.deleteAll();
 			depCacheDao.deleteAll();
 			for (PackageInfo packageInfo: packages) {
@@ -118,15 +128,12 @@ public class UpdateManager {
 
 				depCacheDao.insert(packageInfo);
 			}
-			
+
 		}
 		else {
-			repositoryManager.update(repositories);
-			
-			
 			for (String repository: repositories) {
 				RepositoryFinder finder =  new FileSystemRepositoryFinder(repository);
-				
+
 				List<PackageInfo> packages = finder.allPackages();
 
 				dao.deleteByRepository(repository);
@@ -137,6 +144,5 @@ public class UpdateManager {
 				}
 			}
 		}
-
 	}
 }
