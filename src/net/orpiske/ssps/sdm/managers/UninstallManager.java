@@ -153,7 +153,7 @@ public class UninstallManager {
 							removablePackage.getVersion().toString(), false);
 					}
 					catch (PackageNotFound pnfException) {
-						System.err.printf(pnfException.getMessage() + " (ignored)");
+						System.err.println(pnfException.getMessage() + " (ignored)");
 					}
 				}
 			}
