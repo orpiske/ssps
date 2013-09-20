@@ -97,10 +97,20 @@ public class PackageDataUtils {
 
 
 		GroovyObject groovyObject = getObject(file);
-
-		String url = groovyObject.getProperty("url").toString();
+		
+		String url;
+		
+		try {
+			url = groovyObject.getProperty("url").toString();
+			packageInfo.setUrl(url);
+		}
+		catch (MissingPropertyExceptionNoStack e) {
+			logger.info("Property URL undefined for " + file.getPath());
+		}
+		
 
 		try {
+			
 			Object o = groovyObject.getProperty("dependencies");
 
 			if (o instanceof LinkedHashMap) {
@@ -116,6 +126,6 @@ public class PackageDataUtils {
 			logger.debug("Property " + e.getProperty() + " undefined for " + file.getName());
 		}
 
-		packageInfo.setUrl(url);
+		
 	}
 }

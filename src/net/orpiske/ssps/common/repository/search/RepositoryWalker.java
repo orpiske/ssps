@@ -58,10 +58,10 @@ public class RepositoryWalker extends DirectoryWalker {
 			
 			try {
 				PackageDataUtils.read(file, packageInfo);
-			} catch (PackageInfoException e) {
-				throw new IOException(e);
+			} catch (Exception e) {
+				logger.error("Unable to load metadata for package: " + file.getPath());
 			}
-		
+					
 			packageList.add(packageInfo);
 		}
 	}
