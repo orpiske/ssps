@@ -95,7 +95,6 @@ public class IOUtil {
 		File toFile = new File(to);
 		
 		
-		
 		if (!fromFile.exists()) {
 			throw new IOException("File or directory not found: " + from);
 		}
@@ -145,6 +144,46 @@ public class IOUtil {
 		}
 		
 		return false;
+	}
+
+
+	/**
+	 * Deletes a file or directory. If a directory is passed and it's not empty, it will
+	 * be deleted recursively.
+	 * @param file the file to delete
+	 */
+	public static void delete(final File file) {
+		FileUtils.deleteQuietly(file);		
+	}
+
+
+	/**
+	 * Deletes a file or directory. If a directory is passed and it's not empty, it will
+	 * be deleted recursively.
+	 * @param file the file to delete
+	 */
+	public static void delete(final String file) {
+		delete(new File(file));
+	}
+
+
+	/**
+	 * Checks whether a file or directory exists
+	 * @param file the file or directory to check
+	 * @return true if it exists or false otherwise
+	 */
+	public static boolean exists(final File file) {
+		return file.exists();
+	}
+
+
+	/**
+	 * Checks whether a file or directory exists
+	 * @param file the file or directory to check
+	 * @return true if it exists or false otherwise
+	 */
+	public static boolean exists(final String file) {
+		return exists(new File(file));
 	}
 }
  
