@@ -176,6 +176,12 @@ public class InstallationManager {
 			if (!reinstall) {
 				throw me;
 			}
+
+			
+			System.out.println("Removing previously installed package");
+			UninstallManager uninstallManager = new UninstallManager();
+
+			uninstallManager.uninstall(groupId, packageName, version, false);
 		}
 
 		PackageInfo packageInfo = packages.get(0);
