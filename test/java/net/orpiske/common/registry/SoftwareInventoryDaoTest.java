@@ -34,7 +34,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * A very poor atempt to test the software inventory dao.
+ * A very poor attempt to test the software inventory dao.
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
@@ -100,6 +100,7 @@ public class SoftwareInventoryDaoTest {
 		assertEquals("/tmp/none", readDto2.getInstallDir());
 		
 		assertNotNull(readDto2.getInstallDate());
+		
 		
 		readDto2 = dao.updateVersion(Version.toVersion("0.2.1"), readDto2);
 		
