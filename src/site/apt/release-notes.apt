@@ -20,6 +20,14 @@ SDM Version 0.3.0
 	* Improved the way the project handles SVN credentials 
 	
 	* Added support for specifying the install phase to run
+	
+	* Added the ability to override ~/.sdm location by exporting USER_LOCAL_DIRECTORY variable
+	
+	* Added the --view flag for the install command so the user can view what is going to be installed
+	
+	* Reinstall now removes old installation before continuing
+	
+	* Added --rebuild-cache-only which just updates the internal database if with the downloaded packages 
 
 SDM Version 0.2.2
 
