@@ -23,25 +23,25 @@ public class RangeTest {
 
 	@Test
 	public void testMinimumBoth() {
-		String mininum = Range.minimum("(2.2.1,2.2.999)");
+		String minimum = Range.minimum("(2.2.1,2.2.999)");
 		
-		assertEquals("Incorrect mininum version", "2.2.1", mininum);
+		assertEquals("Incorrect minimum version", "2.2.1", minimum);
 	}
 	
 	
 	@Test
 	public void testMinimumOnly() {
-		String mininum = Range.minimum("(2.2.1,)");
+		String minimum = Range.minimum("(2.2.1,)");
 		
-		assertEquals("Incorrect mininum version", "2.2.1", mininum);
+		assertEquals("Incorrect minimum version", "2.2.1", minimum);
 	}
 	
 	
 	@Test
 	public void testMinimumMaximumOnly() {
-		String mininum = Range.minimum("(,2.2.999)");
+		String minimum = Range.minimum("(,2.2.999)");
 		
-		assertNull("Incorrect mininum version", mininum);
+		assertNull("Incorrect minimum version", minimum);
 	}
 	
 	
@@ -62,7 +62,7 @@ public class RangeTest {
 	
 	
 	@Test
-	public void testMaximumMininumOnly() {
+	public void testMaximumminimumOnly() {
 		String maximum = Range.maximum("(2.2.1,)");
 		
 		assertNull("Incorrect maximum version", maximum);
@@ -73,8 +73,8 @@ public class RangeTest {
 	public void testRangeBoth() {
 		Range range = Range.toRange("(2.2.1,2.2.999)"); 
 		
-		Version mininum = range.getMinimumVersion();
-		assertEquals(Version.toVersion("2.2.1"), mininum);
+		Version minimum = range.getMinimumVersion();
+		assertEquals(Version.toVersion("2.2.1"), minimum);
 		
 		Version maximum = range.getMaximumVersion();
 		assertEquals(Version.toVersion("2.2.999"), maximum);
@@ -85,8 +85,8 @@ public class RangeTest {
 	public void testRangeMinimumOnly() {
 		Range range = Range.toRange("(2.2.1,)"); 
 		
-		Version mininum = range.getMinimumVersion();
-		assertEquals(Version.toVersion("2.2.1"), mininum);
+		Version minimum = range.getMinimumVersion();
+		assertEquals(Version.toVersion("2.2.1"), minimum);
 		
 		Version maximum = range.getMaximumVersion();
 		assertNull("Maximum should be null", maximum);
@@ -97,8 +97,8 @@ public class RangeTest {
 	public void testRangeMaximumOnly() {
 		Range range = Range.toRange("(,2.2.999)"); 
 		
-		Version mininum = range.getMinimumVersion();
-		assertNull("Minimum should be null", mininum);
+		Version minimum = range.getMinimumVersion();
+		assertNull("Minimum should be null", minimum);
 		
 		Version maximum = range.getMaximumVersion();
 		assertEquals(Version.toVersion("2.2.999"), maximum);
@@ -139,7 +139,7 @@ public class RangeTest {
 	}
 	
 	@Test 
-	public void testInRangeEqualMininum() {
+	public void testInRangeEqualminimum() {
 		Version v1 = Version.toVersion("2.2.1");
 		Range range = Range.toRange("(2.2.1, 2.2.999)");
 		
