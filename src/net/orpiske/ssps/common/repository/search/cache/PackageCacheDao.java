@@ -94,7 +94,7 @@ public class PackageCacheDao extends AbstractDao {
 		String query = queries.get("insert");
 		// 
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
-					dto.getVersion().toString(), dto.getType().toString(), 
+					dto.getVersion().toString(), dto.getType(), 
 					dto.getRepository(), dto.getPath(), dto.getUrl(), dto.getSlot());
 	}
 	
