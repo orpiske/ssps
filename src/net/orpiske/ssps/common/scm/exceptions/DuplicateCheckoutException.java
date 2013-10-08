@@ -36,7 +36,7 @@ public class DuplicateCheckoutException extends SspsException {
 
 	/**
 	 * Constructor
-	 * @param message xception message
+	 * @param message exception message
 	 */
 	public DuplicateCheckoutException(String message) {
 		super(message);
