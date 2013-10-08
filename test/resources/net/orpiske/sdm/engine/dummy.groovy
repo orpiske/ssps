@@ -24,7 +24,7 @@ class Dummy extends BinaryPackage {
 	
 	
 	void install(String artifactName) {
-		println "Install successfully callsed"
+		println "Install successfully called"
 	}	
 
 	
