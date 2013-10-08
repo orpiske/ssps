@@ -56,8 +56,8 @@ public class CountRsHandler implements ResultSetHandler<Integer> {
         	Object value = rs.getObject(i);
         	        	
         	try {
-        		if (value instanceof Integer) { 
-					dto = new Integer((Integer) value);
+        		if (value instanceof Integer) {
+					dto = (Integer) value;
 				}
 				
 			} catch (Exception e) {
