@@ -41,7 +41,7 @@ public class NameConverterTest {
 	
 	
 	@Test
-	public void testDefaultComponsedSqlColumn() {
+	public void testDefaultComposedSqlColumn() {
 		String ret = NameConverter.sqlToProperty("test_id");
 		
 		assertEquals("testId", ret);
