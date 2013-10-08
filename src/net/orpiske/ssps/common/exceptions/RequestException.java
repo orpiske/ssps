@@ -26,7 +26,7 @@ public class RequestException extends SspsException {
 	
 	/**
 	 * Constructor
-	 * @param message
+	 * @param message exception message
 	 */
 	public RequestException(String message) {
 		super(message);
