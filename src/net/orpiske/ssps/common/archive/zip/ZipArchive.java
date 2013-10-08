@@ -118,7 +118,7 @@ public class ZipArchive implements Archive {
 		
 		File sourceFile = new File(source);
 		File destinationDir = new File(destination);
-		long ret = 0;
+		long ret;
 		
 		try {
 			ret = unpack(sourceFile, destinationDir);

@@ -88,7 +88,7 @@ public class Sha1Digest implements MessageDigest {
 	 */
 	public boolean verify(String source, String digest) throws IOException {
 		logger.info("Verifying message digest");
-		String sourceDigest = null;
+		String sourceDigest;
 	
 		sourceDigest = calculate(source);
 		
@@ -103,7 +103,7 @@ public class Sha1Digest implements MessageDigest {
 	 * @see org.ssps.common.digest.MessageDigest#save(java.lang.String)
 	 */
 	public void save(String source) throws IOException {
-		String digest = null;
+		String digest;
 		FileOutputStream output = null;
 		
 		try { 

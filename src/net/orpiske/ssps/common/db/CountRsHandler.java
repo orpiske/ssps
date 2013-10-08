@@ -54,18 +54,9 @@ public class CountRsHandler implements ResultSetHandler<Integer> {
 
         for (int i = 1; i <= meta.getColumnCount(); i++) {
         	Object value = rs.getObject(i);
-        	String name = meta.getColumnName(i);
-        	
+        	        	
         	try {
-        		/*
-        		 * We convert the column name to a more appropriate and java like name 
-        		 * because some columns are usually named as some_thing whereas Java 
-        		 * properties are named someThing. This call does this conversion.
-        		 */
-        		String javaProperty = NameConverter.sqlToProperty(name);
-        		
-				// PropertyUtils.setSimpleProperty(dto, javaProperty, value);
-				if (value instanceof Integer) { 
+        		if (value instanceof Integer) { 
 					dto = new Integer((Integer) value);
 				}
 				

@@ -104,8 +104,6 @@ public class DependencyCacheDao extends AbstractDao {
 	 */
 	public int insert(PackageInfo dependant) throws SQLException {
 		int count = 0;
-		PackageInfo dependency;
-
 		HashMap<String, String> map = dependant.getDependencies();
 
 		if (map == null) {
@@ -130,7 +128,6 @@ public class DependencyCacheDao extends AbstractDao {
 	 * @throws java.sql.SQLException If unable to perform the query
 	 */
 	public int insert(final Dependency dto) throws SQLException {
-		String query = queries.get("insert");
 		int count = 0;
 		
 		for (Dependency dependency : dto.getDependencies()) {

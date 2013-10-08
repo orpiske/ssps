@@ -48,7 +48,7 @@ public class MultiRsHandler<T> extends AbstractListHandler<T> {
 	 */
 	@Override
 	protected T handleRow(ResultSet rs) throws SQLException {
-		T dto = null;
+		T dto;
 		
 		try {
 			dto = clazz.newInstance();

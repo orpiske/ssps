@@ -83,7 +83,7 @@ public class GitSCM implements Scm {
 
 	private void update(final File repositoryDir) throws ScmUpdateException {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		Repository repository = null;
+		Repository repository;
 
 		try {
 			repository = builder.setGitDir(repositoryDir)
@@ -118,7 +118,7 @@ public class GitSCM implements Scm {
 	private Repository accessRepository(final File file)
 			throws ScmAccessException {
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		Repository repository = null;
+		Repository repository;
 
 		try {
 			if (file.isDirectory()) {

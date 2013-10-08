@@ -64,7 +64,7 @@ public class Range {
 
 	
 	private static String toVersionString(final String str) {
-		String ret = null;
+		String ret;
 		
 		if (str == null) {
 			return null;
