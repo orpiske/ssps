@@ -25,8 +25,9 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 public class FileCommitException extends SspsException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public FileCommitException(String message, Throwable t) {
 		super(message, t);
@@ -34,7 +35,8 @@ public class FileCommitException extends SspsException {
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message Exception message
 	 */
 	public FileCommitException(String message) {
 		super(message);

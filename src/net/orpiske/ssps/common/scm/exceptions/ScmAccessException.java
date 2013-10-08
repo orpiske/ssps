@@ -25,20 +25,20 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 public class ScmAccessException extends SspsException {
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message Exception message
 	 */
 	public ScmAccessException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public ScmAccessException(String message, Throwable t) {
 		super(message, t);
-		// TODO Auto-generated constructor stub
 	}
 
 }

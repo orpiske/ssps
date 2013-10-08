@@ -30,7 +30,8 @@ import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 public class TestSoftwareInventoryDao extends SoftwareInventoryDao {
 
 	/**
-	 * @param databaseManager
+	 * Constructor
+	 * @param databaseManager A database manager object
 	 * @throws DatabaseInitializationException
 	 */
 	public TestSoftwareInventoryDao(DatabaseManager databaseManager)

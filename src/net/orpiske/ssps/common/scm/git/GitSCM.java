@@ -110,8 +110,9 @@ public class GitSCM implements Scm {
 	}
 
 	/**
-	 * @param file
-	 * @return
+	 * Access the repository
+	 * @param file the repository directory or file
+	 * @return A repository pointer object
 	 * @throws ScmAccessException
 	 */
 	private Repository accessRepository(final File file)

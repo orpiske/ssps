@@ -27,15 +27,17 @@ package net.orpiske.ssps.common.repository.exception;
 public class RepositoryExistsException extends RepositorySetupException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public RepositoryExistsException(String message, Throwable t) {
 		super(message, t);
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message Exception message
 	 */
 	public RepositoryExistsException(String message) {
 		super(message);

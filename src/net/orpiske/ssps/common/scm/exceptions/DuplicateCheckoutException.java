@@ -26,15 +26,17 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 public class DuplicateCheckoutException extends SspsException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public DuplicateCheckoutException(String message, Throwable t) {
 		super(message, t);
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message xception message
 	 */
 	public DuplicateCheckoutException(String message) {
 		super(message);

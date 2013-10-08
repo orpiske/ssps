@@ -39,7 +39,7 @@ public class CompressedArchiveUtils {
 	
 	/**
 	 * Prepares the destination directory by creating directories if needed 
-	 * @param destination
+	 * @param destination The destination directory
 	 * @throws IOException
 	 */
 	public static void prepareDestination(File destination)

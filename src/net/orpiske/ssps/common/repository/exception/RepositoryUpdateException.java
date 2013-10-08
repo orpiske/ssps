@@ -25,20 +25,20 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 public class RepositoryUpdateException extends SspsException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public RepositoryUpdateException(String message, Throwable t) {
 		super(message, t);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message Exception message
 	 */
 	public RepositoryUpdateException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 }

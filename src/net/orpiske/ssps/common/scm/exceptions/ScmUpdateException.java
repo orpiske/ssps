@@ -26,15 +26,17 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 public class ScmUpdateException extends SspsException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public ScmUpdateException(String message, Throwable t) {
 		super(message, t);
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message Exception message
 	 */
 	public ScmUpdateException(String message) {
 		super(message);

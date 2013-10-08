@@ -25,7 +25,8 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 public class FileAddException extends SspsException {
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message Exception message
 	 */
 	public FileAddException(String message) {
 		super(message);
@@ -33,8 +34,9 @@ public class FileAddException extends SspsException {
 	}
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public FileAddException(String message, Throwable t) {
 		super(message, t);

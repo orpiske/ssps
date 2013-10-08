@@ -26,15 +26,17 @@ import net.orpiske.ssps.common.exceptions.SspsException;
 public class ScmCheckoutException extends SspsException {
 
 	/**
-	 * @param message
-	 * @param t
+	 * Constructor
+	 * @param message Exception message
+	 * @param t Exception cause
 	 */
 	public ScmCheckoutException(String message, Throwable t) {
 		super(message, t);
 	}
 
 	/**
-	 * @param message
+	 * Constructor
+	 * @param message Exception message
 	 */
 	public ScmCheckoutException(String message) {
 		super(message);

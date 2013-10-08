@@ -29,8 +29,6 @@ import org.apache.commons.dbutils.handlers.AbstractListHandler;
  * Handles the result of a query
  * 
  * @author Otavio R. Piske <angusyoung@gmail.com>
- * @param <T>
- * @param <T>
  */
 class MultiRsHandler extends AbstractListHandler<SoftwareInventoryDto> {
 	

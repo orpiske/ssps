@@ -38,8 +38,9 @@ public class RepositorySettings {
 	/**
 	 * Initializes the configuration object
 	 * 
-	 * @throws FileNotFoundException if the configuration file is not found
-	 * @throws ConfigurationException if the configuration file is not parseable
+	 * @throws SspsException if the configuration file is not found
+	 * @throws SspsException if the configuration file is not parseable
+	 * @throws SspsException if unable to create directories
 	 */
 	public static void initConfiguration() throws SspsException  {
 		
