@@ -48,8 +48,8 @@ public class Main {
 			System.exit(-3);
 		}
 	}
-	
-	
+
+
 	private static void initUserSpmDirectory() {
 		File userDirectory = Utils.getSpmDirectoryPathFile();
 
@@ -61,10 +61,10 @@ public class Main {
 
 	public static void help(int code) {
 		System.out.println("Usage: spm <action>\n");
-		
+
 		System.out.println("Actions:");
 		System.out.println("   create");
-		
+
 		System.exit(code);
 	}
 
@@ -77,10 +77,10 @@ public class Main {
 			if (args.length == 0) {
 				help(1);
 			}
-			
+
 			String first = args[0];
 			String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-			
+
 			try {
 				initLogger();
 			} catch (FileNotFoundException e) {
@@ -88,32 +88,34 @@ public class Main {
 				System.exit(-1);
 			}
 			initConfig();
-			
+
 			initUserSpmDirectory();
 
 			if (first.equals("help")) {
 				help(1);
 			}
-			
+
 			if (first.equals("create")) {
 				Create create = new Create(newArgs);
-				
+
 				create.run();
 				return;
 			}
-			
+
 			if (first.equals("--version")) {
 				System.out.println("Simple Software Provisioning System: spm " +
 						Constants.VERSION);
-				
+
 				return;
 			}
-			
+
 			help(1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("Unable to execute operation: " 
+			System.err.println("Unable to execute operation: "
 					+ e.getMessage());
+
+			System.exit(1);
 		}
 	}
 
