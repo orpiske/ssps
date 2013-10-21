@@ -23,7 +23,7 @@
     <name>SSPS :: SPM :: Main</name>
     <description>The SPM application</description>
 	<url>http://www.orpiske.net/ssps/</url>
-	
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -32,7 +32,7 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>net.orpiske</groupId>
             <artifactId>ssps-common</artifactId>
-            <version>0.2.0</version>
+            <version>[0.2.0, 0.2.99)</version>
         </dependency>
 
         <dependency>
@@ -52,11 +52,11 @@
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
         </dependency>
-        
+
          <dependency>
             <groupId>net.orpiske</groupId>
             <artifactId>spm-common</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>[0.2.0-SNAPSHOT, 0.2.99)</version>
         </dependency>
 
         <!-- Apache Commons: CLI -->
@@ -118,7 +118,7 @@
             </extension>
         </extensions>
     </build>
-	
+
 	<mailingLists>
 		<mailingList>
 			<name>User List</name>
@@ -200,7 +200,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.8.1</version>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
@@ -208,16 +208,16 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	
+
 	<scm>
 		<url>scm:git:git@github.com:orpiske/spm.git</url>
 	</scm>
-	
+
 	<issueManagement>
 		<system>GitHub</system>
 		<url>https://github.com/orpiske/spm/</url>
 	</issueManagement>
-	
+
 	<distributionManagement>
 		<downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
 		<repository>
