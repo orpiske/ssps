@@ -51,7 +51,7 @@ class $packageName extends BinaryPackage {
 	}
 }
 
-```groovy
+```
 
 You can give the path of a file and SPM will evaluate its name in order to replace the 3 
 default variables (see below) with the information taken from the file name and path. This
