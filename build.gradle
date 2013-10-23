@@ -1,0 +1,21 @@
+apply plugin: 'eclipse'
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+
+mainClassName = "groovy.net.orpiske.spm"
+
+repositories {
+	mavenCentral()
+
+}
+
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:2.1.7'
+	compile 'commons-cli:commons-cli:1.2'
+}
+
+jar {
+	from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	manifest { attributes 'Main-Class': 'groovy.net.orpiske.spm' }
+}
