@@ -76,7 +76,7 @@ class Eval extends AbstractAction {
 
 		binding.put("packageName", name);
 		binding.put("packageVersion", version);
-		binding.put("packageFile", packageFile.getCanonicalPath());
+		binding.put("packageFile", packageFile.toURI().toString());
 
 		File file = new File(templateFile);
 		def engine = new GStringTemplateEngine();
