@@ -78,7 +78,7 @@ class file extends BinaryPackage {
 		someMethod(version, name, url);
 	}
 }
-```groovy
+```
 
 
 If you have pre-set variables, you may use a template file to generate the package script. 
@@ -132,7 +132,7 @@ class getprlinfo extends BinaryPackage {
 		someMethod(version, name, url);
 	}
 }
-```groovy
+```
 
 The 3 default variables
 --------------------------------
