@@ -1,4 +1,4 @@
-package groovy.net.orpiske
+package net.orpiske
 
 import net.orpiske.spm.actions.TemplateParser
 import net.orpiske.spm.actions.Eval;
@@ -10,7 +10,7 @@ import net.orpiske.spm.actions.Eval;
  * Time: 2:45 PM
  * To change this templateFile use File | Settings | File Templates.
  */
-@Grab(group='commons-cli', module='commons-cli', version='1.2')
+// @Grab(group='commons-cli', module='commons-cli', version='1.2')
 
 public class spm {
 	private static void help(int code) {
@@ -47,7 +47,7 @@ public class spm {
 		
 		if (first.equals("templateFile")) {
 			TemplateParser templateParser = new TemplateParser(newArgs);
-		
+
 			templateParser.run();
 		}
 
