@@ -137,7 +137,7 @@ public class Installer extends ActionInterface {
 	 * @see org.ssps.sdm.actions.ActionInterface#run()
 	 */
 	@Override
-	public void run() {
+	public int run() {
 		try {
 			if (isHelp) { 
 				help(options, 1);
@@ -159,6 +159,8 @@ public class Installer extends ActionInterface {
 				WorkdirUtils.cleanup();
 				System.out.println("\rCleaning up workdir search ... done!");
 			}
+			
+			return 0;
 		}
 		
 		catch (EngineException e) {
@@ -167,24 +169,32 @@ public class Installer extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
+			
+			return 2;
 		} catch (PackageNotFound e) {
 			System.err.print(e.getMessage() + '\n');
 
 			if (logger.isDebugEnabled()) {
 				logger.error(e.getMessage(), e);
 			}
+
+			return 3;
 		} catch (TooManyPackages e) {
 			printRepositoryPackages(e.getPackages());
 			
 			if (logger.isDebugEnabled()) {
 				logger.error(e.getMessage(), e);
 			}
+
+			return 4;
 		} catch (RegistryException e) {
 			System.err.print(e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error(e.getMessage(), e);
 			}
+			
+			return 5;
 		} catch (MultipleInstalledPackages e) {
 		
 			System.err.printf("The package %s%s%s is already installed%n",
@@ -192,10 +202,14 @@ public class Installer extends ActionInterface {
 					packageName, 
 					(version == null? "" : "-" + version));
 			printInventoryList(e.getSoftwareList());
+			
+			return 6;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getMessage());
+			
+			return 7;
 		}
 	}
 

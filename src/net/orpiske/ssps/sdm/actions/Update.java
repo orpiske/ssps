@@ -34,6 +34,8 @@ import org.apache.log4j.Logger;
  *
  */
 public class Update extends ActionInterface {
+	private static final Logger logger = Logger.getLogger(Update.class);
+	
 	private CommandLine cmdLine;
 	private Options options;
 	
@@ -76,11 +78,13 @@ public class Update extends ActionInterface {
 	
 
 	@Override
-	public void run() {
+	public int run() {
 		
 			
 		if (isHelp) { 
 			help(options, 1);
+			
+			return 0;
 		}
 		else {
 			try {
@@ -101,15 +105,33 @@ public class Update extends ActionInterface {
 				else {
 					System.out.println("There are no packages to upgrade");
 				}
+				
+				return 0;
 			} catch (RegistryException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.print(e.getMessage());
+
+				if (logger.isDebugEnabled()) {
+					logger.error(e.getMessage(), e);
+				}
+
+				return 5;
 			} catch (DatabaseInitializationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("Unable to update: " + e.getMessage());
+
+				if (logger.isDebugEnabled()) {
+					logger.error("Unable to update: " + e.getMessage(), e);
+				}
+
+				return 1;
 			}
 			catch (SQLException e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
+
+				if (logger.isDebugEnabled()) {
+					logger.error("SQL Exception: " + e.getMessage(), e);
+				}
+
+				return 3;
 			}
 			
 		}

@@ -86,7 +86,7 @@ public class Uninstall extends ActionInterface {
 	
 	
 	@Override
-	public void run() {
+	public int run() {
 		try {
 			if (isHelp) { 
 				help(options, 1);
@@ -96,24 +96,32 @@ public class Uninstall extends ActionInterface {
 				
 				manager.uninstall(groupId, packageName, version, deep);
 			}
+			
+			return 0;
 		} catch (DatabaseInitializationException e) {
 			System.err.println("Unable to uninstall: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to uninstall: " + e.getMessage(), e);
 			}
+			
+			return 1;
 		} catch (RegistryException e) {
 			System.err.println("Unable to unregister: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to unregister: " + e.getMessage(), e);
 			}
+			
+			return 2;
 		} catch (EngineException e) {
 			System.err.println("Unable to run script cleanup: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to run script cleanup: " + e.getMessage(), e);
 			}
+
+			return 3;
 		} 
 		catch (MultipleInstalledPackages e) {
 			System.err.printf("The package %s/%s-%s is already installed%n",
@@ -121,11 +129,17 @@ public class Uninstall extends ActionInterface {
 					packageName, 
 					(version == null? "{version}" : version));
 			printInventoryList(e.getSoftwareList());
+
+			return 4;
 		} catch (PackageNotFound e) {
 			System.err.println(e.getMessage());
+			
+			return 5;
 		}
 		catch (Exception e) {
 			System.err.println(e.getMessage());
+			
+			return 6;
 		} 
 	}
 

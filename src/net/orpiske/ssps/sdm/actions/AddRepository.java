@@ -94,7 +94,7 @@ public class AddRepository extends ActionInterface {
 	}
 
 	@Override
-	public void run() {
+	public int run() {
 
 		try {
 			if (isHelp) {
@@ -105,18 +105,24 @@ public class AddRepository extends ActionInterface {
 
 				repositoryManager.add(repositoryInfo);
 			}
+			
+			return 0;
 		} catch (RepositoryUpdateException e) {
 			System.err.println("Unable to update repository: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to install: " + e.getMessage(), e);
 			}
+			
+			return 1;
 		} catch (RepositorySetupException e) {
 			System.err.println("Unable to setup new repository: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to setup new repository: " + e.getMessage(), e);
 			}
+
+			return 2;
 		}
 	}
 

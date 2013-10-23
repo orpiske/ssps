@@ -46,8 +46,9 @@ public abstract class ActionInterface {
 	
 	/**
 	 * Runs the action
+	 * @return the exit code
 	 */
-	public abstract void run();
+	public abstract int run();
 	
 
 }

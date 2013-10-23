@@ -131,7 +131,7 @@ public class Search extends ActionInterface {
 	}
 
 	@Override
-	public void run() {
+	public int run() {
 		try {
 			if (isHelp) { 
 				help(options, 1);
@@ -146,6 +146,8 @@ public class Search extends ActionInterface {
 				}
 				
 			}
+			
+			return 0;
 		}
 		catch (DatabaseInitializationException e) {
 			System.err.println("Unable to access database: " + e.getMessage());
@@ -153,6 +155,8 @@ public class Search extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to access database: " + e.getMessage(), e);
 			}
+			
+			return 1;
 		}
 		catch (RegistryException e) {
 			System.err.println("Unable to read registry: " + e.getMessage());
@@ -160,12 +164,26 @@ public class Search extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unable to read registry: " + e.getMessage(), e);
 			}
+
+			return 2;
 		}
 		catch(SQLException e) {
 			System.err.println(e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("SQL Exception: " + e.getMessage(), e);
+			}
+
+			return 3;
 		}
 		catch(SspsException e) {
 			System.err.println(e.getMessage());
+
+			if (logger.isDebugEnabled()) {
+				logger.error("Unhandled exception: " + e.getMessage(), e);
+			}
+			
+			return 4;
 		}
 	}
 

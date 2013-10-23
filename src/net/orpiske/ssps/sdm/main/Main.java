@@ -134,7 +134,8 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-
+		int ret = 0;
+		
 		if (args.length == 0) {
 			help(1);
 		}
@@ -162,50 +163,51 @@ public class Main {
 		if (first.equals("install")) {
 			Installer installer = new Installer(newArgs);
 
-			installer.run();
-			return;
+			ret = installer.run();
+			System.exit(ret);
 		}
 
 		if (first.equals("add-repository")) {
 			AddRepository addRepository = new AddRepository(newArgs);
 
-			addRepository.run();
-			return;
+			ret =  addRepository.run();
+			System.exit(ret);
 		}
 
 		if (first.equals("uninstall")) {
 			Uninstall uninstall = new Uninstall(newArgs);
 
-			uninstall.run();
-			return;
+			ret =  uninstall.run();
+			System.exit(ret);
 		}
 
 		if (first.equals("update")) {
 			Update update = new Update(newArgs);
 
-			update.run();
-			return;
+			ret =  update.run();
+			System.exit(ret);
 		}
 
 		if (first.equals("upgrade")) {
 			Upgrade upgrade = new Upgrade(newArgs);
 
-			upgrade.run();
-			return;
+			ret = upgrade.run();
+			System.exit(ret);
 		}
 
 		if (first.equals("search")) {
 			Search search = new Search(newArgs);
 
-			search.run();
-			return;
+			ret = search.run();
+			System.exit(ret);
+			
 		}
 
 		if (first.equals("--version")) {
 			System.out.println("Simple Software Provisioning System: sdm "
 					+ Constants.VERSION);
 
-			return;
+			System.exit(ret);
 		}
 
 		help(1);

@@ -92,7 +92,7 @@ public class Upgrade extends ActionInterface {
 		
 
 	@Override
-	public void run() {
+	public int run() {
 		
 		try {
 			if (isHelp) { 
@@ -118,18 +118,23 @@ public class Upgrade extends ActionInterface {
 					}
 				}
 			}
+			return 0;
 		} catch (DatabaseInitializationException e) {
 			System.err.println("Database initialization error: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Database initialization error: " + e.getMessage(), e);
 			}
+			
+			return 1;
 		} catch (SQLException e) {
 			System.err.println("Database exception: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				logger.error("Database exception: " + e.getMessage(), e);
 			}
+
+			return 3;
 		} 
 		catch (SspsException e) {
 			System.err.println("Unhandled exception: " + e.getMessage());
@@ -137,6 +142,8 @@ public class Upgrade extends ActionInterface {
 			if (logger.isDebugEnabled()) {
 				logger.error("Unhandled exception: " + e.getMessage(), e);
 			}
+			
+			return 6;
 		} 
 	}
 
