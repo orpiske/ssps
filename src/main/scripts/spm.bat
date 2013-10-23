@@ -1,1 +1,0 @@
-@java -Dorg.ssps.spm.home=%~dp0\.. -jar %~dp0\spm-0.1.0.jar %*
