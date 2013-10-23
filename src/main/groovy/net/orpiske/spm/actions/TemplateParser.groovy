@@ -7,6 +7,8 @@ import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
 import org.apache.commons.cli.PosixParser
 
+import net.orpiske.spm.actions.AbstractAction;
+
 /**
  * Created with IntelliJ IDEA.
  * User: orpiske
@@ -14,7 +16,7 @@ import org.apache.commons.cli.PosixParser
  * Time: 3:03 PM
  * To change this templateFile use File | Settings | File Templates.
  */
-class TemplateParser extends AbstractAction{
+class TemplateParser extends AbstractAction {
 	private CommandLine cmdLine;
 	private Options options;
 	
@@ -41,7 +43,14 @@ class TemplateParser extends AbstractAction{
 		}
 		
 		templateFile = cmdLine.getOptionValue('t');
+		
+		if (templateFile == null) {
+			System.err.println "Template file is required"
+			help(options, -1);
+		}
+		
 		propertiesFile = cmdLine.getOptionValue('p');
+		
 	}
 
 
@@ -56,16 +65,17 @@ class TemplateParser extends AbstractAction{
 	public int run() {
 		File file = new File(templateFile);
 		def engine = new GStringTemplateEngine();
-
-		Properties properties = getProperties();
 		Map<String, String> binding = new HashMap<>();
+		
+		if (propertiesFile != null) { 
+			Properties properties = getProperties();
 
-
-		for(String key : properties.stringPropertyNames()) {
-			String value = properties.getProperty(key);
-			binding.put(key, value);
+	
+			for(String key : properties.stringPropertyNames()) {
+				String value = properties.getProperty(key);
+				binding.put(key, value);
+			}
 		}
-
 
 		for(String key : System.getProperties().keys()) {
 			String value = System.getProperty(key);
@@ -74,8 +84,7 @@ class TemplateParser extends AbstractAction{
 
 
 		def template = engine.createTemplate(file).make(binding);
-		template.
-				println template.toString();
+		template.println template.toString();
 
 		return 0;
 	}
