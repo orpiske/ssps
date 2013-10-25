@@ -166,7 +166,8 @@ public class Downloader {
 
 			File outputFile = setupOutputFile(url, overwrite);
 
-			ResourceExchange resourceExchange = ResourceExchangeFactory.newResourceExchange();
+			ResourceExchange resourceExchange = 
+					ResourceExchangeFactory.newResourceExchange(uri);
 			ResourceInfo resourceInfo = resourceExchange.info(uri);
 
 			try {

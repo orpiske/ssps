@@ -15,8 +15,11 @@
 */
 package net.orpiske.sdm.util;
 
-import net.orpiske.ssps.common.resource.DefaultResourceExchange;
+import net.orpiske.ssps.common.resource.FileResourceExchange;
+import net.orpiske.ssps.common.resource.HttpResourceExchange;
 import net.orpiske.ssps.common.resource.ResourceExchange;
+
+import java.net.URI;
 
 /**
  * Factory for resource exchanges
@@ -30,10 +33,15 @@ public final class ResourceExchangeFactory {
 	 * Creates a new ResourceExchange object, sets the proxy, etc.
 	 * @return a new ResourceExchange object
 	 */
-	public static ResourceExchange newResourceExchange() {
+	public static ResourceExchange newResourceExchange(URI uri) {
 		ResourceExchange resourceExchange;
 		
-		resourceExchange = new DefaultResourceExchange();
+		if (uri.getScheme().equalsIgnoreCase("file")) {
+			resourceExchange = new FileResourceExchange();
+		}
+		else {
+			resourceExchange = new HttpResourceExchange();
+		}
 		
 		return resourceExchange;
 		
