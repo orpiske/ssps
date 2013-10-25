@@ -50,6 +50,7 @@ public class Installer extends ActionInterface {
 	private boolean nodeps;
 	private boolean view;
 	
+	private String repository;
 	private String groupId;
 	private String packageName;
 	private String version;
@@ -79,9 +80,11 @@ public class Installer extends ActionInterface {
 		options.addOption("h", "help", false, "prints the help");
 		options.addOption("g", "groupid", true, "package group id");
 		options.addOption("p", "package", true, "package name");
+		options.addOption("r", "repository", true, "the name of the repository to use");
 		options.addOption(null, "cleanup", false, "cleanup the work directory after finished");
 		options.addOption(null, "reinstall", false, "reinstall already installed packages");
 		options.addOption(null, "view", false, "only view the packages to be installed");
+		
 
 		Option phasesOptions = OptionBuilder.withLongOpt("phases").create();
 		phasesOptions.setArgs(6);
@@ -120,6 +123,8 @@ public class Installer extends ActionInterface {
 		else { 
 			nodeps = cmdLine.hasOption("nodeps");
 		}
+
+		repository = cmdLine.getOptionValue('r');
 	}
 	
 
@@ -146,11 +151,13 @@ public class Installer extends ActionInterface {
 				InstallationManager manager = new InstallationManager(phases, nodeps);
 				
 				
+				
+				
 				if (view) {
 					manager.view(groupId, packageName, version);
 				}
 				else { 
-					manager.install(groupId, packageName, version, reinstall);
+					manager.install(repository, groupId, packageName, version, reinstall);
 				}
 			}
 		

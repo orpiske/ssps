@@ -59,8 +59,10 @@ public class InstallationManager {
 	}
 	
 
-	private List<PackageInfo> checkRepositoryCollision(final String groupId, 
-			final String packageName, final String version) throws PackageNotFound, TooManyPackages, SQLException {
+	private List<PackageInfo> checkRepositoryCollision(final String repository, 
+			final String groupId, final String packageName, final String version) 
+			throws PackageNotFound, TooManyPackages, SQLException 
+	{
 			
 		
 		List<PackageInfo> packages; 
@@ -82,8 +84,18 @@ public class InstallationManager {
 			throw new PackageNotFound(packageName);
 		}
 		else {
-			if (packages.size() > 1) {
+			if (packages.size() > 1  && repository == null) {
 				throw new TooManyPackages(packageName, packages);
+			}
+			else {
+				/**
+				 * Later I will implement this on the DAO. 
+				 */
+				for (PackageInfo packageInfo : packages) {
+					if (!packageInfo.getRepository().equals(repository)) {
+						packages.remove(packageInfo);
+					}
+				}
 			}
 		}
 		return packages;
@@ -164,9 +176,9 @@ public class InstallationManager {
 	}
 	
 	
-	public void install(final String groupId, final String packageName, 
+	public void install(final String repository, final String groupId, final String packageName, 
 			final String version, boolean reinstall) throws PackageNotFound, TooManyPackages, RegistryException, MultipleInstalledPackages, EngineException, SQLException, DatabaseInitializationException {
-		List<PackageInfo> packages = checkRepositoryCollision(groupId, packageName, version);
+		List<PackageInfo> packages = checkRepositoryCollision(repository, groupId, packageName, version);
 		
 		
 		try { 
@@ -201,7 +213,7 @@ public class InstallationManager {
 
 	public void view(final String groupId, final String packageName,
 						final String version) throws PackageNotFound, TooManyPackages, RegistryException, MultipleInstalledPackages, EngineException, SQLException, DatabaseInitializationException {
-		List<PackageInfo> packages = checkRepositoryCollision(groupId, packageName, version);
+		List<PackageInfo> packages = checkRepositoryCollision(null, groupId, packageName, version);
 
 
 		try {
