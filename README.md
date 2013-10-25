@@ -1,7 +1,7 @@
-SSPS: Software Package Module
+SSPS: SDM Package Module (SPM)
 ============
 
-This is source code repository for the SPM Package Module (SPM).
+This is source code repository for the SDM Package Module (SPM).
 
 SPM is a SSPS utility that processes template files and create SDM packages out of it. It 
 can be used to evaluate a file name and create a simple package out of it - provided you have 
