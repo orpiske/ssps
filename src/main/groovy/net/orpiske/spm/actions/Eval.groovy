@@ -33,6 +33,7 @@ class Eval extends AbstractAction {
 	private String source;
 	private String groupId;
 	private String repository;
+	private String name;
 	
 	private Writer writer;
 		
@@ -50,6 +51,7 @@ class Eval extends AbstractAction {
 		options.addOption("t", "templateFile", true, "the path to the templateFile file");
 		options.addOption("r", "repository", true, "the path to the repository");
 		options.addOption("g", "group-id", true, "the group ID of the file");
+		options.addOption("n", "name", true, "the name of the file (will be obtained from the file name, if not given)");
 		options.addOption("v", "view", false, "view only (does not create the file)");
 		options.addOption(null, "source-file", true, "the path to the source file to evaluate");
 		
@@ -62,6 +64,7 @@ class Eval extends AbstractAction {
 		source = cmdLine.getOptionValue("source-file");
 		templateFile = cmdLine.getOptionValue('t');
 		groupId = cmdLine.getOptionValue('g');
+		name = cmdLine.getOptionValue('n');
 		
 		if (cmdLine.hasOption('v')) {
 			writer = new StdoutWriter();
@@ -87,11 +90,15 @@ class Eval extends AbstractAction {
 
 		
 		File packageFile = new File(source); 
-		String name = RegexUtils.getName(packageFile.getName());
-		String version = RegexUtils.getVersion(packageFile.getName());
-
+		
+		if (name == null || name.isEmpty()) { 
+		 	name = RegexUtils.getName(packageFile.getName());
+		}
 		binding.put("packageName", name);
+
+		String version = RegexUtils.getVersion(packageFile.getName());		
 		binding.put("packageVersion", version);
+		
 		binding.put("packageFile", packageFile.toURI().toString());
 		binding.put("packageGroup", groupId);
 
@@ -100,9 +107,9 @@ class Eval extends AbstractAction {
 		
 		def template = engine.createTemplate(file).make(binding);
 		
-		
-		
 		writer.write(binding, template);
+		
+		
 		
 		return 0;
 	}
