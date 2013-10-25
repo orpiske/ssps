@@ -46,8 +46,8 @@ import org.apache.log4j.Logger;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  *
  */
-public class DefaultResourceExchange implements ResourceExchange {
-	private static final Logger logger = Logger.getLogger(DefaultResourceExchange.class);
+public class HttpResourceExchange implements ResourceExchange {
+	private static final Logger logger = Logger.getLogger(HttpResourceExchange.class);
 	
 	/**
 	 * Exchange properties
@@ -73,7 +73,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 	 * Default constructor: setups a default http client object and uses system
 	 * proxy information if available
 	 */
-	public DefaultResourceExchange() {
+	public HttpResourceExchange() {
 		ProxySelectorRoutePlanner routePlanner = new ProxySelectorRoutePlanner(
 		        httpClient.getConnectionManager().getSchemeRegistry(),
 		        ProxySelector.getDefault());
@@ -87,7 +87,7 @@ public class DefaultResourceExchange implements ResourceExchange {
 	 * @param connectionProperties A hash map of connection properties to use to
 	 * setup the connection (ex.: proxy)
 	 */
-	public DefaultResourceExchange(HashMap<String, Object> connectionProperties) {
+	public HttpResourceExchange(HashMap<String, Object> connectionProperties) {
 		String proxy = (String) connectionProperties.get(Properties.HTTP_PROXY);
 		Integer port = (Integer) connectionProperties.get(Properties.PROXY_PORT);
 		
