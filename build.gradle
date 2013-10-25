@@ -25,12 +25,16 @@ repositories {
 	mavenCentral()
 	mavenLocal()
 
-	maven {
-		def proxy = getProperty('mavenProxy');
-
-		if (proxy != null) {
-			println "Using maven proxy $proxy"
-			url proxy
+	def hasProxy = hasProperty('mavenProxy')
+	if (hasProxy) {
+		maven {
+		
+			def proxy = getProperty('mavenProxy');
+	
+			if (proxy != null) {
+				println "Using maven proxy $proxy"
+				url proxy
+			}
 		}
 	}	
 }
