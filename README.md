@@ -1,9 +1,9 @@
-SSPS: SDM Package Module (SPM)
+SPM: SDM Package Module
 ============
 
 This is source code repository for the SDM Package Module (SPM).
 
-SPM is a SSPS utility that processes template files and create SDM packages out of it. It 
+SPM is an utility that processes template files and create SDM packages out of it. It 
 can be used to evaluate a file name and create a simple package out of it - provided you have 
 a template.
 
