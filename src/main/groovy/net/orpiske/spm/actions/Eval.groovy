@@ -16,11 +16,14 @@
 package net.orpiske.spm.actions
 
 import groovy.text.GStringTemplateEngine
+import net.orpiske.net.orpiske.spm.writers.PackageFileWriter
+import net.orpiske.net.orpiske.spm.writers.StdoutWriter
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.CommandLineParser
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
 import org.apache.commons.cli.PosixParser
+import net.orpiske.net.orpiske.spm.writers.Writer;
 
 class Eval extends AbstractAction {
 	private CommandLine cmdLine;
@@ -28,6 +31,10 @@ class Eval extends AbstractAction {
 	
 	private String templateFile;
 	private String source;
+	private String groupId;
+	private String repository;
+	
+	private Writer writer;
 		
 	
 	public Eval(String[] args) {
@@ -41,6 +48,9 @@ class Eval extends AbstractAction {
 
 		options.addOption("h", "help", false, "prints the help");
 		options.addOption("t", "templateFile", true, "the path to the templateFile file");
+		options.addOption("r", "repository", true, "the path to the repository");
+		options.addOption("g", "group-id", true, "the group ID of the file");
+		options.addOption("v", "view", false, "view only (does not create the file)");
 		options.addOption(null, "source-file", true, "the path to the source file to evaluate");
 		
 		try {
@@ -49,18 +59,17 @@ class Eval extends AbstractAction {
 			help(options, -1);
 		}
 		
-		/*
-		if (cmdLine.hasOption("name-regex")) {
-			nameRegex = cmdLine.getOptionValue("name-regex");
-		}
-
-		if (cmdLine.hasOption("version-regex")) {
-			nameRegex = cmdLine.getOptionValue("version-regex");
-		}
-		*/
-		
 		source = cmdLine.getOptionValue("source-file");
 		templateFile = cmdLine.getOptionValue('t');
+		groupId = cmdLine.getOptionValue('g');
+		
+		if (cmdLine.hasOption('v')) {
+			writer = new StdoutWriter();
+		}
+		else {
+			repository = cmdLine.getOptionValue('r');
+			writer = new PackageFileWriter(repository);
+		}
 	}
 
 	
@@ -84,11 +93,16 @@ class Eval extends AbstractAction {
 		binding.put("packageName", name);
 		binding.put("packageVersion", version);
 		binding.put("packageFile", packageFile.toURI().toString());
+		binding.put("packageGroup", groupId);
 
 		File file = new File(templateFile);
-		def engine = new GStringTemplateEngine();
+		GStringTemplateEngine engine = new GStringTemplateEngine();
+		
 		def template = engine.createTemplate(file).make(binding);
-		template.println template.toString();
+		
+		
+		
+		writer.write(binding, template);
 		
 		return 0;
 	}

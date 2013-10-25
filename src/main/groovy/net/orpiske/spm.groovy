@@ -37,33 +37,43 @@ public class spm {
 
 	public static void main(String[] args) {
 
-		if (args.length == 0) {
-			help(1);
-		}
-
-		String first = args[0];
-		String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-
-		if (first.equals("help")) {
-			help(1);
-		}
-		
-		if (args == null || args.length == 0) {
-			println "Invalid parameters";
+		try { 
+			if (args.length == 0) {
+				help(1);
+			}
+	
+			String first = args[0];
+			String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+	
+			if (first.equals("help")) {
+				help(1);
+			}
 			
-			System.exit(1);
-		}
-		
-		if (first.equals("templateFile")) {
-			TemplateParser templateParser = new TemplateParser(newArgs);
-
-			templateParser.run();
-		}
-
-		if (first.equals("eval")) {
-			Eval eval = new Eval(newArgs);
+			if (args == null || args.length == 0) {
+				println "Invalid parameters";
+				
+				System.exit(1);
+			}
 			
-			eval.run();
+			if (first.equals("templateFile")) {
+				TemplateParser templateParser = new TemplateParser(newArgs);
+	
+				templateParser.run();
+			}
+	
+			if (first.equals("eval")) {
+				Eval eval = new Eval(newArgs);
+				
+				eval.run();
+			}
+			
+			System.exit(0)
+		}
+		catch (Throwable t) {
+			println t.getMessage();
+			t.printStackTrace();
+			
+			System.exit(1)
 		}
 	}
 

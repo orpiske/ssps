@@ -22,6 +22,8 @@ import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
 import org.apache.commons.cli.PosixParser
 
+import net.orpiske.net.orpiske.spm.writers.Writer;
+
 import net.orpiske.spm.actions.AbstractAction;
 
 class TemplateParser extends AbstractAction {
@@ -30,8 +32,10 @@ class TemplateParser extends AbstractAction {
 	
 	private String templateFile;
 	private String propertiesFile;
+
+	private Writer writer;
 	
-	public TemplateParser(String[] args) {
+	public TemplateParser(String[] args) {		
 		processCommand(args);
 	}
 
@@ -90,9 +94,9 @@ class TemplateParser extends AbstractAction {
 			binding.put(key, value);
 		}
 
-
 		def template = engine.createTemplate(file).make(binding);
-		template.println template.toString();
+
+		writer.write(binding, template);
 
 		return 0;
 	}
