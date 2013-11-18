@@ -132,6 +132,21 @@ public class DbInitializationHelper {
 		
 	}
 	
+	private void getLock() throws Exception {
+		File lockFile = new File(Utils.getSdmDirectoryPathFile(), "sdm.lock");
+		
+		System.out.println("Trying to obtain a runtime lock");
+		boolean created = false;
+		do {
+			if (lockFile.exists()) {
+				Thread.sleep(100);	
+			}
+			created = lockFile.createNewFile();
+		} while (!created);
+		lockFile.deleteOnExit();
+		System.out.println("Runtime lock obtained successfully");
+	}
+	
 	public void initDatabase() {
 		Properties props = System.getProperties();
 		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
@@ -141,17 +156,14 @@ public class DbInitializationHelper {
 			File dbDir = new File(Utils.getSdmDirectoryPath() + File.separator
 					+ "registry");
 			
-			
+			getLock();
 			if (!dbDir.exists()) {
 				System.out.println("This appears to be the first time you are"
 						+ " using SDM. Creating database ...");
 			}
 			
 			databaseManager = new DerbyDatabaseManager("registry", props);
-			if (!dbDir.exists()) {
-				System.out.println("Database created successfully");
-			}
-
+			
 			initializeTables();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
