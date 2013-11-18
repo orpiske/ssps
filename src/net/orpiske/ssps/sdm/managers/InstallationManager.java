@@ -17,6 +17,7 @@ package net.orpiske.ssps.sdm.managers;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.orpiske.sdm.engine.Engine;
@@ -59,7 +60,7 @@ public class InstallationManager {
 	}
 	
 
-	private List<PackageInfo> checkRepositoryCollision(final String repository, 
+	private synchronized List<PackageInfo> checkRepositoryCollision(final String repository, 
 			final String groupId, final String packageName, final String version) 
 			throws PackageNotFound, TooManyPackages, SQLException 
 	{
@@ -91,10 +92,14 @@ public class InstallationManager {
 				/**
 				 * Later I will implement this on the DAO. 
 				 */
+				List<PackageInfo> tmpPackages = new ArrayList<PackageInfo>();
 				for (PackageInfo packageInfo : packages) {
-					if (!packageInfo.getRepository().equals(repository)) {
-						packages.remove(packageInfo);
+					if (!packageInfo.getRepository().equals(repository) && repository != null) {
+						tmpPackages.add(packageInfo);
 					}
+				}
+				if (tmpPackages.size() > 0) { 
+					packages.removeAll(tmpPackages);
 				}
 			}
 		}
