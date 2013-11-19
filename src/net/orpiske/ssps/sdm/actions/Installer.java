@@ -23,13 +23,16 @@ import java.util.List;
 import net.orpiske.sdm.common.WorkdirUtils;
 import net.orpiske.sdm.engine.exceptions.EngineException;
 import net.orpiske.sdm.registry.exceptions.RegistryException;
+import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.sdm.managers.InstallationManager;
+import net.orpiske.ssps.sdm.managers.UpdateManager;
 import net.orpiske.ssps.sdm.managers.exceptions.MultipleInstalledPackages;
 import net.orpiske.ssps.sdm.managers.exceptions.PackageNotFound;
 import net.orpiske.ssps.sdm.managers.exceptions.TooManyPackages;
 
 import org.apache.commons.cli.*;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 
 
@@ -39,6 +42,7 @@ import org.apache.log4j.Logger;
  * 
  */
 public class Installer extends ActionInterface {
+	private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 	private static final Logger logger = Logger.getLogger(Installer.class);
 	
 	private CommandLine cmdLine;
@@ -148,10 +152,21 @@ public class Installer extends ActionInterface {
 				help(options, 1);
 			}
 			else {
+				boolean volatileStorage = config.getBoolean("registry.volatile.storage", false);
+				
+				if (volatileStorage) {
+					System.out.print("\rVolatile storage requires cache rebuild ...");
+					UpdateManager updateManager = new UpdateManager();
+					
+					if (repository != null) { 
+						updateManager.rebuildCache(new String[]{repository});
+					}
+					else {
+						updateManager.rebuildCache(null);
+					}
+				}
+				
 				InstallationManager manager = new InstallationManager(phases, nodeps);
-				
-				
-				
 				
 				if (view) {
 					manager.view(groupId, packageName, version);

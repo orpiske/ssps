@@ -1,5 +1,6 @@
 package net.orpiske.ssps.sdm.main;
 
+import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.db.derby.DerbyDatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.db.version.DbVersionDao;
@@ -8,6 +9,7 @@ import net.orpiske.ssps.common.dependencies.cache.DependencyCacheDao;
 import net.orpiske.ssps.common.registry.SoftwareInventoryDao;
 import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.common.utils.Utils;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -23,6 +25,7 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class DbInitializationHelper {
+	private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 	private DerbyDatabaseManager databaseManager = null;
 	
 	public DbInitializationHelper() {
@@ -135,15 +138,20 @@ public class DbInitializationHelper {
 	private void getLock() throws Exception {
 		File lockFile = new File(Utils.getSdmDirectoryPathFile(), "sdm.lock");
 		
-		System.out.println("Trying to obtain a runtime lock");
-		boolean created = false;
-		do {
-			if (lockFile.exists()) {
-				Thread.sleep(100);	
-			}
-			created = lockFile.createNewFile();
-		} while (!created);
-		lockFile.deleteOnExit();
+		try {
+			System.out.println("Trying to obtain a runtime lock");
+			boolean created = false;
+			do {
+				if (lockFile.exists()) {
+					Thread.sleep(100);	
+				}
+				created = lockFile.createNewFile();
+			} while (!created);
+		}
+		finally {
+			lockFile.deleteOnExit(); 
+		}
+
 		System.out.println("Runtime lock obtained successfully");
 	}
 	
@@ -155,8 +163,13 @@ public class DbInitializationHelper {
 		try {
 			File dbDir = new File(Utils.getSdmDirectoryPath() + File.separator
 					+ "registry");
+
+			boolean volatileStorage = config.getBoolean("registry.volatile.storage", false);
 			
-			getLock();
+			if (!volatileStorage) { 
+				getLock();
+			}
+			
 			if (!dbDir.exists()) {
 				System.out.println("This appears to be the first time you are"
 						+ " using SDM. Creating database ...");
