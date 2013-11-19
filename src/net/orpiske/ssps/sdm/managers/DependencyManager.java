@@ -39,13 +39,11 @@ public class DependencyManager {
 	private static final Logger logger = Logger.getLogger(DependencyManager.class);
 
 	private DerbyDatabaseManager databaseManager;
-	private PackageCacheDao dao;
 	private DependencyCacheDao depCacheDao;
 	
 	public DependencyManager() throws DatabaseInitializationException {
 		databaseManager = DerbyManagerFactory.newInstance();
 		
-		dao = new PackageCacheDao(databaseManager);
 		depCacheDao = new DependencyCacheDao(databaseManager);
 	}
 	
