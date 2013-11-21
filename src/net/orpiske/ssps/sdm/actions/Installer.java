@@ -155,7 +155,7 @@ public class Installer extends ActionInterface {
 				boolean volatileStorage = config.getBoolean("registry.volatile.storage", false);
 				
 				if (volatileStorage) {
-					System.out.print("\rVolatile storage requires cache rebuild ...");
+					System.out.print("\rVolatile storage requires cache rebuild ...\n");
 					UpdateManager updateManager = new UpdateManager();
 					
 					if (repository != null) { 
