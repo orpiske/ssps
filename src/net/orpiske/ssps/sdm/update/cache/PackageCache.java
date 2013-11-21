@@ -25,21 +25,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: orpiske
- * Date: 9/18/13
- * Time: 10:59 AM
- * To change this template use File | Settings | File Templates.
+ * Package cache updater
  */
 public class PackageCache {
 
 	private List<PackageInfo> packages;
-	
-	
+
+	/**
+	 * Constructor
+	 * @param packages
+	 */
 	public PackageCache(List<PackageInfo> packages) {
 		this.packages = packages;
 	}
-	
+
 
 	public void updateCache(final String repository) throws DatabaseInitializationException, SQLException {
 		DerbyDatabaseManager databaseManager = DerbyManagerFactory.newInstance();
