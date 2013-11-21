@@ -19,6 +19,16 @@ package net.orpiske.ssps.common.scm;
  * SCM Credentials
  */
 public interface ScmCredentials {
+
+	/**
+	 * Gets the user name
+	 * @return the user name as a String
+	 */
 	String getUserName();
+
+	/**
+	 * Gets the password
+	 * @return the password as a String
+	 */
 	String getPassword();
 }

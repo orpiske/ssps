@@ -15,9 +15,7 @@
  */
 package net.orpiske.ssps.common.scm;
 
-import net.orpiske.ssps.common.scm.exceptions.DuplicateCheckoutException;
-import net.orpiske.ssps.common.scm.exceptions.ScmCheckoutException;
-import net.orpiske.ssps.common.scm.exceptions.ScmUpdateException;
+import net.orpiske.ssps.common.scm.exceptions.*;
 
 import java.io.File;
 
@@ -41,7 +39,7 @@ public interface Scm {
 	/**
 	 * Check-out data from a repository
 	 * @param url the URL as a String object
-	 * @param path the path to checkout to              
+	 * @param path the path to checkout to
 	 */
 	void checkout(final String url, File path) throws ScmCheckoutException, DuplicateCheckoutException;
 
@@ -50,5 +48,24 @@ public interface Scm {
 	 * @param path the path as a String object
 	 */
 	void update(final String path) throws ScmUpdateException;
-	
+
+
+	/**
+	 * Adds the file to the repository
+	 * @param file the file to add
+	 * @throws FileAddException
+	 * @throws ScmAccessException if unable to access the SCM
+	 */
+	void add(File file) throws FileAddException, ScmAccessException;
+
+
+	/**
+	 * Commits the file to the repository
+	 * @param file the file to commit
+	 * @param message the commit message
+	 * @throws FileCommitException
+	 * @throws ScmAccessException if unable to access the SCM
+	 */
+	void commit(File file, String message) 	throws FileCommitException, ScmAccessException;
+
 }

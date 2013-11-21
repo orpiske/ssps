@@ -35,7 +35,7 @@ import java.io.IOException;
  */
 public class GitSCM implements Scm {
 	private static final Logger logger = Logger.getLogger(GitSCM.class);
-	
+
 	private ScmBranch branch;
 	private ScmCredentials credentials;
 
@@ -50,7 +50,7 @@ public class GitSCM implements Scm {
 		cloneCommand.setURI(url);
 		cloneCommand.setDirectory(repositoryDir);
 		cloneCommand.setProgressMonitor(new TextProgressMonitor());
-		
+
 		//final String branch = repositoryInfo.getRepositoryVersion();
 		if (branch != null && !branch.getName().isEmpty()) {
 			cloneCommand.setBranch(branch.getName());
@@ -109,6 +109,7 @@ public class GitSCM implements Scm {
 		}
 	}
 
+
 	/**
 	 * Access the repository
 	 * @param file the repository directory or file
@@ -141,7 +142,6 @@ public class GitSCM implements Scm {
 	}
 
 
-
 	/* (non-Javadoc)
 	 * @see net.orpiske.ssps.spm.repository.Provider#add(java.io.File)
 	 */
@@ -161,15 +161,13 @@ public class GitSCM implements Scm {
 			throw new FileAddException("Unable to add file or directory: "
 					+ e1.getMessage(), e1);
 		}
-
-
 	}
 
 
 	/* (non-Javadoc)
 	 * @see net.orpiske.ssps.spm.repository.Provider#commit(java.io.File)
 	 */
-	//@Override
+	@Override
 	public void commit(final File file, final String message) throws FileCommitException, ScmAccessException {
 		Repository repository = accessRepository(file);
 
@@ -195,8 +193,8 @@ public class GitSCM implements Scm {
 
 
 	}
-	
-	
+
+
 	@Override
 	public void setCredentials(ScmCredentials credentials) {
 		this.credentials = credentials;
@@ -206,6 +204,7 @@ public class GitSCM implements Scm {
 	public void setBranch(ScmBranch branch) {
 		this.branch = branch;
 	}
+
 
 	@Override
 	public void checkout(final String url, final File path) throws ScmCheckoutException, DuplicateCheckoutException {
@@ -222,6 +221,10 @@ public class GitSCM implements Scm {
 		}
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.orpiske.ssps.spm.repository.Provider#commit(java.io.File, java.lang.String)
+	 */
 	@Override
 	public void update(String path) throws ScmUpdateException {
 		File gitDir = new File(path + File.separator + ".git");

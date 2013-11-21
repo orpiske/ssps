@@ -43,7 +43,7 @@ public class SvnSCM implements Scm {
 
 	private ScmCredentials credentials;
 	private SVNClientManager clientManager;
-	
+
 	public SvnSCM() {
 		clientManager = SVNClientManager.newInstance();
 	}
@@ -78,10 +78,10 @@ public class SvnSCM implements Scm {
 		svnOperationFactory.setAuthenticationManager(newAuthManager());
 		update = svnOperationFactory.createUpdate();
 
-		
+
 		logger.info("Updating local repository at " + repositoryDir.getPath());
 
-		
+
 		update.setSingleTarget(SvnTarget.fromFile(repositoryDir));
 		try {
 			update.run();
@@ -95,18 +95,18 @@ public class SvnSCM implements Scm {
 	}
 
 	private ISVNAuthenticationManager newAuthManager() {
-		if (credentials != null) { 
+		if (credentials != null) {
 			return SVNWCUtil.createDefaultAuthenticationManager(credentials.getUserName(),
 				credentials.getPassword());
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public void setCredentials(ScmCredentials credentials) {
 		this.credentials = credentials;
-		
+
 		clientManager.setAuthenticationManager(newAuthManager());
 	}
 
@@ -141,7 +141,7 @@ public class SvnSCM implements Scm {
 	/* (non-Javadoc)
 	* @see net.orpiske.ssps.spm.repository.Provider#add(java.io.File)
 	*/
-	// @Override
+	@Override
 	public void add(File file) throws FileAddException, ScmAccessException {
 
 		SVNWCClient wcClient = clientManager.getWCClient();
@@ -157,7 +157,7 @@ public class SvnSCM implements Scm {
 	/* (non-Javadoc)
 	 * @see net.orpiske.ssps.spm.repository.Provider#commit(java.io.File, java.lang.String)
 	 */
-	//@Override
+	@Override
 	public void commit(File file, String message)
 			throws FileCommitException, ScmAccessException {
 		SVNCommitClient client = clientManager.getCommitClient();

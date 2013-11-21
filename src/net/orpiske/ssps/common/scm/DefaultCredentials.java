@@ -23,12 +23,17 @@ public class DefaultCredentials implements ScmCredentials {
 	private String password;
 
 
+	/**
+	 * Constructor
+	 * @param userName the user name as a String
+	 * @param password the password as a String
+	 */
 	public DefaultCredentials(final String userName, final String password) {
 		this.userName = userName;
 		this.password = password;
 	}
-	
-	
+
+
 	/**
 	 * Gets the user name
 	 * @return the user name as a String
@@ -37,7 +42,7 @@ public class DefaultCredentials implements ScmCredentials {
 		return userName;
 	}
 
-	
+
 	/**
 	 * Gets the password
 	 * @return the password as a String object
