@@ -26,6 +26,7 @@ import net.orpiske.ssps.common.repository.search.cache.PackageCacheDao;
 import net.orpiske.ssps.common.utils.Utils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ import java.util.Properties;
  * Helper class to setup the internal database
  */
 public class DbInitializationHelper {
+	private static final Logger logger = Logger.getLogger(DbInitializationHelper.class);
 	private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 	private DerbyDatabaseManager databaseManager = null;
 	
@@ -55,7 +57,7 @@ public class DbInitializationHelper {
 			
 			if (StringUtils.containsIgnoreCase(err, "does not exist")) {
 				inventory.createTable();
-				System.out.println("Software inventory table created successfully");
+				logger.debug("Software inventory table created successfully");
 			}
 			else {
 				throw e;
@@ -71,7 +73,7 @@ public class DbInitializationHelper {
 			DbVersionDto dto = dao.get();
 			
 			if (dto == null) {
-				System.out.println("Creating database version record");
+				logger.debug("Creating database version record");
 				dto = new DbVersionDto();
 				
 				dto.setCreationDate(new Date());
@@ -86,7 +88,7 @@ public class DbInitializationHelper {
 			
 			if (StringUtils.containsIgnoreCase(err, "does not exist")) {
 				dao.createTable();
-				System.out.println("Database version table created successfully");
+				logger.debug("Database version table created successfully");
 			}
 			else {
 				throw e;
@@ -106,7 +108,7 @@ public class DbInitializationHelper {
 			
 			if (StringUtils.containsIgnoreCase(err, "does not exist")) {
 				dao.createTable();
-				System.out.println("Package cache table created successfully");
+				logger.debug("Package cache table created successfully");
 			}
 			else {
 				throw e;
@@ -126,7 +128,7 @@ public class DbInitializationHelper {
 
 			if (StringUtils.containsIgnoreCase(err, "does not exist")) {
 				dao.createTable();
-				System.out.println("Dependency cache table created successfully");
+				logger.debug("Dependency cache table created successfully");
 			}
 			else {
 				throw e;
@@ -136,9 +138,16 @@ public class DbInitializationHelper {
 	
 	
 	private void initializeTables() throws SQLException, DatabaseInitializationException{
+		logger.debug("Initializing software inventory");
 		initializeSoftwareInventory();
+
+		logger.debug("Initializing db version");
 		initializeDbVersion();
+
+		logger.debug("Initializing package cache");
 		initializePackageCache();
+
+		logger.debug("Initializing dependency cache");
 		initializeDependencyCache();
 		
 	}
@@ -147,7 +156,7 @@ public class DbInitializationHelper {
 		File lockFile = new File(Utils.getSdmDirectoryPathFile(), "sdm.lock");
 		
 		try {
-			System.out.println("Trying to obtain a runtime lock");
+			logger.trace("Trying to obtain a runtime lock");
 			boolean created;
 			
 			do {
@@ -156,8 +165,8 @@ public class DbInitializationHelper {
 				}
 				created = lockFile.createNewFile();
 			} while (!created);
-			
-			System.out.println("Runtime lock obtained successfully");
+
+			logger.trace("Runtime lock obtained successfully");
 		}
 		finally {
 			lockFile.deleteOnExit(); 
@@ -184,7 +193,7 @@ public class DbInitializationHelper {
 				}
 			}
 			
-			databaseManager = new DerbyDatabaseManager("registry", props);
+			databaseManager = new DerbyDatabaseManager("registry", props, volatileStorage);
 			
 			initializeTables();
 		} catch (Exception e) {
