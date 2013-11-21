@@ -125,12 +125,12 @@ public class GroovyEngine implements Engine {
 		if (phases.length == 0) {
 			return;
 		}
-		
-		
-		if (ArrayUtils.contains(phases, "fetch")) { 
+
+
+		if (ArrayUtils.contains(phases, "fetch")) {
 			total += runPhase(groovyObject, "fetch", url);
 		}
-		
+
 		String artifactName = null;
 
 		try {
@@ -158,10 +158,6 @@ public class GroovyEngine implements Engine {
 
 		if (ArrayUtils.contains(phases, "build")) {
 			total += runPhase(groovyObject, "build", (Object[]) null);
-		}
-
-		if (ArrayUtils.contains(phases, "prepare")) {
-			total += runPhase(groovyObject, "prepare", (Object[]) null);
 		}
 
 		if (ArrayUtils.contains(phases, "verify")) {
@@ -194,7 +190,7 @@ public class GroovyEngine implements Engine {
 	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
 	 */
 	public void run(final File file) throws EngineException {
-		run(file, "fetch", "extract", "build", "prepare", "verify", "install", 
+		run(file, "fetch", "extract", "build", "prepare", "verify", "install",
 				"finish", "cleanup");
 	}
 
