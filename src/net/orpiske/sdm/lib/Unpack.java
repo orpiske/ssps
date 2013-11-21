@@ -41,13 +41,14 @@ public class Unpack {
 	private static final Logger logger = Logger.getLogger(Unpack.class);
 	
 	
-	private static void cleanup() {
+	private static void cleanup(final String artifact, final String destination) {
 		logger.warn("Cleaning up due to errors");
 		
-		String destination = WorkdirUtils.getWorkDir();
 		File orphanDirectory = new File(destination);
 		
-		FileUtils.deleteQuietly(orphanDirectory);
+		if (orphanDirectory.exists()) { 
+			FileUtils.deleteQuietly(orphanDirectory);
+		}
 	}
 	
 	
@@ -84,7 +85,7 @@ public class Unpack {
 			
 			archive.unpack(source, destination);
 		} catch (SspsArchiveException e) {
-			cleanup();
+			cleanup(artifact, destination);
 			
 			throw new UnpackException(e.getMessage(), e);
  
