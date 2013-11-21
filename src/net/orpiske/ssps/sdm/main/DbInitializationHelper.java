@@ -148,7 +148,8 @@ public class DbInitializationHelper {
 		
 		try {
 			System.out.println("Trying to obtain a runtime lock");
-			boolean created = false;
+			boolean created;
+			
 			do {
 				if (lockFile.exists()) {
 					Thread.sleep(100);	
