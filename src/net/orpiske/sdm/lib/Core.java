@@ -28,7 +28,7 @@ import net.orpiske.ssps.common.repository.utils.InstallDirUtils;
  *
  */
 public class Core {
-	
+
 
 	/**
 	 * Installs a package into the installation directory
@@ -39,11 +39,11 @@ public class Core {
 	public static void performInstall(final String name, final String version) throws IOException
 	{
 		String workDir = WorkdirUtils.getWorkDir();
-			
-		performInstall(workDir + File.separator + name + "-" + version, name, version);	
+
+		performInstall(workDir + File.separator + name + "-" + version, name, version);
 	}
-	
-	
+
+
 	/**
 	 * Installs a package into the installation directory
 	 * @param source The source folder
@@ -51,14 +51,13 @@ public class Core {
 	 * @param version The package version
 	 * @throws IOException In case of I/O errors
 	 */
-	public static void performInstall(final String source, final String name, 
+	public static void performInstall(final String source, final String name,
 			final String version) throws IOException
 	{
 		String installdir = InstallDirUtils.getInstallDir();
-		// String dest = installdir + File.separator + name + "-" + version;
-		
+
 		System.out.println("Installing " + name + "-" + version + " to " + installdir);
-		
+
 		IOUtil.copy(source, installdir);
 	}
 
