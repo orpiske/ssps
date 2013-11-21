@@ -1,3 +1,18 @@
+/**
+ Copyright 2013 Otavio Rodolfo Piske
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 package net.orpiske.ssps.sdm.main;
 
 import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
@@ -18,18 +33,13 @@ import java.util.Date;
 import java.util.Properties;
 
 /**
- * Created with IntelliJ IDEA.
- * User: orpiske
- * Date: 9/18/13
- * Time: 10:12 AM
- * To change this template use File | Settings | File Templates.
+ * Helper class to setup the internal database
  */
 public class DbInitializationHelper {
 	private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 	private DerbyDatabaseManager databaseManager = null;
 	
 	public DbInitializationHelper() {
-		
 		
 	}
 
@@ -51,8 +61,6 @@ public class DbInitializationHelper {
 				throw e;
 			}
 		} 
-		
-		
 	}
 
 
@@ -118,7 +126,7 @@ public class DbInitializationHelper {
 
 			if (StringUtils.containsIgnoreCase(err, "does not exist")) {
 				dao.createTable();
-				System.out.println("Package cache table created successfully");
+				System.out.println("Dependency cache table created successfully");
 			}
 			else {
 				throw e;
@@ -147,12 +155,12 @@ public class DbInitializationHelper {
 				}
 				created = lockFile.createNewFile();
 			} while (!created);
+			
+			System.out.println("Runtime lock obtained successfully");
 		}
 		finally {
 			lockFile.deleteOnExit(); 
 		}
-
-		System.out.println("Runtime lock obtained successfully");
 	}
 	
 	public void initDatabase() {
@@ -168,11 +176,11 @@ public class DbInitializationHelper {
 			
 			if (!volatileStorage) { 
 				getLock();
-			}
-			
-			if (!dbDir.exists()) {
-				System.out.println("This appears to be the first time you are"
-						+ " using SDM. Creating database ...");
+
+				if (!dbDir.exists()) {
+					System.out.println("This appears to be the first time you are"
+							+ " using SDM. Creating database ...");
+				}
 			}
 			
 			databaseManager = new DerbyDatabaseManager("registry", props);
