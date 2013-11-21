@@ -27,13 +27,17 @@ class MavenBuilder implements ProjectBuilder {
     private String projectDirectory
     private String profile;
 
-   
+
 
     public MavenBuilder(String projectDirectory) {
         this.projectDirectory = projectDirectory;
-        
+
         PropertiesConfiguration config = ConfigurationWrapper.getConfig();
         executable = config.getString("maven.executable");
+
+		if (executable == null || executable.isEmpty()) {
+			executable = "mvn"
+		}
     }
 
 
@@ -42,6 +46,10 @@ class MavenBuilder implements ProjectBuilder {
 
         PropertiesConfiguration config = ConfigurationWrapper.getConfig();
         executable = config.getString("maven.executable");
+
+		if (executable == null || executable.isEmpty()) {
+			executable = "mvn"
+		}
     }
 
 
@@ -52,27 +60,27 @@ class MavenBuilder implements ProjectBuilder {
     void setProfile(String profile) {
         this.profile = profile
     }
-    
-    
+
+
     private int execPhase(String phase) {
         String arguments = "-f ${projectDirectory}/pom.xml"
-        
+
         if (profile != null && !profile.isEmpty()) {
             arguments = arguments + " -P ${profile}"
         }
 
         arguments = arguments + " ${phase}"
- 
+
         //System.setProperty("JAVA_HOME", )
         int ret = Executable.exec(executable, arguments)
 
         if (ret != 0) {
             println "The command line did not execute successfully"
         }
-        
+
         return ret
     }
-    
+
     @Override
     int clean() {
         return execPhase("clean");
