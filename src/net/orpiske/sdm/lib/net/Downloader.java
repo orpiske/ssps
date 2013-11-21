@@ -16,7 +16,6 @@
 package net.orpiske.sdm.lib.net;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,15 +37,15 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 /**
- * Implements the download rule.
- * 
+ * Implements the download function.
+ *
  * @author Otavio R. Piske <angusyoung@gmail.com>
- * 
+ *
  */
 public class Downloader {
-	
+
 	private static final Logger logger = Logger.getLogger(Downloader.class);
-	
+
 	private static void copy(final Resource<InputStream> resource,
 			final OutputStream output) throws IOException {
 		InputStream input = resource.getPayload();
@@ -59,27 +58,27 @@ public class Downloader {
 
 			if ((i % (1024 * 512)) == 0) {
 				double percentComplete = 0;
-				
+
 				if (i > 0) {
 					percentComplete = i / ((double) total /100.0);
 				}
 				else {
 					percentComplete = 0.0;
 				}
-				
-			
-				System.out.print("\r" + (int) percentComplete + "% complete (" + i + " of " 
+
+
+				System.out.print("\r" + (int) percentComplete + "% complete (" + i + " of "
 						+ total + ")");
 			}
 		}
-		
+
 		System.out.print("\r100% complete (" + i + " of " + total + ")\n");
-		
+
 		output.flush();
 
 	}
 
-	
+
 
 	/**
 	 * Setups the output file
@@ -88,7 +87,7 @@ public class Downloader {
 	 * @return A new File object pointing to the output file
 	 * @throws MalformedURLException
 	 * @throws URISyntaxException
-	 * @throws IOException if unable to create the output directory, file or remove an 
+	 * @throws IOException if unable to create the output directory, file or remove an
 	 * existent file
 	 */
 	private static File setupOutputFile(String url, boolean overwrite)
@@ -99,12 +98,12 @@ public class Downloader {
 
 		File outputFile = new File(fullName);
 
-		if (!outputFile.getParentFile().exists()) { 
+		if (!outputFile.getParentFile().exists()) {
 			if (!outputFile.getParentFile().mkdirs()) {
 				throw new IOException("Unable to create output directory " + fullName);
 			}
 		}
-		
+
 		if (!outputFile.exists()) {
 			if (!outputFile.createNewFile()) {
 				throw new IOException("Unable to create file " + fullName);
@@ -125,7 +124,7 @@ public class Downloader {
 		}
 		return outputFile;
 	}
-	
+
 	/**
 	 * Saves the downloaded file
 	 * @param outputFile the output file
@@ -135,14 +134,14 @@ public class Downloader {
 	private static void saveDownload(File outputFile, Resource<InputStream> resource)
 			throws IOException {
 		FileOutputStream output = null;
-		
+
 		try {
 			output = new FileOutputStream(outputFile);
 
 			copy(resource, output);
 			long lastModified = resource.getResourceInfo().getLastModified();
 			if (!outputFile.setLastModified(lastModified)) {
-				logger.info("Unable to set the last modified date for " + 
+				logger.info("Unable to set the last modified date for " +
 						outputFile.getPath());
 			}
 		} finally {
@@ -151,9 +150,9 @@ public class Downloader {
 			IOUtils.closeQuietly(resource.getPayload());
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Download a file
 	 * @param url the URL to the file
@@ -166,7 +165,7 @@ public class Downloader {
 
 			File outputFile = setupOutputFile(url, overwrite);
 
-			ResourceExchange resourceExchange = 
+			ResourceExchange resourceExchange =
 					ResourceExchangeFactory.newResourceExchange(uri);
 			ResourceInfo resourceInfo = resourceExchange.info(uri);
 
@@ -175,15 +174,15 @@ public class Downloader {
 				long sourceSize = resourceInfo.getSize();
 
 				if (sourceSize == outSize) {
-					logger.info("Destination file and source file appears to be " + 
+					logger.info("Destination file and source file appears to be " +
 							"the same. Using cached file instead.");
 
 				} else {
 					Resource<InputStream> resource = resourceExchange.get(uri);
-					
+
 					saveDownload(outputFile, resource);
-					
-					if (logger.isDebugEnabled()) { 
+
+					if (logger.isDebugEnabled()) {
 						logger.debug("Downloaded " + outputFile.getPath());
 					}
 				}
@@ -196,10 +195,9 @@ public class Downloader {
 		} catch (IOException e) {
 			throw new ResourceExchangeException("I/O error: " + e.getMessage(), e);
 		}
-
 	}
-	
-	
+
+
 	/**
 	 * Download a file overwriting existent ones
 	 * @param url the URL to the file
