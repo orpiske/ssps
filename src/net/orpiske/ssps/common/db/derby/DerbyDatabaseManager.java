@@ -22,7 +22,6 @@ import java.util.Properties;
 
 import net.orpiske.ssps.common.db.DatabaseManager;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
-
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.log4j.Logger;
 
@@ -36,18 +35,27 @@ public class DerbyDatabaseManager implements DatabaseManager {
 			.getLogger(DerbyDatabaseManager.class);
 
 	private static final String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-	private static final String protocol = "jdbc:derby:";
+	private static String protocol = "jdbc:derby:";
+	
+	
 
 	private String databaseName;
 	private Connection conn;
+	private boolean volatileStorage;
 
 	public DerbyDatabaseManager(final String databaseName,
-			final Properties properties) throws DatabaseInitializationException {
+			final Properties properties, boolean volatileStorage) throws DatabaseInitializationException {
 		this.databaseName = databaseName;
+		this.volatileStorage = volatileStorage;
 
+		if (volatileStorage) {
+			protocol =  "jdbc:derby:memory:";
+		}
+		
 		loadDriver();
 		setup(properties);
 	}
+
 
 	/**
 	 * Loads the embedded Apache Derby driver.
@@ -81,8 +89,15 @@ public class DerbyDatabaseManager implements DatabaseManager {
 			conn = DriverManager.getConnection(protocol + databaseName
 					+ ";create=true", properties);
 		} catch (SQLException e) {
-			throw new DatabaseInitializationException(
-					"Unable to connect to the embedded" + " database", e);
+			if (volatileStorage) {
+				throw new DatabaseInitializationException("Unable to connect to the " + 
+					"volatile database", e);
+			}
+			else {
+				throw new DatabaseInitializationException("Unable to connect to the " +
+						"embedded database", e);
+			}
+			
 		}
 	}
 
@@ -126,7 +141,6 @@ public class DerbyDatabaseManager implements DatabaseManager {
 	@Override
 	public void close() {
 		DbUtils.closeQuietly(conn);
-		
 	}
 
 }

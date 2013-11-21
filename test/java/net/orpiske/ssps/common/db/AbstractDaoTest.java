@@ -51,7 +51,7 @@ public class AbstractDaoTest {
 	
 	@BeforeClass
 	public static void createTable() throws DatabaseInitializationException, SQLException {
-		derby = new DerbyDatabaseManager("test", setup());
+		derby = new DerbyDatabaseManager("test", setup(), true);
 		TestDao dao = new TestDao(derby);
 		dao.createTable();
 	}

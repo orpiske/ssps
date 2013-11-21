@@ -54,7 +54,7 @@ public class SoftwareInventoryDaoTest {
 	
 	@BeforeClass
 	public static void createTable() throws DatabaseInitializationException, SQLException {
-		derby = new DerbyDatabaseManager("registry", setup());
+		derby = new DerbyDatabaseManager("registry", setup(), true);
 		SoftwareInventoryDao dao = new TestSoftwareInventoryDao(derby);
 		dao.createTable();
 	}

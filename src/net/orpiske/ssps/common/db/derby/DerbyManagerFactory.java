@@ -17,8 +17,10 @@ package net.orpiske.ssps.common.db.derby;
 
 import java.util.Properties;
 
+import net.orpiske.ssps.common.configuration.ConfigurationWrapper;
 import net.orpiske.ssps.common.db.exceptions.DatabaseInitializationException;
 import net.orpiske.ssps.common.utils.Utils;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * A factory class for Derby database manager
@@ -26,6 +28,7 @@ import net.orpiske.ssps.common.utils.Utils;
  * @author Otavio R. Piske <angusyoung@gmail.com>
  */
 public class DerbyManagerFactory {
+	private static final PropertiesConfiguration config = ConfigurationWrapper.getConfig();
 	
 	/**
 	 * Restricted constructor
@@ -40,8 +43,10 @@ public class DerbyManagerFactory {
 	public static DerbyDatabaseManager newInstance() throws DatabaseInitializationException {
 		Properties props = System.getProperties();
 		props.setProperty("derby.system.home", Utils.getSdmDirectoryPath());
+
+		boolean volatileStorage = config.getBoolean("registry.volatile.storage", false);
 		
-		return new DerbyDatabaseManager("registry", props);
+		return new DerbyDatabaseManager("registry", props, volatileStorage);
 	}
 	
 }

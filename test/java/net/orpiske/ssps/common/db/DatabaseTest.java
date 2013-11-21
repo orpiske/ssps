@@ -45,7 +45,7 @@ public class DatabaseTest {
 	public void testDatabaseInitialization()
 			throws DatabaseInitializationException {
 
-		DatabaseManager derby = new DerbyDatabaseManager("test", setup());
+		DatabaseManager derby = new DerbyDatabaseManager("test", setup(), false);
 		@SuppressWarnings("unused")
 		TestDao dao = new TestDao(derby);
 	}
@@ -54,7 +54,7 @@ public class DatabaseTest {
 	public void testDatabaseCreation() throws DatabaseInitializationException,
 			SQLException {
 
-		DatabaseManager derby = new DerbyDatabaseManager("test", setup());
+		DatabaseManager derby = new DerbyDatabaseManager("test", setup(), false);
 		TestDao dao = new TestDao(derby);
 
 		dao.createTable();
@@ -65,7 +65,7 @@ public class DatabaseTest {
 	public void testDatabaseDrop() throws DatabaseInitializationException,
 			SQLException {
 
-		DatabaseManager derby = new DerbyDatabaseManager("test", setup());
+		DatabaseManager derby = new DerbyDatabaseManager("test", setup(), false);
 		TestDao dao = new TestDao(derby);
 
 		dao.dropTable();
@@ -75,7 +75,7 @@ public class DatabaseTest {
 	public void testDatabaseCount() throws DatabaseInitializationException,
 			SQLException {
 
-		DatabaseManager derby = new DerbyDatabaseManager("test", setup());
+		DatabaseManager derby = new DerbyDatabaseManager("test", setup(), false);
 		TestDao dao = new TestDao(derby);
 		
 		try {
