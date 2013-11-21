@@ -44,6 +44,7 @@ import net.orpiske.ssps.sdm.utils.net.ProxyHelper;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.log4j.Logger;
 
 /**
  * Main class
@@ -52,6 +53,7 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
  *
  */
 public class Main {
+	private static final Logger logger = Logger.getLogger(Main.class);
 
 	private static void initLogger() throws FileNotFoundException {
 		LoggerUtils.initLogger(Constants.SDM_CONFIG_DIR);
@@ -149,15 +151,23 @@ public class Main {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		logger.debug("Initializing configuration");
 		initConfig();
 
 		if (first.equals("help")) {
 			help(1);
 		}
 
+		logger.debug("Initializing user directory");
 		initUserSdmDirectory();
+
+		logger.debug("Initializing database");
 		initDatabase();
+
+		logger.debug("Initializing proxy settings");
 		initProxy();
+
+		logger.debug("Initializing groovy classpath");
 		initGroovyClasspath();
 
 		if (first.equals("install")) {
