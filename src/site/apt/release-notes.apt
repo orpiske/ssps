@@ -11,29 +11,33 @@ SDM Version 0.3.0
 
 	* Added support for deep package removal (ie.: when removing a package, it also removes the dependencies)
 
+	* Added support for installing packages without dependencies
+
 	* Added support for accessing some runtime information within the scripts
 
 	* Added support for plugins
-	
+
 	* Improved the support for building projects from source
-	
-	* Improved the way the project handles SVN credentials 
-	
+
+	* Improved the way the project handles SVN credentials
+
 	* Added support for specifying the install phase to run
-	
+
 	* Added the ability to override ~/.sdm location by exporting USER_LOCAL_DIRECTORY variable
-	
+
 	* Added the --view flag for the install command so the user can view what is going to be installed
-	
+
 	* Reinstall now removes old installation before continuing
-	
-	* Added --rebuild-cache-only which just updates the internal database if with the downloaded packages 
-	
-	* Added support for returning status code to the OS so it integrates better with Jenkins 
-	
+
+	* Added --rebuild-cache-only which just updates the internal database if with the downloaded packages
+
+	* Added support for returning status code to the OS so it integrates better with Jenkins and/or scripts
+
 	* Added support for repository specific package installations
-	
+
 	* Added support for 'file:/' resource exchanges (allows to point to local files instead of relying solely on http in the URL property)
+
+	* Added support for volatile storage (does not save the results to a database, which is used in a Continuous Integration environment)
 
 SDM Version 0.2.2
 
