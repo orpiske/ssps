@@ -5,9 +5,9 @@
 	------
 	Jan, 2013
 
-Obtaining Help	
+Obtaining Help
 
-	You can always use the <<<--help>>> flag on each of the actions. That will 
+	You can always use the <<<--help>>> flag on each of the actions. That will
 print a brief explanation of each of the flags.
 
 
@@ -20,7 +20,7 @@ sdm help
 ----------------------------------------
 
 ----------------------------------------
--> % sdm help                                                       
+-> % sdm help
 Usage: sdm <action>
 
 Actions:
@@ -37,11 +37,11 @@ Actions:
 
 Add-Repository
 
-	Download and add a new remote repository to your local repository. This is the first 
+	Download and add a new remote repository to your local repository. This is the first
 step before using sdm.
 
 ----------------------------------------
-sdm add-repository -n default -u git://github.com/orpiske/sdm-packages.git
+sdm add-repository -n default -u git://github.com/orpiske/sdm-devel-packages.git
 ----------------------------------------
 
 	For Git repositories, it's now possible to inform the desired branch to use during the
@@ -55,8 +55,8 @@ sdm add-repository -n default -u git://github.com/orpiske/sdm-devel-packages.git
 
 Install
 
-	This action installs a package on your <<<${HOME}/software>>> directory (or 
-whatever you configured in the <<<sdm.properties>>> file. For instance: 
+	This action installs a package on your <<<${HOME}/software>>> directory (or
+whatever you configured in the <<<sdm.properties>>> file. For instance:
 
 ----------------------------------------
 sdm install -p apache-maven
@@ -66,22 +66,22 @@ sdm install -p apache-maven
 packages with that name exist:
 
 ----------------------------------------
-More than one match found. Please specify either the version (-v) or the group (-g) name: 
+More than one match found. Please specify either the version (-v) or the group (-g) name:
 Group ID           Package Name                        Version      Type      Path
 org.apache      => apache-maven                     => 3.0.4     => BINARY => /home/orpiske/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.4/pkg/apache-maven.groovy
 org.apache      => apache-maven                     => 2.2.1     => BINARY => /home/orpiske/.sdm/repositories/default/packages/org.apache/apache-maven/2.2.1/pkg/apache-maven.groovy
 org.apache      => apache-maven                     => 3.0.5     => BINARY => /home/orpiske/.sdm/repositories/default/packages/org.apache/apache-maven/3.0.5/pkg/apache-maven.groovy
 ----------------------------------------
 
-	To prevent collisions, so you'll need to inform the specific version 
+	To prevent collisions, so you'll need to inform the specific version
 (<<<-v>>>) and, eventually, the group id (<<<-g>>>):
 
 ----------------------------------------
 sdm install -p apache-maven -v 2.2.1
 ----------------------------------------
 
-	Running the command above one more time, will cause a registry collision. 
-	
+	Running the command above one more time, will cause a registry collision.
+
 ----------------------------------------
 The package org.apache/apache-maven-2.2.1 is already installed
 
@@ -93,7 +93,7 @@ Installation date: 2013-03-07 13:46:22.92
 Installation directory: /Users/otavio/software/apache-maven-2.2.1
 Multiple installed packages found apache-maven
 ----------------------------------------
- 
+
 	If you want to reinstall the package, <<<--reinstall>>> comes at your rescue:
 
 ----------------------------------------
@@ -101,27 +101,29 @@ sdm install -p apache-maven -v 2.2.1 --reinstall
 ----------------------------------------
 
 
-	Finally, SDM caches the downloaded package. This may consume disk space. To 
+	Finally, SDM caches the downloaded package. This may consume disk space. To
 clean it up, you can provide <<<--cleanup>>> to the command-line:
 
 ----------------------------------------
 sdm install -p apache-maven -v 2.2.1 --reinstall --cleanup
 ----------------------------------------
 
-Uninstall 
+
+Uninstall
 
 	To uninstall the apache-maven package, run:
 
 ----------------------------------------
-sdm uninstall -p apache-maven 
+sdm uninstall -p apache-maven
 ----------------------------------------
 
 	Just like with install, there can be package collisions. Use <<<-g>>> and
 <<<-v>>> to resolve them.
 
-    It's also possible to inform dependencies to be removed. You can do so with the 
+    It's also possible to inform dependencies to be removed. You can do so with the
 <<<-deep>>> flag. Note that this can be a dangerous operation because SDM will not check
 against "in use" dependencies (ie.: if the dependency is required elsewhere).
+
 
 Search
 
@@ -142,7 +144,7 @@ File: /Users/otavio/.sdm/repositories/default/packages/org.apache/apache-maven/3
 ----------------------------------------
 
 	To search for installed packages, run:
- 
+
 ----------------------------------------
 sdm search -p apache-maven -i
 ----------------------------------------
@@ -150,50 +152,70 @@ sdm search -p apache-maven -i
 	A sample output for the above command, could be:
 
 ----------------------------------------
--> % sdm search -a -i                                            
+-> % sdm search -a -i
 Group ID           Package Name            Version     Type  Install Date               Install Dir
 org.apache      => apache-ant           => 1.8.4     => B => 2013-03-03 18:27:48.366 => /Users/otavio/software/apache-ant-1.8.4
 org.apache      => apache-derby         => 10.9.1.0  => B => 2013-03-03 18:28:27.678 => /Users/otavio/software/apache-derby-10.9.1.0
 org.apache      => apache-maven         => 2.2.1     => B => 2013-03-05 21:20:22.866 => /Users/otavio/software/apache-maven-2.2.1
 org.apache      => apache-maven         => 3.0.5     => B => 2013-03-03 18:27:31.31  => /Users/otavio/software/apache-maven-3.0.5
-----------------------------------------	
+----------------------------------------
 
 	The option <<<-a>>> along with <<<-i>>> will print all installed packages
 
+
 Update
 
-	The update is used to refresh your local scripts with the remote repository data. To 
+	The update is used to refresh your local scripts with the remote repository data. To
 update your local repositories, run:
 
 ----------------------------------------
 sdm update
 ----------------------------------------
 
+	If you want to update the packages for a single repository, you can use :
+
+----------------------------------------
+sdm update --repositories my-repository-name
+----------------------------------------
+
+	If you writing your own packages and want to prevent it from reaching the repository all the time, you can use the
+<<<--rebuild-cache-only>>> flag, which will just rebuild the package cache database.
+
 
 Upgrade
 
-	The upgrade is used to upgrade your local packages with the latest provided in the 
-repository. You can use the option <<<-a>>> to update all packages or inform the package 
-name using <<<-p>>>, <<<-g>>> or both. Outdated versions, in the same slot, will be 
+	The upgrade is used to upgrade your local packages with the latest provided in the
+repository. You can use the option <<<-a>>> to update all packages or inform the package
+name using <<<-p>>>, <<<-g>>> or both. Outdated versions, in the same slot, will be
 removed.
 
 ----------------------------------------
 sdm upgrade -a
 ----------------------------------------
 
-	You can also view the available packages for update using <<<--view>>> option. 
-	
-	
+	You can also view the available packages for update using <<<--view>>> option.
+
+
 Advanced
 
     If you want to run a particular install phase, you can use the <<<--phases>>> option.
-    
+
    ----------------------------------------
    sdm install -p apache-maven -v 2.2.1 --phases fetch extract build
    ----------------------------------------
 
     You may skip the installation of dependencies by using <<<--nodeps>>>
-    
+
    ----------------------------------------
    sdm install -p apache-maven -v 2.2.1 --nodeps
    ----------------------------------------
+
+    For some operations you may also want to inform the repository with the <<<--repositories>>> option.
+
+    For simplified package management or in case you're using SDM as part of your Continuous Integration infrastructure,
+you can also enable volatile storage. This prevents sdm from storing the installed versions of the package in a database
+and having it trying to manage the versions for you. You can do so by setting the property "registry.volatile.storage"
+to true in the sdm.properties file.
+
+
+

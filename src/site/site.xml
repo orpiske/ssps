@@ -4,7 +4,7 @@
     <name>Simple Software Provisioning System</name>
     <href>http://www.orpiske.net/ssps/</href>
   </bannerLeft>
-  
+
   <body>
     <menu name="SDM">
       <item name="Introduction" href="index.html"/>
@@ -12,15 +12,16 @@
       <item name="Release Notes" href="release-notes.html" />
       <item name="General Information" href="about.html"/>
     </menu>
-    
+
     <menu name="Documentation">
       <item name="Get Started" href="doc/get-started.html"/>
       <item name="Run SDM" href="doc/run-sdm.html"/>
       <item name="Writing Scripts" href="doc/writing-scripts.html"/>
+      <item name="Plugins" href="doc/plugins.html"/>
       <item name="Custom Repositories" href="doc/custom-repositories.html"/>
       <item name="Mail Lists" href="mail-lists.html"/>
     </menu>
-    
+
      <menu name="Project">
       <item name="API Documentation" href="apidocs/index.html"/>
       <item name="Common API Documentation" href="../ssps-common/"/>
