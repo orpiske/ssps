@@ -26,7 +26,7 @@ class MavenBuilder implements ProjectBuilder {
     private String executable;
     private String projectDirectory
     private String profile;
-
+	private String arguments = "";
 
 
     public MavenBuilder(String projectDirectory) {
@@ -62,8 +62,21 @@ class MavenBuilder implements ProjectBuilder {
     }
 
 
+	void setDefine(String key, String value) {
+		arguments = arguments + " -D${key}=${value}"
+	}
+
+
+	void setAdditionalArguments(String additionalArguments) {
+		arguments = arguments + " " + additionalArguments;
+	}
+
+	void setBatch() {
+		arguments = arguments + " -B"
+	}
+
     private int execPhase(String phase) {
-        String arguments = "-f ${projectDirectory}/pom.xml"
+        arguments = arguments + " -f ${projectDirectory}/pom.xml"
 
         if (profile != null && !profile.isEmpty()) {
             arguments = arguments + " -P ${profile}"
@@ -71,7 +84,7 @@ class MavenBuilder implements ProjectBuilder {
 
         arguments = arguments + " ${phase}"
 
-        //System.setProperty("JAVA_HOME", )
+        println "Arguments = ${arguments}"
         int ret = Executable.exec(executable, arguments)
 
         if (ret != 0) {
