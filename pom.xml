@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.orpiske</groupId>
 	<artifactId>sdm-common</artifactId>
-	<version>0.3.0</version>
+	<version>0.3.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>SSPS :: SDM :: Common</name>
     <description>The SDM Common library</description>
