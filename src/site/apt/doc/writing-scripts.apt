@@ -11,7 +11,8 @@ The Script File
 package.
 
 	The script is, basically, a {{{http://groovy.codehaus.org}Groovy}} file that
-extends BinaryPackage and implements one or more of the following methods:
+extends one of BinaryPackage or SourcePackage - or simply, implements Package - and implements
+ one or more of the following methods:
 
 ----------------------------------------
 	void fetch(final String url);
