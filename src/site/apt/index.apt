@@ -10,34 +10,35 @@ Welcome to SDM.
 	The SDM is an operating system agnostic, Java-focused (but not limited to),
 package manager. It helps developers and configuration management personnel to
 automate the jobs related to install software packages. It allows you to perform
-the same procedures no matter what OS you are running. Among other things, it 
+the same procedures no matter what OS you are running. Among other things, it
 allows you to easily create package repositories for (both stable and production)
 that can be distributed to development and configuration management teams.
-	This project is still in its infancy and under a lot of development. If 
+	This project is still in its infancy and under a lot of development. If
 this software is useful for you, {{{./about.html}please me know}}.
 
 Learning About SDM
 
-	To learn how to use SSPS to automate the steps of software deployment, 
-please read the {{{./doc/get-started.html}Get Started}}.
+	To learn how to use SSPS to automate the steps of software deployment,
+please read the {{{./doc/get-started.html}Get Started}}. Additionally, you may want
+to join the #ssps channel on Freenode (irc.freenode.net).
 
 
 Why SDM?
 
-	In a world full of package managers (RPM, APT, Portage, Homebrew, etc) why 
-write another package manager tool? Because: 
+	In a world full of package managers (RPM, APT, Portage, Homebrew, etc) why
+write another package manager tool? Because:
 
-	* It's hard to run these tools without root access. SDM, on the other hand,
-can run as a regular user.
-	
-	* Most of the time they are specific to a certain operating system and/or 
-Linux distribution. SDM, runs on a broad range of systems: Linux, Mac OS X, 
-Solaris and Windows have been tested. It's very likely to run on other OS as 
+	* SDM is designed to run without escalated privileges. In Linux/Unix, no
+root access is required.
+
+	* Most of the time they are specific to a certain operating system and/or
+Linux distribution. SDM, runs on a broad range of systems: Linux, Mac OS X,
+Solaris and Windows have been tested. It's very likely to run on other OS as
 well.
 
 	* Sometimes they can be overly complex and overly powerful. SDM aims to be as
 simple as possible (but not simpler than that).
-	
-	* Sometimes they have a very large dependency chain. SDM comes will all the 
-dependencies - except the JVM, which is present by default on any modern 
+
+	* Sometimes they have a very large dependency chain. SDM comes will all the
+dependencies - except the JVM, which is present by default on any modern
 operating system - embedded. Unpack and run.
