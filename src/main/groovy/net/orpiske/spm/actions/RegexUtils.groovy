@@ -29,13 +29,13 @@ class RegexUtils {
 	}
 
 	public static String getVersion(String input) {
-		def matcher = (input =~ /([0-9]+).([0-9]+).([0-9]+)(-(SNAPSHOT|RELEASE|STABLE|BETA|ALPHA|RC[0-9]?))?/)
+		def matcher = (input =~ /([0-9]+)((.([0-9]+))*)(-(SNAPSHOT|RELEASE|STABLE|BETA|ALPHA|RC[0-9]?))?/)
 
 		if (matcher.getCount() > 0) {
 			return matcher[0][0];
 		}
 
-		printf("Input %s does not match %s%n", input, /([0-9]+).([0-9]+).([0-9]+)(-(SNAPSHOT|RELEASE|STABLE|BETA|ALPHA|RC[0-9]?))?/);
+		printf("Input %s does not match %s%n", input, /([0-9]+)((.([0-9]+))*)(-(SNAPSHOT|RELEASE|STABLE|BETA|ALPHA|RC[0-9]?))?/);
 		return null;
 	}
 }
