@@ -94,8 +94,8 @@ public class PackageCacheDao extends AbstractDao {
 		String query = queries.get("insert");
 		// 
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
-					dto.getVersion().toString(), dto.getType(), 
-					dto.getRepository(), dto.getPath(), dto.getUrl(), dto.getSlot());
+					dto.getVersion().toString(), dto.getRepository(),
+                    dto.getPath(), dto.getUrl(), dto.getSlot());
 	}
 	
 	
@@ -211,8 +211,7 @@ public class PackageCacheDao extends AbstractDao {
 		String query = queries.get("deleteByKeys");
 		
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
-				dto.getVersion().toString(), 
-				dto.getType());
+				dto.getVersion().toString());
 	}
 
 

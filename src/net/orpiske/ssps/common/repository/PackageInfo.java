@@ -29,7 +29,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	private String groupId;
 	private String name;
 	private Version version;
-	private String packageType = "BINARY";
+
 	private String path;
 	private String url;
 	private String slot;
@@ -84,22 +84,7 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	public void setVersion(Version version) {
 		this.version = version;
 	}
-	
-	/**
-	 * Gets the package type
-	 * @return the type
-	 */
-	public String getType() {
-		return packageType;
-	}
-	
-	/**
-	 * Sets the package type
-	 * @param packageType the package type
-	 */
-	public void setType(String packageType) {
-		this.packageType = packageType;
-	}
+
 	
 	/**
 	 * Gets the package path (ie.: the path to the .groovy file in the file system)
@@ -185,8 +170,8 @@ public final class PackageInfo implements Comparable<PackageInfo> {
 	@Override
 	public String toString() {
 		return "PackageInfo [groupId=" + groupId + ", name=" + name
-				+ ", version=" + version + ", packageType=" + packageType
-				+ ", path=" + path + ", url=" + url + ", slot=" + slot
+				+ ", version=" + version + ", path=" + path
+                + ", url=" + url + ", slot=" + slot
 				+ ", dependencies=" + dependencies + ", repository="
 				+ repository + "]";
 	}

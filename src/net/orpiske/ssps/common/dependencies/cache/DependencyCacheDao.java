@@ -199,8 +199,7 @@ public class DependencyCacheDao extends AbstractDao {
 		String query = queries.get("deleteByKeys");
 		
 		return runUpdate(query, dto.getGroupId(), dto.getName(), 
-				dto.getVersion().toString(), 
-				dto.getType());
+				dto.getVersion().toString());
 	}
 
 

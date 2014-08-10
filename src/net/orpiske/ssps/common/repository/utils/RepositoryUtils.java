@@ -152,7 +152,7 @@ public class RepositoryUtils {
 		File typeDir = file.getParentFile();
 						
 		File versionDir = typeDir.getParentFile();
-		String version = versionDir.getName();
+        String version = versionDir.getName();
 		packageInfo.setVersion(Version.toVersion(version));
 		
 		
