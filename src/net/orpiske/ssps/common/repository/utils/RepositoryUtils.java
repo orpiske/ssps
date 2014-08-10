@@ -166,15 +166,6 @@ public class RepositoryUtils {
 					"This can lead to problems");
 		}
 		
-		
-		File groupIdDir = packageNameDir.getParentFile();
-		String groupId = groupIdDir.getName();
-		packageInfo.setGroupId(groupId);
-		
-		File repositoryDir = groupIdDir.getParentFile().getParentFile();
-		String repository = repositoryDir.getName();
-		packageInfo.setRepository(repository);
-		
 		return packageInfo;
 	}
 

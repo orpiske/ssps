@@ -43,7 +43,9 @@ public class PackageDataUtils {
 
 	}
 
-	private static GroovyObject getObject(final File file) throws PackageInfoException {
+	private static GroovyObject getObject(final File file, final PackageInfo packageInfo)
+            throws PackageInfoException
+    {
 		GroovyClasspathHelper classpathHelper = GroovyClasspathHelper.getInstance();
 		GroovyClassLoader loader = classpathHelper.getLoader();
 
@@ -72,6 +74,7 @@ public class PackageDataUtils {
 		try {
 			groovyObject = (GroovyObject) groovyClass.newInstance();
 
+            packageInfo.setGroupId(groovyClass.getPackage().getName());
 		} catch (InstantiationException e) {
 			throw new PackageInfoException("Unable to instantiate object: "
 					+ e.getMessage(), e);
@@ -104,15 +107,13 @@ public class PackageDataUtils {
 			return;
 		}
 
-
-		GroovyObject groovyObject = getObject(file);
+		GroovyObject groovyObject = getObject(file, packageInfo);
 		
 		String url;
 		
 		try {
 			url = groovyObject.getProperty("url").toString();
 			packageInfo.setUrl(url);
-
 
 		}
 		catch (MissingPropertyExceptionNoStack e) {

@@ -41,8 +41,11 @@ public class RepositoryWalker extends DirectoryWalker {
 	private static final Logger logger = Logger.getLogger(RepositoryWalker.class);
 	
 	private ArrayList<PackageInfo> packageList = new ArrayList<PackageInfo>();
-	
+	private String repositoryName;
 
+    public RepositoryWalker(final String repositoryName) {
+        this.repositoryName = repositoryName;
+    }
 
 	
 	@Override
@@ -54,7 +57,7 @@ public class RepositoryWalker extends DirectoryWalker {
 		
 		if (("groovy").equals(ext)) {
 			PackageInfo packageInfo = RepositoryUtils.readPackageInfo(file);
-			
+			packageInfo.setRepository(repositoryName);
 			
 			try {
 				PackageDataUtils.read(file, packageInfo);

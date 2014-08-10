@@ -58,12 +58,17 @@ public class FileSystemRepositoryFinder implements RepositoryFinder {
 
 		search(repositoryRoot);
 	}
+
+
+    public FileSystemRepositoryFinder(final File repositoryRoot) {
+        search(repositoryRoot);
+    }
 	
 	
 	private void search(File repository) {
 		logger.info("Searching repository " + repository.getName());
 
-		RepositoryWalker walker = new RepositoryWalker();
+		RepositoryWalker walker = new RepositoryWalker(repository.getName());
 		List<PackageInfo> tmpList = walker.load(repository);
 
 		packageList.addAll(tmpList);
