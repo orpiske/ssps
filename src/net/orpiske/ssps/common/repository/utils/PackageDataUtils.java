@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 
 import net.orpiske.ssps.common.groovy.GroovyClasspathHelper;
+import net.orpiske.ssps.common.packages.annotations.Helper;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.exception.PackageInfoException;
 
@@ -43,14 +44,22 @@ public class PackageDataUtils {
 
 	}
 
-	private static GroovyObject getObject(final File file, final PackageInfo packageInfo)
-            throws PackageInfoException
-    {
-		GroovyClasspathHelper classpathHelper = GroovyClasspathHelper.getInstance();
-		GroovyClassLoader loader = classpathHelper.getLoader();
+    private static boolean isHelper(Class<?> groovyClass) {
+        Helper helper = groovyClass.getAnnotation(Helper.class);
 
-		Class<?> groovyClass;
-		try {
+        if (helper == null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static Class<?> getGroovyClass(final File file) throws PackageInfoException {
+        GroovyClasspathHelper classpathHelper = GroovyClasspathHelper.getInstance();
+        GroovyClassLoader loader = classpathHelper.getLoader();
+
+        Class<?> groovyClass;
+        try {
             if (!file.exists()) {
                 throw new IOException("File not found: " + file.getPath());
             }
@@ -59,22 +68,27 @@ public class PackageDataUtils {
                 throw new IOException("Permission denied: " + file.getPath());
             }
 
-			loader.addClasspath(file.getParent() + File.separator + "resources");
+            loader.addClasspath(file.getParent() + File.separator + "resources");
 
-			groovyClass = loader.parseClass(file);
-		} catch (CompilationFailedException e) {
-			throw new PackageInfoException("The script has errors: " + e.getMessage(),
-					e);
-		} catch (IOException e) {
-			throw new PackageInfoException("Input/output error: " + e.getMessage(),
-					e);
-		}
+            groovyClass = loader.parseClass(file);
+        } catch (CompilationFailedException e) {
+            throw new PackageInfoException("The script has errors: " + e.getMessage(),
+                    e);
+        } catch (IOException e) {
+            throw new PackageInfoException("Input/output error: " + e.getMessage(),
+                    e);
+        }
 
+        return groovyClass;
+    }
+
+    private static GroovyObject getObject(Class<?> groovyClass, final PackageInfo packageInfo)
+            throws PackageInfoException
+    {
 		GroovyObject groovyObject;
+
 		try {
 			groovyObject = (GroovyObject) groovyClass.newInstance();
-
-            packageInfo.setGroupId(groovyClass.getPackage().getName());
 		} catch (InstantiationException e) {
 			throw new PackageInfoException("Unable to instantiate object: "
 					+ e.getMessage(), e);
@@ -86,58 +100,53 @@ public class PackageDataUtils {
 		return groovyObject;
 	}
 
+    private static void readPropertiesFromClass(final Class<?> groovyClass, final PackageInfo packageInfo) {
+        packageInfo.setGroupId(groovyClass.getPackage().getName());
+    }
 
-	private static boolean isLib(final File file) {
-		File parent = file.getParentFile();
 
-		if (parent.getName().equals("local") || parent.getName().equals("files")) {
-			return true;
-		}
+    private static void readPropertiesFromObject(final GroovyObject groovyObject, final PackageInfo packageInfo) {
+        String url;
 
-		return false;
-	}
+        try {
+            url = groovyObject.getProperty("url").toString();
+            packageInfo.setUrl(url);
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.orpiske.sdm.engine.Engine#run(java.io.File)
-	 */
+        }
+        catch (MissingPropertyExceptionNoStack e) {
+            logger.info("Property URL undefined for " + packageInfo.getName());
+        }
+
+
+        try {
+            Object o = groovyObject.getProperty("dependencies");
+
+            if (o instanceof LinkedHashMap) {
+                @SuppressWarnings("unchecked")
+                LinkedHashMap<String, String> dependencies =
+                        (LinkedHashMap<String, String>) o;
+
+                packageInfo.setDependencies(dependencies);
+            }
+        }
+        catch (MissingPropertyExceptionNoStack e) {
+            packageInfo.setDependencies(new LinkedHashMap<String, String>());
+            logger.debug("Property " + e.getProperty() + " undefined for " + packageInfo.getName());
+        }
+    }
+
+
 	public static void read(final File file, final PackageInfo packageInfo) throws PackageInfoException {
+        Class<?> groovyClass = getGroovyClass(file);
 
-		if (isLib(file)) {
+		if (isHelper(groovyClass)) {
 			return;
 		}
 
-		GroovyObject groovyObject = getObject(file, packageInfo);
-		
-		String url;
-		
-		try {
-			url = groovyObject.getProperty("url").toString();
-			packageInfo.setUrl(url);
+        readPropertiesFromClass(groovyClass, packageInfo);
 
-		}
-		catch (MissingPropertyExceptionNoStack e) {
-			logger.info("Property URL undefined for " + file.getPath());
-		}
-		
+		GroovyObject groovyObject = getObject(groovyClass, packageInfo);
 
-		try {
-			
-			Object o = groovyObject.getProperty("dependencies");
-
-			if (o instanceof LinkedHashMap) {
-				@SuppressWarnings("unchecked")
-				LinkedHashMap<String, String> dependencies =
-					(LinkedHashMap<String, String>) o;
-
-				packageInfo.setDependencies(dependencies);
-			}
-		}
-		catch (MissingPropertyExceptionNoStack e) {
-			packageInfo.setDependencies(new LinkedHashMap<String, String>());
-			logger.debug("Property " + e.getProperty() + " undefined for " + file.getName());
-		}
-
-		
+        readPropertiesFromObject(groovyObject, packageInfo);
 	}
 }
