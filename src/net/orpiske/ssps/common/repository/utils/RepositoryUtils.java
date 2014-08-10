@@ -138,35 +138,4 @@ public class RepositoryUtils {
 		}
 		
 	}
-	
-	
-	public static PackageInfo readPackageInfo(final File file) {
-		PackageInfo packageInfo = new PackageInfo();
-		
-		
-		String baseName = FilenameUtils.getBaseName(file.getName());
-		packageInfo.setName(baseName);
-		
-		packageInfo.setPath(file.getPath());
-		
-		File typeDir = file.getParentFile();
-						
-		File versionDir = typeDir.getParentFile();
-        String version = versionDir.getName();
-		packageInfo.setVersion(Version.toVersion(version));
-		
-		
-		File packageNameDir = versionDir.getParentFile();
-		readPackageProperties(packageNameDir, packageInfo);
-		String packageName = packageNameDir.getName(); 
-		
-		if (!packageName.equals(baseName)) {
-			logger.warn("The package file '" + baseName + ".groovy' and the " +
-					"repository package dir '" + packageName + "' doesn't match. " + 
-					"This can lead to problems");
-		}
-		
-		return packageInfo;
-	}
-
 }

@@ -43,7 +43,8 @@ public class FileSystemRepositoryFinderTest {
         List<PackageInfo> packages = finder.allPackages();
 
         assertNotNull("The returned package list is null", packages);
-        assertTrue("The returned package list is empty", packages.size() > 0);
+        assertTrue("The number of packages different than expected",
+                packages.size() == 1);
 
         PackageInfo packageInfo = packages.get(0);
 
@@ -54,5 +55,7 @@ public class FileSystemRepositoryFinderTest {
 
         assertEquals("Invalid group id", "net.orpiske.test",
                 packageInfo.getGroupId());
+
+
     }
 }

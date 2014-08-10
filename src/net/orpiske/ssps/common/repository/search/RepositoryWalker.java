@@ -56,16 +56,19 @@ public class RepositoryWalker extends DirectoryWalker {
 		String ext = FilenameUtils.getExtension(file.getName());
 		
 		if (("groovy").equals(ext)) {
-			PackageInfo packageInfo = RepositoryUtils.readPackageInfo(file);
-			packageInfo.setRepository(repositoryName);
-			
+            PackageInfo packageInfo;
+
 			try {
-				PackageDataUtils.read(file, packageInfo);
+                packageInfo = PackageDataUtils.read(file, new PackageInfo());
+
+                if (packageInfo != null) {
+                    packageInfo.setRepository(repositoryName);
+
+                    packageList.add(packageInfo);
+                }
 			} catch (Exception e) {
 				logger.error("Unable to load metadata for package: " + file.getPath());
 			}
-					
-			packageList.add(packageInfo);
 		}
 	}
 	

@@ -27,6 +27,7 @@ import net.orpiske.ssps.common.packages.annotations.Helper;
 import net.orpiske.ssps.common.repository.PackageInfo;
 import net.orpiske.ssps.common.repository.exception.PackageInfoException;
 
+import net.orpiske.ssps.common.version.Version;
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.runtime.metaclass.MissingPropertyExceptionNoStack;
@@ -47,11 +48,11 @@ public class PackageDataUtils {
     private static boolean isHelper(Class<?> groovyClass) {
         Helper helper = groovyClass.getAnnotation(Helper.class);
 
-        if (helper == null) {
-            return false;
+        if (helper != null) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     private static Class<?> getGroovyClass(final File file) throws PackageInfoException {
@@ -102,19 +103,28 @@ public class PackageDataUtils {
 
     private static void readPropertiesFromClass(final Class<?> groovyClass, final PackageInfo packageInfo) {
         packageInfo.setGroupId(groovyClass.getPackage().getName());
+        packageInfo.setName(groovyClass.getClass().getSimpleName());
     }
 
 
     private static void readPropertiesFromObject(final GroovyObject groovyObject, final PackageInfo packageInfo) {
-        String url;
-
         try {
-            url = groovyObject.getProperty("url").toString();
+            String url = groovyObject.getProperty("url").toString();
             packageInfo.setUrl(url);
-
         }
         catch (MissingPropertyExceptionNoStack e) {
             logger.info("Property URL undefined for " + packageInfo.getName());
+        }
+
+        try {
+            String version  = groovyObject.getProperty("version").toString();
+
+            if (version != null) {
+                packageInfo.setVersion(Version.toVersion(version));
+            }
+        }
+        catch (MissingPropertyExceptionNoStack e) {
+            logger.info("Property version undefined for " + packageInfo.getName());
         }
 
 
@@ -136,11 +146,11 @@ public class PackageDataUtils {
     }
 
 
-	public static void read(final File file, final PackageInfo packageInfo) throws PackageInfoException {
+	public static PackageInfo read(final File file, final PackageInfo packageInfo) throws PackageInfoException {
         Class<?> groovyClass = getGroovyClass(file);
 
 		if (isHelper(groovyClass)) {
-			return;
+			return null;
 		}
 
         readPropertiesFromClass(groovyClass, packageInfo);
@@ -148,5 +158,7 @@ public class PackageDataUtils {
 		GroovyObject groovyObject = getObject(groovyClass, packageInfo);
 
         readPropertiesFromObject(groovyObject, packageInfo);
+
+        return packageInfo;
 	}
 }
