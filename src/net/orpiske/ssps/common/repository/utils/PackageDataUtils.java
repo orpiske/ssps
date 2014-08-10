@@ -49,6 +49,9 @@ public class PackageDataUtils {
 
 		Class<?> groovyClass;
 		try {
+            if (!file.exists()) {
+                throw new IOException("File not found: " + file.getPath());
+            }
 			loader.addClasspath(file.getParent() + File.separator + "resources");
 
 			groovyClass = loader.parseClass(file);
@@ -63,6 +66,7 @@ public class PackageDataUtils {
 		GroovyObject groovyObject;
 		try {
 			groovyObject = (GroovyObject) groovyClass.newInstance();
+
 		} catch (InstantiationException e) {
 			throw new PackageInfoException("Unable to instantiate object: "
 					+ e.getMessage(), e);
@@ -103,6 +107,8 @@ public class PackageDataUtils {
 		try {
 			url = groovyObject.getProperty("url").toString();
 			packageInfo.setUrl(url);
+
+
 		}
 		catch (MissingPropertyExceptionNoStack e) {
 			logger.info("Property URL undefined for " + file.getPath());
