@@ -52,6 +52,11 @@ public class PackageDataUtils {
             if (!file.exists()) {
                 throw new IOException("File not found: " + file.getPath());
             }
+
+            if (!file.canRead()) {
+                throw new IOException("Permission denied: " + file.getPath());
+            }
+
 			loader.addClasspath(file.getParent() + File.separator + "resources");
 
 			groovyClass = loader.parseClass(file);
