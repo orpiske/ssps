@@ -1,0 +1,30 @@
+	------
+	Custom Repositories
+	------
+	Otavio R. Piske
+	------
+	Jan, 2013
+
+Introduction
+
+	On SSPS a Repository is just a Git or a Subversion repository with a few standard 
+files and an specific layout. 
+
+Files
+
+	A repository should have a file named <<<repository.conf>>> with the following content:
+	
+----------------------------------------
+include = default/user.conf
+----------------------------------------
+
+	This is required because <<<user.conf>>> is a file created by spm to host user 
+specific information about the repository.
+
+
+Layout
+
+	The repository layout is <<<group id/package name/package version/pkg/>>>.
+For example <<<org.apache/apache-ant/1.8.4/pkg/>>>. Inside that folder, there should be a
+file named <<<package name.groovy>>> which contains the installation script for the 
+package.

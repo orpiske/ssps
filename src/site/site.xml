@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Software Publication Module">
+  <bannerLeft>
+    <name>Simple Software Provisioning System</name>
+    <href>http://www.orpiske.net/ssps/</href>
+  </bannerLeft>
+  
+  <body>
+    <menu name="SDM">
+      <item name="Introduction" href="index.html"/>
+      <item name="Download" href="get.html"/>
+      <item name="Release Notes" href="release-notes.html" />
+      <item name="General Information" href="about.html"/>
+    </menu>
+    
+    <menu name="Documentation">
+      <item name="Get Started" href="doc/get-started.html"/>
+      <item name="Run SDM" href="doc/run-sdm.html"/>
+      <item name="Writing Scripts" href="doc/writing-scripts.html"/>
+      <item name="Custom Repositories" href="doc/custom-repositories.html"/>
+      <item name="Mail Lists" href="mail-lists.html"/>
+    </menu>
+    
+     <menu name="Project">
+      <item name="API Documentation" href="apidocs/index.html"/>
+      <item name="Common API Documentation" href="../ssps-common/"/>
+      <item name="License" href="license.html"/>
+      <item name="Summary" href="project-summary.html"/>
+      <item name="Detailed Information" href="project-info.html"/>
+    </menu>
+  </body>
+</project>

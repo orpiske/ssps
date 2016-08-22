@@ -1,0 +1,57 @@
+	------
+	Release Notes
+	------
+	Otavio R. Piske
+	------
+	Jan, 2012
+
+SDM Version 0.2.3
+
+    * The assembly descriptor was including the sources and javadoc jars within the bin folder which caused problems in the launch script
+
+SDM Version 0.2.2
+
+    * Fixed the launch scripts, which were dependent on the jar version/name
+
+    * Fixed the output of <<<--version>>>
+
+SDM Version 0.2.1
+
+	* Fixed incorrect launch scripts that were referencing the snapshot versions
+	
+	* Fixed the "The repository already exists" error while trying to add a new repository
+
+SDM Version 0.2.0
+
+	* Switch to a Git-based or SVN-based repository format
+
+	* Updated the documentation
+	
+	* Replaced the XML rule mechanism with a more extensible Groovy-based mechanism
+	
+	* Converted the XML rules to POJO and made them available via Groovy
+
+	* Unified and improved support for proxy servers
+
+	* Added support for zip files
+	
+	* Added support for dependencies
+	
+	* Added support for meta-packages
+	
+	* Added support for Apache Derby as a software inventory database
+	
+	
+SDM Version 0.1.0
+
+	* Removed the SPM module to reduce application scope.
+	
+	* Added support for downloading remote ADM files from HTTP servers
+
+	* Removed support for remote repositories
+
+	* Several minor usability improvements
+	
+SDM Version 0.0.1 (Jun 2012)
+
+	* Initial release

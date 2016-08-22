@@ -1,0 +1,65 @@
+	------
+	Get Started
+	------
+	Otavio R. Piske
+	------
+	Jan, 2013
+
+Introduction
+
+	After you have downloaded SDM, install it and add the bin folder to the 
+$PATH environment variable of your operating system. On Windows, this can be 
+done on My Computer. There are various ways of doing this on Unix, Linux and 
+Mac OS X, but it basically involves editing <<<~/.bashrc>>>, <<<$HOME/.profile>>>
+or a similar file. 
+	<<Note>>: Windows users, DO NOT install it on directory containing spaces, such as 
+<<<C:\Program Files>>> and others. 
+
+	
+Add The Default Repository
+
+	Note: if you have proxies, {{{./proxies.html}setup them}} before continuing.
+
+	The first step before using SDM is to download a remote repository of
+packages and install within your local repository. To add the default SPM 
+repository run the following command: 
+
+----------------------------------------
+sdm add-repository -n default -u https://github.com/orpiske/sdm-packages.git
+----------------------------------------
+
+	If it completes successfully, you should have an output that resembles this: 
+
+----------------------------------------
+otavio@calypso [12:01:38] [~/tools] 
+-> % sdm add-repository -n default -u https://github.com/orpiske/sdm-packages.git
+Repository does not exist. Cloning from https://github.com/orpiske/sdm-packages.git
+remote: Counting objects: 120
+remote: Compressing objects: 100% (51/51)
+Receiving objects:      100% (120/120)
+Resolving deltas:       100% (20/20)
+Updating references:    100% (1/1)
+----------------------------------------
+
+Installing packages
+
+	To install new packages you can run the following command:
+	
+----------------------------------------	
+sdm install -p <package name>
+----------------------------------------
+
+	If there are collisions (ie: other packages with the same name), you will have 
+to inform the version (-v) and, eventually, the group id (-g).
+
+Learning About SSPS
+
+	To learn how to run SDM and install packages, please read the 
+{{{./run-sdm.html}Run SDM}} page.
+
+	To learn how to write installation scripts and contribute to the SPM default
+repository, please read the {{{./writing-scripts.html}Writing Scripts}} page.
+
+	To learn how to create a repository of your own, for the community or for 
+your company, please read the {{{./custom-repositories.html}Custom Repositories}}
+page.
