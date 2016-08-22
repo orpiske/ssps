@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2012 Otavio Rodolfo Piske
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ -->
+
+<schema targetNamespace="http://www.orpiske.net/ssps/dbm" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.orpiske.net/ssps/dbm">
+
+    <element name="dbm" type="tns:Dbm">
+    	<annotation>
+    		<documentation>Deliverable build model</documentation>
+    	</annotation></element>
+    
+    <complexType name="Dbm">
+    	<sequence>
+    		<choice>
+    			<element name="include" type="tns:Include">
+    				<annotation>
+    					<documentation>Allows inclusion of external project files (such as Maven's pom.xml or Ant's build.xml) so that some of the information can be retrieved from those files</documentation>
+    				</annotation></element>
+                <element name="project" type="tns:Project">
+                	<annotation>
+                		<documentation>This type holds project related information</documentation>
+                	</annotation></element>
+            </choice>
+            <element name="build" type="tns:Build"></element>
+            <element name="contents" type="tns:Contents"></element>
+            <element name="repository" type="tns:Repository"></element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Build">
+    	<sequence>
+    		<element name="sourceDirectory" type="string"></element>
+    		<element name="outputDirectory" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Project">
+    	<sequence>
+            <element name="group" type="string">
+            	<annotation>
+            		<documentation>Project group</documentation>
+            	</annotation></element>
+            <element name="name" type="string">
+            	<annotation>
+            		<documentation>Project name</documentation>
+            	</annotation></element>
+    		<element name="version" type="string">
+    			<annotation>
+    				<documentation>Project version</documentation>
+    			</annotation></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Author">
+    	<sequence>
+    		<element name="id" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Repository">
+    	<sequence>
+    		<element name="username" type="string"></element>
+            <element name="password" type="string"></element>
+            <element name="url" type="string"></element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Include">
+    	<complexContent>
+    		<extension base="tns:AbstractInclude">
+    			<sequence>
+    				<element name="groupExpression" type="tns:InformationSourceExpr" minOccurs="0"></element>
+    				<element name="nameExpression" type="tns:InformationSourceExpr" minOccurs="0"></element>
+    				<element name="versionExpression" type="tns:InformationSourceExpr" minOccurs="0"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <simpleType name="IncludeType">
+    	<restriction base="string">
+    		<enumeration value="maven"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="InformationSourceExpr">
+    	<sequence>
+    		<element name="expression" type="string"></element>
+    	</sequence>
+    	<attribute name="type" use="optional" fixed="xpath">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="xpath"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+    <complexType name="AbstractInclude" abstract="true">
+    	<attribute name="includeType" type="tns:IncludeType" default="maven"></attribute>
+    	<attribute name="includeFile" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Contents">
+    	<sequence>
+    		<element name="artifactList" type="tns:ArtifactList"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ArtifactList">
+    	<sequence>
+    		<element name="artifactRef" type="tns:ArtifactReference" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ArtifactReference">
+    	<choice>
+    		<element name="artifactPath" type="string" minOccurs="1"></element>
+    		<element name="fileFilter" type="tns:FileFilterRef" minOccurs="1"></element>
+    	</choice>
+    </complexType>
+
+    <complexType name="FileFilterRef">
+    	<choice>
+    		<element name="suffixFilter" type="tns:SuffixFilter"
+    			minOccurs="1">
+    		</element>
+            <element name="prefixFilter" type="tns:PrefixFilter" minOccurs="1"></element>
+            <element name="wildcardFilter" type="tns:WildcardFilter"
+    			minOccurs="1">
+    		</element>
+    		<element name="regexFilter" type="tns:RegexFilter"
+    			minOccurs="1">
+    		</element>
+    		<element name="nameFilter" type="tns:NameFilter"
+    			minOccurs="1">
+    		</element>
+    	</choice>
+
+    </complexType>
+
+    <complexType name="AbstractFileFilter" abstract="true">
+    	<sequence>
+    		<element name="filter" type="string"></element>
+    		<element name="path" type="string"></element>
+    	</sequence>
+    	<attribute name="negate" type="boolean" use="optional" default="false"></attribute>
+    </complexType>
+    
+    <complexType name="SuffixFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="WildcardFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="RegexFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="NameFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="PrefixFilter">
+    	<complexContent>
+    		<extension base="tns:AbstractFileFilter"></extension>
+    	</complexContent>
+    </complexType>
+</schema>
