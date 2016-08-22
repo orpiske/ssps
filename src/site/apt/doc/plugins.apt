@@ -1,0 +1,204 @@
+Plugins
+
+	SDM 0.3.0 and above support plugins: they are just regular Groovy classes located in
+any of the subdirectories within <<<extra/plugins>>> or <<<$HOME/.sdm/plugins>>> (eg.:
+<<<$HOME/.sdm/plugins/myProjectPlugins>>> that can be instantiated from the installation
+scripts. Here's a sample code provided with SDM:
+
+----------------------------------------
+package net.orpiske.sdm.test;
+
+class Hello {
+
+	public void sayHello() {
+		println "Hello world!"
+	}
+}
+----------------------------------------
+
+	To use this code in a package script, simply instantiate the class and run the methods you need:
+
+----------------------------------------
+	void install() {
+		def hello = new Hello();
+
+		hello.sayHello();
+
+		// ... other code
+	}
+----------------------------------------
+
+	Thanks to Groovy awesomeness, the plugin feature is very flexible. Among other things, you can use it to create a
+super class/package that contains the basic installation routines for your packages.
+
+Sample Plugin
+
+	Here's a sample plugin that adds the ability to fetch code from a Subversion or Git repository:
+
+----------------------------------------
+package net.orpiske.sdm.plugins.scm
+
+import net.orpiske.ssps.common.scm.DefaultCredentials
+import net.orpiske.ssps.common.scm.Scm
+import net.orpiske.ssps.common.scm.ScmCredentials
+import net.orpiske.ssps.common.scm.git.GitSCM
+import net.orpiske.ssps.common.scm.svn.SvnSCM
+
+
+class SourceRepository {
+    private String username = null;
+    private String password = null;
+
+    public SourceRepository(final String username, final String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
+     * Creates a new repository provider based on the repository information
+     * @param repositoryInfo repository information
+     * @return A repository provider object
+     */
+    public Scm newScm(final String url) {
+        if (url.endsWith(".git") || url.startsWith("git://")) {
+            return new GitSCM();
+        }
+
+        if (url.startsWith("svn://")) {
+            return new SvnSCM();
+        }
+
+        /* Defaults to SvnProvider because, well, most git repositories end with ".git" */
+        return new SvnSCM();
+
+    }
+
+
+    private void setCredentials(final Scm scm) {
+        ScmCredentials credentials = new DefaultCredentials(username, password);
+
+        scm.setCredentials(credentials)
+    }
+
+
+    public void checkout(String url, String path) {
+        File filePath = new File(path);
+
+        checkout(url, filePath)
+    }
+
+
+    public void checkout(String url, File path) {
+        Scm scm = newScm(url);
+
+        if (username != null) {
+            setCredentials(scm)
+        }
+
+
+        scm.checkout(url, path)
+    }
+}
+----------------------------------------
+
+Using Plugins
+
+	Here's a sample package that uses the SourceRepository plugin to fetch the code and build it:
+
+----------------------------------------
+import net.orpiske.sdm.packages.SourcePackage
+import net.orpiske.sdm.plugins.scm.SourceRepository
+import net.orpiske.sdm.plugins.builders.ProjectBuilder;
+import net.orpiske.sdm.plugins.builders.MavenBuilder;
+import org.apache.commons.io.FileUtils;
+
+import static net.orpiske.sdm.lib.OsUtils.*
+import static net.orpiske.sdm.lib.Executable.*
+import static net.orpiske.sdm.lib.Unpack.unpack;
+
+class sdm extends SourcePackage {
+    def version = "0.3.0-SNAPSHOT"
+    def name = "sdm"
+    def url = "https://github.com/orpiske/sdm.git"
+
+	/**
+	 * Declare a dependency on ssps-common and sdm-common, both of which
+	 * are also source packages
+	 */
+	def dependencies = [ "net.orpiske/ssps-common":"(0.3.0-SNAPSHOT, 0.3.99)",
+						"net.orpiske/sdm-common":"(0.3.0-SNAPSHOT, 0.3.99)"]
+    def File buildDir = new File("${workDir}/${name}-${version}-build")
+
+	/**
+	 * Download the package from the remote location
+	 * @param url the URL to the code or repository
+	 */
+    void fetch(final String url) {
+        println "Checking out the code to " + buildDir.getPath();
+
+        if (buildDir.exists()) {
+            println "Cleaning up previously created directory"
+            FileUtils.deleteDirectory(buildDir)
+        }
+
+		/**
+		 * Instantiate the SourceRepository plugin so that we are able to
+		 * download the code. Username and password are not required,
+		 * therefore we can use null for both input parameters
+		 */
+        SourceRepository repository = new SourceRepository(null, null)
+
+		/**
+		 * Checkout the code from the given URL into the build directory
+		 */
+        repository.checkout(url, buildDir.getPath())
+    }
+
+	/**
+	 * Builds the package from source
+	 */
+    @Override
+    void build() {
+
+		/**
+		 * Instantiate the Maven ProjectBuilder plugin to build the project
+		 */
+        ProjectBuilder builder = new MavenBuilder(buildDir)
+
+        builder.setProfile("Delivery")
+
+		/**
+		 * Sets the local maven repository to the one inside the work dir
+		 * to make sure it uses the dependencies compiled previously
+		 */
+		builder.setDefine("maven.repo.local", workDir + File.separator +
+				"m2repo")
+        if (builder.createPackage() == 0) {
+            println "Project ${name} compiled successfully"
+        }
+    }
+
+	/**
+	 * Installs the package
+	 */
+    void install() {
+		unpack(buildDir.getPath() + File.separator + "target" + File.separator +
+				"${name}-${version}-bin.tar.gz", installDir)
+
+        if (isNix()) {
+            println "Creating symlinks"
+            exec("/bin/ln", "-sf ${installDir}/${name}-${version} ${installDir}/${name}")
+        }
+    }
+
+	/**
+	 * Uninstalls the package
+	 */
+    void uninstall() {
+        if (isNix()) {
+            println "Removing symlinks"
+            exec("/bin/unlink", "${installDir}/${name}")
+        }
+    }
+}
+----------------------------------------

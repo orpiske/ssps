@@ -1,0 +1,87 @@
+	------
+	Release Notes
+	------
+	Otavio R. Piske
+	------
+	Jan, 2012
+
+SDM Version 0.3.0
+
+	* Added support for Git branches
+
+	* Added support for deep package removal (ie.: when removing a package, it also removes the dependencies)
+
+	* Added support for installing packages without dependencies
+
+	* Added support for accessing some runtime information within the scripts
+
+	* Added support for plugins
+
+	* Improved the support for building projects from source
+
+	* Improved the way the project handles SVN credentials
+
+	* Added support for specifying the install phase to run
+
+	* Added the ability to override ~/.sdm location by exporting USER_LOCAL_DIRECTORY variable
+
+	* Added the --view flag for the install command so the user can view what is going to be installed
+
+	* Reinstall now removes old installation before continuing
+
+	* Added --rebuild-cache-only which just updates the internal database if with the downloaded packages
+
+	* Added support for returning status code to the OS so it integrates better with Jenkins and/or scripts
+
+	* Added support for repository specific package installations
+
+	* Added support for 'file:/' resource exchanges (allows to point to local files instead of relying solely on http in the URL property)
+
+	* Added support for volatile storage (does not save the results to a database, which is used in a Continuous Integration environment)
+
+SDM Version 0.2.2
+
+	* Fixed the launch scripts, which were dependent on the jar version/name
+
+    * Fixed the output of <<<--version>>>
+
+SDM Version 0.2.1
+
+	* Fixed incorrect launch scripts that were referencing the snapshot versions
+
+	* Fixed the "The repository already exists" error while trying to add a new repository
+
+SDM Version 0.2.0
+
+	* Switch to a Git-based or SVN-based repository format
+
+	* Updated the documentation
+
+	* Replaced the XML rule mechanism with a more extensible Groovy-based mechanism
+
+	* Converted the XML rules to POJO and made them available via Groovy
+
+	* Unified and improved support for proxy servers
+
+	* Added support for zip files
+
+	* Added support for dependencies
+
+	* Added support for meta-packages
+
+	* Added support for Apache Derby as a software inventory database
+
+
+SDM Version 0.1.0
+
+	* Removed the SPM module to reduce application scope.
+
+	* Added support for downloading remote ADM files from HTTP servers
+
+	* Removed support for remote repositories
+
+	* Several minor usability improvements
+
+SDM Version 0.0.1 (Jun 2012)
+
+	* Initial release

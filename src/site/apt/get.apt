@@ -1,0 +1,44 @@
+	------
+	Get SDM
+	------
+	Otavio R. Piske
+	------
+	Jun, 2012
+
+Requirements
+
+	* Java 1.6
+
+	* Supported Operating Systems: Windows, Linux, Mac OS X and Solaris. It's
+likely to support HP-UX, AIX and others. If it doesn't run on one of these, please let me know.
+
+
+SDM Binary
+
+	* SDM 0.3.x (bin): {{{http://orpiske.net/ssps/files/net/orpiske/sdm/}Download}}
+
+
+SDM Source
+
+	The SDM code can be downloaded from source from the project's github
+{{{https://github.com/orpiske/sdm}repository}}.
+
+
+SDM Common
+
+	The SDM Common code can be downloaded from source from the project's github
+{{{https://github.com/orpiske/sdm-common}repository}}. The library is also available
+ on the Sonatype Central Maven repository.
+
+SSPS Common Source
+
+	The SSPS Commons code can be downloaded from source from the project's github
+{{{https://github.com/orpiske/ssps-common}repository}}. The library is also available
+on the Sonatype Central Maven repository.
+
+
+SDM Packages
+
+	The SDM Packages code can be downloaded from source from the project's github
+{{{https://github.com/orpiske/sdm-packages}repository}}. The library is also available
+gon the Sonatype Central Maven repository.
