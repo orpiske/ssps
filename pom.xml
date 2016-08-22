@@ -1,0 +1,252 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- Copyright 2012 Otavio Rodolfo Piske Licensed under the Apache License,
+		Version 2.0 (the "License"); you may not use this file except in compliance
+		with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+		Unless required by applicable law or agreed to in writing, software distributed
+		under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
+		OR CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the License. -->
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.orpiske</groupId>
+	<artifactId>sdm-common</artifactId>
+	<version>0.3.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>SSPS :: SDM :: Common</name>
+    <description>The SDM Common library</description>
+	<url>http://www.orpiske.net/ssps/</url>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>manual</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+	<dependencies>
+		<!-- Internal project dependencies -->
+		<dependency>
+			<groupId>net.orpiske</groupId>
+			<artifactId>ssps-common</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+
+		<!-- Groovy Support -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+
+		<!-- Exec rule support -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-exec</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+		<!-- Junit (for tests only) -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test/java</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>test/resources</directory>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+
+				<configuration>
+                    <archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>../lib</classpathPrefix>
+							<mainClass>org.ssps.sdm.main.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.4</version>
+			</extension>
+		</extensions>
+	</build>
+
+	<mailingLists>
+		<mailingList>
+			<name>User List</name>
+			<subscribe>ssps-users+subscribe@googlegroups.com</subscribe>
+			<unsubscribe>ssps-users+subscribe@googlegroups.com</unsubscribe>
+			<post>ssps-users@googlegroups.com</post>
+			<archive>https://groups.google.com/forum/#!forum/ssps-users</archive>
+		</mailingList>
+	</mailingLists>
+
+	<developers>
+		<developer>
+			<id>orpiske</id>
+			<name>Otavio R. Piske</name>
+			<email>angusyoung@gmail.com</email>
+			<url>http://orpiske.net</url>
+			<organization>N/A</organization>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-3</timezone>
+		</developer>
+	</developers>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5.2</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+    <scm>
+        <connection>scm:git:git@github.com:orpiske/sdm-common.git</connection>
+        <developerConnection>scm:git:git@github.com:orpiske/sdm-common.git</developerConnection>
+        <url>git@github.com:orpiske/sdm-common.git</url>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/orpiske/sdm-common/</url>
+	</issueManagement>
+
+	<profiles>
+		<profile>
+			<id>Delivery</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+
+            <distributionManagement>
+                <downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+
+                <site>
+                    <id>orpiske.net</id>
+                    <name>SDM Common Site</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps/sdm-common</url>
+                </site>
+            </distributionManagement>
+		</profile>
+
+        <profile>
+            <id>Development</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <distributionManagement>
+                <downloadUrl>http://www.orpiske.net/ssps/files</downloadUrl>
+                <repository>
+                    <uniqueVersion>false</uniqueVersion>
+                    <id>orpiske.net</id>
+                    <name>Internal1</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps-beta/files</url>
+                    <layout>default</layout>
+                </repository>
+                <snapshotRepository>
+                    <uniqueVersion>true</uniqueVersion>
+                    <id>orpiske.net</id>
+                    <name>Internal2</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps-beta/files</url>
+                    <layout>default</layout>
+                </snapshotRepository>
+                <site>
+                    <id>orpiske.net</id>
+                    <name>SDM Common Site</name>
+                    <url>scp://orpiske.net/home/otavio021/orpiske.net/ssps-beta/sdm-common</url>
+                </site>
+            </distributionManagement>
+
+        </profile>
+
+
+	</profiles>
+</project>
