@@ -1,0 +1,19 @@
+	------
+	Introduction
+	------
+	Otavio R. Piske
+	------
+	Jun, 2012
+
+Welcome to Simple Software Provisioning System (SSPS)
+
+	The SSPS is a Software Provisioning System. It helps developers and 
+configuration management personnel to automate the jobs related to install 
+custom-built software packages.
+	This project is still in its infancy and under a lot of development. If 
+this software is useful for you, {{{./about.html}please me know}}.
+
+Learning About SSPS
+
+	To learn how to use SSPS to automate the steps of software deployment, 
+please read the {{{./doc/run-sdm.html}Run SDM Guide}}.

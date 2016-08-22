@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbm xmlns="http://www.orpiske.net/ssps/dbm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.orpiske.net/ssps/dbm dbm.xsd ">
+
+	<!-- Copyright 2012 Otavio Rodolfo Piske Licensed under the Apache License, 
+		Version 2.0 (the "License"); you may not use this file except in compliance 
+		with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+		Unless required by applicable law or agreed to in writing, software distributed 
+		under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+		OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+		the specific language governing permissions and limitations under the License. -->
+
+	<include includeType="maven" includeFile="pom.xml">
+		<groupExpression>
+			<expression>//project/groupId</expression>
+		</groupExpression>
+		<nameExpression>
+			<expression>//project/artifactId</expression>
+		</nameExpression>
+		<versionExpression>
+			<expression>//project/version</expression>
+		</versionExpression>
+	</include>
+	<build>
+		<sourceDirectory>${basedir}/src/dbm</sourceDirectory>
+		<outputDirectory>${basedir}/target/installroot</outputDirectory>
+	</build>
+
+	<contents>
+		<artifactList>
+			<artifactRef>
+				<fileFilter>
+					<wildcardFilter>
+						<path>${basedir}/target/</path>
+						<filter>*-bin.*</filter>
+					</wildcardFilter>
+				</fileFilter>
+			</artifactRef>
+		</artifactList>
+	</contents>
+
+	<repository>
+		<url>http://localhost:8080/repository/default</url>
+		<username>admin</username>
+		<password></password>
+	</repository>
+</dbm>

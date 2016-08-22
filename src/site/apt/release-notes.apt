@@ -1,0 +1,20 @@
+	------
+	Release Notes
+	------
+	Otavio R. Piske
+	------
+	Jan, 2012
+	
+SSPS Version 0.1.0
+
+	* Removed the SPM module to reduce application scope.
+	
+	* Added support for downloading remote ADM files from HTTP servers
+
+	* Removed support for remote repositories
+
+	* Several minor usability improvements
+	
+SSPS Version 0.0.1 (Jun 2012)
+
+	* Initial release

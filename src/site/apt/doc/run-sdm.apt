@@ -1,0 +1,56 @@
+	------
+	Run SDM
+	------
+	Otavio R. Piske
+	------
+	Jun, 2012
+	
+	
+Obtaining Help	
+
+	You can always use the --help flag on each ofs the actions. That will 
+print a brief explation of each of the flags. 
+
+
+Help
+
+	This action prints a basic help showing all available actions
+
+----------------------------------------
+sdm help
+----------------------------------------
+
+----------------------------------------
+-> % sdm help                                                       
+Usage: sdm <action>
+
+Actions:
+   install
+   help
+----------------------------------------
+
+Install
+
+	This action installs a deliverable on your disk into your current directory:
+
+----------------------------------------
+sdm install -a some_file.xml 
+----------------------------------------
+
+	This action installs a deliverable on your disk into /var/tmp:
+
+----------------------------------------
+sdm install -a some_file.xml -r /var/tmp
+----------------------------------------
+
+	This action installs a deliverable on your disk into your current directory using a remote ADM file:
+
+----------------------------------------
+sdm install --remote -a http://www.orpiske.net/path/to/some/file.xml
+----------------------------------------
+
+	This action installs a deliverable on your disk into /var/tmp using a remote ADM file:
+
+----------------------------------------
+sdm install --remote -a http://www.orpiske.net/path/to/some/file.xml -r /var/tmp
+----------------------------------------

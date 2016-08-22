@@ -1,0 +1,26 @@
+	------
+	Rule: Unpack
+	------
+	Otavio R. Piske
+	------
+	Jan, 2013
+	
+Description
+
+	Uncompress a tarball file (gzip or bzip2 only).
+	
+Element 
+
+	Name: unpack
+
+Attributes
+
+	format: the file format of the compressed file. Acceptable values are: tbz2 and tgz.
+	source: the file to unpack
+	
+Example
+
+----------------------------------------
+<unpack format="tbz2" 
+			source="${workdir}/${name}-${version}-bin.tar.bz2"/>
+----------------------------------------

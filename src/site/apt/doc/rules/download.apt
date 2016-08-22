@@ -1,0 +1,26 @@
+	------
+	Rule: Download
+	------
+	Otavio R. Piske
+	------
+	Jan, 2013
+
+Description
+
+	Downloads a file
+
+Element 
+
+	Name: download
+
+Attributes
+
+	url: the URL to file to download
+	overwrite: whether to overwrite a previously downloaded file of the same name
+	
+Example
+
+----------------------------------------
+<download url="http://orpiske.net/ssps/files/0.1.x/${name}-${version}-bin.tar.bz2"
+  			overwrite="false" />
+----------------------------------------
